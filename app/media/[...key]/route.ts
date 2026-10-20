@@ -7,7 +7,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ key
   if (!key.startsWith("uploads/") || key.includes("..")) return new Response("Not found", { status: 404 });
 
   try {
-    const file = await files.download(key);
+    const file = await files().download(key);
     return new Response(file.stream(), {
       headers: {
         "Content-Type": file.type || "application/octet-stream",

@@ -26,7 +26,7 @@ export async function POST(request: Request) {
   // A fresh key per upload, so cached copies never go stale.
   const key = `uploads/${crypto.randomUUID()}.${ext}`;
   try {
-    await files.upload(key, file, { contentType: file.type });
+    await files().upload(key, file, { contentType: file.type });
   } catch (error) {
     console.error("Upload to Neon Object Storage failed", error);
     return NextResponse.json({ error: "Upload failed — storage is unavailable." }, { status: 502 });
