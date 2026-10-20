@@ -1,47 +1,5 @@
 export const SITE_NAME = "Montévane";
 
-export const NAV_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "New Arrivals", href: "/products?collection=new-arrivals" },
-  { label: "Brands", href: "/brands" },
-  { label: "Collections", href: "/collections" },
-  { label: "About", href: "/about" },
-  { label: "Journal", href: "/journal" },
-  { label: "Contact", href: "/contact" },
-] as const;
-
-export type Collection = {
-  name: string;
-  slug: string;
-  description: string;
-};
-
-export const COLLECTIONS: Collection[] = [
-  { name: "New Arrivals", slug: "new-arrivals", description: "The latest additions to the collection." },
-  { name: "Best Sellers", slug: "best-sellers", description: "Our most sought-after pieces." },
-  { name: "Limited Edition", slug: "limited-edition", description: "Rare finds, once gone forever." },
-  { name: "Classic Heritage", slug: "classic-heritage", description: "Timeless icons that never fade." },
-];
-
-export const WHY_SHOP = [
-  {
-    title: "Authenticity Guaranteed",
-    description: "Every piece is verified by expert authenticators before it reaches you.",
-  },
-  {
-    title: "Worldwide Shipping",
-    description: "Fully insured, tracked shipping with signature on delivery, anywhere in the world.",
-  },
-  {
-    title: "Fast, Secure Payment",
-    description: "Pay by bank wire, crypto, card, or a secure online link, arranged directly with us.",
-  },
-  {
-    title: "Personal Concierge",
-    description: "Dedicated care from first inquiry to final delivery.",
-  },
-] as const;
-
 export type JournalPost = {
   slug: string;
   title: string;

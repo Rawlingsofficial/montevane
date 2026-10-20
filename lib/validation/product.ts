@@ -10,6 +10,14 @@ export const relatedImageSchema = z.object({
 // so the zodResolver's inferred type lines up with a single useForm<T>
 // generic — mixing coerce/default splits the input/output types apart and
 // react-hook-form's resolver typing rejects that mismatch.
+const localeFieldsSchema = z.object({
+  name: z.string().max(100).optional(),
+  description: z.string().max(2000).optional(),
+  metaTitle: z.string().max(120).optional(),
+  metaDescription: z.string().max(300).optional(),
+  focusKeyword: z.string().max(120).optional(),
+});
+
 export const productSchema = z.object({
   id: z.string().uuid().optional(),
   brand_slug: z.string().min(1, "Brand is required"),
@@ -34,6 +42,7 @@ export const productSchema = z.object({
   availability_status: z.enum(["in_stock", "pre_order", "sold_out", "coming_soon"]),
   condition: z.enum(["new", "like_new", "excellent", "very_good"]),
   status: z.enum(["draft", "published", "scheduled"]),
+  i18n: z.object({ en: localeFieldsSchema.optional(), de: localeFieldsSchema.optional(), uz: localeFieldsSchema.optional() }),
   scheduled_at: z.string().optional(),
 });
 

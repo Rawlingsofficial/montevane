@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Field, Section, inputClass } from "@/components/admin/form-controls";
 import { ImageUploader } from "@/components/admin/ImageUploader";
+import { ProductSeoFields } from "@/components/admin/ProductSeoFields";
 import { saveProduct } from "@/lib/actions/products";
 import { productSchema, type ProductFormValues } from "@/lib/validation/product";
 
@@ -55,10 +56,12 @@ export function ProductForm({
       condition: "new",
       status: "draft",
       related_images: [],
+      i18n: {},
       ...defaultValues,
     },
   });
 
+  const brandName = (slug: string) => brands.find((b) => b.slug === slug)?.name ?? slug;
   const relatedImages = watch("related_images");
   const status = watch("status");
   const mainImageUrl = watch("main_image_url");
@@ -123,7 +126,8 @@ export function ProductForm({
             <input
               {...register("name", {
                 onChange: (e) => {
-                  if (!slugTouched) setValue("slug", slugify(e.target.value));
+                  // Brand + name in the URL: /products/hermes-birkin-25-togo-etoupe
+                  if (!slugTouched) setValue("slug", slugify(`${brandName(watch("brand_slug"))} ${e.target.value}`));
                 },
               })}
               className={inputClass}
@@ -221,17 +225,13 @@ export function ProductForm({
         </div>
       </Section>
 
-      <Section title="SEO & Publishing">
-        <div className="grid gap-5 sm:grid-cols-2">
-          <Field label="Meta Title (optional)" error={errors.meta_title?.message}>
-            <input {...register("meta_title")} className={inputClass} />
-          </Field>
-          <Field label="Tags (comma separated)" error={errors.tags?.message}>
-            <input {...register("tags")} className={inputClass} />
-          </Field>
-        </div>
-        <Field label="Meta Description (optional)" error={errors.meta_description?.message} className="mt-5">
-          <textarea rows={2} {...register("meta_description")} className={inputClass} />
+      <Section title="Search (SEO) & Languages">
+        <ProductSeoFields register={register} watch={watch} setValue={setValue} brandName={brandName(watch("brand_slug"))} />
+      </Section>
+
+      <Section title="Publishing">
+        <Field label="Tags (comma separated)" error={errors.tags?.message}>
+          <input {...register("tags")} className={inputClass} />
         </Field>
 
         <div className="mt-5 grid gap-5 sm:grid-cols-2">

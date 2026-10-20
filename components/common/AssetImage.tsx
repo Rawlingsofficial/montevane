@@ -21,7 +21,15 @@ type AssetImageProps = {
 export function AssetImage({ base, alt, className, sizes = "100vw", priority = false }: AssetImageProps) {
   return (
     <div className={cn("relative overflow-hidden bg-[var(--ivory)]", className)}>
-      <Image src={asset(base)} alt={alt} fill sizes={sizes} priority={priority} className="object-cover" />
+      <Image
+        src={asset(base)}
+        alt={alt}
+        fill
+        sizes={sizes}
+        loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : "auto"}
+        className="object-cover"
+      />
     </div>
   );
 }

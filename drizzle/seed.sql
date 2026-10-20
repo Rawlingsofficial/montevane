@@ -23,7 +23,15 @@ insert into brands (slug, name, description) values
   ('celine', 'Celine', 'Understated Parisian luxury built for everyday wear.'),
   ('burberry', 'Burberry', 'British heritage craftsmanship with a modern silhouette.'),
   ('givenchy', 'Givenchy', 'Structured French elegance with architectural precision.'),
-  ('chloe', 'Chloé', 'Bohemian romanticism rooted in effortless femininity.')
+  ('chloe', 'Chloé', 'Bohemian romanticism rooted in effortless femininity.'),
+  ('goyard', 'Goyard', 'Parisian trunk-maker since 1853, sold only in its own boutiques.'),
+  ('rolex', 'Rolex', 'The Swiss watchmaker behind the Submariner, Daytona and Datejust.'),
+  ('patek-philippe', 'Patek Philippe', 'Geneva''s most revered watch manufacture, maker of the Nautilus.'),
+  ('audemars-piguet', 'Audemars Piguet', 'Le Brassus manufacture that created the Royal Oak in 1972.'),
+  ('cartier', 'Cartier', 'The jeweller of kings, from the Love bracelet to the Santos watch.'),
+  ('van-cleef-arpels', 'Van Cleef & Arpels', 'Parisian high jewellery house of the Alhambra clover.'),
+  ('tiffany', 'Tiffany & Co.', 'New York jeweller since 1837, home of the Tiffany T.'),
+  ('bvlgari', 'Bvlgari', 'Roman jeweller whose serpent has coiled through its designs since the 1940s.')
 on conflict do nothing;
 
 insert into collections (slug, name, description, featured) values

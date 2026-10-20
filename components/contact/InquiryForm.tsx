@@ -1,16 +1,26 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 import { submitInquiry } from "@/lib/actions/inquiries";
 import { CONTACT_METHODS, PAYMENT_METHODS, type ContactMethod } from "@/lib/contact";
+import type { Dictionary } from "@/lib/i18n/dictionaries/en";
 import { cn } from "@/lib/utils";
 
 const fieldClass =
   "mt-2 w-full border border-border bg-transparent px-3 py-3 text-sm focus:border-[var(--gold)] focus:outline-none";
 const labelClass = "text-xs tracking-[0.1em] text-muted-foreground uppercase";
 
-export function InquiryForm({ product }: { product?: { id: string; name: string } }) {
+export function InquiryForm({
+  product,
+  labels: t,
+  privacyHref,
+}: {
+  product?: { id: string; name: string };
+  labels: Dictionary["form"];
+  privacyHref: string;
+}) {
   const [methods, setMethods] = useState<ContactMethod[]>(["whatsapp"]);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -46,7 +56,7 @@ export function InquiryForm({ product }: { product?: { id: string; name: string 
   if (sent) {
     return (
       <div className="border border-border p-8">
-        <p className="text-sm">Thank you. We&apos;ll reach out shortly on the channels you chose.</p>
+        <p className="text-sm">{t.thanks}</p>
       </div>
     );
   }
@@ -55,25 +65,25 @@ export function InquiryForm({ product }: { product?: { id: string; name: string 
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid gap-6 sm:grid-cols-2">
         <label className="block">
-          <span className={labelClass}>Full Name</span>
-          <input name="name" required className={fieldClass} suppressHydrationWarning />
+          <span className={labelClass}>{t.name}</span>
+          <input name="name" required autoComplete="name" className={fieldClass} suppressHydrationWarning />
         </label>
         <label className="block">
-          <span className={labelClass}>Country</span>
-          <input name="country" className={fieldClass} suppressHydrationWarning />
+          <span className={labelClass}>{t.country}</span>
+          <input name="country" autoComplete="country-name" className={fieldClass} suppressHydrationWarning />
         </label>
         <label className="block">
-          <span className={labelClass}>Phone (WhatsApp / Telegram / Signal)</span>
-          <input name="phone" type="tel" placeholder="+1 555 000 0000" className={fieldClass} suppressHydrationWarning />
+          <span className={labelClass}>{t.phone}</span>
+          <input name="phone" type="tel" autoComplete="tel" placeholder="+1 555 000 0000" className={fieldClass} suppressHydrationWarning />
         </label>
         <label className="block">
-          <span className={labelClass}>Email</span>
-          <input name="email" type="email" className={fieldClass} suppressHydrationWarning />
+          <span className={labelClass}>{t.email}</span>
+          <input name="email" type="email" autoComplete="email" className={fieldClass} suppressHydrationWarning />
         </label>
       </div>
 
       <fieldset>
-        <legend className={labelClass}>How should we reach you? (choose any)</legend>
+        <legend className={labelClass}>{t.methods}</legend>
         <div className="mt-3 flex flex-wrap gap-2">
           {CONTACT_METHODS.map((m) => (
             <button
@@ -88,33 +98,41 @@ export function InquiryForm({ product }: { product?: { id: string; name: string 
                   : "border-border text-foreground/70 hover:border-foreground"
               )}
             >
-              {m.label}
+              {t.methodLabels[m.value] ?? m.label}
             </button>
           ))}
         </div>
       </fieldset>
 
       <label className="block">
-        <span className={labelClass}>Preferred Payment (optional)</span>
+        <span className={labelClass}>{t.payment}</span>
         <select name="payment_method" defaultValue="" className={fieldClass}>
-          <option value="">Decide later</option>
+          <option value="">{t.paymentLater}</option>
           {PAYMENT_METHODS.map((m) => (
             <option key={m.value} value={m.value}>
-              {m.label}
+              {t.paymentLabels[m.value] ?? m.label}
             </option>
           ))}
         </select>
       </label>
 
       <label className="block">
-        <span className={labelClass}>Message</span>
+        <span className={labelClass}>{t.message}</span>
         <textarea
           name="message"
           rows={4}
-          defaultValue={product ? `I'm interested in the ${product.name}.` : ""}
+          defaultValue={product ? t.messageDefault.replace("{item}", product.name) : ""}
           className={fieldClass}
         />
       </label>
+
+      <p className="text-xs text-muted-foreground">
+        {t.consent}{" "}
+        <Link href={privacyHref} className="underline underline-offset-2">
+          {t.privacyLink}
+        </Link>
+        .
+      </p>
 
       {error && <p className="text-sm text-destructive">{error}</p>}
 
@@ -123,7 +141,7 @@ export function InquiryForm({ product }: { product?: { id: string; name: string 
         disabled={pending}
         className="bg-primary px-10 py-4 text-xs font-medium tracking-[0.2em] text-primary-foreground uppercase transition-colors hover:bg-[var(--gold)] hover:text-primary disabled:opacity-50"
       >
-        {pending ? "Sending…" : "Request a Call Back"}
+        {pending ? t.sending : t.submit}
       </button>
     </form>
   );

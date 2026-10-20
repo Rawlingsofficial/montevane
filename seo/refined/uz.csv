@@ -1,0 +1,230 @@
+keyword,language,cluster,intent,target_page,score
+купить женскую сумку в ташкенте,uz,bags,transactional,/shop/bags,7.0
+brand sumka,uz,bags,product,/shop/bags,6.8
+brand sumkalar,uz,bags,product,/shop/bags,6.8
+brend sumka,uz,bags,product,/shop/bags,6.8
+brend sumkalar,uz,bags,product,/shop/bags,6.8
+sumki tashkent,uz,bags,product,/shop/bags,6.8
+luxury shopping uz,uz,luxury-general,product,/,6.2
+сумки в ташкенте,uz,bags,product,/shop/bags,6.2
+original soatlar,uz,watches,commercial,/shop/watches,5.8
+hermes sumka narxi,uz,hermes,commercial,/brands/hermes,5.2
+hermes sumka narxlari,uz,hermes,commercial,/brands/hermes,5.2
+hermes sumka,uz,hermes,product,/brands/hermes,4.8
+hermes sumkalar,uz,hermes,product,/brands/hermes,4.8
+hermes sumkalari,uz,hermes,product,/brands/hermes,4.8
+mujskoy sumkalar,uz,bags,product,/shop/bags,4.8
+sumka brand,uz,bags,product,/shop/bags,4.8
+sumkalar toshkent,uz,bags,product,/shop/bags,4.8
+toshli sumkalar,uz,bags,product,/shop/bags,4.8
+zamonaviy sumkalar,uz,bags,product,/shop/bags,4.8
+zargarlik buyumi,uz,jewelry,transactional,/shop/jewelry,4.8
+zargarlik buyumlari,uz,jewelry,transactional,/shop/jewelry,4.8
+bag style tashkent,uz,bags,product,/shop/bags,4.2
+buxoro zargarlik buyumlari,uz,jewelry,transactional,/shop/jewelry,4.2
+kumush zargarlik buyumlari,uz,jewelry,transactional,/shop/jewelry,4.2
+milliy zargarlik buyumlari,uz,jewelry,transactional,/shop/jewelry,4.2
+qadimgi zargarlik buyumlari,uz,jewelry,transactional,/shop/jewelry,4.2
+qadimiy zargarlik buyumlari,uz,jewelry,transactional,/shop/jewelry,4.2
+qoraqalpoq zargarlik buyumlari,uz,jewelry,transactional,/shop/jewelry,4.2
+rolex shop tashkent,uz,rolex,transactional,/brands/rolex,4.2
+tashkent jewelry shop,uz,jewelry,transactional,/shop/jewelry,4.2
+tilla zargarlik buyumlari,uz,jewelry,transactional,/shop/jewelry,4.2
+zargarlik buyumlari chizish,uz,jewelry,transactional,/shop/jewelry,4.2
+zargarlik buyumlari narxi,uz,jewelry,transactional,/shop/jewelry,4.2
+zargarlik buyumlari narxlari,uz,jewelry,transactional,/shop/jewelry,4.2
+zargarlik buyumlari nomlari,uz,jewelry,transactional,/shop/jewelry,4.2
+zargarlik buyumlari tarixi,uz,jewelry,transactional,/shop/jewelry,4.2
+zargarlik buyumlari toshkent,uz,jewelry,transactional,/shop/jewelry,4.2
+брендовые сумки ташкент,uz,bags,product,/shop/bags,4.2
+bilaguzuk narxlari,uz,jewelry,commercial,/shop/jewelry,3.8
+cartier narxi,uz,cartier,commercial,/brands/cartier,3.8
+original soat,uz,watches,commercial,/shop/watches,3.8
+original sumka,uz,bags,commercial,/shop/bags,3.8
+original sumkalar,uz,bags,commercial,/shop/bags,3.8
+rolex narxi,uz,rolex,commercial,/brands/rolex,3.8
+rolex narxlari,uz,rolex,commercial,/brands/rolex,3.8
+sumkalar narxi,uz,bags,commercial,/shop/bags,3.8
+brend sumka sotib olish,uz,bags,transactional,/shop/bags,3.6
+zargarlik buyumlari do koni,uz,jewelry,transactional,/shop/jewelry,3.6
+zargarlik buyumlari haqida malumot,uz,jewelry,transactional,/shop/jewelry,3.6
+zargarlik buyumlari ingliz tilida,uz,jewelry,transactional,/shop/jewelry,3.6
+zargarlik buyumlari ishlab chiqarish,uz,jewelry,transactional,/shop/jewelry,3.6
+zargarlik buyumlari ishlanadigan minerallar,uz,jewelry,transactional,/shop/jewelry,3.6
+zargarlik buyumlari nimadan tayyorlanadi,uz,jewelry,transactional,/shop/jewelry,3.6
+zargarlik buyumlari olib chiqish,uz,jewelry,transactional,/shop/jewelry,3.6
+zargarlik buyumlari olib kirish,uz,jewelry,transactional,/shop/jewelry,3.6
+zargarlik buyumlari va nomlari,uz,jewelry,transactional,/shop/jewelry,3.6
+zargarlik buyumlarini tayyorlash texnologiyasi,uz,jewelry,transactional,/shop/jewelry,3.6
+купить брендовую сумку узбекистан,uz,bags,transactional,/shop/bags,3.6
+999.9 oltin narxi,uz,jewelry,commercial,/shop/jewelry,3.2
+ayollar sumkasi narxi,uz,bags,commercial,/shop/bags,3.2
+ayollar sumkasi original,uz,bags,commercial,/shop/bags,3.2
+cartier uzuk narxi,uz,cartier,commercial,/brands/cartier,3.2
+chanel sumka narxi,uz,chanel,commercial,/brands/chanel,3.2
+chanel sumkalar narxi,uz,chanel,commercial,/brands/chanel,3.2
+erkaklar sumkasi narxlari,uz,bags,commercial,/shop/bags,3.2
+oltin 999 narxi,uz,jewelry,commercial,/shop/jewelry,3.2
+oltin narxi uzbekistonda,uz,jewelry,commercial,/shop/jewelry,3.2
+oltin uzuk narxi,uz,jewelry,commercial,/shop/jewelry,3.2
+oltin uzuklar narxi,uz,jewelry,commercial,/shop/jewelry,3.2
+original watch uz,uz,watches,commercial,/shop/watches,3.2
+qul soatlar narxi,uz,watches,commercial,/shop/watches,3.2
+rolex soat narxi,uz,rolex,commercial,/brands/rolex,3.2
+rolex soat narxlari,uz,rolex,commercial,/brands/rolex,3.2
+rolex soatlari narxi,uz,rolex,commercial,/brands/rolex,3.2
+rolex soatlari narxlari,uz,rolex,commercial,/brands/rolex,3.2
+uzb oltin narxi,uz,jewelry,commercial,/shop/jewelry,3.2
+uzbekistan oltin narxi,uz,jewelry,commercial,/shop/jewelry,3.2
+uzex oltin narxi,uz,jewelry,commercial,/shop/jewelry,3.2
+купить часы rolex в ташкенте,uz,rolex,transactional,/brands/rolex,3.0
+купить ювелирные украшения в ташкенте,uz,jewelry,transactional,/shop/jewelry,3.0
+ayollar sumkalari,uz,bags,product,/shop/bags,2.8
+ayollar sumkasi,uz,bags,product,/shop/bags,2.8
+bagstyle tashkent,uz,bags,product,/shop/bags,2.8
+bilaguzuk cartier,uz,cartier,product,/brands/cartier,2.8
+brand taqinchoqlar,uz,jewelry,product,/shop/jewelry,2.8
+brend soatlar,uz,watches,product,/shop/watches,2.8
+brend taqinchoqlar,uz,jewelry,product,/shop/jewelry,2.8
+cartier bilaguzuk,uz,cartier,product,/brands/cartier,2.8
+cartier sepochka,en,cartier,product,/brands/cartier,2.8
+cartier tarixi,uz,cartier,product,/brands/cartier,2.8
+cartier uzb,en,cartier,product,/brands/cartier,2.8
+cartier uzbekistan,uz,cartier,product,/brands/cartier,2.8
+cartier uzugi,en,cartier,product,/brands/cartier,2.8
+cartier uzuklar,uz,cartier,product,/brands/cartier,2.8
+cartier zirak,uz,cartier,product,/brands/cartier,2.8
+chanel sumka,uz,chanel,product,/brands/chanel,2.8
+chanel sumkalar,uz,chanel,product,/brands/chanel,2.8
+chiroyli sumkalar,uz,bags,product,/shop/bags,2.8
+classic soatlar,uz,watches,product,/shop/watches,2.8
+dostavka sumka,uz,bags,product,/shop/bags,2.8
+durdan sumkalar,uz,bags,product,/shop/bags,2.8
+durli sumkalar,uz,bags,product,/shop/bags,2.8
+erkaklar soati,uz,watches,product,/shop/watches,2.8
+erkaklar soatlari,uz,watches,product,/shop/watches,2.8
+erkaklar sumkasi,uz,bags,product,/shop/bags,2.8
+gʻildirakli sumka,uz,bags,product,/shop/bags,2.8
+harbiy sumkalar,uz,bags,product,/shop/bags,2.8
+hermes sumki,uz,hermes,product,/brands/hermes,2.8
+hermes uzbekistan,uz,hermes,product,/brands/hermes,2.8
+jewellery tashkent,uz,jewelry,product,/shop/jewelry,2.8
+jewelry tashkent,uz,jewelry,product,/shop/jewelry,2.8
+karter bilaguzuk,uz,jewelry,product,/shop/jewelry,2.8
+klassik soatlar,uz,watches,product,/shop/watches,2.8
+koja sumkalar,uz,bags,product,/shop/bags,2.8
+komplekt taqinchoqlar,uz,jewelry,product,/shop/jewelry,2.8
+milliy taqinchoqlar,uz,jewelry,product,/shop/jewelry,2.8
+mini sumkalar,uz,bags,product,/shop/bags,2.8
+munchoqli sumkalar,uz,bags,product,/shop/bags,2.8
+oltin beshik,uz,jewelry,product,/shop/jewelry,2.8
+oltin don,uz,jewelry,product,/shop/jewelry,2.8
+oltin formulasi,uz,jewelry,product,/shop/jewelry,2.8
+oltin izlab,uz,jewelry,product,/shop/jewelry,2.8
+oltin joʻja,uz,jewelry,product,/shop/jewelry,2.8
+oltin juja,uz,jewelry,product,/shop/jewelry,2.8
+oltin kuz,uz,jewelry,product,/shop/jewelry,2.8
+oltin suv,uz,jewelry,product,/shop/jewelry,2.8
+oltin taqinchoqlar,uz,jewelry,product,/shop/jewelry,2.8
+oltin uzbekistan,uz,jewelry,product,/shop/jewelry,2.8
+oltin uzuk,uz,jewelry,product,/shop/jewelry,2.8
+oltin uzuklar,uz,jewelry,product,/shop/jewelry,2.8
+oltin xazina,uz,jewelry,product,/shop/jewelry,2.8
+oltin yoruq,uz,jewelry,product,/shop/jewelry,2.8
+orginal soatlar,uz,watches,product,/shop/watches,2.8
+orginal sumkalar,uz,bags,product,/shop/bags,2.8
+qizlar sumkasi,uz,bags,product,/shop/bags,2.8
+rolex mexanika,en,rolex,product,/brands/rolex,2.8
+rolex soat,uz,rolex,product,/brands/rolex,2.8
+rolex soatlar,uz,rolex,product,/brands/rolex,2.8
+rolex soatlari,uz,rolex,product,/brands/rolex,2.8
+rolex tashkent,uz,rolex,product,/brands/rolex,2.8
+rolex toshkent,uz,rolex,product,/brands/rolex,2.8
+rolex uzb,en,rolex,product,/brands/rolex,2.8
+rolex uzbekistan,uz,rolex,product,/brands/rolex,2.8
+rukzak sumkalar,uz,bags,product,/shop/bags,2.8
+sumka brendlari,uz,bags,product,/shop/bags,2.8
+sumka shopper,uz,bags,product,/shop/bags,2.8
+sumkalar olami,uz,bags,product,/shop/bags,2.8
+taqinchoqlar olami,uz,jewelry,product,/shop/jewelry,2.8
+tashkent watches,uz,watches,product,/shop/watches,2.8
+trend sumkalar,uz,bags,product,/shop/bags,2.8
+watches tashkent,uz,watches,product,/shop/watches,2.8
+watches uzbekistan,uz,watches,product,/shop/watches,2.8
+zargarlik ish,uz,jewelry,product,/shop/jewelry,2.8
+zargarlik tarixi,uz,jewelry,product,/shop/jewelry,2.8
+zargarlik uyushmasi,uz,jewelry,product,/shop/jewelry,2.8
+original chanel sumka narxi,uz,chanel,commercial,/brands/chanel,2.6
+original rolex soat narxi,uz,rolex,commercial,/brands/rolex,2.6
+rolex geneve soat narxi,uz,rolex,commercial,/brands/rolex,2.6
+rolex soat narxi mexanika,uz,rolex,commercial,/brands/rolex,2.6
+rolex soat narxi original,uz,rolex,commercial,/brands/rolex,2.6
+rolex soat narxi price,uz,rolex,commercial,/brands/rolex,2.6
+rolex soat narxi qancha,uz,rolex,commercial,/brands/rolex,2.6
+rolex soat narxi toshkentda,uz,rolex,commercial,/brands/rolex,2.6
+rolex soat original narxi,uz,rolex,commercial,/brands/rolex,2.6
+rolex tilla soat narxi,uz,rolex,commercial,/brands/rolex,2.6
+ayollar uchun sumkalar,uz,bags,product,/shop/bags,2.2
+cartier bracelet uzbekistan,uz,cartier,product,/brands/cartier,2.2
+cartier haqida malumot,en,cartier,product,/brands/cartier,2.2
+citizen watch tashkent,uz,watches,product,/shop/watches,2.2
+erkaklar soati brend,uz,watches,product,/shop/watches,2.2
+erkaklar uchun soat,uz,watches,product,/shop/watches,2.2
+erkaklar uchun soatlar,uz,watches,product,/shop/watches,2.2
+gold jewellery tashkent,uz,jewelry,product,/shop/jewelry,2.2
+hamilton watch tashkent,uz,watches,product,/shop/watches,2.2
+hermes in tashkent,uz,hermes,product,/brands/hermes,2.2
+jewelry store tashkent,uz,jewelry,product,/shop/jewelry,2.2
+lbos jewellery uzbekistan,uz,jewelry,product,/shop/jewelry,2.2
+mi watch tashkent,uz,watches,product,/shop/watches,2.2
+oltin bilak uzuk,uz,jewelry,product,/shop/jewelry,2.2
+oltin uzuk kino,uz,jewelry,product,/shop/jewelry,2.2
+oq oltin uzuk,uz,jewelry,product,/shop/jewelry,2.2
+orient watch tashkent,uz,watches,product,/shop/watches,2.2
+orient watch uz,uz,watches,product,/shop/watches,2.2
+rolex watch tashkent,uz,rolex,product,/brands/rolex,2.2
+soatlar erkaklar uchun,uz,watches,product,/shop/watches,2.2
+sumka ayollar uchun,uz,bags,product,/shop/bags,2.2
+sumkalar ayollar uchun,uz,bags,product,/shop/bags,2.2
+swiss watch tashkent,uz,watches,product,/shop/watches,2.2
+tushda oltin uzuk,uz,jewelry,product,/shop/jewelry,2.2
+un oltin don,uz,jewelry,product,/shop/jewelry,2.2
+watch store tashkent,uz,watches,product,/shop/watches,2.2
+watches in tashkent,uz,watches,product,/shop/watches,2.2
+zargarlik haqida malumot,uz,jewelry,product,/shop/jewelry,2.2
+оригинальные сумки ташкент,uz,bags,product,/shop/bags,2.2
+сумки hermes ташкент,uz,hermes,product,/brands/hermes,2.2
+ташкент ювелирные магазины,uz,jewelry,product,/shop/jewelry,2.2
+украшения в ташкенте,uz,jewelry,product,/shop/jewelry,2.2
+часы rolex ташкент,uz,rolex,product,/brands/rolex,2.2
+часы в ташкенте,uz,watches,product,/shop/watches,2.2
+элитные часы ташкент,uz,watches,product,/shop/watches,2.2
+ювелирные изделия ташкент,uz,jewelry,product,/shop/jewelry,2.2
+ювелирные магазины ташкент,uz,jewelry,product,/shop/jewelry,2.2
+ювелирные украшения ташкент,uz,jewelry,product,/shop/jewelry,2.2
+rolex soat narxi ayollar uchun,uz,rolex,commercial,/brands/rolex,2.0
+rolex soat narxi erkaklar uchun,uz,rolex,commercial,/brands/rolex,2.0
+rolex soat narxi original narxi,uz,rolex,commercial,/brands/rolex,2.0
+rolex soat narxi original price,uz,rolex,commercial,/brands/rolex,2.0
+rolex watch price in uzbekistan,uz,rolex,commercial,/brands/rolex,2.0
+rolex часы цена в ташкенте,uz,rolex,commercial,/brands/rolex,2.0
+uzuk 1 gram tilla narxi,uz,jewelry,commercial,/shop/jewelry,2.0
+hermes сумки в ташкенте,uz,hermes,product,/brands/hermes,1.6
+oltin 3 xlorid formulasi,uz,jewelry,product,/shop/jewelry,1.6
+rolex store in tashkent,uz,rolex,product,/brands/rolex,1.6
+rolex часы в ташкенте,uz,rolex,product,/brands/rolex,1.6
+tushda oltin uzuk korsa,uz,jewelry,product,/shop/jewelry,1.6
+yetkazib berish bilan sumka,uz,shipping,product,/payment-shipping,1.6
+брендовые сумки в ташкенте,uz,bags,product,/shop/bags,1.6
+оригинальные сумки в ташкенте,uz,bags,product,/shop/bags,1.6
+сумки женские брендовые ташкент,uz,bags,product,/shop/bags,1.6
+элитные часы в ташкенте,uz,watches,product,/shop/watches,1.6
+ювелирные изделия в ташкенте,uz,jewelry,product,/shop/jewelry,1.6
+ювелирные изделия каталог ташкент,uz,jewelry,product,/shop/jewelry,1.6
+ювелирные магазины в ташкенте,uz,jewelry,product,/shop/jewelry,1.6
+ювелирные украшения в ташкенте,uz,jewelry,product,/shop/jewelry,1.6
+ювелирные украшения из узбекистана,uz,jewelry,product,/shop/jewelry,1.6
+tushda oltin uzuk topib olsa,uz,jewelry,product,/shop/jewelry,1.0
+брендовые мужские сумки в ташкенте,uz,bags,product,/shop/bags,1.0
+сумки из натуральной кожи ташкент,uz,bags,product,/shop/bags,1.0
+ювелирные магазины в ташкенте инстаграм,uz,jewelry,product,/shop/jewelry,1.0
