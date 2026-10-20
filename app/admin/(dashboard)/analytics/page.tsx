@@ -1,33 +1,29 @@
 import type { Metadata } from "next";
 
-import { createClient } from "@/lib/supabase/server";
+import { count, desc, eq } from "drizzle-orm";
+
+import { db, schema } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Analytics — Admin | Montévane",
 };
 
-const currency = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 const monthFormatter = new Intl.DateTimeFormat("en-US", { month: "short" });
 
 export default async function AdminAnalyticsPage() {
-  const supabase = await createClient();
-
-  const [{ data: orders }, { count: publishedCount }, { data: topProducts }] = await Promise.all([
-    supabase
-      .from("orders")
-      .select("total, status, created_at")
-      .not("status", "in", '("cancelled","refunded")'),
-    supabase.from("products").select("*", { count: "exact", head: true }).eq("status", "published"),
-    supabase
-      .from("products")
-      .select("id, name, brand_slug, view_count, wishlist_count")
-      .order("view_count", { ascending: false })
+  const p = schema.products;
+  const [inquiries, [{ publishedCount }], topProducts] = await Promise.all([
+    db.select({ status: schema.inquiries.status, created_at: schema.inquiries.createdAt }).from(schema.inquiries),
+    db.select({ publishedCount: count() }).from(p).where(eq(p.status, "published")),
+    db
+      .select({ id: p.id, name: p.name, brand_slug: p.brandSlug, view_count: p.viewCount })
+      .from(p)
+      .orderBy(desc(p.viewCount))
       .limit(5),
   ]);
 
-  const totalRevenue = (orders ?? []).reduce((sum, o) => sum + Number(o.total), 0);
-  const totalOrders = orders?.length ?? 0;
-  const averageOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+  const totalInquiries = inquiries?.length ?? 0;
+  const countByStatus = (status: string) => (inquiries ?? []).filter((i) => i.status === status).length;
 
   const months: { key: string; label: string; total: number }[] = [];
   const now = new Date();
@@ -35,18 +31,18 @@ export default async function AdminAnalyticsPage() {
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
     months.push({ key: `${d.getFullYear()}-${d.getMonth()}`, label: monthFormatter.format(d), total: 0 });
   }
-  for (const order of orders ?? []) {
-    const d = new Date(order.created_at);
+  for (const inquiry of inquiries ?? []) {
+    const d = new Date(inquiry.created_at);
     const key = `${d.getFullYear()}-${d.getMonth()}`;
     const bucket = months.find((m) => m.key === key);
-    if (bucket) bucket.total += Number(order.total);
+    if (bucket) bucket.total += 1;
   }
   const maxMonthTotal = Math.max(1, ...months.map((m) => m.total));
 
   const stats = [
-    { label: "Total Revenue", value: currency.format(totalRevenue) },
-    { label: "Total Orders", value: totalOrders },
-    { label: "Average Order Value", value: currency.format(averageOrderValue) },
+    { label: "Total Inquiries", value: totalInquiries },
+    { label: "Awaiting Contact", value: countByStatus("new") },
+    { label: "Closed", value: countByStatus("closed") },
     { label: "Published Products", value: publishedCount ?? 0 },
   ];
 
@@ -64,7 +60,7 @@ export default async function AdminAnalyticsPage() {
       </div>
 
       <div className="mt-10">
-        <h2 className="text-lg">Revenue by Month</h2>
+        <h2 className="text-lg">Inquiries by Month</h2>
         <div className="mt-5 space-y-3">
           {months.map((month) => (
             <div key={month.key} className="flex items-center gap-4">
@@ -76,15 +72,13 @@ export default async function AdminAnalyticsPage() {
                 />
               </div>
               <span className="w-20 shrink-0 text-right text-xs text-muted-foreground">
-                {currency.format(month.total)}
+                {month.total}
               </span>
             </div>
           ))}
         </div>
-        {totalOrders === 0 && (
-          <p className="mt-4 text-xs text-muted-foreground">
-            No orders yet — this chart will populate once checkout is live.
-          </p>
+        {totalInquiries === 0 && (
+          <p className="mt-4 text-xs text-muted-foreground">No inquiries yet.</p>
         )}
       </div>
 
@@ -99,7 +93,6 @@ export default async function AdminAnalyticsPage() {
                 </span>
                 <span className="flex gap-6 text-xs text-muted-foreground uppercase">
                   <span>{product.view_count} views</span>
-                  <span>{product.wishlist_count} wishlisted</span>
                 </span>
               </div>
             ))

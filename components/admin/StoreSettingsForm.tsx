@@ -28,18 +28,36 @@ export function StoreSettingsForm({ initial }: { initial: StoreSettingsInput }) 
 
   return (
     <form onSubmit={handleSubmit} className="max-w-xl">
+      <Section title="Customer Contact">
+        <p className="-mt-1 mb-5 text-xs text-muted-foreground">
+          Set once — these show as contact buttons on every product and the contact page. Leave a field empty to hide
+          that channel. Phone numbers in international format, e.g. +1 555 000 0000.
+        </p>
+        <div className="grid gap-5 sm:grid-cols-2">
+          <Field label="Phone (calls & texts)">
+            <input value={values.phone_number} onChange={(e) => set("phone_number", e.target.value)} placeholder="+1 555 000 0000" className={inputClass} />
+          </Field>
+          <Field label="Email">
+            <input type="email" value={values.contact_email} onChange={(e) => set("contact_email", e.target.value)} className={inputClass} />
+          </Field>
+          <Field label="WhatsApp Number">
+            <input value={values.whatsapp_number} onChange={(e) => set("whatsapp_number", e.target.value)} placeholder="+1 555 000 0000" className={inputClass} />
+          </Field>
+          <Field label="Telegram Username">
+            <input value={values.telegram_username} onChange={(e) => set("telegram_username", e.target.value)} placeholder="@montevane" className={inputClass} />
+          </Field>
+          <Field label="Signal Number">
+            <input value={values.signal_number} onChange={(e) => set("signal_number", e.target.value)} placeholder="+1 555 000 0000" className={inputClass} />
+          </Field>
+        </div>
+      </Section>
+
+      <div className="h-10" />
+
       <Section title="Store Configuration">
         <div className="grid gap-5 sm:grid-cols-2">
           <Field label="Store Name">
             <input value={values.store_name} onChange={(e) => set("store_name", e.target.value)} className={inputClass} />
-          </Field>
-          <Field label="WhatsApp Number (E.164, global fallback)">
-            <input
-              value={values.whatsapp_number}
-              onChange={(e) => set("whatsapp_number", e.target.value)}
-              placeholder="+237600000000"
-              className={inputClass}
-            />
           </Field>
           <Field label="Store Email">
             <input

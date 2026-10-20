@@ -3,25 +3,27 @@ import type { Metadata } from "next";
 
 import { AssetImage } from "@/components/common/AssetImage";
 import { PageHero } from "@/components/common/PageHero";
-import { BRANDS } from "@/lib/constants";
+import { getBrands } from "@/lib/data/catalog";
 import { brandBanner } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "Brands — Montévane",
 };
 
-export default function BrandsPage() {
+export default async function BrandsPage() {
+  const brands = await getBrands();
+
   return (
     <>
       <PageHero
-        eyebrow="Twelve Houses"
+        eyebrow="The Houses"
         title="Shop by Brand"
         description="Each house carries its own century of craft. Explore each house by name."
         image="hero_2"
       />
 
       <section className="mx-auto grid max-w-7xl grid-cols-1 gap-px bg-border px-6 py-16 sm:grid-cols-2 lg:grid-cols-3 lg:px-10">
-        {BRANDS.map((brand) => (
+        {brands.map((brand) => (
           <Link key={brand.slug} href={`/brands/${brand.slug}`} className="group relative block overflow-hidden bg-background">
             <AssetImage
               base={brandBanner(brand.slug)}

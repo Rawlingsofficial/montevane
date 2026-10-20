@@ -1,51 +1,41 @@
 import type { Metadata } from "next";
-import { Clock, Mail, MessageCircle } from "lucide-react";
 
 import { PageHero } from "@/components/common/PageHero";
-import { ContactForm } from "@/components/contact/ContactForm";
-import { CONTACT_INFO } from "@/lib/constants";
+import { ContactButtons } from "@/components/contact/ContactButtons";
+import { InquiryForm } from "@/components/contact/InquiryForm";
+import { PAYMENT_NOTE } from "@/lib/contact";
+import { getContactChannels } from "@/lib/data/catalog";
 
 export const metadata: Metadata = {
   title: "Contact — Montévane",
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const channels = await getContactChannels();
+
   return (
     <>
       <PageHero
         eyebrow="Concierge"
         title="Get in Touch"
-        description="Questions about a piece, an order, or a bespoke request? We're here to help."
+        description="Questions about a piece, payment, or a bespoke request? Reach us on any channel."
         image="hero_3"
       />
 
       <section className="mx-auto grid max-w-6xl gap-16 px-6 py-20 lg:grid-cols-[1fr_1.3fr] lg:px-10">
         <div>
-          <h2 className="text-2xl">Reach the House</h2>
-          <div className="mt-8 space-y-6">
-            <InfoRow icon={Mail} label="Email" value={CONTACT_INFO.email} />
-            <InfoRow icon={MessageCircle} label="WhatsApp" value={CONTACT_INFO.whatsapp} />
-            <InfoRow icon={Clock} label="Hours" value={CONTACT_INFO.hours} />
+          <h2 className="text-2xl">Reach Us Directly</h2>
+          <div className="mt-8">
+            <ContactButtons channels={channels} message="Hello Montévane," subject="Inquiry" />
           </div>
+          <p className="mt-8 text-sm leading-relaxed text-muted-foreground">{PAYMENT_NOTE}</p>
         </div>
 
         <div>
-          <h2 className="mb-8 text-2xl">Send a Message</h2>
-          <ContactForm />
+          <h2 className="mb-8 text-2xl">Or Let Us Contact You</h2>
+          <InquiryForm />
         </div>
       </section>
     </>
-  );
-}
-
-function InfoRow({ icon: Icon, label, value }: { icon: typeof Mail; label: string; value: string }) {
-  return (
-    <div className="flex items-start gap-4">
-      <Icon className="mt-0.5 size-4 text-[var(--gold)]" strokeWidth={1.5} />
-      <div>
-        <p className="text-xs tracking-[0.1em] text-muted-foreground uppercase">{label}</p>
-        <p className="mt-1 text-sm">{value}</p>
-      </div>
-    </div>
   );
 }

@@ -3,7 +3,9 @@ import type { Metadata } from "next";
 import { Pencil, Plus } from "lucide-react";
 
 import { DeleteProductButton } from "@/components/admin/DeleteProductButton";
-import { createClient } from "@/lib/supabase/server";
+import { desc } from "drizzle-orm";
+
+import { db, schema } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Products — Admin | Montévane",
@@ -12,11 +14,19 @@ export const metadata: Metadata = {
 const currency = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 
 export default async function AdminProductsPage() {
-  const supabase = await createClient();
-  const { data: products } = await supabase
-    .from("products")
-    .select("id, name, brand_slug, sku, price, status, availability_status")
-    .order("created_at", { ascending: false });
+  const p = schema.products;
+  const products = await db
+    .select({
+      id: p.id,
+      name: p.name,
+      brand_slug: p.brandSlug,
+      sku: p.sku,
+      price: p.price,
+      status: p.status,
+      availability_status: p.availabilityStatus,
+    })
+    .from(p)
+    .orderBy(desc(p.createdAt));
 
   return (
     <div>

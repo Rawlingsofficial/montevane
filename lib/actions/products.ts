@@ -1,23 +1,23 @@
 "use server";
 
+import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
-import { createClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/auth";
+import { db, schema } from "@/lib/db";
+import { pgErrorMessage } from "@/lib/db/errors";
 import { productSchema, type ProductFormValues } from "@/lib/validation/product";
 
 export type SaveProductResult = { id: string } | { error: string };
 
 export async function saveProduct(values: ProductFormValues): Promise<SaveProductResult> {
+  const admin = await requireAdmin();
+
   const parsed = productSchema.safeParse(values);
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? "Invalid product data." };
   }
   const data = parsed.data;
-
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
 
   const tags = (data.tags ?? "")
     .split(",")
@@ -25,7 +25,7 @@ export async function saveProduct(values: ProductFormValues): Promise<SaveProduc
     .filter(Boolean);
 
   const record = {
-    brand_slug: data.brand_slug,
+    brandSlug: data.brand_slug,
     name: data.name,
     sku: data.sku,
     slug: data.slug,
@@ -35,54 +35,45 @@ export async function saveProduct(values: ProductFormValues): Promise<SaveProduc
     dimensions: data.dimensions,
     weight: data.weight,
     description: data.description,
-    authenticity_notes: data.authenticity_notes || null,
-    main_image_url: data.main_image_url,
-    main_image_alt: data.main_image_alt || `${data.brand_slug} ${data.name}`,
-    related_images: data.related_images,
-    collection_slug: data.collection_slug,
+    authenticityNotes: data.authenticity_notes || null,
+    mainImageUrl: data.main_image_url,
+    mainImageAlt: data.main_image_alt || null,
+    relatedImages: data.related_images,
+    categorySlug: data.category_slug,
+    collectionSlug: data.collection_slug,
     tags,
-    meta_title: data.meta_title || `${data.name} - ${data.brand_slug} | Montévane`,
-    meta_description: data.meta_description || data.description.slice(0, 160),
-    whatsapp_number: data.whatsapp_number || null,
-    whatsapp_enabled: data.whatsapp_enabled,
-    availability_status: data.availability_status,
+    metaTitle: data.meta_title || null,
+    metaDescription: data.meta_description || null,
+    availabilityStatus: data.availability_status,
     condition: data.condition,
     status: data.status,
-    scheduled_at: data.status === "scheduled" && data.scheduled_at ? data.scheduled_at : null,
-    published_at: data.status === "published" ? new Date().toISOString() : null,
+    scheduledAt: data.status === "scheduled" && data.scheduled_at ? new Date(data.scheduled_at) : null,
+    publishedAt: data.status === "published" ? new Date() : null,
   };
 
-  let result;
-  if (data.id) {
-    result = await supabase.from("products").update(record).eq("id", data.id).select("id").single();
-  } else {
-    result = await supabase
-      .from("products")
-      .insert({ ...record, created_by: user?.id ?? null })
-      .select("id")
-      .single();
+  let id: string;
+  try {
+    if (data.id) {
+      await db.update(schema.products).set(record).where(eq(schema.products.id, data.id));
+      id = data.id;
+    } else {
+      const [row] = await db
+        .insert(schema.products)
+        .values({ ...record, createdBy: admin.id })
+        .returning({ id: schema.products.id });
+      id = row.id;
+    }
+  } catch (error) {
+    return { error: pgErrorMessage(error, "That SKU or slug is already in use.") };
   }
 
-  if (result.error) {
-    return { error: result.error.message };
-  }
-
-  revalidatePath("/admin/products");
-  revalidatePath("/products");
-  revalidatePath(`/products/${data.slug}`);
-
-  return { id: result.data.id };
+  revalidatePath("/", "layout");
+  return { id };
 }
 
 export async function deleteProduct(id: string): Promise<{ error?: string }> {
-  const supabase = await createClient();
-  const { error } = await supabase.from("products").delete().eq("id", id);
-
-  if (error) {
-    return { error: error.message };
-  }
-
-  revalidatePath("/admin/products");
-  revalidatePath("/products");
+  await requireAdmin();
+  await db.delete(schema.products).where(eq(schema.products.id, id));
+  revalidatePath("/", "layout");
   return {};
 }

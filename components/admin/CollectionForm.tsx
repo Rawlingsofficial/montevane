@@ -83,7 +83,6 @@ export function CollectionForm({ defaultValues }: { defaultValues?: Partial<Coll
           label="Cover Photo"
           value={coverImageUrl ?? ""}
           onChange={(url) => setValue("cover_image_url", url)}
-          bucket="editorial"
           className="max-w-xs"
         />
       </Section>

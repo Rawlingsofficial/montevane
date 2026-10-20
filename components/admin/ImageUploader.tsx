@@ -3,7 +3,6 @@
 import { useRef, useState } from "react";
 import { Loader2, Upload, X } from "lucide-react";
 
-import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 
 type ImageUploaderProps = {
@@ -11,10 +10,9 @@ type ImageUploaderProps = {
   value: string;
   onChange: (url: string) => void;
   className?: string;
-  bucket?: "products" | "brands" | "editorial";
 };
 
-export function ImageUploader({ label, value, onChange, className, bucket = "products" }: ImageUploaderProps) {
+export function ImageUploader({ label, value, onChange, className }: ImageUploaderProps) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -32,23 +30,18 @@ export function ImageUploader({ label, value, onChange, className, bucket = "pro
     setUploading(true);
     setError(null);
 
-    const supabase = createClient();
-    const ext = file.name.split(".").pop();
-    const path = `${crypto.randomUUID()}.${ext}`;
+    const body = new FormData();
+    body.append("file", file);
+    const res = await fetch("/api/upload", { method: "POST", body });
+    const data = (await res.json().catch(() => ({}))) as { url?: string; error?: string };
 
-    const { error: uploadError } = await supabase.storage.from(bucket).upload(path, file, {
-      cacheControl: "31536000",
-      upsert: false,
-    });
-
-    if (uploadError) {
-      setError(uploadError.message);
+    if (!res.ok || !data.url) {
+      setError(data.error ?? "Upload failed.");
       setUploading(false);
       return;
     }
 
-    const { data } = supabase.storage.from(bucket).getPublicUrl(path);
-    onChange(data.publicUrl);
+    onChange(data.url);
     setUploading(false);
   }
 

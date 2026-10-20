@@ -10,27 +10,6 @@ export const NAV_LINKS = [
   { label: "Contact", href: "/contact" },
 ] as const;
 
-export type Brand = {
-  name: string;
-  slug: string;
-  description: string;
-};
-
-export const BRANDS: Brand[] = [
-  { name: "Hermès", slug: "hermes", description: "The pinnacle of French leather craftsmanship since 1837." },
-  { name: "Chanel", slug: "chanel", description: "Timeless Parisian elegance defined by the quilted flap." },
-  { name: "Louis Vuitton", slug: "louis-vuitton", description: "The house that made the monogram a global icon." },
-  { name: "LOEWE", slug: "loewe", description: "Spanish heritage leathercraft reimagined for the modern era." },
-  { name: "Gucci", slug: "gucci", description: "Italian maximalism and eclectic luxury from Florence." },
-  { name: "Prada", slug: "prada", description: "Minimalist innovation and quiet confidence from Milan." },
-  { name: "Saint Laurent", slug: "saint-laurent", description: "Effortless Parisian cool with an edge of rock and roll." },
-  { name: "Dior", slug: "dior", description: "Haute couture heritage, carried in every stitch." },
-  { name: "Celine", slug: "celine", description: "Understated Parisian luxury built for everyday wear." },
-  { name: "Burberry", slug: "burberry", description: "British heritage craftsmanship with a modern silhouette." },
-  { name: "Givenchy", slug: "givenchy", description: "Structured French elegance with architectural precision." },
-  { name: "Chloé", slug: "chloe", description: "Bohemian romanticism rooted in effortless femininity." },
-];
-
 export type Collection = {
   name: string;
   slug: string;
@@ -44,235 +23,18 @@ export const COLLECTIONS: Collection[] = [
   { name: "Classic Heritage", slug: "classic-heritage", description: "Timeless icons that never fade." },
 ];
 
-export type Product = {
-  slug: string;
-  brand: string;
-  brandSlug: string;
-  name: string;
-  price: number;
-  collection: string;
-  collectionSlug: string;
-  color: string;
-  materials: string;
-  dimensions: string;
-  weight: string;
-  description: string;
-  availability: "In Stock" | "Pre-Order" | "Sold Out";
-};
-
-export const PRODUCTS: Product[] = [
-  {
-    slug: "hermes-birkin-25-togo",
-    brand: "Hermès",
-    brandSlug: "hermes",
-    name: "Birkin 25 Togo",
-    price: 24500,
-    collection: "Limited Edition",
-    collectionSlug: "limited-edition",
-    color: "Etoupe",
-    materials: "Togo calfskin leather, palladium-tone hardware",
-    dimensions: "9.8 × 7.9 × 5.5 in",
-    weight: "1.5 lbs",
-    description:
-      "An icon of quiet power. The Birkin 25 in Togo leather carries the weight of its own legend — hand-stitched saddle seams, a single silhouette that has outlasted every trend since 1984.",
-    availability: "Pre-Order",
-  },
-  {
-    slug: "chanel-classic-flap-black",
-    brand: "Chanel",
-    brandSlug: "chanel",
-    name: "Classic Flap Bag",
-    price: 8800,
-    collection: "Best Sellers",
-    collectionSlug: "best-sellers",
-    color: "Black",
-    materials: "Quilted lambskin leather, gold-tone hardware",
-    dimensions: "10 × 6.3 × 2.5 in",
-    weight: "1.3 lbs",
-    description:
-      "The diamond-quilted silhouette that defined a century of French elegance. Carried on a chain-and-leather strap, finished with the iconic CC turn-lock.",
-    availability: "In Stock",
-  },
-  {
-    slug: "lv-neverfull-mm-monogram",
-    brand: "Louis Vuitton",
-    brandSlug: "louis-vuitton",
-    name: "Neverfull MM Monogram",
-    price: 2150,
-    collection: "New Arrivals",
-    collectionSlug: "new-arrivals",
-    color: "Monogram Canvas",
-    materials: "Coated monogram canvas, natural cowhide leather trim",
-    dimensions: "12.6 × 11.0 × 6.7 in",
-    weight: "1.9 lbs",
-    description:
-      "The everyday tote reimagined. Spacious, structured, and instantly recognizable, the Neverfull MM pairs monogram canvas with supple leather trim.",
-    availability: "In Stock",
-  },
-  {
-    slug: "loewe-puzzle-bag-small",
-    brand: "LOEWE",
-    brandSlug: "loewe",
-    name: "Puzzle Bag Small",
-    price: 3450,
-    collection: "New Arrivals",
-    collectionSlug: "new-arrivals",
-    color: "Caramel",
-    materials: "Calfskin leather, geometric panel construction",
-    dimensions: "10.2 × 6.7 × 4.7 in",
-    weight: "1.4 lbs",
-    description:
-      "An architectural study in leather. The Puzzle's geometric panels fold into an origami-like silhouette that unfolds into a surprisingly spacious interior.",
-    availability: "In Stock",
-  },
-  {
-    slug: "gucci-marmont-small-shoulder",
-    brand: "Gucci",
-    brandSlug: "gucci",
-    name: "GG Marmont Small Shoulder Bag",
-    price: 2980,
-    collection: "Best Sellers",
-    collectionSlug: "best-sellers",
-    color: "Burgundy",
-    materials: "Matelassé chevron leather, antique gold-tone hardware",
-    dimensions: "9.4 × 5.5 × 2.8 in",
-    weight: "1.1 lbs",
-    description:
-      "Chevron-quilted leather and the double-G hardware make this Marmont a modern staple, equally at home day and night.",
-    availability: "In Stock",
-  },
-  {
-    slug: "prada-re-edition-2005",
-    brand: "Prada",
-    brandSlug: "prada",
-    name: "Re-Edition 2005",
-    price: 2600,
-    collection: "New Arrivals",
-    collectionSlug: "new-arrivals",
-    color: "Black Nylon",
-    materials: "Recycled Re-Nylon, saffiano leather trim",
-    dimensions: "8.7 × 5.9 × 2.4 in",
-    weight: "0.9 lbs",
-    description:
-      "A revival of the archive icon. The Re-Edition 2005 pairs technical Re-Nylon with the enamel triangle logo, worn on the shoulder or across the body.",
-    availability: "In Stock",
-  },
-  {
-    slug: "ysl-loulou-medium",
-    brand: "Saint Laurent",
-    brandSlug: "saint-laurent",
-    name: "LouLou Medium",
-    price: 2890,
-    collection: "Best Sellers",
-    collectionSlug: "best-sellers",
-    color: "Noir",
-    materials: "Quilted \"Y\" leather, bronze-tone hardware",
-    dimensions: "12.0 × 8.0 × 4.0 in",
-    weight: "1.6 lbs",
-    description:
-      "A slouched, oversized quilt pattern gives the LouLou its signature ease — worn low on the shoulder, the way Saint Laurent intended.",
-    availability: "In Stock",
-  },
-  {
-    slug: "dior-lady-dior-medium",
-    brand: "Dior",
-    brandSlug: "dior",
-    name: "Lady Dior Medium",
-    price: 6200,
-    collection: "Classic Heritage",
-    collectionSlug: "classic-heritage",
-    color: "Cannage Black",
-    materials: "Cannage-stitched lambskin, gold-tone Dior charms",
-    dimensions: "9.4 × 7.1 × 3.5 in",
-    weight: "1.4 lbs",
-    description:
-      "Named for a princess, defined by its cannage stitching. The Lady Dior carries dangling gold letter charms as a quiet signature of couture heritage.",
-    availability: "In Stock",
-  },
-  {
-    slug: "celine-triomphe-canvas",
-    brand: "Celine",
-    brandSlug: "celine",
-    name: "Triomphe Canvas Bag",
-    price: 3100,
-    collection: "Classic Heritage",
-    collectionSlug: "classic-heritage",
-    color: "Tan",
-    materials: "Triomphe canvas, calfskin leather trim",
-    dimensions: "9.1 × 6.7 × 3.1 in",
-    weight: "1.2 lbs",
-    description:
-      "Understated and structured, the Triomphe canvas bag carries Celine's interlocking emblem in a silhouette built for everyday permanence.",
-    availability: "Sold Out",
-  },
-  {
-    slug: "burberry-lola-small",
-    brand: "Burberry",
-    brandSlug: "burberry",
-    name: "Lola Small Bag",
-    price: 2390,
-    collection: "New Arrivals",
-    collectionSlug: "new-arrivals",
-    color: "Archive Beige",
-    materials: "Quilted leather, House Check lining",
-    dimensions: "9.8 × 7.5 × 3.1 in",
-    weight: "1.2 lbs",
-    description:
-      "Named for a house muse, the Lola pairs a soft, rounded silhouette with the archive check lining synonymous with British heritage.",
-    availability: "In Stock",
-  },
-  {
-    slug: "givenchy-antigona-small",
-    brand: "Givenchy",
-    brandSlug: "givenchy",
-    name: "Antigona Small",
-    price: 2750,
-    collection: "Classic Heritage",
-    collectionSlug: "classic-heritage",
-    color: "Black",
-    materials: "Grained calfskin leather, polished hardware",
-    dimensions: "9.8 × 7.9 × 4.7 in",
-    weight: "1.5 lbs",
-    description:
-      "Sharp, structured, architectural. The Antigona's trapeze silhouette and double zip have made it a modern classic since 2011.",
-    availability: "In Stock",
-  },
-  {
-    slug: "chloe-marcie-bucket",
-    brand: "Chloé",
-    brandSlug: "chloe",
-    name: "Marcie Bucket Bag",
-    price: 2450,
-    collection: "Limited Edition",
-    collectionSlug: "limited-edition",
-    color: "Chalky Pink",
-    materials: "Grained calfskin leather, saddle-stitched horseshoe detail",
-    dimensions: "9.4 × 9.8 × 5.1 in",
-    weight: "1.3 lbs",
-    description:
-      "Soft, slouched, and finished with the house's saddle-stitched horseshoe hardware, the Marcie brings Chloé's romantic ease to a bucket silhouette.",
-    availability: "In Stock",
-  },
-];
-
-export const FEATURED_PRODUCTS: Product[] = PRODUCTS.filter((p) =>
-  ["hermes-birkin-25-togo", "chanel-classic-flap-black", "lv-neverfull-mm-monogram", "dior-lady-dior-medium", "loewe-puzzle-bag-small", "ysl-loulou-medium"].includes(
-    p.slug
-  )
-);
-
 export const WHY_SHOP = [
   {
     title: "Authenticity Guaranteed",
-    description: "Every bag is verified by expert authenticators before it reaches you.",
+    description: "Every piece is verified by expert authenticators before it reaches you.",
   },
   {
-    title: "Secure Worldwide Delivery",
-    description: "Fully insured, tracked shipping with signature on delivery.",
+    title: "Worldwide Shipping",
+    description: "Fully insured, tracked shipping with signature on delivery, anywhere in the world.",
   },
   {
-    title: "Luxury Packaging",
-    description: "An unboxing experience worthy of what's inside.",
+    title: "Fast, Secure Payment",
+    description: "Pay by bank wire, crypto, card, or a secure online link, arranged directly with us.",
   },
   {
     title: "Personal Concierge",
@@ -364,10 +126,4 @@ export const JOURNAL_POSTS: JournalPost[] = [
 
 export const SOCIAL_LINKS = {
   tiktok: "https://www.tiktok.com/@montevane",
-} as const;
-
-export const CONTACT_INFO = {
-  email: "concierge@montevane.com",
-  whatsapp: "+237600000000",
-  hours: "Monday – Saturday, 9am – 6pm GMT",
 } as const;

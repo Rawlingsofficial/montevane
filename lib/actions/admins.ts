@@ -1,53 +1,36 @@
 "use server";
 
+import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
-import { createAdminClient } from "@/lib/supabase/admin";
-import { createClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/auth";
+import { hashPassword } from "@/lib/auth/session";
+import { db, schema } from "@/lib/db";
+import { pgErrorMessage } from "@/lib/db/errors";
 
-export async function inviteAdmin(email: string): Promise<{ error?: string }> {
-  if (!email || !email.includes("@")) {
-    return { error: "Enter a valid email address." };
-  }
+/** Adds an admin with a password you share with them directly. */
+export async function addAdmin(email: string, password: string): Promise<{ error?: string }> {
+  await requireAdmin();
 
-  const adminClient = createAdminClient();
-  const { data, error } = await adminClient.auth.admin.inviteUserByEmail(email);
+  const normalized = email.trim().toLowerCase();
+  if (!normalized.includes("@")) return { error: "Enter a valid email address." };
+  if (password.length < 10) return { error: "Password must be at least 10 characters." };
 
-  if (error) {
-    return { error: error.message };
-  }
-
-  const { error: profileError } = await adminClient.from("profiles").insert({
-    id: data.user.id,
-    email,
-    role: "admin",
-  });
-
-  if (profileError) {
-    return { error: profileError.message };
+  try {
+    await db.insert(schema.admins).values({ email: normalized, passwordHash: await hashPassword(password) });
+  } catch (error) {
+    return { error: pgErrorMessage(error, "That email is already an admin.") };
   }
 
   revalidatePath("/admin/settings");
   return {};
 }
 
-export async function removeAdmin(userId: string): Promise<{ error?: string }> {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+export async function removeAdmin(adminId: string): Promise<{ error?: string }> {
+  const admin = await requireAdmin();
+  if (admin.id === adminId) return { error: "You can't remove your own account." };
 
-  if (user?.id === userId) {
-    return { error: "You can't remove your own account." };
-  }
-
-  const adminClient = createAdminClient();
-  const { error } = await adminClient.auth.admin.deleteUser(userId);
-
-  if (error) {
-    return { error: error.message };
-  }
-
+  await db.delete(schema.admins).where(eq(schema.admins.id, adminId));
   revalidatePath("/admin/settings");
   return {};
 }

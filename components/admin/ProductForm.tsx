@@ -13,7 +13,8 @@ import { productSchema, type ProductFormValues } from "@/lib/validation/product"
 type Brand = { slug: string; name: string };
 type Collection = { slug: string; name: string };
 
-const RELATED_LABELS = ["Angle Shot", "Detail / Interior", "Side View", "Back View"] as const;
+// Most listings have three photos (main + two); up to five are supported.
+const RELATED_LABELS = ["Photo 2", "Photo 3", "Photo 4", "Photo 5"] as const;
 
 function slugify(value: string) {
   return value
@@ -25,10 +26,12 @@ function slugify(value: string) {
 
 export function ProductForm({
   brands,
+  categories,
   collections,
   defaultValues,
 }: {
   brands: Brand[];
+  categories: Collection[];
   collections: Collection[];
   defaultValues?: Partial<ProductFormValues>;
 }) {
@@ -46,11 +49,11 @@ export function ProductForm({
     resolver: zodResolver(productSchema),
     defaultValues: {
       brand_slug: brands[0]?.slug ?? "",
+      category_slug: categories[0]?.slug ?? "",
       collection_slug: collections[0]?.slug ?? "",
       availability_status: "in_stock",
       condition: "new",
       status: "draft",
-      whatsapp_enabled: true,
       related_images: [],
       ...defaultValues,
     },
@@ -91,6 +94,16 @@ export function ProductForm({
               {brands.map((b) => (
                 <option key={b.slug} value={b.slug}>
                   {b.name}
+                </option>
+              ))}
+            </select>
+          </Field>
+
+          <Field label="Category" error={errors.category_slug?.message}>
+            <select {...register("category_slug")} className={inputClass}>
+              {categories.map((c) => (
+                <option key={c.slug} value={c.slug}>
+                  {c.name}
                 </option>
               ))}
             </select>
@@ -195,7 +208,7 @@ export function ProductForm({
         </Field>
       </Section>
 
-      <Section title="Related Images">
+      <Section title="More Photos (usually 2)">
         <div className="grid grid-cols-2 gap-5 sm:grid-cols-4">
           {RELATED_LABELS.map((label, i) => (
             <ImageUploader
@@ -205,18 +218,6 @@ export function ProductForm({
               onChange={(url) => setRelatedImage(i, label, url)}
             />
           ))}
-        </div>
-      </Section>
-
-      <Section title="Contact Integration">
-        <div className="grid gap-5 sm:grid-cols-2">
-          <Field label="WhatsApp Number (E.164)" error={errors.whatsapp_number?.message}>
-            <input {...register("whatsapp_number")} placeholder="+237600000000" className={inputClass} />
-          </Field>
-          <label className="mt-6 flex items-center gap-2 text-sm">
-            <input type="checkbox" {...register("whatsapp_enabled")} className="size-4" />
-            Show WhatsApp contact on product page
-          </label>
         </div>
       </Section>
 
