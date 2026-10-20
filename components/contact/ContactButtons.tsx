@@ -17,10 +17,13 @@ export function ContactButtons({
   channels,
   message,
   subject,
+  labels,
 }: {
   channels: ContactChannels;
   message: string;
   subject: string;
+  /** Button text per channel, in the page's language. */
+  labels: Record<string, string>;
 }) {
   const links = contactLinks(channels, message, subject);
   if (links.length === 0) return null;
@@ -42,7 +45,7 @@ export function ContactButtons({
             }
           >
             <Icon className="size-4" strokeWidth={1.5} />
-            {link.label}
+            {labels[link.method] ?? link.label}
           </a>
         );
       })}

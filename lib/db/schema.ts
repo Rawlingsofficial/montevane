@@ -56,6 +56,20 @@ export const collections = pgTable("collections", {
 
 export type RelatedImage = { url: string; label: string; position: number };
 
+/**
+ * Per-language overrides for a product. English lives in the base columns;
+ * "de"/"uz" fall back to English (and to generated SEO text) when empty.
+ * `focusKeyword` is the search phrase the page is optimised for.
+ */
+export type ProductLocaleFields = {
+  name?: string;
+  description?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  focusKeyword?: string;
+};
+export type ProductI18n = Partial<Record<"en" | "de" | "uz", ProductLocaleFields>>;
+
 export const products = pgTable(
   "products",
   {
@@ -87,6 +101,7 @@ export const products = pgTable(
     tags: text("tags").array().notNull().default(sql`'{}'::text[]`),
     metaTitle: text("meta_title"),
     metaDescription: text("meta_description"),
+    i18n: jsonb("i18n").$type<ProductI18n>().notNull().default({}),
     availabilityStatus: text("availability_status", {
       enum: ["in_stock", "pre_order", "sold_out", "coming_soon"],
     })

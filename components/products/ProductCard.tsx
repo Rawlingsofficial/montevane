@@ -3,17 +3,27 @@ import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 
 import { contactLinks } from "@/lib/contact";
-import { AVAILABILITY_LABEL, type ContactChannels, type StoreProduct } from "@/lib/data/catalog";
+import type { ContactChannels, StoreProduct } from "@/lib/data/catalog";
+import { fmt, getDictionary, localePath, type Locale } from "@/lib/i18n";
 
-export function ProductCard({ product, channels }: { product: StoreProduct; channels: ContactChannels }) {
+export function ProductCard({
+  product,
+  channels,
+  locale,
+}: {
+  product: StoreProduct;
+  channels: ContactChannels;
+  locale: Locale;
+}) {
+  const t = getDictionary(locale);
   const image = product.images[0];
-  const inquiry = `Hello, I'm interested in the ${product.brand} ${product.name}.`;
-  const quickContact = contactLinks(channels, inquiry, `${product.brand} ${product.name}`)[0];
-  const price = new Intl.NumberFormat("en-US", { style: "currency", currency: product.currency, maximumFractionDigits: 0 });
+  const item = `${product.brand} ${product.name}`;
+  const quickContact = contactLinks(channels, fmt(t.product.message, { item }), fmt(t.product.subject, { item }))[0];
+  const price = new Intl.NumberFormat(locale, { style: "currency", currency: product.currency, maximumFractionDigits: 0 });
 
   return (
     <div className="group relative">
-      <Link href={`/products/${product.slug}`} className="block">
+      <Link href={localePath(locale, `/products/${product.slug}`)} className="block">
         <div className="relative aspect-square overflow-hidden bg-[var(--ivory)]">
           <Image
             src={image.url}
@@ -24,7 +34,7 @@ export function ProductCard({ product, channels }: { product: StoreProduct; chan
           />
           {product.availability !== "in_stock" && (
             <span className="absolute top-4 left-4 bg-white/90 px-2.5 py-1 text-[10px] font-medium tracking-[0.1em] text-foreground uppercase">
-              {AVAILABILITY_LABEL[product.availability]}
+              {t.availability[product.availability]}
             </span>
           )}
         </div>
@@ -39,11 +49,11 @@ export function ProductCard({ product, channels }: { product: StoreProduct; chan
           href={quickContact.href}
           target={quickContact.href.startsWith("http") ? "_blank" : undefined}
           rel="noopener noreferrer"
-          aria-label={`${quickContact.label} us about ${product.name}`}
+          aria-label={fmt(t.product.contactAbout, { channel: t.contact.channels[quickContact.method], item })}
           className="absolute top-3 right-3 flex items-center gap-1.5 bg-white/90 px-2.5 py-1.5 text-[10px] font-medium tracking-[0.1em] text-foreground uppercase transition-colors hover:bg-[var(--gold)] lg:opacity-0 lg:group-hover:opacity-100"
         >
           <MessageCircle className="size-3.5" strokeWidth={1.5} />
-          {quickContact.label}
+          {t.contact.channels[quickContact.method]}
         </a>
       )}
     </div>

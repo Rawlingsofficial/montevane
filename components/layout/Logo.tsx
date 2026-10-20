@@ -12,7 +12,7 @@ export function Logo({ light = false, className, height = 22 }: { light?: boolea
       alt="Montévane"
       width={Math.round((821 / 131) * height)}
       height={height}
-      priority
+      loading="eager"
       className={cn("h-auto w-auto object-contain", light && "brightness-0 invert", className)}
       style={{ height }}
     />

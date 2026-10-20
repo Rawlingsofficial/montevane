@@ -21,9 +21,6 @@ export const PAYMENT_METHODS = [
 
 export type PaymentMethod = (typeof PAYMENT_METHODS)[number]["value"];
 
-export const PAYMENT_NOTE =
-  "We don't take payment on the site. Contact us and we'll arrange a fast, secure transaction by bank wire, crypto, card, or a secure online payment link. Insured worldwide shipping.";
-
 const digits = (n: string) => n.replace(/[^\d]/g, "");
 
 /** Deep links that open each app with a pre-written message where supported. */

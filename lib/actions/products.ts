@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 
 import { requireAdmin } from "@/lib/auth";
 import { db, schema } from "@/lib/db";
+import type { ProductI18n } from "@/lib/db/schema";
 import { pgErrorMessage } from "@/lib/db/errors";
 import { productSchema, type ProductFormValues } from "@/lib/validation/product";
 
@@ -23,6 +24,13 @@ export async function saveProduct(values: ProductFormValues): Promise<SaveProduc
     .split(",")
     .map((t) => t.trim())
     .filter(Boolean);
+
+  // Drop empty strings so storefront fallbacks (English, generated SEO) apply.
+  const i18n: ProductI18n = {};
+  for (const [locale, fields] of Object.entries(data.i18n)) {
+    const kept = Object.fromEntries(Object.entries(fields ?? {}).filter(([, v]) => v?.trim()).map(([k, v]) => [k, v!.trim()]));
+    if (Object.keys(kept).length) i18n[locale as keyof ProductI18n] = kept;
+  }
 
   const record = {
     brandSlug: data.brand_slug,
@@ -44,6 +52,7 @@ export async function saveProduct(values: ProductFormValues): Promise<SaveProduc
     tags,
     metaTitle: data.meta_title || null,
     metaDescription: data.meta_description || null,
+    i18n,
     availabilityStatus: data.availability_status,
     condition: data.condition,
     status: data.status,
