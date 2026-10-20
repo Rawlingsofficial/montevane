@@ -4,7 +4,8 @@ import type { Metadata } from "next";
 
 import { PageHero } from "@/components/common/PageHero";
 import { ProductCard } from "@/components/products/ProductCard";
-import { COLLECTIONS, PRODUCTS } from "@/lib/constants";
+import { COLLECTIONS } from "@/lib/constants";
+import { getContactChannels, getProducts } from "@/lib/data/catalog";
 import { collectionImage } from "@/lib/images";
 
 type Params = Promise<{ id: string }>;
@@ -21,7 +22,7 @@ export default async function CollectionPage({ params }: { params: Params }) {
   const collection = COLLECTIONS.find((c) => c.slug === id);
   if (!collection) notFound();
 
-  const products = PRODUCTS.filter((p) => p.collectionSlug === collection.slug);
+  const [products, channels] = await Promise.all([getProducts({ collection: collection.slug }), getContactChannels()]);
 
   return (
     <>
@@ -38,7 +39,7 @@ export default async function CollectionPage({ params }: { params: Params }) {
         {products.length > 0 ? (
           <div className="grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-4">
             {products.map((product) => (
-              <ProductCard key={product.slug} product={product} />
+              <ProductCard key={product.slug} product={product} channels={channels} />
             ))}
           </div>
         ) : (

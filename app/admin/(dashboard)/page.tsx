@@ -1,7 +1,9 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 
-import { createClient } from "@/lib/supabase/server";
+import { count, desc, sql } from "drizzle-orm";
+
+import { db, schema } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Dashboard — Admin | Montévane",
@@ -10,21 +12,24 @@ export const metadata: Metadata = {
 const currency = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 
 export default async function AdminDashboardPage() {
-  const supabase = await createClient();
-
-  const [{ count: total }, { count: published }, { count: draft }, { count: preOrder }, { count: soldOut }, { data: recent }] =
-    await Promise.all([
-      supabase.from("products").select("*", { count: "exact", head: true }),
-      supabase.from("products").select("*", { count: "exact", head: true }).eq("status", "published"),
-      supabase.from("products").select("*", { count: "exact", head: true }).eq("status", "draft"),
-      supabase.from("products").select("*", { count: "exact", head: true }).eq("availability_status", "pre_order"),
-      supabase.from("products").select("*", { count: "exact", head: true }).eq("availability_status", "sold_out"),
-      supabase
-        .from("products")
-        .select("id, name, brand_slug, price, status, created_at")
-        .order("created_at", { ascending: false })
-        .limit(5),
-    ]);
+  const p = schema.products;
+  const [[counts], recent] = await Promise.all([
+    db
+      .select({
+        total: count(),
+        published: count(sql`case when ${p.status} = 'published' then 1 end`),
+        draft: count(sql`case when ${p.status} = 'draft' then 1 end`),
+        preOrder: count(sql`case when ${p.availabilityStatus} = 'pre_order' then 1 end`),
+        soldOut: count(sql`case when ${p.availabilityStatus} = 'sold_out' then 1 end`),
+      })
+      .from(p),
+    db
+      .select({ id: p.id, name: p.name, brand_slug: p.brandSlug, price: p.price, status: p.status })
+      .from(p)
+      .orderBy(desc(p.createdAt))
+      .limit(5),
+  ]);
+  const { total, published, draft, preOrder, soldOut } = counts;
 
   const stats = [
     { label: "Total Products", value: total ?? 0 },

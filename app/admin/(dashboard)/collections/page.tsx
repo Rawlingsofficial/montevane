@@ -3,18 +3,22 @@ import type { Metadata } from "next";
 import { Pencil, Plus } from "lucide-react";
 
 import { DeleteCollectionButton } from "@/components/admin/DeleteCollectionButton";
-import { createClient } from "@/lib/supabase/server";
+import { asc, count, eq } from "drizzle-orm";
+
+import { db, schema } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Collections — Admin | Montévane",
 };
 
 export default async function AdminCollectionsPage() {
-  const supabase = await createClient();
-  const { data: collections } = await supabase
-    .from("collections")
-    .select("id, slug, name, featured, products(count)")
-    .order("name");
+  const c = schema.collections;
+  const collections = await db
+    .select({ id: c.id, slug: c.slug, name: c.name, featured: c.featured, productCount: count(schema.products.id) })
+    .from(c)
+    .leftJoin(schema.products, eq(schema.products.collectionSlug, c.slug))
+    .groupBy(c.id)
+    .orderBy(asc(c.name));
 
   return (
     <div>
@@ -46,7 +50,7 @@ export default async function AdminCollectionsPage() {
                 <tr key={collection.id}>
                   <td className="py-3">{collection.name}</td>
                   <td className="py-3 text-muted-foreground">{collection.slug}</td>
-                  <td className="py-3 text-muted-foreground">{collection.products?.[0]?.count ?? 0}</td>
+                  <td className="py-3 text-muted-foreground">{collection.productCount}</td>
                   <td className="py-3 text-muted-foreground">{collection.featured ? "Yes" : "—"}</td>
                   <td className="py-3">
                     <div className="flex items-center justify-end gap-3">

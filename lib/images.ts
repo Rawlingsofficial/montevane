@@ -41,32 +41,6 @@ export const COLLECTION_IMAGE: Record<string, string> = {
   "classic-heritage": "feature_card_2",
 };
 
-// Product slug → card/hero asset base. There is one real product photo set
-// (four angles), so cards cycle a curated mix of the product, feature-card,
-// and lifestyle shots for visual variety.
-export const PRODUCT_IMAGE: Record<string, string> = {
-  "hermes-birkin-25-togo": "product_front",
-  "chanel-classic-flap-black": "feature_card_1",
-  "lv-neverfull-mm-monogram": "feature_card_2",
-  "loewe-puzzle-bag-small": "product_45deg",
-  "gucci-marmont-small-shoulder": "product_side",
-  "prada-re-edition-2005": "product_interior",
-  "ysl-loulou-medium": "lifestyle_1",
-  "dior-lady-dior-medium": "lifestyle_2",
-  "celine-triomphe-canvas": "lifestyle_3",
-  "burberry-lola-small": "feature_card_1",
-  "givenchy-antigona-small": "product_front",
-  "chloe-marcie-bucket": "feature_card_2",
-};
-
-// Standard product-detail gallery angles (shared studio set).
-export const PRODUCT_GALLERY: { base: string; label: string }[] = [
-  { base: "product_45deg", label: "Angle Shot" },
-  { base: "product_interior", label: "Detail / Interior" },
-  { base: "product_side", label: "Side View" },
-  { base: "product_front", label: "Back View" },
-];
-
 // Journal post slug → editorial asset base.
 export const JOURNAL_IMAGE: Record<string, string> = {
   "inside-the-atelier": "editorial_setup",
@@ -76,10 +50,6 @@ export const JOURNAL_IMAGE: Record<string, string> = {
   "the-rise-of-the-micro-bag": "lifestyle_3",
   "caring-for-your-investment-piece": "feature_card_1",
 };
-
-export function productImage(slug: string): string {
-  return PRODUCT_IMAGE[slug] ?? "product_front";
-}
 
 export function brandBanner(slug: string): string {
   return BRAND_BANNER[slug] ?? "hero_2";

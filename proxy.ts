@@ -1,46 +1,27 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { createServerClient } from "@supabase/ssr";
 
-export default async function proxy(request: NextRequest) {
-  let response = NextResponse.next({ request });
+import { SESSION_COOKIE, verifySessionToken } from "@/lib/auth/session";
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
-          response = NextResponse.next({ request });
-          cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
-        },
-      },
-    }
-  );
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
+// Fast signature check for /admin pages. Server Actions re-verify against the
+// database with requireAdmin().
+export default function proxy(request: NextRequest) {
+  const signedIn = verifySessionToken(request.cookies.get(SESSION_COOKIE)?.value) !== null;
   const { pathname } = request.nextUrl;
   const isLoginRoute = pathname === "/admin/login";
 
-  if (!user && pathname.startsWith("/admin") && !isLoginRoute) {
+  if (!signedIn && !isLoginRoute) {
     const url = request.nextUrl.clone();
     url.pathname = "/admin/login";
     return NextResponse.redirect(url);
   }
 
-  if (user && isLoginRoute) {
+  if (signedIn && isLoginRoute) {
     const url = request.nextUrl.clone();
     url.pathname = "/admin";
     return NextResponse.redirect(url);
   }
 
-  return response;
+  return NextResponse.next();
 }
 
 export const config = {

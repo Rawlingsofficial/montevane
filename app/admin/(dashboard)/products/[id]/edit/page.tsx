@@ -2,7 +2,10 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { ProductForm } from "@/components/admin/ProductForm";
-import { createClient } from "@/lib/supabase/server";
+import { eq } from "drizzle-orm";
+
+import { getCatalogOptions } from "@/lib/data/admin";
+import { db, schema } from "@/lib/db";
 
 type Params = Promise<{ id: string }>;
 
@@ -12,12 +15,12 @@ export const metadata: Metadata = {
 
 export default async function EditProductPage({ params }: { params: Params }) {
   const { id } = await params;
-  const supabase = await createClient();
+  // A malformed id would make Postgres throw on the uuid cast.
+  if (!/^[0-9a-f-]{36}$/i.test(id)) notFound();
 
-  const [{ data: product }, { data: brands }, { data: collections }] = await Promise.all([
-    supabase.from("products").select("*").eq("id", id).single(),
-    supabase.from("brands").select("slug, name").order("name"),
-    supabase.from("collections").select("slug, name").order("name"),
+  const [[product], { brands, categories, collections }] = await Promise.all([
+    db.select().from(schema.products).where(eq(schema.products.id, id)),
+    getCatalogOptions(),
   ]);
 
   if (!product) notFound();
@@ -27,11 +30,12 @@ export default async function EditProductPage({ params }: { params: Params }) {
       <h1 className="text-2xl">Edit Product</h1>
       <div className="mt-8">
         <ProductForm
-          brands={brands ?? []}
-          collections={collections ?? []}
+          brands={brands}
+          categories={categories}
+          collections={collections}
           defaultValues={{
             id: product.id,
-            brand_slug: product.brand_slug,
+            brand_slug: product.brandSlug,
             name: product.name,
             sku: product.sku,
             slug: product.slug,
@@ -41,20 +45,19 @@ export default async function EditProductPage({ params }: { params: Params }) {
             dimensions: product.dimensions,
             weight: product.weight,
             description: product.description,
-            authenticity_notes: product.authenticity_notes ?? "",
-            main_image_url: product.main_image_url,
-            main_image_alt: product.main_image_alt ?? "",
-            related_images: product.related_images ?? [],
-            collection_slug: product.collection_slug,
+            authenticity_notes: product.authenticityNotes ?? "",
+            main_image_url: product.mainImageUrl,
+            main_image_alt: product.mainImageAlt ?? "",
+            related_images: product.relatedImages,
+            category_slug: product.categorySlug,
+            collection_slug: product.collectionSlug,
             tags: (product.tags ?? []).join(", "),
-            meta_title: product.meta_title ?? "",
-            meta_description: product.meta_description ?? "",
-            whatsapp_number: product.whatsapp_number ?? "",
-            whatsapp_enabled: product.whatsapp_enabled,
-            availability_status: product.availability_status,
+            meta_title: product.metaTitle ?? "",
+            meta_description: product.metaDescription ?? "",
+            availability_status: product.availabilityStatus,
             condition: product.condition,
             status: product.status,
-            scheduled_at: product.scheduled_at ?? "",
+            scheduled_at: product.scheduledAt ? product.scheduledAt.toISOString().slice(0, 16) : "",
           }}
         />
       </div>

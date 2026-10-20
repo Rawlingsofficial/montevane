@@ -1,8 +1,10 @@
 import Link from "next/link";
 
-import { BRANDS } from "@/lib/constants";
+import { getBrands } from "@/lib/data/catalog";
 
-export function BrandShowcase() {
+export async function BrandShowcase() {
+  const brands = await getBrands();
+
   return (
     <section className="bg-[var(--ivory)] py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
@@ -12,7 +14,7 @@ export function BrandShowcase() {
         </div>
 
         <div className="grid grid-cols-2 gap-px bg-border sm:grid-cols-3 lg:grid-cols-4">
-          {BRANDS.map((brand) => (
+          {brands.map((brand) => (
             <Link
               key={brand.slug}
               href={`/brands/${brand.slug}`}

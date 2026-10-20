@@ -2,7 +2,9 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { CollectionForm } from "@/components/admin/CollectionForm";
-import { createClient } from "@/lib/supabase/server";
+import { eq } from "drizzle-orm";
+
+import { db, schema } from "@/lib/db";
 
 type Params = Promise<{ id: string }>;
 
@@ -12,8 +14,8 @@ export const metadata: Metadata = {
 
 export default async function EditCollectionPage({ params }: { params: Params }) {
   const { id } = await params;
-  const supabase = await createClient();
-  const { data: collection } = await supabase.from("collections").select("*").eq("id", id).single();
+  if (!/^[0-9a-f-]{36}$/i.test(id)) notFound();
+  const [collection] = await db.select().from(schema.collections).where(eq(schema.collections.id, id));
 
   if (!collection) notFound();
 
@@ -27,7 +29,7 @@ export default async function EditCollectionPage({ params }: { params: Params })
             slug: collection.slug,
             name: collection.name,
             description: collection.description ?? "",
-            cover_image_url: collection.cover_image_url ?? "",
+            cover_image_url: collection.coverImageUrl ?? "",
             featured: collection.featured,
           }}
         />
