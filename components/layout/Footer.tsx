@@ -3,7 +3,8 @@ import Link from "next/link";
 
 import { AssetImage } from "@/components/common/AssetImage";
 import { SubscribeForm } from "@/components/common/SubscribeForm";
-import { SITE_NAME, SOCIAL_LINKS } from "@/lib/constants";
+import { SITE_NAME } from "@/lib/constants";
+import type { ContactChannels } from "@/lib/data/catalog";
 import { getDictionary, localePath, type Locale } from "@/lib/i18n";
 import { LOGO } from "@/lib/images";
 
@@ -15,7 +16,7 @@ function TikTokIcon() {
   );
 }
 
-export function Footer({ locale }: { locale: Locale }) {
+export function Footer({ locale, channels }: { locale: Locale; channels: ContactChannels }) {
   const t = getDictionary(locale);
   const href = (path: string) => localePath(locale, path);
 
@@ -57,15 +58,25 @@ export function Footer({ locale }: { locale: Locale }) {
               className="h-16 w-auto object-contain brightness-0 invert"
             />
             <p className="mt-4 max-w-xs text-sm text-white/60">{t.footer.tagline}</p>
-            <a
-              href={SOCIAL_LINKS.tiktok}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-5 inline-flex items-center gap-2 text-white/60 transition-colors hover:text-[var(--gold)]"
-              aria-label="TikTok"
-            >
-              <TikTokIcon />
-            </a>
+            {channels.phone && (
+              <a
+                href={`tel:${channels.phone.replace(/[^\d+]/g, "")}`}
+                className="mt-5 block text-sm text-white/80 transition-colors hover:text-[var(--gold)]"
+              >
+                {channels.phone}
+              </a>
+            )}
+            {channels.tiktok && (
+              <a
+                href={channels.tiktok}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-flex items-center gap-2 text-white/60 transition-colors hover:text-[var(--gold)]"
+                aria-label="TikTok"
+              >
+                <TikTokIcon />
+              </a>
+            )}
           </div>
 
           <FooterList title={t.footer.navigate} links={navigate} />

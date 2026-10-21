@@ -30,7 +30,7 @@ export function organizationLd(channels: ContactChannels) {
     logo: `${siteUrl()}/images/web_optimized/logo_montevane_full.webp`,
     description: "Independent boutique for authentic luxury bags, watches and jewelry with worldwide shipping.",
     areaServed: ["US", "GB", "DE", "AT", "CH", "UZ", "EU"],
-    sameAs: ["https://www.tiktok.com/@montevane"],
+    sameAs: channels.tiktok ? [channels.tiktok] : undefined,
     ...(contactPoint.length ? { contactPoint } : {}),
   };
 }

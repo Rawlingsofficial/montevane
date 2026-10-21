@@ -30,8 +30,8 @@ export function StoreSettingsForm({ initial }: { initial: StoreSettingsInput }) 
     <form onSubmit={handleSubmit} className="max-w-xl">
       <Section title="Customer Contact">
         <p className="-mt-1 mb-5 text-xs text-muted-foreground">
-          Set once — these show as contact buttons on every product and the contact page. Leave a field empty to hide
-          that channel. Phone numbers in international format, e.g. +1 555 000 0000.
+          Set once — these show as contact buttons on every product and the contact page, and the phone number and
+          TikTok link show in the footer. Leave a field empty to hide that channel. Phone numbers in international format, e.g. +1 555 000 0000.
         </p>
         <div className="grid gap-5 sm:grid-cols-2">
           <Field label="Phone (calls & texts)">
@@ -48,6 +48,9 @@ export function StoreSettingsForm({ initial }: { initial: StoreSettingsInput }) 
           </Field>
           <Field label="Signal Number">
             <input value={values.signal_number} onChange={(e) => set("signal_number", e.target.value)} placeholder="+1 555 000 0000" className={inputClass} />
+          </Field>
+          <Field label="TikTok Profile Link">
+            <input value={values.tiktok_url} onChange={(e) => set("tiktok_url", e.target.value)} placeholder="https://www.tiktok.com/@montevane" className={inputClass} />
           </Field>
         </div>
       </Section>

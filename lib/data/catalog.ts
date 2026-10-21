@@ -149,6 +149,7 @@ export type ContactChannels = {
   signal: string | null;
   phone: string | null;
   email: string | null;
+  tiktok: string | null;
 };
 
 export async function getContactChannels(): Promise<ContactChannels> {
@@ -160,5 +161,6 @@ export async function getContactChannels(): Promise<ContactChannels> {
     signal: s?.signalNumber || null,
     phone: s?.phoneNumber || null,
     email: s?.contactEmail || null,
+    tiktok: s?.tiktokUrl || null,
   };
 }

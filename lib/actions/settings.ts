@@ -14,8 +14,17 @@ export type StoreSettingsInput = {
   signal_number: string;
   phone_number: string;
   contact_email: string;
+  tiktok_url: string;
   newsletter_sender_email: string;
 };
+
+/** Accepts a full profile URL or just a handle ("@montevane"). */
+function tiktokUrl(value: string): string | null {
+  const v = value.trim();
+  if (!v) return null;
+  if (/^https?:\/\//i.test(v)) return v;
+  return `https://www.tiktok.com/@${v.replace(/^@/, "")}`;
+}
 
 export async function updateStoreSettings(input: StoreSettingsInput): Promise<{ error?: string }> {
   await requireAdmin();
@@ -29,6 +38,7 @@ export async function updateStoreSettings(input: StoreSettingsInput): Promise<{ 
     signalNumber: input.signal_number || null,
     phoneNumber: input.phone_number || null,
     contactEmail: input.contact_email || null,
+    tiktokUrl: tiktokUrl(input.tiktok_url),
     newsletterSenderEmail: input.newsletter_sender_email || null,
   };
 
