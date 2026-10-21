@@ -81,7 +81,3 @@ export const JOURNAL_POSTS: JournalPost[] = [
     ],
   },
 ];
-
-export const SOCIAL_LINKS = {
-  tiktok: "https://www.tiktok.com/@montevane",
-} as const;

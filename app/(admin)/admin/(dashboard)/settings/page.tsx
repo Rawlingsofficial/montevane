@@ -39,6 +39,7 @@ export default async function AdminSettingsPage() {
             signal_number: settings?.signalNumber ?? "",
             phone_number: settings?.phoneNumber ?? "",
             contact_email: settings?.contactEmail ?? "",
+            tiktok_url: settings?.tiktokUrl ?? "",
             newsletter_sender_email: settings?.newsletterSenderEmail ?? "",
           }}
         />

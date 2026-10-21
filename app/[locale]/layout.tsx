@@ -43,7 +43,7 @@ export default async function StoreLayout({ children, params }: LayoutProps<"/[l
       <body className="flex min-h-full flex-col">
         <Navbar locale={locale} />
         <main className="flex-1">{children}</main>
-        <Footer locale={locale} />
+        <Footer locale={locale} channels={channels} />
         <JsonLd data={[organizationLd(channels), websiteLd(locale)]} />
       </body>
     </html>

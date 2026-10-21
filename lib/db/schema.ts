@@ -165,6 +165,7 @@ export const storeSettings = pgTable(
     whatsappNumber: text("whatsapp_number"),
     telegramUsername: text("telegram_username"),
     signalNumber: text("signal_number"),
+    tiktokUrl: text("tiktok_url"),
     updatedAt,
   },
   (t) => [check("store_settings_singleton", sql`${t.id} = 1`)]

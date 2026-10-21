@@ -15,6 +15,13 @@
       "when": 1792504304839,
       "tag": "0001_product_i18n",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792577957949,
+      "tag": "0002_tiktok_url",
+      "breakpoints": true
     }
   ]
 }
