@@ -16,10 +16,10 @@ export function Hero({ locale }: { locale: Locale }) {
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="auto"
         poster={asset("hero_1")}
         aria-hidden="true"
-        className="absolute inset-0 size-full object-cover motion-reduce:hidden"
+        className="absolute inset-0 size-full object-cover"
       >
         <source src="/videos/hero.mp4" type="video/mp4" />
       </video>
