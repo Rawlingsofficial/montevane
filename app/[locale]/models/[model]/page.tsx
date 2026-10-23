@@ -21,7 +21,7 @@ export function generateStaticParams() {
 
 type Props = PageProps<"/[locale]/models/[model]">;
 
-const HERO: Record<string, string> = { bags: "hero_2", watches: "hero_3", jewelry: "lifestyle_2" };
+const HERO: Record<string, string> = { bags: "hero_2", watches: "hero_4", jewelry: "lifestyle_2" };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = await resolveLocale(params);

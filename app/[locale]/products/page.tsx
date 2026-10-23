@@ -35,7 +35,7 @@ export default async function ProductsPage({ params }: PageProps<"/[locale]/prod
 
   return (
     <>
-      <PageHero eyebrow={t.listing.eyebrow} title={t.meta.productsTitle} image="hero_4" priority />
+      <PageHero eyebrow={t.listing.eyebrow} title={t.meta.productsTitle} image="hero_2" priority />
 
       <section className="mx-auto max-w-7xl px-6 py-16 lg:px-10">
         <nav aria-label={t.nav.shop} className="flex flex-wrap gap-x-3 gap-y-2">

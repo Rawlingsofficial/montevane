@@ -30,6 +30,16 @@ export const BRAND_BANNER: Record<string, string> = {
   burberry: "banner_burberry",
   givenchy: "banner_givenchy",
   chloe: "banner_chloe",
+  // Watch and jewelry houses have no dedicated banner yet.
+  rolex: "hero_4",
+  "patek-philippe": "hero_4",
+  "audemars-piguet": "hero_4",
+  cartier: "feature_card_2",
+  "van-cleef-arpels": "lifestyle_2",
+  "van-cleef-and-arpels": "lifestyle_2",
+  tiffany: "lifestyle_2",
+  "tiffany-co": "lifestyle_2",
+  bvlgari: "lifestyle_2",
 };
 
 // Collection slug → cover asset base. Only two dedicated collection banners
@@ -47,7 +57,7 @@ export const JOURNAL_IMAGE: Record<string, string> = {
   "brief-history-of-the-quilt": "lifestyle_1",
   "how-to-authenticate-a-luxury-handbag": "product_interior",
   "spring-editorial-pastels-and-patent": "lifestyle_2",
-  "the-rise-of-the-micro-bag": "lifestyle_3",
+  "the-rise-of-the-micro-bag": "product_45deg",
   "caring-for-your-investment-piece": "feature_card_1",
 };
 

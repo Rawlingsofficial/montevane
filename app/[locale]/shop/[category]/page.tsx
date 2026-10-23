@@ -21,7 +21,8 @@ export async function generateStaticParams() {
 
 type Props = PageProps<"/[locale]/shop/[category]">;
 
-const HERO: Record<string, string> = { bags: "hero_2", watches: "hero_3", jewelry: "lifestyle_2" };
+const HERO: Record<string, string> = { bags: "hero_2", watches: "hero_4", jewelry: "lifestyle_2" };
+const VIDEO: Record<string, string> = { watches: "/videos/hero.mp4", jewelry: "/videos/jewelry.mp4" };
 
 /** Category copy from the dictionary, or a generic version for categories added in admin. */
 async function categoryCopy(slug: string, locale: Locale) {
@@ -54,7 +55,7 @@ export default async function CategoryPage({ params }: Props) {
 
   return (
     <>
-      <PageHero eyebrow={t.listing.eyebrow} title={copy.title} image={HERO[category] ?? "hero_4"} priority />
+      <PageHero eyebrow={t.listing.eyebrow} title={copy.title} image={HERO[category] ?? "hero_4"} video={VIDEO[category]} priority />
 
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-10">
         <Breadcrumbs
