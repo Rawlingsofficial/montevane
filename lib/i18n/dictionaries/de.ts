@@ -138,11 +138,13 @@ const de: Dictionary = {
   product: {
     breadcrumbProducts: "Produkte",
     contactToBuy: "Kontaktieren Sie uns zum Kauf",
+    description: "Beschreibung",
+    modifications: "Modifikationen & Komponenten",
     details: "Details",
     paymentShipping: "Zahlung & Versand",
     authenticity: "Echtheit",
     authenticityDefault: "Jedes Stück wird vor dem Angebot von einem unabhängigen Experten geprüft; das Zertifikat liegt der Lieferung bei.",
-    detailsText: "Farbe: {color}. Material: {materials}. Maße: {dimensions}. Gewicht: {weight}.",
+    specLabels: { color: "Farbe", materials: "Material", dimensions: "Maße", weight: "Gewicht" },
     inquireTitle: "Sollen wir Sie kontaktieren?",
     inquireBody: "Hinterlassen Sie Ihre Daten und wählen Sie, wie wir Sie erreichen sollen.",
     related: "Das könnte Ihnen gefallen",
@@ -150,7 +152,7 @@ const de: Dictionary = {
     subject: "Anfrage: {item}",
     photo: "Foto {n}",
     contactAbout: "Per {channel} zu {item} anfragen",
-    condition: { new: "Neu", like_new: "Wie neu", excellent: "Ausgezeichnet", very_good: "Sehr gut" },
+    condition: { new: "Neu", pre_owned: "Gebraucht", like_new: "Wie neu", excellent: "Ausgezeichnet", very_good: "Sehr gut" },
   },
   availability: { in_stock: "Verfügbar", pre_order: "Vorbestellung", sold_out: "Verkauft", coming_soon: "Demnächst" },
   contact: {

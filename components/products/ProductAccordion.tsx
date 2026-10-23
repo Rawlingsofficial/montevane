@@ -2,7 +2,7 @@ import { ChevronDown } from "lucide-react";
 
 type AccordionItem = {
   title: string;
-  content: string;
+  content: React.ReactNode;
 };
 
 export function ProductAccordion({ items }: { items: AccordionItem[] }) {
@@ -14,7 +14,7 @@ export function ProductAccordion({ items }: { items: AccordionItem[] }) {
             {item.title}
             <ChevronDown className="size-4 text-muted-foreground transition-transform group-open:rotate-180" />
           </summary>
-          <p className="mt-3 text-sm text-muted-foreground">{item.content}</p>
+          <div className="mt-3 text-sm text-muted-foreground">{item.content}</div>
         </details>
       ))}
     </div>

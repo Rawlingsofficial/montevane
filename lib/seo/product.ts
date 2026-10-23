@@ -11,10 +11,10 @@ import { truncate } from "@/lib/seo/metadata";
 const capitalize = (s: string) => s.replace(/(^|\s)\S/g, (c) => c.toUpperCase());
 
 /** The product fields the templates use (the admin preview builds this from form values). */
-export type SeoInput = Pick<StoreProduct, "brand" | "name" | "color" | "condition" | "metaTitle" | "metaDescription" | "seo">;
+export type SeoInput = Pick<StoreProduct, "brand" | "name" | "title" | "color" | "condition" | "metaTitle" | "metaDescription" | "seo">;
 
 function templates(p: SeoInput, locale: Locale) {
-  const item = `${p.brand} ${p.name}`;
+  const item = p.title;
   const used = p.condition !== "new";
   const condition = getDictionary(locale).product.condition[p.condition];
 
@@ -42,7 +42,7 @@ export function productSeo(p: SeoInput, locale: Locale): { title: string; descri
   let title = p.metaTitle || auto.title;
   const focus = p.seo.focusKeyword?.trim();
   if (focus && !title.toLowerCase().includes(focus.toLowerCase())) {
-    title = `${capitalize(focus)} — ${p.brand} ${p.name}`;
+    title = `${capitalize(focus)} — ${p.title}`;
   }
   return { title, description: truncate(p.metaDescription || auto.description) };
 }

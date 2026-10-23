@@ -1,3 +1,4 @@
+import { displayPrice } from "@/lib/catalog/pricing";
 import type { ContactChannels, StoreProduct } from "@/lib/data/catalog";
 import { siteUrl, type Locale } from "@/lib/i18n/config";
 import { SITE_NAME, absoluteUrl } from "@/lib/seo/metadata";
@@ -62,22 +63,23 @@ export function breadcrumbLd(locale: Locale, items: { name: string; path: string
 
 export function productLd(product: StoreProduct, locale: Locale, description: string) {
   const url = absoluteUrl(locale, `/products/${product.slug}`);
+  const price = displayPrice(product, locale);
   return {
     "@context": "https://schema.org",
     "@type": "Product",
     "@id": `${url}#product`,
-    name: `${product.brand} ${product.name}`,
+    name: product.title,
     description,
     sku: product.slug,
     image: product.images.map((img) => absoluteImage(img.url)),
-    brand: { "@type": "Brand", name: product.brand },
-    color: product.color,
-    material: product.materials,
+    ...(product.showBrand ? { brand: { "@type": "Brand", name: product.brand } } : {}),
+    ...(product.color ? { color: product.color } : {}),
+    ...(product.materials ? { material: product.materials } : {}),
     offers: {
       "@type": "Offer",
       url,
-      price: product.price.toFixed(2),
-      priceCurrency: product.currency,
+      price: price.amount.toFixed(2),
+      priceCurrency: price.currency,
       availability: AVAILABILITY[product.availability],
       itemCondition: product.condition === "new" ? "https://schema.org/NewCondition" : "https://schema.org/UsedCondition",
       seller: { "@id": `${siteUrl()}/#organization` },
@@ -94,7 +96,7 @@ export function itemListLd(locale: Locale, products: StoreProduct[]) {
       "@type": "ListItem",
       position: i + 1,
       url: absoluteUrl(locale, `/products/${p.slug}`),
-      name: `${p.brand} ${p.name}`,
+      name: p.title,
     })),
   };
 }

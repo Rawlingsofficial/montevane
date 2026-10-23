@@ -1,9 +1,9 @@
 import "server-only";
 
-import { and, asc, desc, eq, getTableColumns, ilike, isNull, lte, ne, or, sql, type SQL } from "drizzle-orm";
+import { and, arrayContains, asc, desc, eq, getTableColumns, ilike, isNull, lte, ne, or, sql, type SQL } from "drizzle-orm";
 
 import { db, schema } from "@/lib/db";
-import type { ProductLocaleFields } from "@/lib/db/schema";
+import type { ProductLocaleFields, RegionalPrices, SpecRow } from "@/lib/db/schema";
 import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
 
 // Storefront reads. Only published, released products are ever returned.
@@ -15,10 +15,23 @@ export type StoreProduct = {
   name: string;
   brand: string;
   brandSlug: string;
+  /** False for unbranded pieces: the brand name is not shown anywhere. */
+  showBrand: boolean;
+  /** Display name: brand + name, or just the name for unbranded pieces. */
+  title: string;
   collectionSlug: string;
   categorySlug: string;
   price: number;
   currency: string;
+  prices: RegionalPrices;
+  promoPrice: number | null;
+  promoStartsAt: Date | null;
+  promoEndsAt: Date | null;
+  featured: boolean;
+  shortDescription: string;
+  modifications: string | null;
+  facets: Record<string, string>;
+  specs: SpecRow[];
   color: string;
   materials: string;
   dimensions: string;
@@ -28,7 +41,7 @@ export type StoreProduct = {
   metaTitle: string | null;
   metaDescription: string | null;
   availability: "in_stock" | "pre_order" | "sold_out" | "coming_soon";
-  condition: "new" | "like_new" | "excellent" | "very_good";
+  condition: "new" | "pre_owned" | "like_new" | "excellent" | "very_good";
   /** Locale-specific overrides (focus keyword, SEO title/description). */
   seo: ProductLocaleFields;
   images: { url: string; alt: string }[];
@@ -45,7 +58,8 @@ function toStoreProduct(row: ProductRow, locale: Locale): StoreProduct {
   const local = (locale !== DEFAULT_LOCALE && row.i18n[locale]) || {};
   const brand = row.brandName ?? row.brandSlug;
   const name = local.name || row.name;
-  const alt = row.mainImageAlt || `${brand} ${name}`;
+  const title = row.showBrand ? `${brand} ${name}` : name;
+  const alt = row.mainImageAlt || title;
   const extra = [...row.relatedImages]
     .sort((a, b) => a.position - b.position)
     .map((img, i) => ({ url: img.url, alt: `${alt} — ${i + 2}` }));
@@ -56,10 +70,21 @@ function toStoreProduct(row: ProductRow, locale: Locale): StoreProduct {
     name,
     brand,
     brandSlug: row.brandSlug,
+    showBrand: row.showBrand,
+    title,
     collectionSlug: row.collectionSlug,
     categorySlug: row.categorySlug,
     price: row.price,
     currency: row.currency,
+    prices: row.prices,
+    promoPrice: row.promoPrice,
+    promoStartsAt: row.promoStartsAt,
+    promoEndsAt: row.promoEndsAt,
+    featured: row.featured,
+    shortDescription: row.shortDescription,
+    modifications: row.modifications,
+    facets: row.facets,
+    specs: row.specs,
     color: row.color,
     materials: row.materials,
     dimensions: row.dimensions,
@@ -99,7 +124,9 @@ export async function getProducts(filter: ProductFilter = {}, locale: Locale = D
     and(
       filter.brand ? eq(p.brandSlug, filter.brand) : undefined,
       filter.nameMatches?.length ? or(...filter.nameMatches.map((t) => ilike(p.name, `%${t}%`))) : undefined,
-      filter.collection ? eq(p.collectionSlug, filter.collection) : undefined,
+      filter.collection
+        ? or(eq(p.collectionSlug, filter.collection), arrayContains(p.collectionSlugs, [filter.collection]))
+        : undefined,
       filter.category ? eq(p.categorySlug, filter.category) : undefined,
       filter.excludeSlug ? ne(p.slug, filter.excludeSlug) : undefined
     )

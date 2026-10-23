@@ -7,7 +7,7 @@ import { requireAdmin } from "@/lib/auth";
 import { db, schema } from "@/lib/db";
 import type { ProductI18n } from "@/lib/db/schema";
 import { pgErrorMessage } from "@/lib/db/errors";
-import { productSchema, type ProductFormValues } from "@/lib/validation/product";
+import { productSchema, publishChecklist, type ProductFormValues } from "@/lib/validation/product";
 
 export type SaveProductResult = { id: string } | { error: string };
 
@@ -19,6 +19,11 @@ export async function saveProduct(values: ProductFormValues): Promise<SaveProduc
     return { error: parsed.error.issues[0]?.message ?? "Invalid product data." };
   }
   const data = parsed.data;
+
+  if (data.status !== "draft") {
+    const missing = publishChecklist(data).find((item) => !item.ok);
+    if (missing) return { error: `Can't publish yet: ${missing.label}. Save as draft or fix it first.` };
+  }
 
   const tags = (data.tags ?? "")
     .split(",")
@@ -32,28 +37,52 @@ export async function saveProduct(values: ProductFormValues): Promise<SaveProduc
     if (Object.keys(kept).length) i18n[locale as keyof ProductI18n] = kept;
   }
 
+  const variants = data.variants.map((v) => ({ ...v, name: v.name.trim(), sku: v.sku.trim() }));
+  const stock = variants.filter((v) => v.active).reduce((sum, v) => sum + v.stock, 0);
+  // Nothing left to sell means sold out; restocking flips it back.
+  const availabilityStatus =
+    data.availability_status === "in_stock" && stock === 0
+      ? "sold_out"
+      : data.availability_status === "sold_out" && stock > 0
+        ? "in_stock"
+        : data.availability_status;
+  const date = (value?: string) => (value ? new Date(value) : null);
+
   const record = {
     brandSlug: data.brand_slug,
     name: data.name,
-    sku: data.sku,
+    // The first variant's SKU is the product's SKU (unique across products).
+    sku: variants[0].sku,
     slug: data.slug,
     price: data.price,
-    color: data.color,
-    materials: data.materials,
-    dimensions: data.dimensions,
-    weight: data.weight,
-    description: data.description,
+    prices: { ...(data.price_gbp ? { GBP: data.price_gbp } : {}), ...(data.price_eur ? { EUR: data.price_eur } : {}) },
+    promoPrice: data.promo_price ?? null,
+    promoStartsAt: data.promo_price ? date(data.promo_starts_at) : null,
+    promoEndsAt: data.promo_price ? date(data.promo_ends_at) : null,
+    variants,
+    color: data.color.trim(),
+    materials: data.materials.trim(),
+    dimensions: data.dimensions.trim(),
+    weight: data.weight.trim(),
+    facets: Object.fromEntries(Object.entries(data.facets).map(([k, v]) => [k, v.trim()]).filter(([, v]) => v)),
+    specs: data.specs.map((r) => ({ label: r.label.trim(), value: r.value.trim() })).filter((r) => r.label && r.value),
+    shortDescription: data.short_description.trim(),
+    description: data.description.trim(),
+    modifications: data.modifications?.trim() || null,
+    showBrand: data.show_brand,
+    featured: data.featured,
     authenticityNotes: data.authenticity_notes || null,
     mainImageUrl: data.main_image_url,
     mainImageAlt: data.main_image_alt || null,
     relatedImages: data.related_images,
     categorySlug: data.category_slug,
-    collectionSlug: data.collection_slug,
+    collectionSlug: data.collection_slugs[0],
+    collectionSlugs: data.collection_slugs,
     tags,
     metaTitle: data.meta_title || null,
     metaDescription: data.meta_description || null,
     i18n,
-    availabilityStatus: data.availability_status,
+    availabilityStatus,
     condition: data.condition,
     status: data.status,
     scheduledAt: data.status === "scheduled" && data.scheduled_at ? new Date(data.scheduled_at) : null,

@@ -139,11 +139,13 @@ const uz: Dictionary = {
   product: {
     breadcrumbProducts: "Mahsulotlar",
     contactToBuy: "Sotib olish uchun biz bilan bog'laning",
+    description: "Tavsif",
+    modifications: "Modifikatsiyalar va qismlar",
     details: "Tafsilotlar",
     paymentShipping: "To'lov va yetkazib berish",
     authenticity: "Haqiqiylik",
     authenticityDefault: "Har bir mahsulot sotuvdan oldin mustaqil mutaxassis tomonidan tekshiriladi, sertifikat yetkazib berishda beriladi.",
-    detailsText: "Rang: {color}. Material: {materials}. O'lcham: {dimensions}. Og'irlik: {weight}.",
+    specLabels: { color: "Rang", materials: "Material", dimensions: "O'lcham", weight: "Og'irlik" },
     inquireTitle: "Biz siz bilan bog'lanaylikmi?",
     inquireBody: "Ma'lumotlaringizni qoldiring va qanday bog'lanishimizni tanlang.",
     related: "Sizga yoqishi mumkin",
@@ -151,7 +153,7 @@ const uz: Dictionary = {
     subject: "So'rov: {item}",
     photo: "{n}-rasm",
     contactAbout: "{item} haqida {channel} orqali yozish",
-    condition: { new: "Yangi", like_new: "Yangidek", excellent: "A'lo", very_good: "Juda yaxshi" },
+    condition: { new: "Yangi", pre_owned: "Ishlatilgan", like_new: "Yangidek", excellent: "A'lo", very_good: "Juda yaxshi" },
   },
   availability: { in_stock: "Mavjud", pre_order: "Oldindan buyurtma", sold_out: "Sotilgan", coming_soon: "Tez orada" },
   contact: {
