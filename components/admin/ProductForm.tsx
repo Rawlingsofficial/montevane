@@ -15,8 +15,6 @@ type Brand = { slug: string; name: string };
 type Collection = { slug: string; name: string };
 
 // Most listings have three photos (main + two); up to five are supported.
-const RELATED_LABELS = ["Photo 2", "Photo 3", "Photo 4", "Photo 5"] as const;
-
 function slugify(value: string) {
   return value
     .toLowerCase()
@@ -66,14 +64,16 @@ export function ProductForm({
   const status = watch("status");
   const mainImageUrl = watch("main_image_url");
 
-  function setRelatedImage(index: number, label: string, url: string) {
-    const next = [...relatedImages];
-    if (url) {
-      next[index] = { url, label, position: index };
-    } else {
-      next.splice(index, 1);
-    }
-    setValue("related_images", next.filter(Boolean));
+  // Extra photos are an ordered list; an empty slot at the end adds another.
+  // Positions are rewritten on every change so removals never leave gaps.
+  function setRelatedImage(index: number, url: string) {
+    const next = [...relatedImages].sort((a, b) => a.position - b.position).map((img) => img.url);
+    if (url) next[index] = url;
+    else next.splice(index, 1);
+    setValue(
+      "related_images",
+      next.map((u, i) => ({ url: u, label: `Photo ${i + 2}`, position: i }))
+    );
   }
 
   async function onSubmit(values: ProductFormValues) {
@@ -212,14 +212,14 @@ export function ProductForm({
         </Field>
       </Section>
 
-      <Section title="More Photos (usually 2)">
+      <Section title="More Photos (add as many as you like)">
         <div className="grid grid-cols-2 gap-5 sm:grid-cols-4">
-          {RELATED_LABELS.map((label, i) => (
+          {[...[...relatedImages].sort((a, b) => a.position - b.position).map((img) => img.url), ""].map((url, i) => (
             <ImageUploader
-              key={label}
-              label={label}
-              value={relatedImages.find((img) => img.position === i)?.url ?? ""}
-              onChange={(url) => setRelatedImage(i, label, url)}
+              key={url || `new-${i}`}
+              label={`Photo ${i + 2}`}
+              value={url}
+              onChange={(next) => setRelatedImage(i, next)}
             />
           ))}
         </div>
