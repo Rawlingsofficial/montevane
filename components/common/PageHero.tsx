@@ -25,7 +25,7 @@ export function PageHero({ eyebrow, title, description, image, video, priority =
           preload="metadata"
           poster={asset(image)}
           aria-hidden="true"
-          className="absolute inset-0 size-full object-cover motion-reduce:hidden"
+          className="absolute inset-0 size-full object-cover"
         >
           <source src={video} type="video/mp4" />
         </video>
