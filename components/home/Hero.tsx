@@ -21,7 +21,6 @@ export function Hero({ locale }: { locale: Locale }) {
         aria-hidden="true"
         className="absolute inset-0 size-full object-cover motion-reduce:hidden"
       >
-        <source src="/videos/hero.webm" type="video/webm" />
         <source src="/videos/hero.mp4" type="video/mp4" />
       </video>
       <div className="absolute inset-0 bg-black/40" />
