@@ -56,6 +56,13 @@ export const collections = pgTable("collections", {
 
 export type RelatedImage = { url: string; label: string; position: number };
 
+/** One sellable version of a product ("Standard" when there is only one). */
+export type ProductVariant = { name: string; sku: string; stock: number; active: boolean };
+/** A verified spec line shown on the product page, e.g. "Case size" → "41 mm". */
+export type SpecRow = { label: string; value: string };
+/** Prices in other currencies; USD lives in the `price` column. */
+export type RegionalPrices = Partial<Record<"GBP" | "EUR", number>>;
+
 /**
  * Per-language overrides for a product. English lives in the base columns;
  * "de"/"uz" fall back to English (and to generated SEO text) when empty.
@@ -94,6 +101,21 @@ export const products = pgTable(
     dimensions: text("dimensions").notNull(),
     weight: text("weight").notNull(),
     description: text("description").notNull(),
+    shortDescription: text("short_description").notNull().default(""),
+    modifications: text("modifications"),
+    // Off for unbranded pieces: the storefront then hides the brand name.
+    showBrand: boolean("show_brand").notNull().default(true),
+    featured: boolean("featured").notNull().default(false),
+    variants: jsonb("variants").$type<ProductVariant[]>().notNull().default([]),
+    prices: jsonb("prices").$type<RegionalPrices>().notNull().default({}),
+    promoPrice: numeric("promo_price", { precision: 12, scale: 2, mode: "number" }),
+    promoStartsAt: timestamp("promo_starts_at", { withTimezone: true }),
+    promoEndsAt: timestamp("promo_ends_at", { withTimezone: true }),
+    specs: jsonb("specs").$type<SpecRow[]>().notNull().default([]),
+    // Category facets (dial colour, metal, hardware…) keyed by facet id.
+    facets: jsonb("facets").$type<Record<string, string>>().notNull().default({}),
+    // Every collection the product appears in; collectionSlug is the first.
+    collectionSlugs: text("collection_slugs").array().notNull().default(sql`'{}'::text[]`),
     authenticityNotes: text("authenticity_notes"),
     mainImageUrl: text("main_image_url").notNull(),
     mainImageAlt: text("main_image_alt"),
@@ -107,7 +129,8 @@ export const products = pgTable(
     })
       .notNull()
       .default("in_stock"),
-    condition: text("condition", { enum: ["new", "like_new", "excellent", "very_good"] })
+    // like_new/excellent/very_good are legacy grades; the admin now sets new or pre_owned.
+    condition: text("condition", { enum: ["new", "pre_owned", "like_new", "excellent", "very_good"] })
       .notNull()
       .default("new"),
     status: text("status", { enum: ["draft", "published", "scheduled"] }).notNull().default("draft"),

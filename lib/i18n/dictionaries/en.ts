@@ -138,11 +138,13 @@ const en = {
   product: {
     breadcrumbProducts: "Products",
     contactToBuy: "Contact us to purchase",
+    description: "Description",
+    modifications: "Modifications & components",
     details: "Details",
     paymentShipping: "Payment & Shipping",
     authenticity: "Authenticity",
     authenticityDefault: "Every piece is verified by an independent authenticator before listing, with certification included at delivery.",
-    detailsText: "Color: {color}. Materials: {materials}. Dimensions: {dimensions}. Weight: {weight}.",
+    specLabels: { color: "Color", materials: "Materials", dimensions: "Dimensions", weight: "Weight" },
     inquireTitle: "Prefer we contact you?",
     inquireBody: "Leave your details and pick how you'd like us to reach you.",
     related: "You May Also Like",
@@ -150,7 +152,7 @@ const en = {
     subject: "Inquiry: {item}",
     photo: "photo {n}",
     contactAbout: "{channel} us about {item}",
-    condition: { new: "New", like_new: "Like new", excellent: "Excellent", very_good: "Very good" } as Record<string, string>,
+    condition: { new: "New", pre_owned: "Pre-owned", like_new: "Like new", excellent: "Excellent", very_good: "Very good" } as Record<string, string>,
   },
   availability: { in_stock: "In Stock", pre_order: "Pre-Order", sold_out: "Sold Out", coming_soon: "Coming Soon" } as Record<string, string>,
   contact: {

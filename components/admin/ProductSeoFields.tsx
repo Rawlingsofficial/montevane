@@ -7,11 +7,9 @@ import { Field, inputClass } from "@/components/admin/form-controls";
 import { suggestKeywords } from "@/lib/actions/seo";
 import { LOCALE_LABEL, LOCALES, type Locale } from "@/lib/i18n/config";
 import { productSeo } from "@/lib/seo/product";
-import type { ProductFormValues } from "@/lib/validation/product";
+import { SEO_DESCRIPTION, SEO_TITLE_MAX, type ProductFormValues } from "@/lib/validation/product";
 import { cn } from "@/lib/utils";
 
-const TITLE_MAX = 60;
-const DESCRIPTION_MAX = 160;
 
 /**
  * Per-language search settings for one product: focus keyword (with
@@ -45,6 +43,7 @@ export function ProductSeoFields({
     {
       brand: brandName,
       name,
+      title: values.show_brand ? `${brandName} ${name}` : name,
       color: values.color ?? "",
       condition: values.condition,
       metaTitle: titleValue || null,
@@ -127,17 +126,17 @@ export function ProductSeoFields({
           </>
         )}
 
-        <Field label={`Search title (${titleValue.length}/${TITLE_MAX}) — leave empty to use the preview`}>
+        <Field label={`Search title (${titleValue.length}/${SEO_TITLE_MAX}) — leave empty to use the preview`}>
           <input
             {...register(isEn ? "meta_title" : `i18n.${locale}.metaTitle`)}
-            className={cn(inputClass, titleValue.length > TITLE_MAX && "border-destructive")}
+            className={cn(inputClass, titleValue.length > SEO_TITLE_MAX && "border-destructive")}
           />
         </Field>
-        <Field label={`Search description (${descriptionValue.length}/${DESCRIPTION_MAX})`}>
+        <Field label={`Search description (${descriptionValue.length}, aim ${SEO_DESCRIPTION.min}–${SEO_DESCRIPTION.max}) — leave empty to use the preview`}>
           <textarea
             rows={2}
             {...register(isEn ? "meta_description" : `i18n.${locale}.metaDescription`)}
-            className={cn(inputClass, descriptionValue.length > DESCRIPTION_MAX && "border-destructive")}
+            className={cn(inputClass, descriptionValue.length > 0 && (descriptionValue.length < SEO_DESCRIPTION.min || descriptionValue.length > SEO_DESCRIPTION.max) && "border-destructive")}
           />
         </Field>
 

@@ -9,6 +9,8 @@ import { InquiryForm } from "@/components/contact/InquiryForm";
 import { ProductAccordion } from "@/components/products/ProductAccordion";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { facetsFor } from "@/lib/catalog/facets";
+import { displayPrice } from "@/lib/catalog/pricing";
 import { getContactChannels, getProduct, getProductIndex, getProducts } from "@/lib/data/catalog";
 import { fmt, getDictionary, localePath } from "@/lib/i18n";
 import { resolveLocale } from "@/lib/i18n/server";
@@ -21,6 +23,8 @@ import { productLd } from "@/lib/seo/structured-data";
 // static until an admin save revalidates them.
 export const dynamic = "force-static";
 export const dynamicParams = true;
+// Hourly refresh so promo start/end dates take effect without a save.
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
   return (await getProductIndex()).map((p) => ({ slug: p.slug }));
@@ -44,14 +48,22 @@ export default async function ProductPage({ params }: Props) {
   if (!product) notFound();
 
   const t = getDictionary(locale);
-  const item = `${product.brand} ${product.name}`;
+  const item = product.title;
   const { description: seoDescription } = productSeo(product, locale);
   const model = MODELS.find((m) => m.brandSlug === product.brandSlug && m.match.some((term) => product.name.toLowerCase().includes(term)));
   const category = t.categories[product.categorySlug];
 
   const sameBrand = await getProducts({ brand: product.brandSlug, excludeSlug: product.slug, limit: 4 }, locale);
   const related = sameBrand.length > 0 ? sameBrand : await getProducts({ excludeSlug: product.slug, limit: 4 }, locale);
-  const price = new Intl.NumberFormat(locale, { style: "currency", currency: product.currency, maximumFractionDigits: 0 });
+  const price = displayPrice(product, locale);
+  const money = new Intl.NumberFormat(locale, { style: "currency", currency: price.currency, maximumFractionDigits: 0 });
+
+  // Only filled-in values make it to the page.
+  const specRows = [
+    ...(["color", "materials", "dimensions", "weight"] as const).map((key) => ({ label: t.product.specLabels[key], value: product[key] })),
+    ...facetsFor(product.categorySlug).map((f) => ({ label: f.label, value: product.facets[f.id] ?? "" })),
+    ...product.specs,
+  ].filter((row) => row.value);
 
   return (
     <div className="mx-auto max-w-7xl px-6 pt-28 pb-12 lg:px-10 lg:pb-16">
@@ -83,14 +95,19 @@ export default async function ProductPage({ params }: Props) {
         </div>
 
         <div>
-          <Link
-            href={localePath(locale, `/brands/${product.brandSlug}`)}
-            className="text-xs font-medium tracking-[0.2em] text-[var(--gold)] uppercase hover:underline"
-          >
-            {product.brand}
-          </Link>
+          {product.showBrand && (
+            <Link
+              href={localePath(locale, `/brands/${product.brandSlug}`)}
+              className="text-xs font-medium tracking-[0.2em] text-[var(--gold)] uppercase hover:underline"
+            >
+              {product.brand}
+            </Link>
+          )}
           <h1 className="mt-2 font-heading text-3xl font-light sm:text-4xl">{item}</h1>
-          <p className="mt-4 text-xl">{price.format(product.price)}</p>
+          <p className="mt-4 text-xl">
+            {money.format(price.amount)}
+            {price.was && <s className="ml-3 text-base text-muted-foreground">{money.format(price.was)}</s>}
+          </p>
           <p
             className={`mt-2 text-xs font-medium tracking-[0.1em] uppercase ${
               product.availability === "in_stock" ? "text-[var(--gold)]" : "text-muted-foreground"
@@ -99,7 +116,7 @@ export default async function ProductPage({ params }: Props) {
             {t.availability[product.availability]} · {t.product.condition[product.condition]}
           </p>
 
-          <p className="mt-6 max-w-md text-sm leading-relaxed text-foreground/80">{product.description}</p>
+          <p className="mt-6 max-w-md text-sm leading-relaxed text-foreground/80">{product.shortDescription || product.description}</p>
 
           <div className="mt-8">
             <h2 className="mb-3 text-xs tracking-[0.1em] text-muted-foreground uppercase">{t.product.contactToBuy}</h2>
@@ -115,15 +132,29 @@ export default async function ProductPage({ params }: Props) {
           <div className="mt-10">
             <ProductAccordion
               items={[
-                {
-                  title: t.product.details,
-                  content: fmt(t.product.detailsText, {
-                    color: product.color,
-                    materials: product.materials,
-                    dimensions: product.dimensions,
-                    weight: product.weight,
-                  }),
-                },
+                ...(product.shortDescription && product.description
+                  ? [{ title: t.product.description, content: <p className="whitespace-pre-line">{product.description}</p> }]
+                  : []),
+                ...(specRows.length
+                  ? [
+                      {
+                        title: t.product.details,
+                        content: (
+                          <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5">
+                            {specRows.map((row) => (
+                              <div key={row.label} className="contents">
+                                <dt>{row.label}</dt>
+                                <dd className="text-foreground/80">{row.value}</dd>
+                              </div>
+                            ))}
+                          </dl>
+                        ),
+                      },
+                    ]
+                  : []),
+                ...(product.modifications
+                  ? [{ title: t.product.modifications, content: <p className="whitespace-pre-line">{product.modifications}</p> }]
+                  : []),
                 { title: t.product.paymentShipping, content: t.payment.note },
                 { title: t.product.authenticity, content: product.authenticityNotes || t.product.authenticityDefault },
               ]}

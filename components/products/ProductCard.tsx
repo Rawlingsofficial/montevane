@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 
+import { displayPrice } from "@/lib/catalog/pricing";
 import { contactLinks } from "@/lib/contact";
 import type { ContactChannels, StoreProduct } from "@/lib/data/catalog";
 import { fmt, getDictionary, localePath, type Locale } from "@/lib/i18n";
@@ -17,9 +18,10 @@ export function ProductCard({
 }) {
   const t = getDictionary(locale);
   const image = product.images[0];
-  const item = `${product.brand} ${product.name}`;
+  const item = product.title;
   const quickContact = contactLinks(channels, fmt(t.product.message, { item }), fmt(t.product.subject, { item }))[0];
-  const price = new Intl.NumberFormat(locale, { style: "currency", currency: product.currency, maximumFractionDigits: 0 });
+  const price = displayPrice(product, locale);
+  const money = new Intl.NumberFormat(locale, { style: "currency", currency: price.currency, maximumFractionDigits: 0 });
 
   return (
     <div className="group relative">
@@ -38,9 +40,12 @@ export function ProductCard({
             </span>
           )}
         </div>
-        <p className="mt-4 text-xs tracking-[0.15em] text-[var(--gold)] uppercase">{product.brand}</p>
-        <h3 className="mt-1 text-base font-light">{product.name}</h3>
-        <p className="mt-1 text-sm text-muted-foreground">{price.format(product.price)}</p>
+        {product.showBrand && <p className="mt-4 text-xs tracking-[0.15em] text-[var(--gold)] uppercase">{product.brand}</p>}
+        <h3 className={product.showBrand ? "mt-1 text-base font-light" : "mt-4 text-base font-light"}>{product.name}</h3>
+        <p className="mt-1 text-sm text-muted-foreground">
+          {money.format(price.amount)}
+          {price.was && <s className="ml-2 text-xs">{money.format(price.was)}</s>}
+        </p>
       </Link>
 
       {quickContact && (

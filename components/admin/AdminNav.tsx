@@ -14,7 +14,7 @@ const LINKS = [
 
 export function AdminNav({ email }: { email: string }) {
   return (
-    <aside className="flex h-screen w-64 shrink-0 flex-col border-r border-border bg-[var(--ivory)]">
+    <aside className="sticky top-0 flex h-screen w-64 shrink-0 flex-col border-r border-border bg-[var(--ivory)]">
       <div className="px-6 py-6">
         <p className="font-heading text-lg font-light tracking-[0.15em] uppercase">Montévane</p>
         <p className="mt-1 text-xs text-muted-foreground">{email}</p>

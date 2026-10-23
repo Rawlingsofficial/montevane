@@ -18,7 +18,7 @@ export function Field({
   className,
   children,
 }: {
-  label: string;
+  label: React.ReactNode;
   error?: string;
   className?: string;
   children: React.ReactNode;
