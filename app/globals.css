@@ -153,6 +153,18 @@
 .fade-up {
   animation: fade-up 0.8s ease-out both;
 }
+/* Slow push-in on the home hero photo. */
+@keyframes ken-burns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.12);
+  }
+}
+.ken-burns {
+  animation: ken-burns 20s ease-in-out infinite alternate;
+}
 @media (prefers-reduced-motion: reduce) {
   .fade-up {
     animation: none;

@@ -2,27 +2,14 @@ import Link from "next/link";
 
 import { AssetImage } from "@/components/common/AssetImage";
 import { getDictionary, localePath, type Locale } from "@/lib/i18n";
-import { asset } from "@/lib/images";
 
 export function Hero({ locale }: { locale: Locale }) {
   const t = getDictionary(locale).hero;
 
   return (
     <section className="relative h-screen min-h-[640px] w-full overflow-hidden">
-      <AssetImage base="hero_1" alt="" priority sizes="100vw" className="absolute inset-0" />
-      {/* The photo stays underneath as the LCP image and the fallback while the clip loads. */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        poster={asset("hero_1")}
-        aria-hidden="true"
-        className="absolute inset-0 size-full object-cover"
-      >
-        <source src="/videos/hero.mp4" type="video/mp4" />
-      </video>
+      {/* Boutique shot (bags + jewelry) with a slow zoom; the watch clip lives on /shop/watches. */}
+      <AssetImage base="hero_1" alt="" priority sizes="100vw" className="ken-burns absolute inset-0" />
       <div className="absolute inset-0 bg-black/40" />
 
       <div className="relative flex h-full flex-col items-center justify-center px-6 text-center">
