@@ -140,7 +140,30 @@ function emptyProduct(brands: Option[], categories: Option[]): ProductFormValues
   };
 }
 
-const counterClass = (bad: boolean) => cn("normal-case tracking-normal", bad ? "text-destructive" : "text-muted-foreground/70");
+// Unsaved form contents are mirrored to this browser so a reload loses nothing.
+const DRAFT_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
+const draftKey = (id?: string) => `admin:product-draft:${id ?? "new"}`;
+type LocalDraft = { values: ProductFormValues; at: number };
+
+function readDraft(id?: string): LocalDraft | null {
+  try {
+    const draft = JSON.parse(localStorage.getItem(draftKey(id)) ?? "null") as LocalDraft | null;
+    return draft && Date.now() - draft.at < DRAFT_MAX_AGE ? draft : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeDraft(id: string | undefined, values: ProductFormValues | null) {
+  try {
+    if (values) localStorage.setItem(draftKey(id), JSON.stringify({ values, at: Date.now() }));
+    else localStorage.removeItem(draftKey(id));
+  } catch {
+    // Storage full or blocked: autosave is a convenience, saving still works.
+  }
+}
+
+const counterClass =(bad: boolean) => cn("normal-case tracking-normal", bad ? "text-destructive" : "text-muted-foreground/70");
 
 export function ProductForm({
   brands,
@@ -162,13 +185,18 @@ export function ProductForm({
   const [rates, setRates] = useState<FxRates | null>(null);
   const [confirmed, setConfirmed] = useState(false);
   const [notice, setNotice] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
+  const [restoredAt, setRestoredAt] = useState<number | null>(null);
+  const [continuing, setContinuing] = useState(false);
   const addAnother = useRef(false);
   const formRef = useRef<HTMLFormElement>(null);
 
+  const initialValues = { ...emptyProduct(brands, categories), ...defaultValues };
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema),
-    defaultValues: { ...emptyProduct(brands, categories), ...defaultValues },
+    defaultValues: initialValues,
   });
+  // What the server last saved; matching local copies are dropped, not kept.
+  const lastSaved = useRef(JSON.stringify(initialValues));
   const {
     register,
     handleSubmit,
@@ -193,6 +221,47 @@ export function ProductForm({
   useEffect(() => {
     void getFxRates().then(setRates);
   }, []);
+
+  // Bring back what was typed before a reload, then keep mirroring changes.
+  useEffect(() => {
+    const draft = readDraft(defaultValues?.id);
+    if (draft && JSON.stringify(draft.values) !== lastSaved.current) {
+      reset(draft.values, { keepDefaultValues: true });
+      setSlugTouched(true);
+      setRestoredAt(draft.at);
+    } else if (draft) {
+      writeDraft(defaultValues?.id, null);
+    }
+
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const sub = watch(() => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        const current = getValues();
+        writeDraft(current.id, JSON.stringify(current) === lastSaved.current ? null : current);
+      }, 400);
+    });
+    return () => {
+      clearTimeout(timer);
+      sub.unsubscribe();
+    };
+    // Runs once per mounted product.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function markSaved(values: ProductFormValues, previousId?: string) {
+    lastSaved.current = JSON.stringify(values);
+    writeDraft(previousId, null);
+    writeDraft(values.id, null);
+    setRestoredAt(null);
+  }
+
+  function discardRestored() {
+    writeDraft(getValues("id"), null);
+    reset(initialValues);
+    setSlugTouched(isEdit);
+    setRestoredAt(null);
+  }
 
   // Cmd/Ctrl+S saves from any tab; leaving with unsaved changes asks first.
   useEffect(() => {
@@ -268,14 +337,18 @@ export function ProductForm({
       setNotice({ kind: "error", text: result.error });
       return;
     }
+    markSaved({ ...data, id: result.id }, data.id);
 
     if (addAnother.current) {
       addAnother.current = false;
-      if (isEdit) {
+      // data.id is also set once "Save & continue" has stored a new product.
+      if (data.id) {
         router.push("/admin/products/new");
         return;
       }
-      reset(emptyProduct(brands, categories));
+      const blank = emptyProduct(brands, categories);
+      lastSaved.current = JSON.stringify(blank);
+      reset(blank);
       setSlugTouched(false);
       setFxTouched({ GBP: false, EUR: false });
       setConfirmed(false);
@@ -287,7 +360,43 @@ export function ProductForm({
 
     reset({ ...data, id: result.id });
     setNotice({ kind: "ok", text: `Saved${data.status === "published" ? " and live" : ""}.` });
-    if (!isEdit) router.replace(`/admin/products/${result.id}/edit`);
+    if (!data.id) router.replace(`/admin/products/${result.id}/edit`);
+  }
+
+  // Per-tab save: to the shop when the product is complete enough to store,
+  // otherwise it stays on this device (autosave) until it is.
+  async function saveAndContinue() {
+    const next = TABS[TABS.findIndex((t) => t.id === tab) + 1]?.id ?? tab;
+    const data = getValues();
+    const parsed = productSchema.safeParse(data);
+    setNotice(null);
+
+    if (!parsed.success) {
+      const missing = [...new Set(parsed.error.issues.map((i) => i.message))].join(" · ");
+      setTab(next);
+      setNotice({ kind: "ok", text: `Kept on this device — safe to reload. It saves to the shop once these are filled: ${missing}` });
+      return;
+    }
+    if (data.status !== "draft" && (!confirmed || publishChecklist(parsed.data).some((c) => !c.ok))) {
+      setTab(next);
+      setNotice({ kind: "ok", text: "Kept on this device — safe to reload. Use Save on the Publish tab to update the live listing." });
+      return;
+    }
+
+    setContinuing(true);
+    const result = await saveProduct(parsed.data);
+    setContinuing(false);
+    if ("error" in result) {
+      setNotice({ kind: "error", text: result.error });
+      return;
+    }
+    const saved = { ...data, id: result.id };
+    markSaved(saved, data.id);
+    reset(saved);
+    // Stay mounted on this tab; just give the page its permanent edit URL.
+    if (!data.id) window.history.replaceState(null, "", `/admin/products/${result.id}/edit`);
+    setTab(next);
+    setNotice({ kind: "ok", text: `Saved${data.status === "draft" ? " as draft" : ""}.` });
   }
 
   function onInvalid(errs: FieldErrors<ProductFormValues>) {
@@ -352,6 +461,18 @@ export function ProductForm({
           ))}
         </div>
       </div>
+
+      {restoredAt && (
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-3 border border-[var(--gold)] px-4 py-3 text-sm">
+          <span>
+            Restored your unsaved changes from{" "}
+            {new Date(restoredAt).toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" })}.
+          </span>
+          <button type="button" onClick={discardRestored} className="text-xs tracking-[0.1em] uppercase underline">
+            Discard them
+          </button>
+        </div>
+      )}
 
       {notice && (
         <div
@@ -804,6 +925,19 @@ export function ProductForm({
           <p className="mt-3 text-xs text-muted-foreground">Drafts save with anything filled in. Publishing needs every item above ticked. Tip: ⌘S / Ctrl+S saves.</p>
         </Section>
       </div>
+
+      {tab !== "publish" && (
+        <div className="mt-10 flex justify-end border-t border-border pt-6">
+          <button
+            type="button"
+            disabled={continuing || isSubmitting}
+            onClick={saveAndContinue}
+            className="bg-primary px-6 py-2.5 text-xs font-medium tracking-[0.15em] text-primary-foreground uppercase transition-colors hover:bg-[var(--gold)] hover:text-primary disabled:opacity-50"
+          >
+            {continuing ? "Saving…" : "Save & continue →"}
+          </button>
+        </div>
+      )}
     </form>
   );
 }
