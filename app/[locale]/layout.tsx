@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
     description: t.meta.homeDescription,
     applicationName: SITE_NAME,
     formatDetection: { telephone: false },
-    verification: process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : undefined,
+    verification: { google: process.env.GOOGLE_SITE_VERIFICATION || "Hk2M437j8uWOxaoymiYUTvjDhKauQHpzwZxYs342Qoo" },
   };
 }
 
