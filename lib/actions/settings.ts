@@ -48,6 +48,6 @@ export async function updateStoreSettings(input: StoreSettingsInput): Promise<{ 
     .onConflictDoUpdate({ target: schema.storeSettings.id, set: values });
 
   // Contact channels appear on every storefront page.
-  revalidatePath("/", "layout");
+  revalidatePath("/[locale]", "layout");
   return {};
 }

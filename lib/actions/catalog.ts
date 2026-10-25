@@ -30,6 +30,6 @@ export async function addCatalogEntry(kind: "categories" | "brands", name: strin
     return { error: pgErrorMessage(error, `"${trimmed}" already exists.`) };
   }
 
-  revalidatePath("/", "layout");
+  revalidatePath("/[locale]", "layout");
   return {};
 }

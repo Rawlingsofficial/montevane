@@ -40,7 +40,7 @@ export async function saveCollection(values: CollectionFormValues): Promise<Save
     return { error: pgErrorMessage(error, "That slug is already in use.") };
   }
 
-  revalidatePath("/", "layout");
+  revalidatePath("/[locale]", "layout");
   return { id };
 }
 
@@ -57,6 +57,6 @@ export async function deleteCollection(id: string, slug: string): Promise<{ erro
   }
 
   await db.delete(schema.collections).where(eq(schema.collections.id, id));
-  revalidatePath("/", "layout");
+  revalidatePath("/[locale]", "layout");
   return {};
 }
