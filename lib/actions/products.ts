@@ -105,13 +105,13 @@ export async function saveProduct(values: ProductFormValues): Promise<SaveProduc
     return { error: pgErrorMessage(error, "That SKU or slug is already in use.") };
   }
 
-  revalidatePath("/", "layout");
+  revalidatePath("/[locale]", "layout");
   return { id };
 }
 
 export async function deleteProduct(id: string): Promise<{ error?: string }> {
   await requireAdmin();
   await db.delete(schema.products).where(eq(schema.products.id, id));
-  revalidatePath("/", "layout");
+  revalidatePath("/[locale]", "layout");
   return {};
 }
