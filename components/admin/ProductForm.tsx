@@ -90,6 +90,19 @@ function slugify(value: string) {
     .replace(/(^-|-$)/g, "");
 }
 
+// Nested errors (variants.2.sku, i18n.de.description) keep their message deeper down.
+function firstMessage(err: unknown): string | undefined {
+  if (!err || typeof err !== "object") return undefined;
+  if ("message" in err && typeof err.message === "string" && err.message) return err.message;
+  for (const value of Object.values(err)) {
+    if (value && typeof value === "object" && !("nodeType" in value)) {
+      const found = firstMessage(value);
+      if (found) return found;
+    }
+  }
+  return undefined;
+}
+
 function emptyProduct(brands: Option[], categories: Option[]): ProductFormValues {
   return {
     brand_slug: brands[0]?.slug ?? "",
@@ -280,14 +293,18 @@ export function ProductForm({
   function onInvalid(errs: FieldErrors<ProductFormValues>) {
     const first = TABS.find((t) => Object.keys(errs).some((k) => FIELD_TAB[k as keyof ProductFormValues] === t.id));
     if (first) setTab(first.id);
-    setNotice({ kind: "error", text: "Some fields need attention — see the tabs marked with a dot." });
+    // Name every problem, including ones on fields without an error slot.
+    const problems = (Object.keys(errs) as (keyof ProductFormValues)[]).map((k) => {
+      const tabLabel = TABS.find((t) => t.id === FIELD_TAB[k])?.label ?? "";
+      return `${tabLabel} → ${k.replace(/_/g, " ")}: ${firstMessage(errs[k]) ?? "invalid"}`;
+    });
+    setNotice({ kind: "error", text: `Fix before saving: ${problems.join(" · ")}` });
   }
 
   const tabPanel = (id: TabId) => ({ hidden: tab !== id, role: "tabpanel" as const, className: "space-y-10" });
 
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit, onInvalid)} className="max-w-4xl">
-      <input type="hidden" {...register("id")} />
 
       {/* Sticky bar: tabs + save, so saving never needs a scroll. */}
       <div className="sticky top-0 z-20 -mx-4 -mt-8 mb-8 border-b border-border bg-background/95 px-4 pt-4 sm:-mx-10 sm:px-10 backdrop-blur">
