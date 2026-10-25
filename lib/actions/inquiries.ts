@@ -9,12 +9,17 @@ import { CONTACT_METHODS, PAYMENT_METHODS } from "@/lib/contact";
 import { requireAdmin } from "@/lib/auth";
 import { db, schema } from "@/lib/db";
 import { sendEmail } from "@/lib/email";
+import { isInternationalPhone } from "@/lib/phone";
 
 const inquirySchema = z
   .object({
     name: z.string().trim().min(1, "Please enter your name.").max(120),
-    email: z.string().trim().email("Please enter a valid email.").or(z.literal("")),
-    phone: z.string().trim().max(40),
+    email: z.string().trim().min(1, "Please enter your email.").email("Please enter a valid email."),
+    phone: z
+      .string()
+      .trim()
+      .max(40)
+      .refine(isInternationalPhone, "Please enter your phone number with the country code, e.g. +44 7700 900123."),
     country: z.string().trim().max(80),
     message: z.string().trim().max(2000),
     product_id: z.string().uuid().or(z.literal("")),
@@ -23,8 +28,7 @@ const inquirySchema = z
       .array(z.enum(CONTACT_METHODS.map((m) => m.value) as [string, ...string[]]))
       .min(1, "Choose at least one way for us to reach you."),
     payment_method: z.enum(PAYMENT_METHODS.map((m) => m.value) as [string, ...string[]]).or(z.literal("")),
-  })
-  .refine((v) => v.email || v.phone, { message: "Leave an email or a phone number so we can reach you." });
+  });
 
 export type InquiryInput = z.input<typeof inquirySchema>;
 
@@ -36,8 +40,8 @@ export async function submitInquiry(input: InquiryInput): Promise<{ error?: stri
   try {
     await db.insert(schema.inquiries).values({
       name: v.name,
-      email: v.email || null,
-      phone: v.phone || null,
+      email: v.email,
+      phone: v.phone,
       country: v.country || null,
       message: v.message || null,
       productId: v.product_id || null,

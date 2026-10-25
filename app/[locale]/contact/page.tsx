@@ -36,7 +36,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
 
         <div>
           <h2 className="mb-8 text-2xl">{t.contact.form}</h2>
-          <InquiryForm labels={t.form} privacyHref={localePath(locale, "/privacy")} />
+          <InquiryForm locale={locale} labels={t.form} privacyHref={localePath(locale, "/privacy")} />
         </div>
       </section>
     </>

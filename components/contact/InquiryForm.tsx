@@ -1,22 +1,49 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 
 import { submitInquiry } from "@/lib/actions/inquiries";
 import { CONTACT_METHODS, PAYMENT_METHODS, type ContactMethod } from "@/lib/contact";
 import type { Dictionary } from "@/lib/i18n/dictionaries/en";
+import { DIAL_CODES, countryList } from "@/lib/phone";
 import { cn } from "@/lib/utils";
 
 const fieldClass =
   "mt-2 w-full border border-border bg-transparent px-3 py-3 text-sm focus:border-[var(--gold)] focus:outline-none";
 const labelClass = "text-xs tracking-[0.1em] text-muted-foreground uppercase";
 
+// Store locales with an obvious home country; English guesses from the browser.
+const LOCALE_COUNTRY: Record<string, string> = { de: "DE", uz: "UZ" };
+// Italy, San Marino and the Vatican keep the leading 0 after the country code.
+const KEEPS_ZERO = new Set(["IT", "SM", "VA"]);
+
+const noSubscribe = () => () => {};
+function browserRegion() {
+  const region = new Intl.Locale(navigator.language).maximize().region ?? "";
+  return DIAL_CODES[region] ? region : "";
+}
+
+/** "+44 07700 900123" or "0044…" pasted into the number box → [code country, rest]. */
+function splitInternational(raw: string, current: string): [string, string] | null {
+  const digits = raw.trim().replace(/^00/, "+");
+  if (!digits.startsWith("+")) return null;
+  const all = digits.replace(/\D/g, "");
+  for (let len = 4; len >= 1; len--) {
+    const code = all.slice(0, len);
+    const iso = DIAL_CODES[current] === code ? current : Object.keys(DIAL_CODES).find((k) => DIAL_CODES[k] === code);
+    if (iso) return [iso, all.slice(len)];
+  }
+  return null;
+}
+
 export function InquiryForm({
+  locale,
   product,
   labels: t,
   privacyHref,
 }: {
+  locale: string;
   product?: { id: string; name: string };
   labels: Dictionary["form"];
   privacyHref: string;
@@ -25,6 +52,39 @@ export function InquiryForm({
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
+  const countries = useMemo(() => countryList(locale), [locale]);
+  // Until the visitor picks, both selects follow a guess: the store locale's
+  // country, or for English the browser region (en-GB → GB) once hydrated.
+  const region = useSyncExternalStore(noSubscribe, browserRegion, () => "");
+  const guess = LOCALE_COUNTRY[locale] ?? region;
+  const [pickedCountry, setCountry] = useState<string | null>(null);
+  const [pickedDial, setDialIso] = useState<string | null>(null);
+  const country = pickedCountry ?? guess;
+  const dialIso = pickedDial ?? country;
+  const [dialTouched, setDialTouched] = useState(false);
+  const [number, setNumber] = useState("");
+
+  function chooseCountry(iso: string) {
+    setCountry(iso);
+    if (!dialTouched) setDialIso(iso || null);
+  }
+
+  function changeNumber(raw: string) {
+    const split = splitInternational(raw, dialIso);
+    if (split) {
+      setDialIso(split[0]);
+      setDialTouched(true);
+      setNumber(split[1]);
+    } else {
+      setNumber(raw.replace(/[^\d\s()-]/g, ""));
+    }
+  }
+
+  function fullPhone() {
+    let local = number.replace(/\D/g, "");
+    if (!KEEPS_ZERO.has(dialIso)) local = local.replace(/^0+/, "");
+    return dialIso && local ? `+${DIAL_CODES[dialIso]} ${local}` : "";
+  }
 
   function toggle(method: ContactMethod) {
     setMethods((m) => (m.includes(method) ? m.filter((x) => x !== method) : [...m, method]));
@@ -40,8 +100,8 @@ export function InquiryForm({
     const result = await submitInquiry({
       name: get("name"),
       email: get("email"),
-      phone: get("phone"),
-      country: get("country"),
+      phone: fullPhone(),
+      country: countries.find((c) => c.iso === country)?.name ?? "",
       message: get("message"),
       payment_method: get("payment_method"),
       contact_methods: methods,
@@ -70,15 +130,61 @@ export function InquiryForm({
         </label>
         <label className="block">
           <span className={labelClass}>{t.country}</span>
-          <input name="country" autoComplete="country-name" className={fieldClass} suppressHydrationWarning />
+          <select
+            name="country"
+            value={country}
+            onChange={(e) => chooseCountry(e.target.value)}
+            autoComplete="country"
+            className={fieldClass}
+          >
+            <option value="">{t.countrySelect}</option>
+            {countries.map((c) => (
+              <option key={c.iso} value={c.iso}>
+                {c.flag} {c.name}
+              </option>
+            ))}
+          </select>
         </label>
-        <label className="block">
+        <div className="block">
           <span className={labelClass}>{t.phone}</span>
-          <input name="phone" type="tel" autoComplete="tel" placeholder="+1 555 000 0000" className={fieldClass} suppressHydrationWarning />
-        </label>
+          <div className="flex gap-2">
+            <select
+              aria-label={t.phoneCode}
+              required
+              value={dialIso}
+              onChange={(e) => {
+                setDialIso(e.target.value);
+                setDialTouched(true);
+              }}
+              autoComplete="tel-country-code"
+              className={cn(fieldClass, "w-32 shrink-0")}
+            >
+              <option value="">{t.phoneCode}</option>
+              {countries.map((c) => (
+                <option key={c.iso} value={c.iso}>
+                  {c.flag} +{c.dial} {c.name}
+                </option>
+              ))}
+            </select>
+            <input
+              name="phone"
+              type="tel"
+              required
+              aria-label={t.phoneNumber}
+              inputMode="tel"
+              autoComplete="tel-national"
+              value={number}
+              onChange={(e) => changeNumber(e.target.value)}
+              placeholder={dialIso ? `+${DIAL_CODES[dialIso]} …` : "7700 900123"}
+              pattern="[\d\s()\-]{4,}"
+              className={fieldClass}
+              suppressHydrationWarning
+            />
+          </div>
+        </div>
         <label className="block">
           <span className={labelClass}>{t.email}</span>
-          <input name="email" type="email" autoComplete="email" className={fieldClass} suppressHydrationWarning />
+          <input name="email" type="email" required autoComplete="email" className={fieldClass} suppressHydrationWarning />
         </label>
       </div>
 
