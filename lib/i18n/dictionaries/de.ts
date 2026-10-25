@@ -220,6 +220,8 @@ const de: Dictionary = {
     navigate: "Navigation",
     care: "Service",
     rights: "Alle Rechte vorbehalten.",
+    locations: "Standorte",
+    cities: ["Monaco", "New York", "Paris"],
   },
   models: {
     eyebrow: "{brand}",

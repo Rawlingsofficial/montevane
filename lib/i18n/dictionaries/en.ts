@@ -220,6 +220,8 @@ const en = {
     navigate: "Navigate",
     care: "Customer Care",
     rights: "All rights reserved.",
+    locations: "Locations",
+    cities: ["Monaco", "New York", "Paris"],
   },
   models: {
     eyebrow: "{brand}",
