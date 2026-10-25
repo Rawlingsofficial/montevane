@@ -48,7 +48,7 @@ export function Footer({ locale, channels }: { locale: Locale; channels: Contact
           <SubscribeForm labels={t.newsletter} dark className="max-w-md lg:ml-auto" />
         </div>
 
-        <div className="grid gap-10 sm:grid-cols-3">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <Image
               src={LOGO.full}
@@ -81,6 +81,16 @@ export function Footer({ locale, channels }: { locale: Locale; channels: Contact
 
           <FooterList title={t.footer.navigate} links={navigate} />
           <FooterList title={t.footer.care} links={care} />
+          <div>
+            <p className="text-xs tracking-[0.15em] text-white/60 uppercase">{t.footer.locations}</p>
+            <ul className="mt-4 space-y-2">
+              {t.footer.cities.map((city) => (
+                <li key={city} className="font-heading text-lg font-light text-white/80">
+                  {city}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <p className="mt-16 text-xs text-white/50">

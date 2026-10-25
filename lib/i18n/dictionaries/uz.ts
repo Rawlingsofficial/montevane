@@ -221,6 +221,8 @@ const uz: Dictionary = {
     navigate: "Bo'limlar",
     care: "Mijozlar uchun",
     rights: "Barcha huquqlar himoyalangan.",
+    locations: "Manzillar",
+    cities: ["Monako", "Nyu-York", "Parij"],
   },
   models: {
     eyebrow: "{brand}",
