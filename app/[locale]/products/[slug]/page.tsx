@@ -167,7 +167,7 @@ export default async function ProductPage({ params }: Props) {
         <h2 className="text-2xl">{t.product.inquireTitle}</h2>
         <p className="mt-2 text-sm text-muted-foreground">{t.product.inquireBody}</p>
         <div className="mt-8">
-          <InquiryForm product={{ id: product.id, name: item }} labels={t.form} privacyHref={localePath(locale, "/privacy")} />
+          <InquiryForm locale={locale} product={{ id: product.id, name: item }} labels={t.form} privacyHref={localePath(locale, "/privacy")} />
         </div>
       </section>
 

@@ -74,7 +74,7 @@ export default async function ModelPage({ params }: Props) {
           <h2 className="text-2xl">{t.listing.sourceTitle}</h2>
           <p className="mt-2 text-sm text-muted-foreground">{t.product.inquireBody}</p>
           <div className="mt-8">
-            <InquiryForm product={{ id: "", name: modelName }} labels={t.form} privacyHref={localePath(locale, "/privacy")} />
+            <InquiryForm locale={locale} product={{ id: "", name: modelName }} labels={t.form} privacyHref={localePath(locale, "/privacy")} />
           </div>
         </section>
 
