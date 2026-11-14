@@ -14,6 +14,7 @@ import { MODELS, type ModelPage } from "@/lib/seo/models";
 
 export type StoreProduct = {
   id: string;
+  sku: string;
   slug: string;
   name: string;
   brand: string;
@@ -69,6 +70,7 @@ function toStoreProduct(row: ProductRow, locale: Locale): StoreProduct {
 
   return {
     id: row.id,
+    sku: row.sku,
     slug: row.slug,
     name,
     brand,

@@ -27,10 +27,19 @@ const nextConfig: NextConfig = {
     localPatterns: [{ pathname: "/media/**" }, { pathname: "/images/**" }],
   },
   async redirects() {
-    return MOVED.flatMap(([from, to]) => [
-      { source: from, destination: to, permanent: true },
-      { source: `/:locale(de|uz)${from}`, destination: `/:locale${to}`, permanent: true },
-    ]);
+    return [
+      // montevane.com is the main domain; the old one forwards page for page.
+      {
+        source: "/:path*",
+        has: [{ type: "host" as const, value: "(?:www\\.)?luxurybagsandwatches\\.com" }],
+        destination: "https://www.montevane.com/:path*",
+        permanent: true,
+      },
+      ...MOVED.flatMap(([from, to]) => [
+        { source: from, destination: to, permanent: true },
+        { source: `/:locale(de|uz)${from}`, destination: `/:locale${to}`, permanent: true },
+      ]),
+    ];
   },
 };
 

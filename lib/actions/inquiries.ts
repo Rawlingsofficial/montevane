@@ -9,6 +9,7 @@ import { CONTACT_METHODS, PAYMENT_METHODS } from "@/lib/contact";
 import { requireAdmin } from "@/lib/auth";
 import { db, schema } from "@/lib/db";
 import { sendEmail } from "@/lib/email";
+import { siteUrl } from "@/lib/i18n/config";
 import { isInternationalPhone } from "@/lib/phone";
 
 const inquirySchema = z
@@ -98,7 +99,7 @@ async function notifyInquiry(v: z.output<typeof inquirySchema>) {
           "If you have anything to add, simply reply to this email.",
           "",
           s?.storeName || "Montévane",
-          "https://www.luxurybagsandwatches.com",
+          siteUrl(),
         ].join("\n"),
         replyTo: storeEmail,
       }),
