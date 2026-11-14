@@ -10,7 +10,7 @@ import { SITE_NAME, absoluteUrl } from "@/lib/seo/metadata";
 
 const AVAILABILITY: Record<StoreProduct["availability"], string> = {
   in_stock: "https://schema.org/InStock",
-  pre_order: "https://schema.org/BackOrder",
+  pre_order: "https://schema.org/InStock", // ships within 14 days (longer handling time)
   sold_out: "https://schema.org/SoldOut",
   coming_soon: "https://schema.org/PreOrder",
 };

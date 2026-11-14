@@ -40,7 +40,8 @@ const JEWELRY_CATEGORY: Record<string, string> = {
 
 const AVAILABILITY: Record<StoreProduct["availability"], string> = {
   in_stock: "in_stock",
-  pre_order: "backorder",
+  // Sourced to order: available to buy now, with a longer handling time (7–14 days).
+  pre_order: "in_stock",
   coming_soon: "preorder",
   sold_out: "out_of_stock",
 };
@@ -89,7 +90,7 @@ function item(p: StoreProduct, inTwoWeeks: string): string {
     tag("image_link", image(p.images[0].url)),
     ...extra.map((img) => tag("additional_image_link", image(img.url))),
     tag("availability", AVAILABILITY[p.availability]),
-    toOrder ? tag("availability_date", inTwoWeeks) : "",
+    p.availability === "coming_soon" ? tag("availability_date", inTwoWeeks) : "",
     tag("price", money(p.price)),
     promo ? tag("sale_price", money(p.promoPrice!)) : "",
     tag("condition", p.condition === "new" ? "new" : "used"),
