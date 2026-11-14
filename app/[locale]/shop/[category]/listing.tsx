@@ -7,11 +7,10 @@ import { PageHero } from "@/components/common/PageHero";
 import { Pagination, pagePath } from "@/components/common/Pagination";
 import { SourcingCta } from "@/components/common/SourcingCta";
 import { ProductGrid } from "@/components/products/ProductGrid";
-import { getCategories, getContactChannels, getProductPage } from "@/lib/data/catalog";
+import { getCategories, getContactChannels, getLiveModels, getProductPage } from "@/lib/data/catalog";
 import { fmt, getDictionary, localePath, type Locale } from "@/lib/i18n";
 import { categoryImage } from "@/lib/images";
 import { pageMetadata } from "@/lib/seo/metadata";
-import { MODELS } from "@/lib/seo/models";
 
 // Shared by /shop/[category] (page 1) and /shop/[category]/page/[n].
 
@@ -20,10 +19,11 @@ const VIDEO: Record<string, string> = { watches: "/videos/hero.mp4", jewelry: "/
 /** Category copy from the dictionary, or a generic version for categories added in admin. */
 async function categoryCopy(slug: string, locale: Locale) {
   const t = getDictionary(locale);
-  const known = t.categories[slug];
-  if (known) return known;
+  // Categories without products in stock 404 (they come back with the first product).
   const category = (await getCategories()).find((c) => c.slug === slug);
   if (!category) return null;
+  const known = t.categories[slug];
+  if (known) return known;
   const title = fmt(t.meta.brandTitle, { brand: category.name });
   return { name: category.name, title: category.name, metaTitle: title, metaDescription: fmt(t.meta.brandDescription, { brand: category.name }), intro: "" };
 }
@@ -48,7 +48,7 @@ export async function CategoryListing({ locale, category, page }: { locale: Loca
   const t = getDictionary(locale);
   const [listing, channels] = await Promise.all([getProductPage({ category }, page, locale), getContactChannels()]);
   if (!listing) notFound();
-  const models = MODELS.filter((m) => m.category === category);
+  const models = (await getLiveModels()).filter((m) => m.category === category);
   const base = `/shop/${category}`;
 
   return (

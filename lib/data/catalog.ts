@@ -5,6 +5,7 @@ import { and, arrayContains, asc, desc, eq, getTableColumns, ilike, isNull, lte,
 import { db, schema } from "@/lib/db";
 import type { ProductLocaleFields, RegionalPrices, SpecRow } from "@/lib/db/schema";
 import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
+import { MODELS, type ModelPage } from "@/lib/seo/models";
 
 // Storefront reads. Only published, released products are ever returned.
 // Text fields come back in the requested locale, falling back to English.
@@ -169,25 +170,45 @@ export async function getProductIndex(): Promise<{ slug: string; updatedAt: Date
 
 export type StoreBrand = { slug: string; name: string; description: string | null };
 
+// Brands, categories and collections only appear on the storefront (links,
+// menus, sitemap, their own pages) while they have at least one live product.
+// The moment a product is published in one, it shows up; when the last one
+// goes, it disappears again (admin saves revalidate the storefront).
+const hasLive = (where: SQL) => sql`exists (select 1 from ${p} where ${isLive} and ${where})`;
+
 export async function getBrands(): Promise<StoreBrand[]> {
+  const b = schema.brands;
   return db
-    .select({ slug: schema.brands.slug, name: schema.brands.name, description: schema.brands.description })
-    .from(schema.brands)
-    .orderBy(asc(schema.brands.name));
+    .select({ slug: b.slug, name: b.name, description: b.description })
+    .from(b)
+    .where(hasLive(sql`${p.brandSlug} = ${b.slug}`))
+    .orderBy(asc(b.name));
 }
 
 export async function getCollections(): Promise<{ slug: string; name: string; description: string | null }[]> {
+  const c = schema.collections;
   return db
-    .select({ slug: schema.collections.slug, name: schema.collections.name, description: schema.collections.description })
-    .from(schema.collections)
-    .orderBy(desc(schema.collections.featured), asc(schema.collections.name));
+    .select({ slug: c.slug, name: c.name, description: c.description })
+    .from(c)
+    .where(hasLive(sql`(${p.collectionSlug} = ${c.slug} or ${c.slug} = any(${p.collectionSlugs}))`))
+    .orderBy(desc(c.featured), asc(c.name));
 }
 
 export async function getCategories(): Promise<{ slug: string; name: string }[]> {
+  const c = schema.categories;
   return db
-    .select({ slug: schema.categories.slug, name: schema.categories.name })
-    .from(schema.categories)
-    .orderBy(asc(schema.categories.sortOrder));
+    .select({ slug: c.slug, name: c.name })
+    .from(c)
+    .where(hasLive(sql`${p.categorySlug} = ${c.slug}`))
+    .orderBy(asc(c.sortOrder));
+}
+
+/** Model landing pages (Rolex Daytona, Cartier Love…) that currently have products. */
+export async function getLiveModels(): Promise<ModelPage[]> {
+  const counts = await Promise.all(
+    MODELS.map((m) => countProducts({ brand: m.brandSlug, category: m.category, nameMatches: m.match }))
+  );
+  return MODELS.filter((_, i) => counts[i] > 0);
 }
 
 export type StoreProfile = { ownerName: string | null; ownerTitle: string | null; googleReviewUrl: string | null };

@@ -1,10 +1,9 @@
 import type { MetadataRoute } from "next";
 
-import { getBrands, getCategories, getCollections, getProductIndex } from "@/lib/data/catalog";
+import { getBrands, getCategories, getCollections, getLiveModels, getProductIndex } from "@/lib/data/catalog";
 import { JOURNAL_POSTS } from "@/lib/constants";
 import { DEFAULT_LOCALE, LOCALES, type Locale } from "@/lib/i18n/config";
 import { absoluteUrl, languageAlternates } from "@/lib/seo/metadata";
-import { MODELS } from "@/lib/seo/models";
 
 // Regenerated hourly so new products show up without a deploy.
 export const revalidate = 3600;
@@ -12,18 +11,19 @@ export const revalidate = 3600;
 type Entry = { path: string; priority: number; lastModified?: Date; locales?: readonly Locale[] };
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [products, brands, categories, collections] = await Promise.all([
+  const [products, brands, categories, collections, models] = await Promise.all([
     getProductIndex(),
     getBrands(),
     getCategories(),
     getCollections(),
+    getLiveModels(),
   ]);
 
   const entries: Entry[] = [
     { path: "/", priority: 1 },
     { path: "/products", priority: 0.9 },
     ...categories.map((c) => ({ path: `/shop/${c.slug}`, priority: 0.9 })),
-    ...MODELS.map((m) => ({ path: `/models/${m.slug}`, priority: 0.9 })),
+    ...models.map((m) => ({ path: `/models/${m.slug}`, priority: 0.9 })),
     ...products.map((p) => ({ path: `/products/${p.slug}`, priority: 0.8, lastModified: p.updatedAt })),
     { path: "/brands", priority: 0.7 },
     ...brands.map((b) => ({ path: `/brands/${b.slug}`, priority: 0.7 })),

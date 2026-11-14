@@ -4,7 +4,7 @@ import Link from "next/link";
 import { AssetImage } from "@/components/common/AssetImage";
 import { SubscribeForm } from "@/components/common/SubscribeForm";
 import { MAPS_URL, SITE_NAME, STORE_ADDRESS } from "@/lib/constants";
-import type { ContactChannels } from "@/lib/data/catalog";
+import { getCategories, type ContactChannels } from "@/lib/data/catalog";
 import { getDictionary, localePath, type Locale } from "@/lib/i18n";
 import { LOGO } from "@/lib/images";
 
@@ -16,18 +16,14 @@ function TikTokIcon() {
   );
 }
 
-export function Footer({ locale, channels }: { locale: Locale; channels: ContactChannels }) {
+export async function Footer({ locale, channels }: { locale: Locale; channels: ContactChannels }) {
   const t = getDictionary(locale);
   const href = (path: string) => localePath(locale, path);
+  // Only categories with products in stock (bag organizers live under the brands).
+  const categories = (await getCategories()).filter((c) => c.slug !== "bag-organizers");
 
   const navigate = [
-    { label: t.categories["birkin-bags"].title, href: href("/shop/birkin-bags") },
-    { label: t.categories["kelly-bags"].title, href: href("/shop/kelly-bags") },
-    { label: t.categories["bag-charms"].title, href: href("/shop/bag-charms") },
-    { label: t.categories["twilly-scarves"].title, href: href("/shop/twilly-scarves") },
-    { label: t.categories["scarves-shawls"].title, href: href("/shop/scarves-shawls") },
-    { label: t.categories.watches.title, href: href("/shop/watches") },
-    { label: t.categories.jewelry.title, href: href("/shop/jewelry") },
+    ...categories.map((c) => ({ label: t.categories[c.slug]?.title ?? c.name, href: href(`/shop/${c.slug}`) })),
     { label: t.nav.brands, href: href("/brands") },
     { label: t.nav.collections, href: href("/collections") },
     { label: t.nav.journal, href: href("/journal") },

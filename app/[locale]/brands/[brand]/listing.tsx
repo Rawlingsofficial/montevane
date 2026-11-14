@@ -7,11 +7,10 @@ import { PageHero } from "@/components/common/PageHero";
 import { Pagination, pagePath } from "@/components/common/Pagination";
 import { SourcingCta } from "@/components/common/SourcingCta";
 import { ProductGrid } from "@/components/products/ProductGrid";
-import { getBrands, getContactChannels, getProductPage } from "@/lib/data/catalog";
+import { getBrands, getContactChannels, getLiveModels, getProductPage } from "@/lib/data/catalog";
 import { fmt, getDictionary, localePath, type Locale } from "@/lib/i18n";
 import { brandBanner } from "@/lib/images";
 import { pageMetadata } from "@/lib/seo/metadata";
-import { MODELS } from "@/lib/seo/models";
 
 // Shared by /brands/[brand] (page 1) and /brands/[brand]/page/[n].
 
@@ -39,7 +38,7 @@ export async function BrandListing({ locale, slug, page }: { locale: Locale; slu
   const t = getDictionary(locale);
   const [listing, channels] = await Promise.all([getProductPage({ brand: brand.slug }, page, locale), getContactChannels()]);
   if (!listing) notFound();
-  const models = MODELS.filter((m) => m.brandSlug === brand.slug);
+  const models = (await getLiveModels()).filter((m) => m.brandSlug === brand.slug);
   const base = `/brands/${brand.slug}`;
 
   return (

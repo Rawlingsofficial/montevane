@@ -6,25 +6,31 @@ import { Breadcrumbs } from "@/components/common/Breadcrumbs";
 import { PageHero } from "@/components/common/PageHero";
 import { InquiryForm } from "@/components/contact/InquiryForm";
 import { ProductGrid } from "@/components/products/ProductGrid";
-import { getContactChannels, getProducts } from "@/lib/data/catalog";
+import { getContactChannels, getLiveModels, getProducts } from "@/lib/data/catalog";
 import { fmt, getDictionary, localePath } from "@/lib/i18n";
 import { resolveLocale } from "@/lib/i18n/server";
 import { categoryImage } from "@/lib/images";
 import { pageMetadata } from "@/lib/seo/metadata";
-import { MODELS, getModel } from "@/lib/seo/models";
+import { getModel } from "@/lib/seo/models";
 
 export const dynamic = "force-static";
-export const dynamicParams = false;
+export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return MODELS.map((m) => ({ model: m.slug }));
+// Only models with products in stock get a page; the rest 404 until one is listed.
+export async function generateStaticParams() {
+  return (await getLiveModels()).map((m) => ({ model: m.slug }));
+}
+
+async function liveModel(slug: string) {
+  const model = getModel(slug);
+  return model && (await getLiveModels()).some((m) => m.slug === slug) ? model : null;
 }
 
 type Props = PageProps<"/[locale]/models/[model]">;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = await resolveLocale(params);
-  const model = getModel((await params).model);
+  const model = await liveModel((await params).model);
   if (!model) return {};
   const copy = model.copy[locale];
   return pageMetadata({ locale, path: `/models/${model.slug}`, title: copy.metaTitle, description: copy.metaDescription });
@@ -32,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ModelPage({ params }: Props) {
   const locale = await resolveLocale(params);
-  const model = getModel((await params).model);
+  const model = await liveModel((await params).model);
   if (!model) notFound();
 
   const t = getDictionary(locale);
@@ -41,7 +47,7 @@ export default async function ModelPage({ params }: Props) {
     getProducts({ brand: model.brandSlug, category: model.category, nameMatches: model.match }, locale),
     getContactChannels(),
   ]);
-  const siblings = MODELS.filter((m) => m.category === model.category && m.slug !== model.slug);
+  const siblings = (await getLiveModels()).filter((m) => m.category === model.category && m.slug !== model.slug);
   const category = t.categories[model.category];
   const modelName = `${model.brand} ${model.model}`;
 
