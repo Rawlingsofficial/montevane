@@ -1,66 +1,52 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MessageCircle } from "lucide-react";
 
-import { displayPrice } from "@/lib/catalog/pricing";
-import { contactLinks } from "@/lib/contact";
-import type { ContactChannels, StoreProduct } from "@/lib/data/catalog";
-import { fmt, getDictionary, localePath, type Locale } from "@/lib/i18n";
+import { Price, priceAmounts } from "@/components/common/Price";
+import { WishlistButton } from "@/components/shop/WishlistButton";
+import type { StoreProduct } from "@/lib/data/catalog";
+import { getDictionary, localePath, type Locale } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
 
-export function ProductCard({
-  product,
-  channels,
-  locale,
-}: {
-  product: StoreProduct;
-  channels: ContactChannels;
-  locale: Locale;
-}) {
+export function ProductCard({ product, locale, priority = false }: { product: StoreProduct; locale: Locale; priority?: boolean }) {
   const t = getDictionary(locale);
   const image = product.images[0];
-  const item = product.title;
-  const quickContact = contactLinks(channels, fmt(t.product.message, { item }), fmt(t.product.subject, { item }))[0];
-  const price = displayPrice(product, locale);
-  const money = new Intl.NumberFormat(locale, { style: "currency", currency: price.currency, maximumFractionDigits: 0 });
+  const amounts = priceAmounts(product);
+  const reference = product.facets.reference;
+  const inStock = product.availability === "in_stock";
 
   return (
     <div className="group relative">
       <Link href={localePath(locale, `/products/${product.slug}`)} className="block">
-        <div className="relative aspect-square overflow-hidden bg-[var(--ivory)]">
+        <div className="relative aspect-[4/5] overflow-hidden border border-border/60 bg-white">
           <Image
             src={image.url}
             alt={image.alt}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+            loading={priority ? "eager" : "lazy"}
+            className="object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-105 sm:p-6"
           />
-          {product.availability !== "in_stock" && (
-            <span className="absolute top-4 left-4 bg-white/90 px-2.5 py-1 text-[10px] font-medium tracking-[0.1em] text-foreground uppercase">
-              {t.availability[product.availability]}
-            </span>
-          )}
+          <span
+            className={cn(
+              "absolute bottom-3 left-3 px-2 py-1 text-[10px] font-medium tracking-[0.1em] uppercase",
+              inStock ? "bg-foreground text-white" : "bg-[var(--ivory)] text-foreground"
+            )}
+          >
+            {t.availability[product.availability]}
+          </span>
         </div>
         {product.showBrand && <p className="mt-4 text-xs tracking-[0.15em] text-[var(--gold)] uppercase">{product.brand}</p>}
-        <h3 className={product.showBrand ? "mt-1 text-base font-light" : "mt-4 text-base font-light"}>{product.name}</h3>
-        <p className="mt-1 text-sm text-muted-foreground">
-          {money.format(price.amount)}
-          {price.was && <s className="ml-2 text-xs">{money.format(price.was)}</s>}
-        </p>
+        <h3 className={cn("line-clamp-2 text-base font-light", product.showBrand ? "mt-1" : "mt-4")}>{product.name}</h3>
+        {reference && !product.name.includes(reference) && <p className="mt-0.5 text-xs text-muted-foreground">Ref. {reference}</p>}
+        <Price amounts={amounts} locale={locale} className="mt-1 block text-sm text-foreground/80" />
       </Link>
 
-      {quickContact && (
-        // Sibling of the card link (links can't nest), laid over the photo.
-        <a
-          href={quickContact.href}
-          target={quickContact.href.startsWith("http") ? "_blank" : undefined}
-          rel="noopener noreferrer"
-          aria-label={fmt(t.product.contactAbout, { channel: t.contact.channels[quickContact.method], item })}
-          className="absolute top-3 right-3 flex items-center gap-1.5 bg-white/90 px-2.5 py-1.5 text-[10px] font-medium tracking-[0.1em] text-foreground uppercase transition-colors hover:bg-[var(--gold)] lg:opacity-0 lg:group-hover:opacity-100"
-        >
-          <MessageCircle className="size-3.5" strokeWidth={1.5} />
-          {t.contact.channels[quickContact.method]}
-        </a>
-      )}
+      {/* Sibling of the card link (controls can't nest inside links). */}
+      <WishlistButton
+        item={{ slug: product.slug, title: product.title, image: image.url, usd: amounts.usd, eur: amounts.eur }}
+        labels={{ add: t.ui.wishlistPage.add, remove: t.ui.wishlistPage.remove }}
+        className="absolute top-1 right-1 text-foreground"
+      />
     </div>
   );
 }

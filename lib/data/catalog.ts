@@ -5,6 +5,7 @@ import { and, arrayContains, asc, desc, eq, getTableColumns, ilike, isNull, lte,
 import { db, schema } from "@/lib/db";
 import type { ProductLocaleFields, RegionalPrices, SpecRow } from "@/lib/db/schema";
 import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
+import { FILTER_KEYS, PRICE_BANDS, parseBand, type FilterKey, type ListingQuery } from "@/lib/catalog/filters";
 import { BRAND_SUBCATEGORIES, JEWELRY_TYPES, WATCH_BRAND_ORDER } from "@/lib/catalog/taxonomy";
 import { MODELS, type ModelPage } from "@/lib/seo/models";
 
@@ -64,7 +65,7 @@ function toStoreProduct(row: ProductRow, locale: Locale): StoreProduct {
   const alt = row.mainImageAlt || title;
   const extra = [...row.relatedImages]
     .sort((a, b) => a.position - b.position)
-    .map((img, i) => ({ url: img.url, alt: `${alt} — ${i + 2}` }));
+    .map((img, i) => ({ url: img.url, alt: `${alt} – view ${i + 2}` }));
 
   return {
     id: row.id,
@@ -98,7 +99,7 @@ function toStoreProduct(row: ProductRow, locale: Locale): StoreProduct {
     availability: row.availabilityStatus,
     condition: row.condition,
     seo: row.i18n[locale] ?? {},
-    images: [{ url: row.mainImageUrl, alt }, ...extra],
+    images: [{ url: row.mainImageUrl, alt: extra.length ? `${alt} – view 1` : alt }, ...extra],
     updatedAt: row.updatedAt,
   };
 }
@@ -121,6 +122,8 @@ export type ProductFilter = {
   piece?: string;
   /** Free-text search: every word must match name, brand, reference or tags. */
   query?: string;
+  /** Visitor-chosen filters and sort (filtered listing pages). */
+  listing?: ListingQuery;
   excludeSlug?: string;
   limit?: number;
   offset?: number;
@@ -140,8 +143,71 @@ function filterWhere(filter: ProductFilter) {
       return sql`(${p.name} ilike ${like} or ${p.sku} ilike ${like} or ${p.brandSlug} in (select slug from ${schema.brands} where name ilike ${like})
         or array_to_string(${p.tags}, ' ') ilike ${like} or ${p.facets}->>'reference' ilike ${like})`;
     }),
+    ...queryConditions(filter.listing),
     filter.excludeSlug ? ne(p.slug, filter.excludeSlug) : undefined
   );
+}
+
+// What each filter matches on. Facet keys differ by category (watch case
+// material, jewelry metal, Hermès leather), so the first one present wins.
+const FILTER_SQL: Record<Exclude<FilterKey, "price">, SQL> = {
+  brand: sql`${p.brandSlug}`,
+  model: sql`${p.facets}->>'model'`,
+  size: sql`coalesce(${p.facets}->>'case_size', ${p.facets}->>'size')`,
+  material: sql`coalesce(${p.facets}->>'case_material', ${p.facets}->>'metal', ${p.facets}->>'leather')`,
+  color: sql`coalesce(nullif(${p.facets}->>'dial_colour', ''), nullif(${p.color}, ''))`,
+  condition: sql`${p.condition}`,
+  availability: sql`${p.availabilityStatus}`,
+};
+
+function queryConditions(query: ListingQuery | undefined): SQL[] {
+  if (!query) return [];
+  const out: SQL[] = [];
+  for (const key of FILTER_KEYS) {
+    const values = query.filters[key];
+    if (!values?.length) continue;
+    if (key === "price") {
+      const bands = values.map(parseBand).filter((b) => b !== null);
+      if (bands.length)
+        out.push(sql`(${sql.join(bands.map(([min, max]) => (max === null ? sql`${p.price} >= ${min}` : sql`(${p.price} >= ${min} and ${p.price} < ${max})`)), sql` or `)})`);
+    } else {
+      out.push(sql`${FILTER_SQL[key]} in (${sql.join(values.map((v) => sql`${v}`), sql`, `)})`);
+    }
+  }
+  return out;
+}
+
+export type FilterOption = { value: string; label: string; count: number };
+
+/** Every filter value available within a listing (ignoring the visitor's own picks), with counts. */
+export async function getFilterOptions(base: ProductFilter): Promise<Partial<Record<FilterKey, FilterOption[]>>> {
+  const where = and(isLive, filterWhere({ ...base, listing: undefined }));
+  const band = sql.join(
+    PRICE_BANDS.map((b) => {
+      const [min, max] = parseBand(b)!;
+      return max === null ? sql`when ${p.price} >= ${min} then ${b}` : sql`when ${p.price} < ${max} and ${p.price} >= ${min} then ${b}`;
+    }),
+    sql` `
+  );
+  const parts = [
+    sql`select 'brand' as k, ${p.brandSlug} as v, (select name from ${schema.brands} where slug = ${p.brandSlug}) as label, count(*)::int as n from ${p} where ${where} and ${p.showBrand} group by 2, 3`,
+    ...(Object.keys(FILTER_SQL) as (keyof typeof FILTER_SQL)[])
+      .filter((k) => k !== "brand")
+      .map((k) => sql`select ${k} as k, (${FILTER_SQL[k]})::text as v, null as label, count(*)::int as n from ${p} where ${where} and (${FILTER_SQL[k]}) is not null group by 2`),
+    sql`select 'price' as k, case ${band} end as v, null as label, count(*)::int as n from ${p} where ${where} group by 2`,
+  ];
+  const { rows } = await db.execute<{ k: FilterKey; v: string; label: string | null; n: number }>(sql.join(parts, sql` union all `));
+  const out: Partial<Record<FilterKey, FilterOption[]>> = {};
+  for (const r of rows) {
+    if (!r.v) continue;
+    (out[r.k] ??= []).push({ value: r.v, label: r.label ?? r.v, count: r.n });
+  }
+  for (const key of Object.keys(out) as FilterKey[]) {
+    out[key]!.sort((a, b) =>
+      key === "price" ? PRICE_BANDS.indexOf(a.value as never) - PRICE_BANDS.indexOf(b.value as never) : key === "size" ? parseFloat(a.value) - parseFloat(b.value) || a.value.localeCompare(b.value) : key === "model" || key === "brand" ? a.label.localeCompare(b.label) : b.count - a.count
+    );
+  }
+  return out;
 }
 
 /** Up to six search words, with LIKE wildcards escaped. */
@@ -156,8 +222,9 @@ function searchTerms(query: string | undefined): string[] {
 }
 
 export async function getProducts(filter: ProductFilter = {}, locale: Locale = DEFAULT_LOCALE): Promise<StoreProduct[]> {
+  const sort = filter.listing?.sort;
   const query = selectProducts(filterWhere(filter))
-    .orderBy(desc(p.createdAt), asc(p.slug))
+    .orderBy(...(sort === "price_asc" ? [asc(p.price)] : sort === "price_desc" ? [desc(p.price)] : []), desc(p.createdAt), asc(p.slug))
     .limit(filter.limit ?? 200)
     .offset(filter.offset ?? 0);
 
@@ -303,7 +370,10 @@ export async function getStoreProfile(): Promise<StoreProfile> {
 }
 
 export type ContactChannels = {
+  /** Main WhatsApp number (first line), used for product enquiries. */
   whatsapp: string | null;
+  /** Every WhatsApp line from Settings, main first. */
+  whatsappLines: { label: string; number: string }[];
   telegram: string | null;
   signal: string | null;
   phone: string | null;
@@ -313,9 +383,11 @@ export type ContactChannels = {
 
 export async function getContactChannels(): Promise<ContactChannels> {
   const [s] = await db.select().from(schema.storeSettings).where(eq(schema.storeSettings.id, 1));
+  const whatsappLines = s?.whatsappNumbers?.length ? s.whatsappNumbers : s?.whatsappNumber ? [{ label: "WhatsApp", number: s.whatsappNumber }] : [];
 
   return {
-    whatsapp: s?.whatsappNumber || null,
+    whatsapp: whatsappLines[0]?.number ?? null,
+    whatsappLines,
     telegram: s?.telegramUsername || null,
     signal: s?.signalNumber || null,
     phone: s?.phoneNumber || null,

@@ -107,6 +107,7 @@ export function productLd(product: StoreProduct, locale: Locale, description: st
     name: product.title,
     description,
     sku: product.slug,
+    ...(product.facets.reference ? { mpn: product.facets.reference } : {}),
     image: product.images.map((img) => absoluteImage(img.url)),
     ...(product.showBrand ? { brand: { "@type": "Brand", name: product.brand } } : {}),
     ...(product.color ? { color: product.color } : {}),
@@ -135,5 +136,13 @@ export function itemListLd(locale: Locale, products: StoreProduct[]) {
       url: absoluteUrl(locale, `/products/${p.slug}`),
       name: p.title,
     })),
+  };
+}
+
+export function faqLd(items: { q: string; a: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({ "@type": "Question", name: item.q, acceptedAnswer: { "@type": "Answer", text: item.a } })),
   };
 }

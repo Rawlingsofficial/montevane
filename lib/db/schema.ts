@@ -61,6 +61,8 @@ export type ProductVariant = { name: string; sku: string; stock: number; active:
 /** A verified spec line shown on the product page, e.g. "Case size" → "41 mm". */
 export type SpecRow = { label: string; value: string };
 /** Prices in other currencies; USD lives in the `price` column. */
+/** One WhatsApp line shown on the storefront, e.g. { label: "UK", number: "+44 7700 900123" }. */
+export type WhatsAppLine = { label: string; number: string };
 export type RegionalPrices = Partial<Record<"GBP" | "EUR", number>>;
 
 /**
@@ -185,7 +187,9 @@ export const storeSettings = pgTable(
     newsletterSenderEmail: text("newsletter_sender_email"),
     phoneNumber: text("phone_number"),
     contactEmail: text("contact_email"),
+    // Legacy single number; whatsappNumbers replaces it (first entry is the main line).
     whatsappNumber: text("whatsapp_number"),
+    whatsappNumbers: jsonb("whatsapp_numbers").$type<WhatsAppLine[]>().notNull().default([]),
     telegramUsername: text("telegram_username"),
     signalNumber: text("signal_number"),
     tiktokUrl: text("tiktok_url"),

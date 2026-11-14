@@ -34,7 +34,11 @@ export default async function AdminSettingsPage() {
             store_name: settings?.storeName ?? "Montévane",
             store_email: settings?.storeEmail ?? "",
             support_email: settings?.supportEmail ?? "",
-            whatsapp_number: settings?.whatsappNumber ?? "",
+            whatsapp_numbers: settings?.whatsappNumbers?.length
+              ? settings.whatsappNumbers
+              : settings?.whatsappNumber
+                ? [{ label: "WhatsApp", number: settings.whatsappNumber }]
+                : [],
             telegram_username: settings?.telegramUsername ?? "",
             signal_number: settings?.signalNumber ?? "",
             phone_number: settings?.phoneNumber ?? "",

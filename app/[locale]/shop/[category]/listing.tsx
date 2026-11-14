@@ -7,10 +7,15 @@ import { PageHero } from "@/components/common/PageHero";
 import { Pagination, pagePath } from "@/components/common/Pagination";
 import { SourcingCta } from "@/components/common/SourcingCta";
 import { ProductGrid } from "@/components/products/ProductGrid";
+import { Expandable } from "@/components/shop/Expandable";
+import { ListingFaq } from "@/components/shop/ListingFaq";
+import { ListingFilters, type FilterLabels } from "@/components/shop/ListingFilters";
+import { EMPTY_QUERY, hasQuery, queryString, type ListingQuery } from "@/lib/catalog/filters";
 import { BRAND_SUBCATEGORIES } from "@/lib/catalog/taxonomy";
 import {
   getCategories,
   getContactChannels,
+  getFilterOptions,
   getLiveModels,
   getProductPage,
   getSubcategories,
@@ -73,31 +78,59 @@ async function resolveListing(locale: Locale, category: string, sub?: string) {
   return { parent, copy, filter: found.filter, base: `/shop/${category}/${sub}` };
 }
 
-export async function categoryMetadata(locale: Locale, category: string, page: number, sub?: string): Promise<Metadata> {
+/** Filtered views (?model=…&sort=…) are noindex,follow and canonical to the plain listing. */
+export async function categoryMetadata(locale: Locale, category: string, page: number, sub?: string, filtered = false): Promise<Metadata> {
   const listing = await resolveListing(locale, category, sub);
   if (!listing) return {};
   const suffix = page > 1 ? ` — ${fmt(getDictionary(locale).listing.page, { n: page })}` : "";
   return pageMetadata({
     locale,
-    path: pagePath(listing.base, page),
+    path: filtered ? listing.base : pagePath(listing.base, page),
     title: listing.copy.metaTitle + suffix,
     description: listing.copy.metaDescription,
+    noindex: filtered,
   });
 }
 
 const chip = "border border-border px-3 py-2 text-xs tracking-[0.1em] uppercase transition-colors hover:border-foreground";
 
-export async function CategoryListing({ locale, category, sub, page }: { locale: Locale; category: string; sub?: string; page: number }) {
+function faqFor(category: string): "watches" | "jewelry" | "hermes" {
+  return category === "watches" || category === "jewelry" ? category : "hermes";
+}
+
+export function filterLabels(locale: Locale): FilterLabels {
+  const t = getDictionary(locale);
+  const values: Record<string, string> = {};
+  for (const [k, v] of Object.entries(t.product.condition)) values[`condition.${k}`] = v;
+  for (const [k, v] of Object.entries(t.availability)) values[`availability.${k}`] = v;
+  return { ...t.ui.filters, close: t.nav.closeMenu, values };
+}
+
+export async function CategoryListing({
+  locale,
+  category,
+  sub,
+  page,
+  query = EMPTY_QUERY,
+}: {
+  locale: Locale;
+  category: string;
+  sub?: string;
+  page: number;
+  query?: ListingQuery;
+}) {
   const resolved = await resolveListing(locale, category, sub);
   if (!resolved) notFound();
   const { parent, copy, filter, base } = resolved;
 
   const t = getDictionary(locale);
-  const [listing, channels, subcategories, liveModels] = await Promise.all([
-    getProductPage(filter, page, locale),
+  const filtered = hasQuery(query);
+  const [listing, channels, subcategories, liveModels, options] = await Promise.all([
+    getProductPage({ ...filter, listing: query }, page, locale),
     getContactChannels(),
     sub ? Promise.resolve([]) : getSubcategories(category),
     getLiveModels(),
+    getFilterOptions(filter),
   ]);
   if (!listing) notFound();
   const models = liveModels.filter((m) => m.category === category && (!filter.brand || m.brandSlug === filter.brand));
@@ -116,9 +149,13 @@ export async function CategoryListing({ locale, category, sub, page }: { locale:
 
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-10">
         <Breadcrumbs locale={locale} items={crumbs} />
-        {copy.intro && page === 1 && <p className="max-w-3xl text-base leading-relaxed text-foreground/80">{copy.intro}</p>}
+        {copy.intro && page === 1 && !filtered && (
+          <Expandable more={t.ui.filters.readMore} less={t.ui.filters.readLess} className="max-w-3xl">
+            <p className="text-base leading-relaxed text-foreground/80">{copy.intro}</p>
+          </Expandable>
+        )}
 
-        {subcategories.length > 0 && page === 1 && (
+        {subcategories.length > 0 && page === 1 && !filtered && (
           <nav aria-label={byBrand ? t.listing.byBrand : t.listing.byType} className="mt-8">
             <h2 className="mb-3 text-xs tracking-[0.1em] text-muted-foreground uppercase">{byBrand ? t.listing.byBrand : t.listing.byType}</h2>
             <ul className="flex flex-wrap gap-2">
@@ -133,7 +170,7 @@ export async function CategoryListing({ locale, category, sub, page }: { locale:
           </nav>
         )}
 
-        {models.length > 0 && page === 1 && (
+        {models.length > 0 && page === 1 && !filtered && (
           <nav aria-label={copy.name} className="mt-6 flex flex-wrap gap-2">
             {models.map((m) => (
               <Link key={m.slug} href={localePath(locale, `/models/${m.slug}`)} className={chip}>
@@ -144,6 +181,14 @@ export async function CategoryListing({ locale, category, sub, page }: { locale:
         )}
 
         <section className="mt-12">
+          <ListingFilters
+            locale={locale}
+            basePath={localePath(locale, base)}
+            options={options}
+            query={query}
+            hidden={filter.brand ? ["brand"] : []}
+            labels={filterLabels(locale)}
+          />
           <h2 className="mb-6 text-xs tracking-[0.1em] text-muted-foreground uppercase">
             {listing.total === 1 ? t.listing.piece : fmt(t.listing.pieces, { n: listing.total })}
           </h2>
@@ -152,8 +197,10 @@ export async function CategoryListing({ locale, category, sub, page }: { locale:
           ) : (
             <p className="text-sm text-muted-foreground">{t.listing.empty}</p>
           )}
-          <Pagination locale={locale} base={base} page={listing.page} pages={listing.pages} />
+          <Pagination locale={locale} base={base} page={listing.page} pages={listing.pages} query={queryString(query)} />
         </section>
+
+        {page === 1 && !filtered && <ListingFaq title={t.ui.faqTitle} items={t.ui.faq[faqFor(category)]} />}
 
         <SourcingCta locale={locale} />
       </div>

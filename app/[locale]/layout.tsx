@@ -1,10 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
+import Script from "next/script";
 
 import "../globals.css";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { CURRENCY_SCRIPT } from "@/components/common/CurrencySwitch";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { WhatsAppFloat } from "@/components/whatsapp/WhatsAppFloat";
 import { getContactChannels } from "@/lib/data/catalog";
 import { cormorant, inter } from "@/lib/fonts";
 import { LOCALES, getDictionary, isLocale, siteUrl } from "@/lib/i18n";
@@ -38,14 +42,26 @@ export default async function StoreLayout({ children, params }: LayoutProps<"/[l
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const channels = await getContactChannels();
+  const t = getDictionary(locale);
 
   return (
-    <html lang={locale} className={`${inter.variable} ${cormorant.variable} h-full antialiased`}>
+    // data-currency: German visitors default to EUR; a saved choice wins (script below, before paint).
+    <html
+      lang={locale}
+      data-currency={locale === "de" ? "EUR" : "USD"}
+      suppressHydrationWarning
+      className={`${inter.variable} ${cormorant.variable} h-full scroll-pt-20 antialiased`}
+    >
       <body className="flex min-h-full flex-col">
+        <Script id="currency" strategy="beforeInteractive">
+          {CURRENCY_SCRIPT}
+        </Script>
         <Navbar locale={locale} />
         <main className="flex-1">{children}</main>
         <Footer locale={locale} channels={channels} />
+        <WhatsAppFloat lines={channels.whatsappLines} message={t.ui.wa.global} label={t.ui.wa.float} chooseLabel={t.ui.wa.choose} />
         <JsonLd data={[organizationLd(channels), websiteLd(locale)]} />
+        <GoogleAnalytics />
       </body>
     </html>
   );

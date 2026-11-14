@@ -6,7 +6,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, Menu, Search, X } from "lucide-react";
 
+import { CurrencySwitch } from "@/components/common/CurrencySwitch";
+import { Price, type PriceAmounts } from "@/components/common/Price";
 import { Logo } from "@/components/layout/Logo";
+import { WishlistCount } from "@/components/shop/WishlistCount";
+import { WhatsAppIcon } from "@/components/whatsapp/WhatsAppIcon";
+import { WhatsAppLink, type WhatsAppLine } from "@/components/whatsapp/WhatsAppLink";
 import { localePath, stripLocale, type Locale } from "@/lib/i18n/config";
 import { cn } from "@/lib/utils";
 
@@ -15,9 +20,9 @@ export type MenuGroup = {
   id: string;
   label: string;
   items: NavLink[];
-  viewAll: NavLink;
+  viewAll?: NavLink;
   /** Featured tile in the desktop panel. */
-  image: string;
+  image?: string;
   /** Many items (watch brands): more columns. */
   wide?: boolean;
 };
@@ -31,29 +36,44 @@ type Labels = {
   searchSubmit: string;
   searchClose: string;
   seeAll: string;
+  tagline: string;
+  firstAccess: string;
+  privateViewing: string;
+  currency: string;
+  wishlist: string;
+  whatsapp: string;
+  whatsappChoose: string;
+  whatsappMessage: string;
+  viewingMessage: string;
 };
-type Suggestion = { title: string; href: string; image: string | null; price: string };
+type Suggestion = { title: string; href: string; image: string | null; price: PriceAmounts };
 
 // Pages that open on a dark hero get a transparent header until scrolled;
 // everywhere else it is solid, so the links never fade into a light page.
-const NO_HERO = /^\/(products\/(?!page\/)[^/]+|journal\/[^/]+|privacy|search)(\/|$)/;
+const NO_HERO = /^\/(products\/(?!page\/)[^/]+|journal\/[^/]+|privacy|search|wishlist)(\/|$)/;
 
 export function NavbarClient({
   locale,
   groups,
-  right,
-  extra,
+  links,
   homeHref,
   searchAction,
+  wishlistHref,
+  contactHref,
+  whatsapp,
+  currencyFallback,
   labels,
   languages,
 }: {
   locale: Locale;
   groups: MenuGroup[];
-  right: NavLink[];
-  extra: NavLink[];
+  links: NavLink[];
   homeHref: string;
   searchAction: string;
+  wishlistHref: string;
+  contactHref: string;
+  whatsapp: WhatsAppLine[];
+  currencyFallback: string;
   labels: Labels;
   languages: { locale: Locale; label: string }[];
 }) {
@@ -116,6 +136,8 @@ export function NavbarClient({
     tone
   );
   const iconButton = cn("flex size-11 items-center justify-center transition-colors hover:text-[var(--gold)]", tone);
+  const utilityText = "text-[11px] tracking-[0.12em] uppercase transition-colors hover:text-[var(--gold)]";
+  const contactLink = links.find((l) => l.href === contactHref);
 
   const switcher = (className: string) => (
     <nav aria-label={labels.language} className="flex items-center gap-1">
@@ -134,6 +156,24 @@ export function NavbarClient({
     </nav>
   );
 
+  const privateViewing = (className: string) =>
+    whatsapp.length ? (
+      <WhatsAppLink
+        lines={whatsapp}
+        message={labels.viewingMessage}
+        location="viewing"
+        chooseLabel={labels.whatsappChoose}
+        menuClassName="top-full right-0 mt-1"
+        className={className}
+      >
+        {labels.privateViewing}
+      </WhatsAppLink>
+    ) : (
+      <Link href={contactHref} className={className}>
+        {labels.privateViewing}
+      </Link>
+    );
+
   const toggleSearch = () => {
     setSearchOpen((v) => !v);
     setOpenGroup(null);
@@ -147,6 +187,34 @@ export function NavbarClient({
         solid ? "bg-white shadow-[0_1px_0_0_var(--border)]" : "bg-transparent"
       )}
     >
+      {/* Utility bar (desktop): collapses once the page scrolls. */}
+      <div className={cn("hidden bg-foreground text-white transition-[height] duration-300 lg:block", scrolled ? "h-0 overflow-hidden" : "h-9")}>
+        <div className="mx-auto grid h-9 max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-6 px-10">
+          <div className="justify-self-start">
+            <WhatsAppLink
+              lines={whatsapp}
+              message={labels.whatsappMessage}
+              location="topbar"
+              chooseLabel={labels.whatsappChoose}
+              className={cn(utilityText, "flex min-h-9 items-center gap-2")}
+            >
+              <WhatsAppIcon className="size-3.5" />
+              {labels.whatsapp}
+            </WhatsAppLink>
+          </div>
+          <a href="#newsletter" className={utilityText}>
+            {labels.firstAccess} →
+          </a>
+          <div className="flex items-center gap-4 justify-self-end">
+            {privateViewing(cn(utilityText, "flex min-h-9 items-center"))}
+            <span aria-hidden="true" className="h-3 w-px bg-white/30" />
+            <CurrencySwitch label={labels.currency} fallback={currencyFallback} itemClassName="min-h-9 text-[11px] tracking-[0.12em]" />
+            <span aria-hidden="true" className="h-3 w-px bg-white/30" />
+            {switcher("min-h-9 text-[11px] tracking-[0.12em] text-white")}
+          </div>
+        </div>
+      </div>
+
       {/* Mobile bar */}
       <div className="mx-auto grid h-16 max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-3 lg:hidden">
         <button
@@ -167,20 +235,17 @@ export function NavbarClient({
           <Logo light={!solid} height={20} />
         </Link>
 
-        <button
-          type="button"
-          aria-label={searchOpen ? labels.searchClose : labels.search}
-          aria-expanded={searchOpen}
-          onClick={toggleSearch}
-          className={cn(iconButton, "justify-self-end")}
-        >
-          {searchOpen ? <X className="size-5" /> : <Search className="size-5" strokeWidth={1.5} />}
-        </button>
+        <div className="flex items-center justify-self-end">
+          <button type="button" aria-label={searchOpen ? labels.searchClose : labels.search} aria-expanded={searchOpen} onClick={toggleSearch} className={iconButton}>
+            {searchOpen ? <X className="size-5" /> : <Search className="size-5" strokeWidth={1.5} />}
+          </button>
+          <WishlistCount href={wishlistHref} label={labels.wishlist} className={tone} />
+        </div>
       </div>
 
       {/* Desktop bar */}
-      <div className="mx-auto hidden h-16 max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-10 lg:grid">
-        <nav className="flex h-full gap-8 justify-self-start">
+      <div className="mx-auto hidden h-16 max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-6 px-10 lg:grid">
+        <nav className="flex h-full gap-7 justify-self-start">
           {groups.map((g) => (
             <div key={g.id} className="flex h-full items-center" onMouseEnter={() => setOpenGroup(g.id)} onMouseLeave={() => setOpenGroup(null)}>
               <button
@@ -198,29 +263,30 @@ export function NavbarClient({
           ))}
         </nav>
 
-        <Link href={homeHref} aria-label={labels.home} className="justify-self-center">
-          <Logo light={!solid} height={24} />
+        <Link href={homeHref} aria-label={labels.home} className="flex flex-col items-center justify-self-center">
+          <Logo light={!solid} height={22} />
+          <span className={cn("mt-1 text-[9px] tracking-[0.25em] uppercase transition-colors", solid ? "text-muted-foreground" : "text-white/80")}>
+            {labels.tagline}
+          </span>
         </Link>
 
-        <div className="flex items-center gap-6 justify-self-end">
-          <nav className="flex gap-6">
-            {right.map((link) => (
-              <Link key={link.href} href={link.href} className={linkClass}>
-                {link.label}
-              </Link>
-            ))}
-          </nav>
+        <div className="flex items-center gap-1 justify-self-end">
+          {contactLink && (
+            <Link href={contactLink.href} className={cn(linkClass, "mr-4")}>
+              {contactLink.label}
+            </Link>
+          )}
           <button type="button" aria-label={searchOpen ? labels.searchClose : labels.search} aria-expanded={searchOpen} onClick={toggleSearch} className={iconButton}>
             {searchOpen ? <X className="size-4" /> : <Search className="size-4" strokeWidth={1.5} />}
           </button>
-          {switcher(cn(linkClass, "text-[11px]"))}
+          <WishlistCount href={wishlistHref} label={labels.wishlist} className={tone} />
         </div>
       </div>
 
       {searchOpen && <SearchPanel locale={locale} action={searchAction} labels={labels} />}
 
       {mobileOpen && (
-        <div id="mobile-menu" className="max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-border bg-white px-6 pb-8 lg:hidden">
+        <div id="mobile-menu" className="max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-border bg-white px-6 pb-10 lg:hidden">
           <ul className="divide-y divide-border">
             {groups.map((g) => {
               const open = mobileGroup === g.id;
@@ -245,17 +311,19 @@ export function NavbarClient({
                           </Link>
                         </li>
                       ))}
-                      <li>
-                        <Link href={g.viewAll.href} className="flex min-h-11 items-center pl-4 text-sm font-medium tracking-[0.1em] uppercase">
-                          {g.viewAll.label} →
-                        </Link>
-                      </li>
+                      {g.viewAll && (
+                        <li>
+                          <Link href={g.viewAll.href} className="flex min-h-11 items-center pl-4 text-sm font-medium tracking-[0.1em] uppercase">
+                            {g.viewAll.label} →
+                          </Link>
+                        </li>
+                      )}
                     </ul>
                   )}
                 </li>
               );
             })}
-            {[...right, ...extra].map((link) => (
+            {links.map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className="flex min-h-12 items-center text-sm tracking-[0.1em] uppercase">
                   {link.label}
@@ -263,9 +331,34 @@ export function NavbarClient({
               </li>
             ))}
           </ul>
-          <div className="mt-6 flex items-center gap-3 text-sm">
-            <span className="text-xs tracking-[0.15em] text-muted-foreground uppercase">{labels.language}</span>
-            {switcher("text-sm text-foreground")}
+
+          <div className="mt-6 space-y-3">
+            <WhatsAppLink
+              lines={whatsapp}
+              message={labels.whatsappMessage}
+              location="drawer"
+              chooseLabel={labels.whatsappChoose}
+              menuClassName="bottom-full left-0 mb-2"
+              className="flex min-h-12 w-full items-center justify-center gap-2 bg-[#25D366] px-6 text-sm font-medium tracking-[0.1em] text-white uppercase"
+            >
+              <WhatsAppIcon className="size-4" />
+              {labels.whatsapp}
+            </WhatsAppLink>
+            {privateViewing("flex min-h-12 w-full items-center justify-center border border-foreground px-6 text-sm tracking-[0.1em] uppercase")}
+            <a href="#newsletter" onClick={() => setMobileOpen(false)} className="flex min-h-12 items-center justify-center text-sm tracking-[0.1em] uppercase underline underline-offset-4">
+              {labels.firstAccess} →
+            </a>
+          </div>
+
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-4 text-sm">
+            <div className="flex items-center gap-2">
+              <span className="text-xs tracking-[0.15em] text-muted-foreground uppercase">{labels.language}</span>
+              {switcher("text-sm text-foreground")}
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs tracking-[0.15em] text-muted-foreground uppercase">{labels.currency}</span>
+              <CurrencySwitch label={labels.currency} fallback={currencyFallback} itemClassName="text-sm" />
+            </div>
           </div>
         </div>
       )}
@@ -276,7 +369,7 @@ export function NavbarClient({
 function MegaPanel({ group }: { group: MenuGroup }) {
   return (
     <div id={`menu-${group.id}`} className="absolute inset-x-0 top-full border-t border-border bg-white shadow-[0_12px_24px_-16px_rgba(0,0,0,0.25)]">
-      <div className="mx-auto grid max-w-7xl grid-cols-[1fr_320px] gap-12 px-10 py-10">
+      <div className={cn("mx-auto grid max-w-7xl gap-12 px-10 py-10", group.image && "grid-cols-[1fr_320px]")}>
         <div>
           <p className="mb-4 text-[11px] font-medium tracking-[0.2em] text-[var(--gold)] uppercase">{group.label}</p>
           <ul className={cn("grid gap-x-8", group.wide ? "grid-cols-[repeat(4,minmax(0,190px))]" : "grid-cols-[repeat(2,minmax(0,220px))]")}>
@@ -288,16 +381,20 @@ function MegaPanel({ group }: { group: MenuGroup }) {
               </li>
             ))}
           </ul>
-          <Link
-            href={group.viewAll.href}
-            className="mt-6 inline-block text-xs font-medium tracking-[0.15em] text-foreground uppercase underline underline-offset-4 hover:text-[var(--gold)]"
-          >
-            {group.viewAll.label} →
-          </Link>
+          {group.viewAll && (
+            <Link
+              href={group.viewAll.href}
+              className="mt-6 inline-block text-xs font-medium tracking-[0.15em] text-foreground uppercase underline underline-offset-4 hover:text-[var(--gold)]"
+            >
+              {group.viewAll.label} →
+            </Link>
+          )}
         </div>
-        <Link href={group.viewAll.href} tabIndex={-1} aria-hidden="true" className="group relative block aspect-[4/3] overflow-hidden bg-[var(--ivory)]">
-          <Image src={group.image} alt="" fill sizes="320px" className="object-cover transition-transform duration-500 group-hover:scale-105" />
-        </Link>
+        {group.image && group.viewAll && (
+          <Link href={group.viewAll.href} tabIndex={-1} aria-hidden="true" className="group relative block aspect-[4/3] overflow-hidden bg-[var(--ivory)]">
+            <Image src={group.image} alt="" fill sizes="320px" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+          </Link>
+        )}
       </div>
     </div>
   );
@@ -369,11 +466,11 @@ function SearchPanel({ locale, action, labels }: { locale: Locale; action: strin
             {shown.map((s) => (
               <li key={s.href}>
                 <Link href={s.href} className="flex items-center gap-4 py-2.5 hover:bg-[var(--ivory)]">
-                  <span className="relative size-12 shrink-0 overflow-hidden bg-[var(--ivory)]">
-                    {s.image && <Image src={s.image} alt="" fill sizes="48px" className="object-cover" />}
+                  <span className="relative size-12 shrink-0 overflow-hidden bg-white">
+                    {s.image && <Image src={s.image} alt="" fill sizes="48px" className="object-contain" />}
                   </span>
                   <span className="min-w-0 flex-1 truncate text-sm text-foreground">{s.title}</span>
-                  <span className="shrink-0 text-sm text-muted-foreground">{s.price}</span>
+                  <Price amounts={s.price} locale={locale} className="shrink-0 text-sm text-muted-foreground" />
                 </Link>
               </li>
             ))}

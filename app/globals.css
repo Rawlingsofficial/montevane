@@ -170,3 +170,9 @@
     animation: none;
   }
 }
+
+/* Currency switch: both prices are in the page, one is shown. */
+html:not([data-currency="EUR"]) [data-price="EUR"],
+html[data-currency="EUR"] [data-price="USD"] {
+  display: none;
+}

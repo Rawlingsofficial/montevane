@@ -15,10 +15,11 @@ export function Hero({ locale }: { locale: Locale }) {
       <div className="relative flex h-full flex-col items-center justify-center px-6 text-center">
         <p className="fade-up text-xs font-medium tracking-[0.3em] text-white/90 uppercase">{t.eyebrow}</p>
         {/* No entrance animation on the h1: it is the largest paint, and fading it in delays LCP. */}
-        <h1 className="mt-4 max-w-3xl font-heading text-5xl font-extralight text-white sm:text-6xl lg:text-7xl">
+        <h1 className="mt-4 max-w-4xl font-heading text-5xl font-extralight text-white sm:text-6xl lg:text-7xl">
           {t.title}
+          <span className="mt-2 block text-3xl sm:text-4xl lg:text-5xl">{t.titleLine2}</span>
         </h1>
-        <p className="fade-up mt-6 max-w-md text-sm font-light text-white/85" style={{ animationDelay: "0.3s" }}>
+        <p className="fade-up mt-6 max-w-md text-base font-light text-white/90" style={{ animationDelay: "0.3s" }}>
           {t.body}
         </p>
         <Link

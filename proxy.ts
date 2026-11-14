@@ -1,7 +1,23 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/auth/session";
-import { DEFAULT_LOCALE, isLocale } from "@/lib/i18n/config";
+import { isFilteredRequest } from "@/lib/catalog/filters";
+import { DEFAULT_LOCALE, isLocale, type Locale } from "@/lib/i18n/config";
+
+// /shop/<category>[/<sub>][/page/<n>] — the listings that take filters.
+const SHOP_LISTING = /^(\/shop\/[a-z0-9-]+(?:\/(?!page\/)[a-z0-9-]+)?)(?:\/page\/(\d+))?\/?$/;
+
+/** Filtered shop listings are served by the dynamic /[locale]/browse route. */
+function filteredListing(request: NextRequest, locale: Locale, path: string) {
+  if (!isFilteredRequest(request.nextUrl.searchParams)) return null;
+  const m = SHOP_LISTING.exec(path);
+  if (!m) return null;
+  const url = request.nextUrl.clone();
+  url.pathname = `/${locale}/browse`;
+  url.searchParams.set("scope", m[1]);
+  if (m[2]) url.searchParams.set("page", m[2]);
+  return NextResponse.rewrite(url);
+}
 
 export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -16,8 +32,10 @@ export default function proxy(request: NextRequest) {
     url.pathname = pathname.slice(DEFAULT_LOCALE.length + 1) || "/";
     return NextResponse.redirect(url, 308);
   }
-  if (isLocale(first)) return NextResponse.next();
+  if (isLocale(first)) return filteredListing(request, first, pathname.slice(first.length + 1) || "/") ?? NextResponse.next();
 
+  const filtered = filteredListing(request, DEFAULT_LOCALE, pathname);
+  if (filtered) return filtered;
   const url = request.nextUrl.clone();
   url.pathname = `/${DEFAULT_LOCALE}${pathname}`;
   return NextResponse.rewrite(url);

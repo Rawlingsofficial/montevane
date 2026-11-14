@@ -41,7 +41,7 @@ export async function Footer({ locale, channels }: { locale: Locale; channels: C
       <AssetImage base="footer_bg" alt="" className="absolute inset-0 opacity-30" sizes="100vw" />
       <div className="absolute inset-0 bg-[#0d0d0d]/70" />
       <div className="relative mx-auto max-w-7xl px-6 py-20 lg:px-10">
-        <div className="mb-16 grid gap-10 border-b border-white/10 pb-16 lg:grid-cols-2 lg:items-center">
+        <div id="newsletter" className="mb-16 grid scroll-mt-24 gap-10 border-b border-white/10 pb-16 lg:grid-cols-2 lg:items-center">
           <div>
             <p className="font-heading text-2xl font-light text-white">{t.home.newsletterTitle}</p>
             <p className="mt-2 max-w-md text-sm text-white/60">{t.home.newsletterBody}</p>

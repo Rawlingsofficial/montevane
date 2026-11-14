@@ -11,7 +11,19 @@ export function StoreSettingsForm({ initial }: { initial: StoreSettingsInput }) 
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  function set<K extends keyof StoreSettingsInput>(key: K, value: string) {
+  function setLine(i: number, key: "label" | "number", value: string) {
+    setValues((v) => ({ ...v, whatsapp_numbers: v.whatsapp_numbers.map((l, j) => (j === i ? { ...l, [key]: value } : l)) }));
+    setSaved(false);
+  }
+  function addLine() {
+    setValues((v) => ({ ...v, whatsapp_numbers: [...v.whatsapp_numbers, { label: "", number: "" }] }));
+  }
+  function removeLine(i: number) {
+    setValues((v) => ({ ...v, whatsapp_numbers: v.whatsapp_numbers.filter((_, j) => j !== i) }));
+    setSaved(false);
+  }
+
+  function set<K extends Exclude<keyof StoreSettingsInput, "whatsapp_numbers">>(key: K, value: string) {
     setValues((v) => ({ ...v, [key]: value }));
     setSaved(false);
   }
@@ -40,9 +52,6 @@ export function StoreSettingsForm({ initial }: { initial: StoreSettingsInput }) 
           <Field label="Email">
             <input type="email" value={values.contact_email} onChange={(e) => set("contact_email", e.target.value)} className={inputClass} />
           </Field>
-          <Field label="WhatsApp Number">
-            <input value={values.whatsapp_number} onChange={(e) => set("whatsapp_number", e.target.value)} placeholder="+1 555 000 0000" className={inputClass} />
-          </Field>
           <Field label="Telegram Username">
             <input value={values.telegram_username} onChange={(e) => set("telegram_username", e.target.value)} placeholder="@montevane" className={inputClass} />
           </Field>
@@ -53,6 +62,33 @@ export function StoreSettingsForm({ initial }: { initial: StoreSettingsInput }) 
             <input value={values.tiktok_url} onChange={(e) => set("tiktok_url", e.target.value)} placeholder="https://www.tiktok.com/@montevane" className={inputClass} />
           </Field>
         </div>
+      </Section>
+
+      <div className="h-10" />
+
+      <Section title="WhatsApp">
+        <p className="-mt-1 mb-5 text-xs text-muted-foreground">
+          The first number is the main line: product enquiries, the floating chat button and the top bar use it. Add more
+          (e.g. UK, US, Monaco) and visitors pick one from a short list. No numbers = every WhatsApp button is hidden.
+        </p>
+        <div className="space-y-3">
+          {values.whatsapp_numbers.map((line, i) => (
+            <div key={i} className="grid grid-cols-[8rem_1fr_auto] items-end gap-3">
+              <Field label={i === 0 ? "Label (main)" : "Label"}>
+                <input value={line.label} onChange={(e) => setLine(i, "label", e.target.value)} placeholder="UK" className={inputClass} />
+              </Field>
+              <Field label="Number">
+                <input value={line.number} onChange={(e) => setLine(i, "number", e.target.value)} placeholder="+44 7700 900123" className={inputClass} />
+              </Field>
+              <button type="button" onClick={() => removeLine(i)} className="h-10 px-3 text-xs text-muted-foreground hover:text-red-700">
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
+        <button type="button" onClick={addLine} className="mt-4 border border-border px-4 py-2 text-xs tracking-[0.1em] uppercase hover:border-foreground">
+          + Add WhatsApp number
+        </button>
       </Section>
 
       <div className="h-10" />

@@ -1,17 +1,18 @@
 import { NavbarClient, type MenuGroup } from "@/components/layout/NavbarClient";
 import { HERMES_CATEGORIES } from "@/lib/catalog/taxonomy";
-import { getCategories, getSubcategories } from "@/lib/data/catalog";
+import { getCategories, getContactChannels, getSubcategories } from "@/lib/data/catalog";
 import { LOCALE_LABEL, LOCALES, getDictionary, localePath, type Locale } from "@/lib/i18n";
 import { asset, categoryImage } from "@/lib/images";
 
-// Mega-menu: Hermès › categories, Watches › brands, Jewelry › types.
+// Mega-menu: Hermès › categories, Watches › brands, Jewelry › types, Services.
 // Built from live stock only, so a category or brand with nothing in it never shows.
 
 export async function Navbar({ locale }: { locale: Locale }) {
   const d = getDictionary(locale);
   const t = d.nav;
   const link = (label: string, path: string) => ({ label, href: localePath(locale, path) });
-  const live = new Set((await getCategories()).map((c) => c.slug));
+  const [categories, channels] = await Promise.all([getCategories(), getContactChannels()]);
+  const live = new Set(categories.map((c) => c.slug));
   const [watchBrands, jewelryTypes] = await Promise.all([
     live.has("watches") ? getSubcategories("watches") : [],
     live.has("jewelry") ? getSubcategories("jewelry") : [],
@@ -47,15 +48,28 @@ export async function Navbar({ locale }: { locale: Locale }) {
       image: asset(categoryImage("jewelry")),
     });
   }
+  groups.push({
+    id: "services",
+    label: t.services,
+    items: [
+      link(d.ui.sourcing, "/contact"),
+      link(t.authenticity, "/authenticity"),
+      link(t.payment, "/payment-shipping"),
+      link(t.about, "/about"),
+    ],
+  });
 
   return (
     <NavbarClient
       locale={locale}
       groups={groups}
-      right={[link(t.collections, "/collections"), link(t.contact, "/contact")]}
-      extra={[link(t.brands, "/brands"), link(t.authenticity, "/authenticity"), link(t.payment, "/payment-shipping"), link(t.about, "/about"), link(t.journal, "/journal")]}
+      links={[link(t.collections, "/collections"), link(t.brands, "/brands"), link(t.journal, "/journal"), link(t.contact, "/contact")]}
       homeHref={localePath(locale, "/")}
       searchAction={localePath(locale, "/search")}
+      wishlistHref={localePath(locale, "/wishlist")}
+      contactHref={localePath(locale, "/contact")}
+      whatsapp={channels.whatsappLines}
+      currencyFallback={locale === "de" ? "EUR" : "USD"}
       labels={{
         open: t.openMenu,
         close: t.closeMenu,
@@ -66,6 +80,15 @@ export async function Navbar({ locale }: { locale: Locale }) {
         searchSubmit: d.search.submit,
         searchClose: d.search.close,
         seeAll: d.search.seeAll,
+        tagline: d.ui.tagline,
+        firstAccess: d.ui.firstAccess,
+        privateViewing: d.ui.privateViewing,
+        currency: d.ui.currency,
+        wishlist: d.ui.wishlist,
+        whatsapp: d.ui.wa.chat,
+        whatsappChoose: d.ui.wa.choose,
+        whatsappMessage: d.ui.wa.global,
+        viewingMessage: d.ui.wa.viewing,
       }}
       languages={LOCALES.map((l) => ({ locale: l, label: LOCALE_LABEL[l] }))}
     />

@@ -1,21 +1,27 @@
-import Image from "next/image";
-import { BRAND_SUBCATEGORIES } from "@/lib/catalog/taxonomy";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { Breadcrumbs } from "@/components/common/Breadcrumbs";
+import { Price, priceAmounts } from "@/components/common/Price";
 import { ContactButtons } from "@/components/contact/ContactButtons";
 import { InquiryForm } from "@/components/contact/InquiryForm";
 import { ProductAccordion } from "@/components/products/ProductAccordion";
+import { ProductGallery } from "@/components/products/ProductGallery";
 import { ProductGrid } from "@/components/products/ProductGrid";
+import { StickyProductBar } from "@/components/products/StickyProductBar";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { RecentlyViewed } from "@/components/shop/SavedItems";
+import { WishlistButton } from "@/components/shop/WishlistButton";
+import { WhatsAppIcon } from "@/components/whatsapp/WhatsAppIcon";
+import { WhatsAppLink } from "@/components/whatsapp/WhatsAppLink";
 import { facetsFor } from "@/lib/catalog/facets";
-import { displayPrice } from "@/lib/catalog/pricing";
+import { groupSpecs } from "@/lib/catalog/spec-groups";
+import { BRAND_SUBCATEGORIES, JEWELRY_TYPES } from "@/lib/catalog/taxonomy";
 import { getContactChannels, getProduct, getProducts } from "@/lib/data/catalog";
 import { fmt, getDictionary, localePath } from "@/lib/i18n";
 import { resolveLocale } from "@/lib/i18n/server";
-import { pageMetadata } from "@/lib/seo/metadata";
+import { absoluteUrl, pageMetadata } from "@/lib/seo/metadata";
 import { MODELS } from "@/lib/seo/models";
 import { productSeo } from "@/lib/seo/product";
 import { productLd } from "@/lib/seo/structured-data";
@@ -24,7 +30,7 @@ import { productLd } from "@/lib/seo/structured-data";
 // static until an admin save revalidates them.
 export const dynamic = "force-static";
 export const dynamicParams = true;
-// Hourly refresh so promo start/end dates take effect without a save.
+// Hourly refresh so promo dates and the "Ships by" date stay current without a save.
 export const revalidate = 3600;
 
 // Only the newest pieces are pre-rendered at build (hundreds of product pages ×
@@ -45,6 +51,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return pageMetadata({ locale, path: `/products/${slug}`, title, description, image: product.images[0].url });
 }
 
+/** "28 November 2026": to-order pieces ship within 14 days (the page refreshes hourly). */
+function shipsByDate(locale: string): string {
+  return new Intl.DateTimeFormat(locale, { day: "numeric", month: "long", year: "numeric" }).format(new Date(Date.now() + 14 * 86_400_000));
+}
+
 export default async function ProductPage({ params }: Props) {
   const locale = await resolveLocale(params);
   const { slug } = await params;
@@ -52,51 +63,58 @@ export default async function ProductPage({ params }: Props) {
   if (!product) notFound();
 
   const t = getDictionary(locale);
+  const ui = t.ui;
   const item = product.title;
   const { description: seoDescription } = productSeo(product, locale);
   const model = MODELS.find((m) => m.brandSlug === product.brandSlug && m.match.some((term) => product.name.toLowerCase().includes(term)));
   const category = t.categories[product.categorySlug];
+  const jewelryType = JEWELRY_TYPES.find((j) => j.piece === product.facets.piece_type);
+  const amounts = priceAmounts(product);
+  const reference = product.facets.reference;
+  const refText = reference && !item.includes(reference) ? ` (ref. ${reference})` : "";
+  const url = absoluteUrl(locale, `/products/${product.slug}`);
+  const waMessage = fmt(ui.wa.product, { item, ref: refText, url });
+  const hasWhatsApp = channels.whatsappLines.length > 0;
+  const shipsBy = shipsByDate(locale);
 
-  // Related: same category first (a Birkin shows Birkins, a charm shows charms), then same house.
-  const sameCategory = await getProducts({ category: product.categorySlug, excludeSlug: product.slug, limit: 4 }, locale);
-  const related = sameCategory.length > 0 ? sameCategory : await getProducts({ brand: product.brandSlug, excludeSlug: product.slug, limit: 4 }, locale);
-  const price = displayPrice(product, locale);
-  const money = new Intl.NumberFormat(locale, { style: "currency", currency: price.currency, maximumFractionDigits: 0 });
+  // Similar: same house in the same category first (a Daytona shows Rolex), then the category.
+  const [sameBrand, sameCategory] = await Promise.all([
+    getProducts({ category: product.categorySlug, brand: product.brandSlug, excludeSlug: product.slug, limit: 8 }, locale),
+    getProducts({ category: product.categorySlug, excludeSlug: product.slug, limit: 8 }, locale),
+  ]);
+  const similar = [...sameBrand, ...sameCategory.filter((p) => !sameBrand.some((b) => b.slug === p.slug))].slice(0, 8);
 
-  // Only filled-in values make it to the page.
-  const specRows = [
-    ...(["color", "materials", "dimensions", "weight"] as const).map((key) => ({ label: t.product.specLabels[key], value: product[key] })),
-    ...facetsFor(product.categorySlug).map((f) => ({ label: f.label, value: product.facets[f.id] ?? "" })),
-    ...product.specs,
-  ].filter((row) => row.value);
+  // Imported watches and jewelry carry full spec sheets; other pieces use the generic fields.
+  const specRows = (
+    product.specs.length && (product.categorySlug === "watches" || product.categorySlug === "jewelry")
+      ? product.specs
+      : [
+          ...(["color", "materials", "dimensions", "weight"] as const).map((key) => ({ label: t.product.specLabels[key], value: product[key] })),
+          ...facetsFor(product.categorySlug).map((f) => ({ label: f.label, value: product.facets[f.id] ?? "" })),
+          ...product.specs,
+        ]
+  ).filter((row) => row.value);
+  const specGroups = groupSpecs(specRows);
+
+  const crumbs = [
+    { name: t.nav.home, path: "/" },
+    category ? { name: category.name, path: `/shop/${product.categorySlug}` } : { name: t.product.breadcrumbProducts, path: "/products" },
+    ...(BRAND_SUBCATEGORIES.has(product.categorySlug) && product.showBrand
+      ? [{ name: product.brand, path: `/shop/${product.categorySlug}/${product.brandSlug}` }]
+      : []),
+    ...(jewelryType && product.categorySlug === "jewelry" ? [{ name: t.jewelryTypes[jewelryType.slug], path: `/shop/jewelry/${jewelryType.slug}` }] : []),
+    ...(model ? [{ name: model.model, path: `/models/${model.slug}` }] : []),
+    { name: product.name, path: `/products/${product.slug}` },
+  ];
+  const saved = { slug: product.slug, title: item, image: product.images[0]?.url ?? null, usd: amounts.usd, eur: amounts.eur };
 
   return (
-    <div className="mx-auto max-w-7xl px-6 pt-28 pb-12 lg:px-10 lg:pb-16">
-      <Breadcrumbs
-        locale={locale}
-        items={[
-          { name: t.nav.home, path: "/" },
-          category ? { name: category.name, path: `/shop/${product.categorySlug}` } : { name: t.product.breadcrumbProducts, path: "/products" },
-          ...(model ? [{ name: `${model.brand} ${model.model}`, path: `/models/${model.slug}` }] : []),
-          { name: product.name, path: `/products/${product.slug}` },
-        ]}
-      />
+    <div className="mx-auto max-w-7xl px-6 pt-28 pb-28 lg:px-10 lg:pt-32 lg:pb-16">
+      <Breadcrumbs locale={locale} items={crumbs} />
 
       <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
-        <div className="grid grid-cols-2 gap-3">
-          {product.images.map((img, i) => (
-            <div key={img.url + i} className={`relative aspect-square overflow-hidden bg-[var(--ivory)] ${i === 0 ? "col-span-2" : ""}`}>
-              <Image
-                src={img.url}
-                alt={img.alt}
-                fill
-                loading={i === 0 ? "eager" : "lazy"}
-                fetchPriority={i === 0 ? "high" : "auto"}
-                sizes={i === 0 ? "(max-width: 1024px) 100vw, 50vw" : "(max-width: 1024px) 50vw, 25vw"}
-                className="object-cover"
-              />
-            </div>
-          ))}
+        <div className="lg:sticky lg:top-24 lg:self-start">
+          <ProductGallery images={product.images} labels={ui.product.gallery} />
         </div>
 
         <div>
@@ -109,29 +127,62 @@ export default async function ProductPage({ params }: Props) {
             </Link>
           )}
           <h1 className="mt-2 font-heading text-3xl font-light sm:text-4xl">{item}</h1>
-          <p className="mt-4 text-xl">
-            {money.format(price.amount)}
-            {price.was && <s className="ml-3 text-base text-muted-foreground">{money.format(price.was)}</s>}
-          </p>
-          <p
-            className={`mt-2 text-xs font-medium tracking-[0.1em] uppercase ${
-              product.availability === "in_stock" ? "text-[var(--gold)]" : "text-muted-foreground"
-            }`}
-          >
-            {t.availability[product.availability]} · {t.product.condition[product.condition]}
+          {reference && <p className="mt-2 text-sm text-muted-foreground">Ref. {reference}</p>}
+
+          <div className="mt-5 flex items-center justify-between gap-4">
+            <Price amounts={amounts} locale={locale} className="text-2xl" />
+            <WishlistButton item={saved} labels={{ add: ui.wishlistPage.add, remove: ui.wishlistPage.remove }} className="border border-border" />
+          </div>
+          <p className={`mt-2 text-xs font-medium tracking-[0.1em] uppercase ${product.availability === "in_stock" ? "text-[var(--gold)]" : "text-foreground/70"}`}>
+            {product.availability === "pre_order" ? fmt(ui.product.shipsBy, { date: shipsBy }) : t.availability[product.availability]} ·{" "}
+            {t.product.condition[product.condition]}
           </p>
 
-          <p className="mt-6 max-w-md text-sm leading-relaxed text-foreground/80">{product.shortDescription || product.description}</p>
+          <p className="mt-6 max-w-lg text-base leading-relaxed text-foreground/80">{product.shortDescription || product.description}</p>
 
-          <div className="mt-8">
-            <h2 className="mb-3 text-xs tracking-[0.1em] text-muted-foreground uppercase">{t.product.contactToBuy}</h2>
-            <ContactButtons
-              channels={channels}
-              message={fmt(t.product.message, { item })}
-              subject={fmt(t.product.subject, { item })}
-              labels={t.contact.channels}
-            />
-            <p className="mt-4 max-w-md text-xs leading-relaxed text-muted-foreground">{t.payment.note}</p>
+          <div className="mt-8 max-w-lg space-y-3">
+            {hasWhatsApp && (
+              <WhatsAppLink
+                lines={channels.whatsappLines}
+                message={waMessage}
+                location="product"
+                itemId={product.slug}
+                chooseLabel={ui.wa.choose}
+                className="flex min-h-13 w-full items-center justify-center gap-2.5 bg-foreground px-6 text-xs font-medium tracking-[0.15em] text-white uppercase transition-colors hover:bg-[var(--gold)]"
+              >
+                <WhatsAppIcon className="size-4" />
+                {ui.wa.enquire}
+              </WhatsAppLink>
+            )}
+            <div className="grid grid-cols-2 gap-3">
+              {hasWhatsApp && (
+                <WhatsAppLink
+                  lines={channels.whatsappLines}
+                  message={fmt(ui.wa.video, { item, ref: refText, url })}
+                  location="video_viewing"
+                  itemId={product.slug}
+                  chooseLabel={ui.wa.choose}
+                  className="flex min-h-12 w-full items-center justify-center border border-foreground px-3 text-center text-xs font-medium tracking-[0.1em] uppercase transition-colors hover:bg-foreground hover:text-white"
+                >
+                  {ui.wa.videoViewing}
+                </WhatsAppLink>
+              )}
+              <a
+                href="#inquire"
+                className={`flex min-h-12 items-center justify-center border border-border px-3 text-center text-xs font-medium tracking-[0.1em] uppercase transition-colors hover:border-foreground ${hasWhatsApp ? "" : "col-span-2"}`}
+              >
+                {ui.product.sendEnquiry}
+              </a>
+            </div>
+            <div className="pt-2">
+              <p className="mb-2 text-xs tracking-[0.1em] text-muted-foreground uppercase">{ui.product.enquireOr}</p>
+              <ContactButtons
+                channels={{ ...channels, whatsapp: hasWhatsApp ? null : channels.whatsapp }}
+                message={fmt(t.product.message, { item })}
+                subject={fmt(t.product.subject, { item })}
+                labels={t.contact.channels}
+              />
+            </div>
           </div>
 
           <div className="mt-10">
@@ -140,27 +191,9 @@ export default async function ProductPage({ params }: Props) {
                 ...(product.shortDescription && product.description
                   ? [{ title: t.product.description, content: <p className="whitespace-pre-line">{product.description}</p> }]
                   : []),
-                ...(specRows.length
-                  ? [
-                      {
-                        title: t.product.details,
-                        content: (
-                          <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5">
-                            {specRows.map((row) => (
-                              <div key={row.label} className="contents">
-                                <dt>{row.label}</dt>
-                                <dd className="text-foreground/80">{row.value}</dd>
-                              </div>
-                            ))}
-                          </dl>
-                        ),
-                      },
-                    ]
-                  : []),
                 ...(product.modifications
                   ? [{ title: t.product.modifications, content: <p className="whitespace-pre-line">{product.modifications}</p> }]
                   : []),
-                { title: t.product.paymentShipping, content: t.payment.note },
                 {
                   title: t.product.authenticity,
                   content: (
@@ -172,26 +205,70 @@ export default async function ProductPage({ params }: Props) {
                     </>
                   ),
                 },
+                { title: ui.product.shippingReturns, content: ui.product.shippingReturnsBody },
+                {
+                  title: t.product.paymentShipping,
+                  content: (
+                    <>
+                      <p>{t.payment.note}</p>
+                      <Link href={localePath(locale, "/payment-shipping")} className="mt-2 inline-block underline underline-offset-4 hover:text-[var(--gold)]">
+                        {t.nav.payment}
+                      </Link>
+                    </>
+                  ),
+                },
               ]}
             />
           </div>
         </div>
       </div>
 
-      <section id="inquire" className="mt-24 max-w-3xl scroll-mt-24">
+      {specGroups.length > 0 && (
+        <section className="mt-20">
+          <h2 className="text-2xl">{ui.product.specifications}</h2>
+          <div className="mt-8 grid gap-x-16 gap-y-10 md:grid-cols-2">
+            {specGroups.map(({ group, rows }) => (
+              <div key={group}>
+                <h3 className="border-b border-foreground pb-2 text-xs font-medium tracking-[0.15em] uppercase">{ui.product.groups[group]}</h3>
+                <dl className="divide-y divide-border">
+                  {rows.map((row) => (
+                    <div key={row.label} className="grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-4 py-2.5 text-sm">
+                      <dt className="text-muted-foreground">{row.label}</dt>
+                      <dd>{row.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section id="inquire" className="mt-24 max-w-3xl scroll-mt-28">
         <h2 className="text-2xl">{t.product.inquireTitle}</h2>
-        <p className="mt-2 text-sm text-muted-foreground">{t.product.inquireBody}</p>
+        <p className="mt-2 text-base text-muted-foreground">{t.product.inquireBody}</p>
         <div className="mt-8">
           <InquiryForm locale={locale} product={{ id: product.id, name: item }} labels={t.form} privacyHref={localePath(locale, "/privacy")} />
         </div>
       </section>
 
-      {related.length > 0 && (
+      {similar.length > 0 && (
         <section className="mt-24">
-          <h2 className="mb-8 text-2xl">{t.product.related}</h2>
-          <ProductGrid products={related} channels={channels} locale={locale} />
+          <h2 className="mb-8 text-2xl">{ui.product.similar}</h2>
+          <ProductGrid products={similar} locale={locale} />
         </section>
       )}
+
+      <RecentlyViewed current={saved} locale={locale} title={ui.product.recentlyViewed} />
+
+      <StickyProductBar
+        locale={locale}
+        amounts={amounts}
+        lines={channels.whatsappLines}
+        message={waMessage}
+        itemId={product.slug}
+        labels={{ enquire: ui.product.sendEnquiry, whatsapp: ui.wa.enquire, choose: ui.wa.choose }}
+      />
 
       <JsonLd data={productLd(product, locale, seoDescription)} />
     </div>

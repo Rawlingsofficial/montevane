@@ -1,11 +1,11 @@
 import Link from "next/link";
 
 import { ProductCard } from "@/components/products/ProductCard";
-import { getContactChannels, getProducts } from "@/lib/data/catalog";
+import { getProducts } from "@/lib/data/catalog";
 import { getDictionary, localePath, type Locale } from "@/lib/i18n";
 
 export async function BestSellers({ locale }: { locale: Locale }) {
-  const [products, channels] = await Promise.all([getProducts({ limit: 6 }, locale), getContactChannels()]);
+  const products = await getProducts({ limit: 6 }, locale);
   const t = getDictionary(locale).home;
   if (products.length === 0) return null;
 
@@ -26,7 +26,7 @@ export async function BestSellers({ locale }: { locale: Locale }) {
 
       <div className="grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-3">
         {products.map((product) => (
-          <ProductCard key={product.slug} product={product} channels={channels} locale={locale} />
+          <ProductCard key={product.slug} product={product} locale={locale} />
         ))}
       </div>
     </section>
