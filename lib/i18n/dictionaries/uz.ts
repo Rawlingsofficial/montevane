@@ -290,7 +290,7 @@ const uz: Dictionary = {
       sorts: { newest: "Eng yangi", price_asc: "Narx: arzondan qimmatga", price_desc: "Narx: qimmatdan arzonga" } as Record<string, string>,
       apply: "Natijalarni ko'rsatish",
       clear: "Hammasini tozalash",
-      facets: { brand: "Brend", model: "Model", price: "Narx", size: "Korpus o'lchami", material: "Material", color: "Rang", condition: "Holati", availability: "Mavjudligi" } as Record<string, string>,
+      facets: { type: "Turi", brand: "Brend", model: "Model", price: "Narx", size: "Korpus o'lchami", material: "Material", color: "Rang", condition: "Holati", availability: "Mavjudligi" } as Record<string, string>,
       under: "{n} gacha",
       over: "{n} va undan yuqori",
       readMore: "Batafsil",

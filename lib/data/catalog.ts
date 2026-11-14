@@ -154,6 +154,7 @@ function filterWhere(filter: ProductFilter) {
 // material, jewelry metal, Hermès leather), so the first one present wins.
 const FILTER_SQL: Record<Exclude<FilterKey, "price">, SQL> = {
   brand: sql`${p.brandSlug}`,
+  type: sql`${p.facets}->>'piece_type'`,
   model: sql`${p.facets}->>'model'`,
   size: sql`coalesce(${p.facets}->>'case_size', ${p.facets}->>'size')`,
   material: sql`coalesce(${p.facets}->>'case_material', ${p.facets}->>'metal', ${p.facets}->>'leather')`,

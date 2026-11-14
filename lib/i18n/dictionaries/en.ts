@@ -298,7 +298,7 @@ const en = {
       sorts: { newest: "Newest", price_asc: "Price: low to high", price_desc: "Price: high to low" } as Record<string, string>,
       apply: "Show results",
       clear: "Clear all",
-      facets: { brand: "Brand", model: "Model", price: "Price", size: "Case size", material: "Material", color: "Colour", condition: "Condition", availability: "Availability" } as Record<string, string>,
+      facets: { type: "Type", brand: "Brand", model: "Model", price: "Price", size: "Case size", material: "Material", color: "Colour", condition: "Condition", availability: "Availability" } as Record<string, string>,
       under: "Under {n}",
       over: "{n} and above",
       readMore: "Read more",

@@ -9,7 +9,7 @@ export function Expandable({ children, more, less, className }: { children: Reac
   const [open, setOpen] = useState(false);
   return (
     <div className={className}>
-      <div className={cn(!open && "max-lg:line-clamp-4")}>{children}</div>
+      <div className={cn(!open && "max-lg:line-clamp-2")}>{children}</div>
       <button type="button" aria-expanded={open} onClick={() => setOpen((v) => !v)} className="mt-2 min-h-11 text-xs tracking-[0.15em] uppercase underline underline-offset-4 lg:hidden">
         {open ? less : more}
       </button>

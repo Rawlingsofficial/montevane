@@ -2,7 +2,7 @@
 // Filtered URLs (/shop/watches/rolex?model=Daytona) are served by the dynamic
 // /[locale]/browse route via the proxy and are noindex,follow.
 
-export const FILTER_KEYS = ["brand", "model", "price", "size", "material", "color", "condition", "availability"] as const;
+export const FILTER_KEYS = ["brand", "type", "model", "price", "size", "material", "color", "condition", "availability"] as const;
 export type FilterKey = (typeof FILTER_KEYS)[number];
 export const SORTS = ["newest", "price_asc", "price_desc"] as const;
 export type Sort = (typeof SORTS)[number];

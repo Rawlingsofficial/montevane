@@ -289,7 +289,7 @@ const de: Dictionary = {
       sorts: { newest: "Neueste", price_asc: "Preis: aufsteigend", price_desc: "Preis: absteigend" } as Record<string, string>,
       apply: "Ergebnisse anzeigen",
       clear: "Alle zurücksetzen",
-      facets: { brand: "Marke", model: "Modell", price: "Preis", size: "Gehäusegröße", material: "Material", color: "Farbe", condition: "Zustand", availability: "Verfügbarkeit" } as Record<string, string>,
+      facets: { type: "Art", brand: "Marke", model: "Modell", price: "Preis", size: "Gehäusegröße", material: "Material", color: "Farbe", condition: "Zustand", availability: "Verfügbarkeit" } as Record<string, string>,
       under: "Unter {n}",
       over: "Ab {n}",
       readMore: "Mehr lesen",

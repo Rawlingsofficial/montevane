@@ -11,7 +11,7 @@ import { Expandable } from "@/components/shop/Expandable";
 import { ListingFaq } from "@/components/shop/ListingFaq";
 import { ListingFilters, type FilterLabels } from "@/components/shop/ListingFilters";
 import { EMPTY_QUERY, hasQuery, queryString, type ListingQuery } from "@/lib/catalog/filters";
-import { BRAND_SUBCATEGORIES } from "@/lib/catalog/taxonomy";
+import { BRAND_SUBCATEGORIES, JEWELRY_TYPES } from "@/lib/catalog/taxonomy";
 import {
   getCategories,
   getContactChannels,
@@ -103,6 +103,7 @@ export function filterLabels(locale: Locale): FilterLabels {
   const values: Record<string, string> = {};
   for (const [k, v] of Object.entries(t.product.condition)) values[`condition.${k}`] = v;
   for (const [k, v] of Object.entries(t.availability)) values[`availability.${k}`] = v;
+  for (const { slug, piece } of JEWELRY_TYPES) values[`type.${piece}`] = t.jewelryTypes[slug] ?? piece;
   return { ...t.ui.filters, close: t.nav.closeMenu, values };
 }
 
@@ -147,7 +148,7 @@ export async function CategoryListing({
     <>
       <PageHero eyebrow={sub ? parent.name : t.listing.eyebrow} title={copy.title} image={categoryImage(category)} video={VIDEO[category]} priority />
 
-      <div className="mx-auto max-w-7xl px-6 py-12 lg:px-10">
+      <div className="mx-auto max-w-7xl px-6 py-6 lg:px-10 lg:py-12">
         <Breadcrumbs locale={locale} items={crumbs} />
         {copy.intro && page === 1 && !filtered && (
           <Expandable more={t.ui.filters.readMore} less={t.ui.filters.readLess} className="max-w-3xl">
@@ -155,38 +156,13 @@ export async function CategoryListing({
           </Expandable>
         )}
 
-        {subcategories.length > 0 && page === 1 && !filtered && (
-          <nav aria-label={byBrand ? t.listing.byBrand : t.listing.byType} className="mt-8">
-            <h2 className="mb-3 text-xs tracking-[0.1em] text-muted-foreground uppercase">{byBrand ? t.listing.byBrand : t.listing.byType}</h2>
-            <ul className="flex flex-wrap gap-2">
-              {subcategories.map((s) => (
-                <li key={s.slug}>
-                  <Link href={localePath(locale, `/shop/${category}/${s.slug}`)} className={chip}>
-                    {byBrand ? s.name : (t.jewelryTypes[s.slug] ?? s.name)} <span className="text-muted-foreground">({s.count})</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        )}
-
-        {models.length > 0 && page === 1 && !filtered && (
-          <nav aria-label={copy.name} className="mt-6 flex flex-wrap gap-2">
-            {models.map((m) => (
-              <Link key={m.slug} href={localePath(locale, `/models/${m.slug}`)} className={chip}>
-                {m.brand} {m.model}
-              </Link>
-            ))}
-          </nav>
-        )}
-
-        <section className="mt-12">
+        <section className="mt-8 lg:mt-12">
           <ListingFilters
             locale={locale}
             basePath={localePath(locale, base)}
             options={options}
             query={query}
-            hidden={filter.brand ? ["brand"] : []}
+            hidden={[...(filter.brand ? (["brand"] as const) : []), ...(filter.piece ? (["type"] as const) : [])]}
             labels={filterLabels(locale)}
           />
           <h2 className="mb-6 text-xs tracking-[0.1em] text-muted-foreground uppercase">
@@ -199,6 +175,40 @@ export async function CategoryListing({
           )}
           <Pagination locale={locale} base={base} page={listing.page} pages={listing.pages} query={queryString(query)} />
         </section>
+
+        {/* Brand / type / model links sit below the products: filters do the
+            browsing up top, these keep crawlable links to every landing page. */}
+        {page === 1 && !filtered && (subcategories.length > 0 || models.length > 0) && (
+          <div className="mt-20 space-y-8 border-t border-border pt-10">
+            {subcategories.length > 0 && (
+              <nav aria-label={byBrand ? t.listing.byBrand : t.listing.byType}>
+                <h2 className="mb-3 text-xs tracking-[0.1em] text-muted-foreground uppercase">{byBrand ? t.listing.byBrand : t.listing.byType}</h2>
+                <ul className="flex flex-wrap gap-2">
+                  {subcategories.map((s) => (
+                    <li key={s.slug}>
+                      <Link href={localePath(locale, `/shop/${category}/${s.slug}`)} className={chip}>
+                        {byBrand ? s.name : (t.jewelryTypes[s.slug] ?? s.name)} <span className="text-muted-foreground">({s.count})</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            )}
+            {models.length > 0 && (
+              <nav aria-label={copy.name}>
+                <ul className="flex flex-wrap gap-2">
+                  {models.map((m) => (
+                    <li key={m.slug}>
+                      <Link href={localePath(locale, `/models/${m.slug}`)} className={chip}>
+                        {m.brand} {m.model}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            )}
+          </div>
+        )}
 
         {page === 1 && !filtered && <ListingFaq title={t.ui.faqTitle} items={t.ui.faq[faqFor(category)]} />}
 

@@ -14,7 +14,7 @@ type PageHeroProps = {
 
 export function PageHero({ eyebrow, title, description, image, video, priority = false }: PageHeroProps) {
   return (
-    <section data-page-hero className="relative flex h-[50vh] min-h-[380px] w-full items-center justify-center overflow-hidden">
+    <section data-page-hero className="relative flex h-[30vh] min-h-[220px] w-full sm:h-[50vh] sm:min-h-[380px] items-center justify-center overflow-hidden">
       <AssetImage base={image} alt="" priority={priority} sizes="100vw" className="absolute inset-0" />
       {video && (
         <video
@@ -33,7 +33,7 @@ export function PageHero({ eyebrow, title, description, image, video, priority =
       <div className="absolute inset-0 bg-black/40" />
       <div className="relative flex flex-col items-center px-6 text-center">
         <p className="text-xs font-medium tracking-[0.3em] text-white/80 uppercase">{eyebrow}</p>
-        <h1 className="mt-4 max-w-2xl font-heading text-4xl font-extralight text-white sm:text-5xl">{title}</h1>
+        <h1 className="mt-3 max-w-2xl font-heading text-3xl sm:mt-4 sm:text-4xl font-extralight text-white sm:text-5xl">{title}</h1>
         {description && <p className="mt-4 max-w-md text-sm font-light text-white/70">{description}</p>}
       </div>
     </section>
