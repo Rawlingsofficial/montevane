@@ -34,7 +34,13 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
     description: t.meta.homeDescription,
     applicationName: SITE_NAME,
     formatDetection: { telephone: false },
-    verification: { google: process.env.GOOGLE_SITE_VERIFICATION || "Hk2M437j8uWOxaoymiYUTvjDhKauQHpzwZxYs342Qoo" },
+    // Search Console + Merchant Center; Google accepts several tags side by side.
+    verification: {
+      google: [
+        process.env.GOOGLE_SITE_VERIFICATION || "Hk2M437j8uWOxaoymiYUTvjDhKauQHpzwZxYs342Qoo",
+        "Xj4u5UNqtx4lPeh6kNn-Vda72pLnjKa3_cXPmk-9pi8",
+      ],
+    },
   };
 }
 
