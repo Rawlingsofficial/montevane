@@ -4,7 +4,7 @@ import { PageHero } from "@/components/common/PageHero";
 import { ContactButtons } from "@/components/contact/ContactButtons";
 import { InquiryForm } from "@/components/contact/InquiryForm";
 import { VisitBoutique } from "@/components/common/VisitBoutique";
-import { MAP_EMBED_URL, SITE_NAME, STORE_ADDRESS } from "@/lib/constants";
+import { SITE_NAME, STORE_LOCATIONS, cityLine } from "@/lib/constants";
 import { getContactChannels, getStoreProfile } from "@/lib/data/catalog";
 import { getDictionary, localePath } from "@/lib/i18n";
 import { resolveLocale } from "@/lib/i18n/server";
@@ -46,15 +46,19 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
       </section>
 
       <section aria-label={t.contact.visit} className="mx-auto max-w-6xl px-6 pb-24 lg:px-10">
-        <div className="relative aspect-[4/3] w-full overflow-hidden border border-border bg-[var(--ivory)] sm:aspect-[21/9]">
-          <iframe
-            src={MAP_EMBED_URL}
-            title={`${SITE_NAME} — ${STORE_ADDRESS.street}, ${STORE_ADDRESS.postalCode} ${STORE_ADDRESS.locality}`}
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            className="absolute inset-0 size-full border-0 grayscale-[0.4]"
-            allowFullScreen
-          />
+        <div className="grid gap-6 lg:grid-cols-2">
+          {STORE_LOCATIONS.map((l) => (
+            <div key={l.city} className="relative aspect-[4/3] w-full overflow-hidden border border-border bg-[var(--ivory)]">
+              <iframe
+                src={l.embedUrl}
+                title={`${SITE_NAME} ${l.city} — ${l.street}, ${cityLine(l)}`}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="absolute inset-0 size-full border-0 grayscale-[0.4]"
+                allowFullScreen
+              />
+            </div>
+          ))}
         </div>
       </section>
     </>

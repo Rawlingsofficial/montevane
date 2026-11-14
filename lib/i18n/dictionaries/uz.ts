@@ -4,20 +4,20 @@ import type { Dictionary } from "./en";
 // keywords are typed ("qo'l soati") and it renders in every font.
 const uz: Dictionary = {
   meta: {
-    homeTitle: "Hermès va noyob soatlar mutaxassisi, Monako | Montévane",
-    homeDescription: "Original Hermès Birkin, Kelly, sumka breloklari va Twilly, shuningdek noyob soatlar va zargarlik. Monakodagi butik, Place du Casino. Haqiqiylik kafolati, 14 kun qaytarish.",
+    homeTitle: "Hermès va noyob soatlar mutaxassisi, Monako va Mayami | Montévane",
+    homeDescription: "Original Hermès Birkin, Kelly, sumka breloklari va Twilly, shuningdek noyob soatlar va zargarlik. Monako va Mayamidagi butiklar. Haqiqiylik kafolati, 14 kun qaytarish.",
     productsTitle: "Original Hermès, noyob soatlar va zargarlik buyumlari",
     productsDescription: "Mavjud barcha mahsulotlar: Hermès Birkin va Kelly, ekzotik va HSS maxsus buyurtmalar, breloklar, Twilly va sharflar, noyob soatlar va zargarlik.",
     brandsTitle: "Brendlar – Hermès mutaxassisi, noyob soatlar va zargarlik",
     brandsDescription: "Avvalo Hermès: Birkin, Kelly va aksessuarlar. Shuningdek Rolex, Patek Philippe, Audemars Piguet va Cartier noyob soatlari hamda zargarlik.",
     brandTitle: "Original {brand} – yangi va ishlatilgan, narxi",
-    brandDescription: "Monakodagi butikimizdan original {brand} – yangi va ishlatilgan, mustaqil tekshirilgan. Uchinchi tomon tekshiruvidan o'tmasa, to'liq pul qaytariladi.",
+    brandDescription: "Monako va Mayamidagi butiklarimizdan original {brand} – yangi va ishlatilgan, mustaqil tekshirilgan. Uchinchi tomon tekshiruvidan o'tmasa, to'liq pul qaytariladi.",
     collectionsTitle: "Kolleksiyalar – ekzotik Hermès, HSS va yangi kelganlar",
     collectionsDescription: "Yangi kelganlar, ekzotik Hermès, HSS maxsus buyurtmalar, ishlatilgan va noyob buyumlar – Hermès mutaxassisi tanlovi.",
-    contactTitle: "Aloqa – Monako butigi, WhatsApp, Telegram yoki qo'ng'iroq",
-    contactDescription: "Place du Casino, Monakodagi butikimizga keling yoki Montévane bilan WhatsApp, Telegram, Signal, telefon yoki email orqali bog'laning.",
-    aboutTitle: "Montévane haqida – Monakodagi Hermès va soatlar mutaxassisi",
-    aboutDescription: "Montévane – Monakodagi Place du Casino'da joylashgan, original Hermès va noyob soatlarga ixtisoslashgan butik. Har bir buyumga kafolat.",
+    contactTitle: "Aloqa – Monako va Mayami butiklari, WhatsApp, Telegram yoki qo'ng'iroq",
+    contactDescription: "Monako (1 Place du Casino) yoki Mayamidagi (4000 NE 1st Avenue) butiklarimizga keling yoki Montévane bilan WhatsApp, Telegram, Signal, telefon yoki email orqali bog'laning.",
+    aboutTitle: "Montévane haqida – Monako va Mayamidagi Hermès va soatlar mutaxassisi",
+    aboutDescription: "Montévane – Monako (Place du Casino) va Mayamidagi (Design District) butiklari: original Hermès va noyob soatlarga ixtisoslashgan. Har bir buyumga kafolat.",
     paymentTitle: "To'lov, yetkazib berish va 14 kun ichida qaytarish",
     paymentDescription: "Bank o'tkazmasi, kripto (Bitcoin, USDT) yoki karta bilan to'lov. Butun dunyoga sug'urtalangan yetkazib berish va har bir buyumni 14 kun ichida qaytarish.",
     privacyTitle: "Maxfiylik siyosati",
@@ -55,7 +55,7 @@ const uz: Dictionary = {
     language: "Til",
   },
   hero: {
-    eyebrow: "Monako · Place du Casino",
+    eyebrow: "Monako · Mayami",
     title: "Hermès va noyob soatlar.",
     titleLine2: "Tekshirilgan. Butun dunyoga yetkaziladi.",
     body: "Har bir buyum jo'natishdan oldin tekshiriladi.",
@@ -84,7 +84,7 @@ const uz: Dictionary = {
   why: [
     { title: "Haqiqiylik kafolati", description: "Har bir buyum sotuvdan oldin mutaxassislarimiz tomonidan tekshiriladi. Uchinchi tomon tekshiruvidan o'tmasa – to'liq pul qaytariladi." },
     { title: "14 kun ichida qaytarish", description: "Har qanday buyumni yetkazilgandan keyin 14 kun ichida, taqilmagan va to'liq holda qaytarishingiz mumkin." },
-    { title: "Monakodagi butik", description: "Place du Casino'dagi butikimizga keling yoki sug'urtalangan yetkazib berish bilan masofadan xarid qiling." },
+    { title: "Monako va Mayami", description: "Monako (1 Place du Casino) yoki Mayamidagi (4000 NE 1st Avenue) butiklarimizga keling yoki sug'urtalangan yetkazib berish bilan masofadan xarid qiling." },
     { title: "Shaxsiy konsyerj", description: "Istalgan Birkin, Kelly yoki noyob soatni so'rang – maxsus buyurtma va ekzotiklarni topib beramiz." },
   ],
   categories: {
@@ -388,7 +388,7 @@ const uz: Dictionary = {
     error: "To'g'ri email manzil kiriting.",
   },
   footer: {
-    tagline: "Monakodagi Hermès va noyob soatlar mutaxassisi. Mustaqil – Hermès yoki soat brendlariga aloqador emas.",
+    tagline: "Monako va Mayamidagi Hermès va noyob soatlar mutaxassisi. Mustaqil – Hermès yoki soat brendlariga aloqador emas.",
     navigate: "Bo'limlar",
     care: "Mijozlarga xizmat",
     rights: "Barcha huquqlar himoyalangan.",
@@ -411,7 +411,7 @@ const uz: Dictionary = {
       { title: "Tekshiruvdan o'tmasa – to'liq pul qaytarish", body: "Agar tan olingan uchinchi tomon (brendning o'zi yoki akkreditatsiyalangan mustaqil ekspert) biz sotgan buyum original emasligini aniqlasa, hisobotni bizga yuboring. Buyumni qaytarib olamiz va narxning 100 foizini yetkazib berish bilan qaytaramiz." },
       { title: "14 kun ichida qaytarish", body: "Kafolatdan tashqari, har qanday buyumni yetkazilgandan keyin 14 kun ichida, taqilmagan va to'liq holda qaytarishingiz mumkin." },
       { title: "Pul qayerga qaytariladi", body: "Xavfsizlik uchun har qanday pul to'lov qilingan hisobning o'ziga – o'sha bank hisobi, kripto hamyon yoki raqamli hamyonga qaytariladi. Boshqa hisobga hech qachon pul qaytarmaymiz." },
-      { title: "Savollar", body: "Xariddan oldin sertifikat yoki qo'shimcha rasmlarni so'rang – WhatsApp, Telegram, Signal, telefon yoki email orqali yoki Place du Casino, Monakodagi butikimizda." },
+      { title: "Savollar", body: "Xariddan oldin sertifikat yoki qo'shimcha rasmlarni so'rang – WhatsApp, Telegram, Signal, telefon yoki email orqali yoki Monako va Mayamidagi butiklarimizda." },
     ],
   },
   notFound: { title: "Sahifa topilmadi", body: "Siz qidirgan sahifa mavjud emas.", cta: "Do'konga qaytish" },

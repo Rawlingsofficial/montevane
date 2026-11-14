@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { AssetImage } from "@/components/common/AssetImage";
 import { SubscribeForm } from "@/components/common/SubscribeForm";
-import { MAPS_URL, SITE_NAME, STORE_ADDRESS } from "@/lib/constants";
+import { SITE_NAME, STORE_LOCATIONS, cityLine } from "@/lib/constants";
 import { getCategories, type ContactChannels } from "@/lib/data/catalog";
 import { getDictionary, localePath, type Locale } from "@/lib/i18n";
 import { LOGO } from "@/lib/images";
@@ -84,21 +84,27 @@ export async function Footer({ locale, channels }: { locale: Locale; channels: C
           <FooterList title={t.footer.care} links={care} />
           <div>
             <p className="text-xs tracking-[0.15em] text-white/60 uppercase">{t.footer.locations}</p>
-            <address className="mt-4 font-heading text-lg leading-snug font-light text-white/80 not-italic">
-              {SITE_NAME}
-              <br />
-              {STORE_ADDRESS.street}
-              <br />
-              {STORE_ADDRESS.postalCode} {STORE_ADDRESS.locality}
-            </address>
-            <a
-              href={MAPS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-3 inline-block text-sm underline-offset-4 transition-colors hover:text-[var(--gold)] hover:underline"
-            >
-              {t.footer.directions}
-            </a>
+            <div className="mt-4 space-y-5">
+              {STORE_LOCATIONS.map((l) => (
+                <div key={l.city}>
+                  <address className="font-heading text-lg leading-snug font-light text-white/80 not-italic">
+                    {SITE_NAME} {l.city}
+                    <br />
+                    {l.street}
+                    <br />
+                    {cityLine(l)}
+                  </address>
+                  <a
+                    href={l.mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-1.5 inline-block text-sm underline-offset-4 transition-colors hover:text-[var(--gold)] hover:underline"
+                  >
+                    {t.footer.directions}
+                  </a>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 

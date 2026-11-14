@@ -3,20 +3,20 @@ import type { Dictionary } from "./en";
 // Deutsch (Deutschland, Österreich, Schweiz).
 const de: Dictionary = {
   meta: {
-    homeTitle: "Hermès & seltene Uhren – Spezialist in Monaco | Montévane",
-    homeDescription: "Original Hermès Birkin, Kelly, Bag Charms und Twillys sowie seltene Uhren und Schmuck. Boutique am 1 Place du Casino, Monaco. Echtheitsgarantie, 14 Tage Rückgabe.",
+    homeTitle: "Hermès & seltene Uhren – Spezialist in Monaco & Miami | Montévane",
+    homeDescription: "Original Hermès Birkin, Kelly, Bag Charms und Twillys sowie seltene Uhren und Schmuck. Boutiquen in Monaco und Miami. Echtheitsgarantie, 14 Tage Rückgabe.",
     productsTitle: "Original Hermès, seltene Uhren & Schmuck kaufen",
     productsDescription: "Alle Stücke auf Lager: Hermès Birkin und Kelly, Exoten und HSS-Sonderanfertigungen, Bag Charms, Twillys und Tücher sowie seltene Uhren und Schmuck.",
     brandsTitle: "Marken – Hermès-Spezialist, seltene Uhren & Schmuck",
     brandsDescription: "Hermès zuerst: Birkin, Kelly und Accessoires. Dazu seltene Uhren von Rolex, Patek Philippe, Audemars Piguet und Cartier sowie Schmuck.",
     brandTitle: "Original {brand} kaufen – neu & gebraucht",
-    brandDescription: "Original {brand} aus unserer Boutique in Monaco – neu und gebraucht, unabhängig geprüft. Volle Rückerstattung, falls ein Stück eine Drittprüfung nicht besteht.",
+    brandDescription: "Original {brand} aus unseren Boutiquen in Monaco und Miami – neu und gebraucht, unabhängig geprüft. Volle Rückerstattung, falls ein Stück eine Drittprüfung nicht besteht.",
     collectionsTitle: "Kollektionen – exotisches Hermès, HSS & Neuheiten",
     collectionsDescription: "Neuheiten, exotisches Hermès, HSS-Sonderanfertigungen, gebrauchte und seltene Stücke – kuratiert vom Hermès-Spezialisten.",
-    contactTitle: "Kontakt – Boutique Monaco, WhatsApp, Telegram oder Anruf",
-    contactDescription: "Besuchen Sie uns am 1 Place du Casino, Monaco, oder schreiben Sie Montévane per WhatsApp, Telegram, Signal, Telefon oder E-Mail.",
-    aboutTitle: "Über Montévane – Hermès- & Uhrenspezialist in Monaco",
-    aboutDescription: "Montévane ist eine Boutique am 1 Place du Casino in Monaco, spezialisiert auf originales Hermès und seltene Uhren – mit Garantie auf jedes Stück.",
+    contactTitle: "Kontakt – Boutiquen Monaco & Miami, WhatsApp, Telegram oder Anruf",
+    contactDescription: "Besuchen Sie uns in Monaco (1 Place du Casino) oder Miami (4000 NE 1st Avenue), oder schreiben Sie Montévane per WhatsApp, Telegram, Signal, Telefon oder E-Mail.",
+    aboutTitle: "Über Montévane – Hermès- & Uhrenspezialist in Monaco & Miami",
+    aboutDescription: "Montévane hat Boutiquen in Monaco (Place du Casino) und Miami (Design District), spezialisiert auf originales Hermès und seltene Uhren – mit Garantie auf jedes Stück.",
     paymentTitle: "Zahlung, Versand & 14 Tage Rückgabe",
     paymentDescription: "Zahlung per Überweisung, Krypto (Bitcoin, USDT) oder Karte. Voll versicherter, verfolgbarer Versand weltweit und 14 Tage Rückgaberecht auf jedes Stück.",
     privacyTitle: "Datenschutzerklärung",
@@ -54,7 +54,7 @@ const de: Dictionary = {
     language: "Sprache",
   },
   hero: {
-    eyebrow: "Monaco · Place du Casino",
+    eyebrow: "Monaco · Miami",
     title: "Hermès & seltene Uhren.",
     titleLine2: "Geprüft. Weltweit geliefert.",
     body: "Jedes Stück wird vor dem Versand geprüft.",
@@ -83,7 +83,7 @@ const de: Dictionary = {
   why: [
     { title: "Echtheitsgarantie", description: "Jedes Stück wird vor dem Angebot von unseren Experten geprüft. Volle Rückerstattung, falls ein Stück eine Drittprüfung nicht besteht." },
     { title: "14 Tage Rückgabe", description: "Jedes Stück innerhalb von 14 Tagen nach Lieferung zurückgeben – ungetragen und vollständig." },
-    { title: "Boutique in Monaco", description: "Besuchen Sie uns am 1 Place du Casino oder kaufen Sie aus der Ferne mit voll versichertem Versand." },
+    { title: "Monaco & Miami", description: "Besuchen Sie uns am 1 Place du Casino, Monaco, oder 4000 NE 1st Avenue, Miami – oder kaufen Sie aus der Ferne mit voll versichertem Versand." },
     { title: "Persönlicher Concierge", description: "Fragen Sie nach jeder Birkin, Kelly oder seltenen Uhr – wir finden Sonderanfertigungen und Exoten." },
   ],
   categories: {
@@ -387,7 +387,7 @@ const de: Dictionary = {
     error: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
   },
   footer: {
-    tagline: "Hermès- & Uhrenspezialist in Monaco. Unabhängig – nicht mit Hermès oder einem Uhrenhaus verbunden.",
+    tagline: "Hermès- & Uhrenspezialist in Monaco und Miami. Unabhängig – nicht mit Hermès oder einem Uhrenhaus verbunden.",
     navigate: "Navigation",
     care: "Kundenservice",
     rights: "Alle Rechte vorbehalten.",
@@ -410,7 +410,7 @@ const de: Dictionary = {
       { title: "Volle Rückerstattung bei nicht bestandener Prüfung", body: "Stellt ein anerkannter Dritter (die Marke selbst oder ein akkreditierter unabhängiger Experte) fest, dass ein von uns verkauftes Stück nicht echt ist, senden Sie uns den Bericht. Wir nehmen das Stück zurück und erstatten 100 % des Preises inklusive Versand." },
       { title: "14 Tage Rückgabe", body: "Unabhängig von der Garantie können Sie jedes Stück innerhalb von 14 Tagen nach Lieferung zurückgeben, sofern es ungetragen und vollständig mit Etiketten, Zubehör und Verpackung zurückkommt." },
       { title: "Wohin Erstattungen gehen", body: "Zu Ihrer Sicherheit wird jede Erstattung auf dasselbe Konto zurückgezahlt, von dem die Zahlung kam – dasselbe Bankkonto, dieselbe Krypto-Wallet oder digitale Wallet. Erstattungen auf andere Konten nehmen wir nie vor." },
-      { title: "Fragen", body: "Fragen Sie vor dem Kauf nach dem Zertifikat oder weiteren Fotos – per WhatsApp, Telegram, Signal, Telefon oder E-Mail, oder persönlich in unserer Boutique am 1 Place du Casino, Monaco." },
+      { title: "Fragen", body: "Fragen Sie vor dem Kauf nach dem Zertifikat oder weiteren Fotos – per WhatsApp, Telegram, Signal, Telefon oder E-Mail, oder persönlich in unseren Boutiquen in Monaco und Miami." },
     ],
   },
   notFound: { title: "Seite nicht gefunden", body: "Die gesuchte Seite existiert nicht.", cta: "Zurück zum Shop" },

@@ -1,7 +1,7 @@
 import { displayPrice } from "@/lib/catalog/pricing";
 import type { ContactChannels, StoreProduct } from "@/lib/data/catalog";
 import { siteUrl, type Locale } from "@/lib/i18n/config";
-import { MAPS_URL, STORE_ADDRESS } from "@/lib/constants";
+import { MAPS_URL, SITE_NAME as BRAND, STORE_ADDRESS, STORE_LOCATIONS } from "@/lib/constants";
 import { REGION_COUNTRIES, shippingRates, type Region } from "@/lib/catalog/shipping";
 import { SITE_NAME, absoluteUrl } from "@/lib/seo/metadata";
 
@@ -49,7 +49,7 @@ export function organizationLd(channels: ContactChannels) {
     url: siteUrl(),
     logo: `${siteUrl()}/images/web_optimized/logo_montevane_full.webp`,
     image: `${siteUrl()}/images/web_optimized/about_boutique.webp`,
-    description: "Hermès & rare watches specialist in Monaco: authentic Birkin, Kelly and Hermès accessories, rare watches and jewelry.",
+    description: "Hermès & rare watches specialist in Monaco and Miami: authentic Birkin, Kelly and Hermès accessories, rare watches and jewelry.",
     address: {
       "@type": "PostalAddress",
       streetAddress: STORE_ADDRESS.street,
@@ -59,6 +59,23 @@ export function organizationLd(channels: ContactChannels) {
     },
     geo: { "@type": "GeoCoordinates", latitude: STORE_ADDRESS.lat, longitude: STORE_ADDRESS.lng },
     hasMap: MAPS_URL,
+    // Each boutique as its own Store, matching its Google Business Profile.
+    department: STORE_LOCATIONS.map((l) => ({
+      "@type": "Store",
+      "@id": `${siteUrl()}/#store-${l.city.toLowerCase()}`,
+      name: `${BRAND} ${l.city}`,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: l.street,
+        postalCode: l.postalCode,
+        addressLocality: l.locality,
+        ...(l.region ? { addressRegion: l.region } : {}),
+        addressCountry: l.country,
+      },
+      geo: { "@type": "GeoCoordinates", latitude: l.lat, longitude: l.lng },
+      hasMap: l.mapsUrl,
+      ...(channels.phone ? { telephone: channels.phone } : {}),
+    })),
     ...(channels.phone ? { telephone: channels.phone } : {}),
     priceRange: "$$$$",
     hasMerchantReturnPolicy: returnPolicy(),
