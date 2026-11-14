@@ -249,6 +249,7 @@ const en = {
     popular: "Popular",
   },
   ui: {
+    weAccept: "We accept",
     tagline: "Hermès · Rare Watches · Fine Jewelry",
     firstAccess: "Get first access to new arrivals",
     privateViewing: "Book a private viewing",
@@ -396,7 +397,7 @@ const en = {
     error: "Please enter a valid email.",
   },
   footer: {
-    tagline: "Hermès & rare watches specialist in Monaco and Miami. Independent — not affiliated with Hermès or any watch house.",
+    tagline: "Hermès & rare watches specialist in Monaco and Miami.",
     navigate: "Navigate",
     care: "Customer Care",
     rights: "All rights reserved.",

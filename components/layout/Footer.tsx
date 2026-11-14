@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { AssetImage } from "@/components/common/AssetImage";
+import { PaymentMethods } from "@/components/common/PaymentMethods";
 import { SubscribeForm } from "@/components/common/SubscribeForm";
 import { SITE_NAME, STORE_LOCATIONS, cityLine } from "@/lib/constants";
 import { getCategories, type ContactChannels } from "@/lib/data/catalog";
@@ -108,9 +109,12 @@ export async function Footer({ locale, channels }: { locale: Locale; channels: C
           </div>
         </div>
 
-        <p className="mt-16 text-xs text-white/50">
-          © {new Date().getFullYear()} {SITE_NAME}. {t.footer.rights}
-        </p>
+        <div className="mt-16 space-y-6 border-t border-white/10 pt-8">
+          <PaymentMethods label={t.ui.weAccept} tone="dark" />
+          <p className="text-xs text-white/50">
+            © {new Date().getFullYear()} {SITE_NAME}. {t.footer.rights}
+          </p>
+        </div>
       </div>
     </footer>
   );

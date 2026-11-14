@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/common/Breadcrumbs";
 import { Price, priceAmounts } from "@/components/common/Price";
 import { ContactButtons } from "@/components/contact/ContactButtons";
+import { PaymentMethods } from "@/components/common/PaymentMethods";
 import { InquiryForm } from "@/components/contact/InquiryForm";
 import { ProductAccordion } from "@/components/products/ProductAccordion";
 import { ProductGallery } from "@/components/products/ProductGallery";
@@ -194,6 +195,7 @@ export default async function ProductPage({ params }: Props) {
                 labels={t.contact.channels}
               />
             </div>
+            <PaymentMethods label={ui.weAccept} className="pt-5" />
           </div>
 
           <div className="mt-10">

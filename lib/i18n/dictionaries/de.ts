@@ -240,6 +240,7 @@ const de: Dictionary = {
     popular: "Beliebt",
   },
   ui: {
+    weAccept: "Wir akzeptieren",
     tagline: "Hermès · Seltene Uhren · Edelschmuck",
     firstAccess: "Als Erste von Neuheiten erfahren",
     privateViewing: "Private Besichtigung buchen",
@@ -387,7 +388,7 @@ const de: Dictionary = {
     error: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
   },
   footer: {
-    tagline: "Hermès- & Uhrenspezialist in Monaco und Miami. Unabhängig – nicht mit Hermès oder einem Uhrenhaus verbunden.",
+    tagline: "Hermès- & Uhrenspezialist in Monaco und Miami.",
     navigate: "Navigation",
     care: "Kundenservice",
     rights: "Alle Rechte vorbehalten.",

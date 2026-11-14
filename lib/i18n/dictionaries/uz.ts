@@ -241,6 +241,7 @@ const uz: Dictionary = {
     popular: "Mashhur",
   },
   ui: {
+    weAccept: "Qabul qilamiz",
     tagline: "Hermès · Noyob soatlar · Zargarlik",
     firstAccess: "Yangi kelganlardan birinchi bo'lib xabardor bo'ling",
     privateViewing: "Shaxsiy ko'rikka yozilish",
@@ -388,7 +389,7 @@ const uz: Dictionary = {
     error: "To'g'ri email manzil kiriting.",
   },
   footer: {
-    tagline: "Monako va Mayamidagi Hermès va noyob soatlar mutaxassisi. Mustaqil – Hermès yoki soat brendlariga aloqador emas.",
+    tagline: "Monako va Mayamidagi Hermès va noyob soatlar mutaxassisi.",
     navigate: "Bo'limlar",
     care: "Mijozlarga xizmat",
     rights: "Barcha huquqlar himoyalangan.",

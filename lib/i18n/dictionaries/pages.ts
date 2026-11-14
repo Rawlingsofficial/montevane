@@ -15,7 +15,7 @@ export const PAGES: Record<Locale, PageCopy> = {
     about: {
       eyebrow: "Our Story",
       title: "Hermès & Rare Watches Specialist in Monaco",
-      description: "An independent boutique on Place du Casino — not affiliated with Hermès or any watch house.",
+      description: "Hermès and rare watches, from our boutiques in Monaco and Miami.",
       blocks: [
         {
           eyebrow: "The House",
@@ -62,7 +62,7 @@ export const PAGES: Record<Locale, PageCopy> = {
     about: {
       eyebrow: "Unsere Geschichte",
       title: "Spezialist für Hermès & seltene Uhren in Monaco",
-      description: "Eine unabhängige Boutique am Place du Casino – nicht mit Hermès oder einem Uhrenhaus verbunden.",
+      description: "Hermès und seltene Uhren aus unseren Boutiquen in Monaco und Miami.",
       blocks: [
         {
           eyebrow: "Das Haus",
@@ -109,7 +109,7 @@ export const PAGES: Record<Locale, PageCopy> = {
     about: {
       eyebrow: "Bizning tariximiz",
       title: "Monakodagi Hermès va noyob soatlar mutaxassisi",
-      description: "Place du Casino'dagi mustaqil butik – Hermès yoki soat brendlariga aloqador emas.",
+      description: "Monako va Mayamidagi butiklarimizdan Hermès va noyob soatlar.",
       blocks: [
         {
           eyebrow: "Butik",
