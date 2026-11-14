@@ -352,7 +352,7 @@ const uz: Dictionary = {
       },
       {
         title: "4. 14 kun ichida qaytarish",
-        body: "Buyumni qaytarish uchun yetkazilgandan keyin 14 kun ichida biz bilan bog'laning. U taqilmagan va to'liq – yorliqlar, aksessuarlar va qadoq bilan qaytishi kerak. Sug'urtalangan qaytarishni biz tashkil qilamiz; xavfsizlik uchun pul tekshiruvdan so'ng to'lov qilingan hisobning o'ziga – bank hisobi, kripto hamyon yoki raqamli hamyonga – qaytariladi.",
+        body: "Buyumni qaytarish uchun yetkazilgandan keyin 14 kun ichida biz bilan bog'laning. U taqilmagan va to'liq – yorliqlar, aksessuarlar va qadoq bilan qaytishi kerak. Sug'urtalangan qaytarishni biz tashkil qilamiz; xavfsizlik uchun pul tekshiruvdan so'ng to'lov qilingan hisobning o'ziga – bank hisobi, kripto hamyon yoki raqamli hamyonga – 7 kun ichida qaytariladi.",
       },
       {
         title: "Bojxona va soliqlar",

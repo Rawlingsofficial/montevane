@@ -360,7 +360,7 @@ const en = {
       },
       {
         title: "4. 14-day returns",
-        body: "Contact us within 14 days of delivery to return a piece for a refund. It must come back unworn and complete — tags, accessories and packaging as received. We arrange insured return shipping, and once the piece is received and checked, the refund is sent back to the same account the payment came from — bank account, crypto wallet or digital wallet — for your security.",
+        body: "Contact us within 14 days of delivery to return a piece for a refund. It must come back unworn and complete — tags, accessories and packaging as received. We arrange insured return shipping, and once the piece is received and checked, the refund is sent back to the same account the payment came from — bank account, crypto wallet or digital wallet — for your security, within 7 days.",
       },
       {
         title: "Duties & taxes",

@@ -351,7 +351,7 @@ const de: Dictionary = {
       },
       {
         title: "4. 14 Tage Rückgabe",
-        body: "Melden Sie sich innerhalb von 14 Tagen nach Lieferung, um ein Stück gegen Erstattung zurückzugeben. Es muss ungetragen und vollständig zurückkommen – mit Etiketten, Zubehör und Verpackung. Wir organisieren den versicherten Rückversand; nach Eingang und Prüfung geht die Erstattung zu Ihrer Sicherheit auf dasselbe Konto zurück, von dem die Zahlung kam – Bankkonto, Krypto-Wallet oder digitale Wallet.",
+        body: "Melden Sie sich innerhalb von 14 Tagen nach Lieferung, um ein Stück gegen Erstattung zurückzugeben. Es muss ungetragen und vollständig zurückkommen – mit Etiketten, Zubehör und Verpackung. Wir organisieren den versicherten Rückversand; nach Eingang und Prüfung geht die Erstattung zu Ihrer Sicherheit auf dasselbe Konto zurück, von dem die Zahlung kam – Bankkonto, Krypto-Wallet oder digitale Wallet – innerhalb von 7 Tagen.",
       },
       {
         title: "Zölle & Steuern",
