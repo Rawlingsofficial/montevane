@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import type { Metadata } from "next";
 
 import { Breadcrumbs } from "@/components/common/Breadcrumbs";
@@ -7,6 +7,7 @@ import { PageHero } from "@/components/common/PageHero";
 import { Pagination, pagePath } from "@/components/common/Pagination";
 import { SourcingCta } from "@/components/common/SourcingCta";
 import { ProductGrid } from "@/components/products/ProductGrid";
+import { brandPath } from "@/lib/catalog/taxonomy";
 import { getBrands, getContactChannels, getLiveModels, getProductPage } from "@/lib/data/catalog";
 import { fmt, getDictionary, localePath, type Locale } from "@/lib/i18n";
 import { brandBanner } from "@/lib/images";
@@ -34,6 +35,9 @@ export async function brandMetadata(locale: Locale, slug: string, page: number):
 export async function BrandListing({ locale, slug, page }: { locale: Locale; slug: string; page: number }) {
   const brand = await findBrand(slug);
   if (!brand) notFound();
+  // Watch-only houses live under Watches (/shop/watches/rolex).
+  const home = brandPath(brand.slug, brand.categories);
+  if (home !== `/brands/${brand.slug}`) permanentRedirect(localePath(locale, pagePath(home, page)));
 
   const t = getDictionary(locale);
   const [listing, channels] = await Promise.all([getProductPage({ brand: brand.slug }, page, locale), getContactChannels()]);

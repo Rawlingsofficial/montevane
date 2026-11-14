@@ -4,7 +4,7 @@ import { siteUrl } from "@/lib/i18n/config";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: [{ userAgent: "*", allow: "/", disallow: ["/admin", "/api/"] }],
+    rules: [{ userAgent: "*", allow: "/", disallow: ["/admin", "/api/", "/search", "/de/search", "/uz/search"] }],
     sitemap: `${siteUrl()}/sitemap.xml`,
   };
 }

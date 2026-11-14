@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
-import { getBrands, getCategories, getCollections, getLiveModels, getProductIndex } from "@/lib/data/catalog";
+import { brandPath } from "@/lib/catalog/taxonomy";
+import { getBrands, getCategories, getCollections, getLiveModels, getProductIndex, getSubcategories } from "@/lib/data/catalog";
 import { JOURNAL_POSTS } from "@/lib/constants";
 import { DEFAULT_LOCALE, LOCALES, type Locale } from "@/lib/i18n/config";
 import { absoluteUrl, languageAlternates } from "@/lib/seo/metadata";
@@ -18,15 +19,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getCollections(),
     getLiveModels(),
   ]);
+  const subcategories = await Promise.all(
+    categories.map(async (c) => (await getSubcategories(c.slug)).map((s) => `/shop/${c.slug}/${s.slug}`))
+  );
 
   const entries: Entry[] = [
     { path: "/", priority: 1 },
     { path: "/products", priority: 0.9 },
     ...categories.map((c) => ({ path: `/shop/${c.slug}`, priority: 0.9 })),
+    ...subcategories.flat().map((path) => ({ path, priority: 0.8 })),
     ...models.map((m) => ({ path: `/models/${m.slug}`, priority: 0.9 })),
     ...products.map((p) => ({ path: `/products/${p.slug}`, priority: 0.8, lastModified: p.updatedAt })),
     { path: "/brands", priority: 0.7 },
-    ...brands.map((b) => ({ path: `/brands/${b.slug}`, priority: 0.7 })),
+    // Watch-only brands are already listed as /shop/watches/<brand>.
+    ...brands.map((b) => ({ path: brandPath(b.slug, b.categories), priority: 0.7 })).filter((e) => e.path.startsWith("/brands/")),
     { path: "/collections", priority: 0.6 },
     ...collections.map((c) => ({ path: `/collections/${c.slug}`, priority: 0.6 })),
     { path: "/authenticity", priority: 0.6 },

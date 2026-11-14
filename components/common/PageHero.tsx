@@ -14,7 +14,7 @@ type PageHeroProps = {
 
 export function PageHero({ eyebrow, title, description, image, video, priority = false }: PageHeroProps) {
   return (
-    <section className="relative flex h-[50vh] min-h-[380px] w-full items-center justify-center overflow-hidden">
+    <section data-page-hero className="relative flex h-[50vh] min-h-[380px] w-full items-center justify-center overflow-hidden">
       <AssetImage base={image} alt="" priority={priority} sizes="100vw" className="absolute inset-0" />
       {video && (
         <video

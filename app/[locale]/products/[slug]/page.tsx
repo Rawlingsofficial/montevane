@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { BRAND_SUBCATEGORIES } from "@/lib/catalog/taxonomy";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -101,7 +102,7 @@ export default async function ProductPage({ params }: Props) {
         <div>
           {product.showBrand && (
             <Link
-              href={localePath(locale, `/brands/${product.brandSlug}`)}
+              href={localePath(locale, BRAND_SUBCATEGORIES.has(product.categorySlug) ? `/shop/${product.categorySlug}/${product.brandSlug}` : `/brands/${product.brandSlug}`)}
               className="text-xs font-medium tracking-[0.2em] text-[var(--gold)] uppercase hover:underline"
             >
               {product.brand}

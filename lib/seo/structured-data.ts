@@ -9,7 +9,7 @@ import { SITE_NAME, absoluteUrl } from "@/lib/seo/metadata";
 
 const AVAILABILITY: Record<StoreProduct["availability"], string> = {
   in_stock: "https://schema.org/InStock",
-  pre_order: "https://schema.org/PreOrder",
+  pre_order: "https://schema.org/BackOrder",
   sold_out: "https://schema.org/SoldOut",
   coming_soon: "https://schema.org/PreOrder",
 };
@@ -76,6 +76,11 @@ export function websiteLd(locale: Locale) {
     url: absoluteUrl(locale, "/"),
     inLanguage: locale,
     publisher: { "@id": `${siteUrl()}/#organization` },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: { "@type": "EntryPoint", urlTemplate: `${absoluteUrl(locale, "/search")}?q={search_term_string}` },
+      "query-input": "required name=search_term_string",
+    },
   };
 }
 

@@ -5,6 +5,7 @@ import { and, arrayContains, asc, desc, eq, getTableColumns, ilike, isNull, lte,
 import { db, schema } from "@/lib/db";
 import type { ProductLocaleFields, RegionalPrices, SpecRow } from "@/lib/db/schema";
 import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
+import { BRAND_SUBCATEGORIES, JEWELRY_TYPES, WATCH_BRAND_ORDER } from "@/lib/catalog/taxonomy";
 import { MODELS, type ModelPage } from "@/lib/seo/models";
 
 // Storefront reads. Only published, released products are ever returned.
@@ -116,6 +117,10 @@ export type ProductFilter = {
   category?: string;
   /** Any of these terms in the product name (model landing pages). */
   nameMatches?: string[];
+  /** Jewelry type, matched on the `piece_type` facet (Ring, Necklace…). */
+  piece?: string;
+  /** Free-text search: every word must match name, brand, reference or tags. */
+  query?: string;
   excludeSlug?: string;
   limit?: number;
   offset?: number;
@@ -129,8 +134,25 @@ function filterWhere(filter: ProductFilter) {
       ? or(eq(p.collectionSlug, filter.collection), arrayContains(p.collectionSlugs, [filter.collection]))
       : undefined,
     filter.category ? eq(p.categorySlug, filter.category) : undefined,
+    filter.piece ? sql`${p.facets}->>'piece_type' = ${filter.piece}` : undefined,
+    ...searchTerms(filter.query).map((term) => {
+      const like = `%${term}%`;
+      return sql`(${p.name} ilike ${like} or ${p.sku} ilike ${like} or ${p.brandSlug} in (select slug from ${schema.brands} where name ilike ${like})
+        or array_to_string(${p.tags}, ' ') ilike ${like} or ${p.facets}->>'reference' ilike ${like})`;
+    }),
     filter.excludeSlug ? ne(p.slug, filter.excludeSlug) : undefined
   );
+}
+
+/** Up to six search words, with LIKE wildcards escaped. */
+function searchTerms(query: string | undefined): string[] {
+  if (!query) return [];
+  return query
+    .normalize("NFKC")
+    .split(/[\s,]+/)
+    .map((w) => w.replace(/[\\%_]/g, (c) => `\\${c}`).trim())
+    .filter((w) => w.length > 0)
+    .slice(0, 6);
 }
 
 export async function getProducts(filter: ProductFilter = {}, locale: Locale = DEFAULT_LOCALE): Promise<StoreProduct[]> {
@@ -168,7 +190,13 @@ export async function getProductIndex(): Promise<{ slug: string; updatedAt: Date
   return db.select({ slug: p.slug, updatedAt: p.updatedAt }).from(p).where(isLive);
 }
 
-export type StoreBrand = { slug: string; name: string; description: string | null };
+export type StoreBrand = {
+  slug: string;
+  name: string;
+  description: string | null;
+  /** Categories the brand has live products in (decides where its page lives). */
+  categories: string[];
+};
 
 // Brands, categories and collections only appear on the storefront (links,
 // menus, sitemap, their own pages) while they have at least one live product.
@@ -178,11 +206,66 @@ const hasLive = (where: SQL) => sql`exists (select 1 from ${p} where ${isLive} a
 
 export async function getBrands(): Promise<StoreBrand[]> {
   const b = schema.brands;
-  return db
-    .select({ slug: b.slug, name: b.name, description: b.description })
-    .from(b)
-    .where(hasLive(sql`${p.brandSlug} = ${b.slug}`))
-    .orderBy(asc(b.name));
+  const [brands, pairs] = await Promise.all([
+    db
+      .select({ slug: b.slug, name: b.name, description: b.description })
+      .from(b)
+      // Unbranded pieces sit under a house brand that is never shown.
+      .where(hasLive(sql`${p.brandSlug} = ${b.slug} and ${p.showBrand}`))
+      .orderBy(asc(b.name)),
+    db.selectDistinct({ brand: p.brandSlug, category: p.categorySlug }).from(p).where(isLive),
+  ]);
+  return brands.map((brand) => ({
+    ...brand,
+    categories: pairs
+      .filter((pair) => pair.brand === brand.slug)
+      .map((pair) => pair.category)
+      .sort(),
+  }));
+}
+
+export type Subcategory = { slug: string; name: string; count: number };
+
+/**
+ * Live subcategories of a category: brands for Watches, piece types for
+ * Jewelry (names come from the dictionary for those), none otherwise.
+ */
+export async function getSubcategories(category: string): Promise<Subcategory[]> {
+  if (BRAND_SUBCATEGORIES.has(category)) {
+    const rows = await db
+      .select({ slug: schema.brands.slug, name: schema.brands.name, count: sql<number>`count(*)::int` })
+      .from(p)
+      .innerJoin(schema.brands, eq(schema.brands.slug, p.brandSlug))
+      .where(and(isLive, eq(p.categorySlug, category), eq(p.showBrand, true)))
+      .groupBy(schema.brands.slug, schema.brands.name);
+    const rank = (slug: string) => {
+      const i = WATCH_BRAND_ORDER.indexOf(slug);
+      return i < 0 ? WATCH_BRAND_ORDER.length : i;
+    };
+    return rows.sort((a, b) => rank(a.slug) - rank(b.slug) || a.name.localeCompare(b.name));
+  }
+  if (category === "jewelry") {
+    const rows = await db
+      .select({ piece: sql<string>`${p.facets}->>'piece_type'`, count: sql<number>`count(*)::int` })
+      .from(p)
+      .where(and(isLive, eq(p.categorySlug, category)))
+      .groupBy(sql`1`);
+    const counts = new Map(rows.map((r) => [r.piece, r.count]));
+    return JEWELRY_TYPES.filter((type) => counts.has(type.piece)).map((type) => ({
+      slug: type.slug,
+      name: type.piece,
+      count: counts.get(type.piece)!,
+    }));
+  }
+  return [];
+}
+
+/** The product filter for /shop/[category]/[sub]; null when `sub` isn't a live subcategory. */
+export async function subcategoryFilter(category: string, sub: string): Promise<{ filter: ProductFilter; name: string } | null> {
+  const found = (await getSubcategories(category)).find((s) => s.slug === sub);
+  if (!found) return null;
+  if (BRAND_SUBCATEGORIES.has(category)) return { filter: { category, brand: sub }, name: found.name };
+  return { filter: { category, piece: found.name }, name: found.name };
 }
 
 export async function getCollections(): Promise<{ slug: string; name: string; description: string | null }[]> {

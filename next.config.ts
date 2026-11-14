@@ -11,7 +11,7 @@ const MOVED: [string, string][] = [
   ["/models/louis-vuitton-neverfull", "/brands/hermes"],
   ["/models/louis-vuitton-speedy", "/brands/hermes"],
   ["/models/goyard-tote", "/brands/hermes"],
-  ...["chanel", "louis-vuitton", "loewe", "gucci", "prada", "saint-laurent", "dior", "celine", "burberry", "givenchy", "chloe", "goyard"].map(
+  ...["louis-vuitton", "loewe", "gucci", "prada", "saint-laurent", "dior", "celine", "burberry", "givenchy", "chloe", "goyard"].map(
     (b): [string, string] => [`/brands/${b}`, "/brands/hermes"]
   ),
 ];

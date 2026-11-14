@@ -7,7 +7,7 @@ export function Hero({ locale }: { locale: Locale }) {
   const t = getDictionary(locale).hero;
 
   return (
-    <section className="relative h-screen min-h-[640px] w-full overflow-hidden">
+    <section data-page-hero className="relative h-screen min-h-[640px] w-full overflow-hidden">
       {/* Boutique shot (bags + jewelry) with a slow zoom; the watch clip lives on /shop/watches. */}
       <AssetImage base="hero_1" alt="" priority sizes="100vw" className="ken-burns absolute inset-0" />
       <div className="absolute inset-0 bg-black/40" />

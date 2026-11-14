@@ -682,7 +682,7 @@ export function ProductForm({
           <Field label="Availability" error={errors.availability_status?.message} className="mt-6 max-w-xs">
             <select {...register("availability_status")} className={inputClass}>
               <option value="in_stock">In stock</option>
-              <option value="pre_order">Pre-order</option>
+              <option value="pre_order">To order (ships in 14 days)</option>
               <option value="sold_out">Sold out</option>
               <option value="coming_soon">Coming soon</option>
             </select>

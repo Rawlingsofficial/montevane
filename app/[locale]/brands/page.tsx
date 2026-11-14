@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { brandPath } from "@/lib/catalog/taxonomy";
 import type { Metadata } from "next";
 
 import { AssetImage } from "@/components/common/AssetImage";
@@ -28,7 +29,7 @@ export default async function BrandsPage({ params }: PageProps<"/[locale]/brands
 
       <section className="mx-auto grid max-w-7xl grid-cols-1 gap-px bg-border px-6 py-16 sm:grid-cols-2 lg:grid-cols-3 lg:px-10">
         {brands.map((brand) => (
-          <Link key={brand.slug} href={localePath(locale, `/brands/${brand.slug}`)} className="group relative block overflow-hidden bg-background">
+          <Link key={brand.slug} href={localePath(locale, brandPath(brand.slug, brand.categories))} className="group relative block overflow-hidden bg-background">
             <AssetImage
               base={brandBanner(brand.slug)}
               alt=""

@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { brandPath } from "@/lib/catalog/taxonomy";
 import { getBrands } from "@/lib/data/catalog";
 import { getDictionary, localePath, type Locale } from "@/lib/i18n";
 
@@ -19,7 +20,7 @@ export async function BrandShowcase({ locale }: { locale: Locale }) {
           {brands.map((brand) => (
             <Link
               key={brand.slug}
-              href={localePath(locale, `/brands/${brand.slug}`)}
+              href={localePath(locale, brandPath(brand.slug, brand.categories))}
               className="group flex aspect-[3/2] items-center justify-center bg-[var(--ivory)] transition-colors hover:bg-white"
             >
               <span className="font-heading text-lg font-light tracking-wide text-foreground/80 transition-colors group-hover:text-[var(--gold)]">

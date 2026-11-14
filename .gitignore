@@ -47,3 +47,5 @@ next-env.d.ts
 
 # supplier photo/description drop — imported to Neon storage + DB, never deployed
 /public/brkin bags/
+/public/watches and jewelry/
+/scripts/_tmp/

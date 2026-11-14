@@ -7,17 +7,30 @@ import { PageHero } from "@/components/common/PageHero";
 import { Pagination, pagePath } from "@/components/common/Pagination";
 import { SourcingCta } from "@/components/common/SourcingCta";
 import { ProductGrid } from "@/components/products/ProductGrid";
-import { getCategories, getContactChannels, getLiveModels, getProductPage } from "@/lib/data/catalog";
+import { BRAND_SUBCATEGORIES } from "@/lib/catalog/taxonomy";
+import {
+  getCategories,
+  getContactChannels,
+  getLiveModels,
+  getProductPage,
+  getSubcategories,
+  subcategoryFilter,
+  type ProductFilter,
+} from "@/lib/data/catalog";
 import { fmt, getDictionary, localePath, type Locale } from "@/lib/i18n";
 import { categoryImage } from "@/lib/images";
 import { pageMetadata } from "@/lib/seo/metadata";
 
-// Shared by /shop/[category] (page 1) and /shop/[category]/page/[n].
+// Shared by /shop/[category], /shop/[category]/[sub] and their /page/[n] routes.
+// Subcategories are brands under Watches (/shop/watches/rolex) and piece
+// types under Jewelry (/shop/jewelry/rings).
 
 const VIDEO: Record<string, string> = { watches: "/videos/hero.mp4", jewelry: "/videos/jewelry.mp4" };
 
+type Copy = { name: string; title: string; metaTitle: string; metaDescription: string; intro: string };
+
 /** Category copy from the dictionary, or a generic version for categories added in admin. */
-async function categoryCopy(slug: string, locale: Locale) {
+async function categoryCopy(slug: string, locale: Locale): Promise<Copy | null> {
   const t = getDictionary(locale);
   // Categories without products in stock 404 (they come back with the first product).
   const category = (await getCategories()).find((c) => c.slug === slug);
@@ -28,52 +41,102 @@ async function categoryCopy(slug: string, locale: Locale) {
   return { name: category.name, title: category.name, metaTitle: title, metaDescription: fmt(t.meta.brandDescription, { brand: category.name }), intro: "" };
 }
 
-/** Shared by page 1 (this route) and /shop/[category]/page/[n]. */
-export async function categoryMetadata(locale: Locale, category: string, page: number): Promise<Metadata> {
-  const copy = await categoryCopy(category, locale);
-  if (!copy) return {};
+/** Copy and product filter for a category page, or a subcategory page when `sub` is set. */
+async function resolveListing(locale: Locale, category: string, sub?: string) {
+  const parent = await categoryCopy(category, locale);
+  if (!parent) return null;
+  if (!sub) return { parent, copy: parent, filter: { category } as ProductFilter, base: `/shop/${category}` };
+
+  const found = await subcategoryFilter(category, sub);
+  if (!found) return null;
+  const t = getDictionary(locale).listing;
+  let copy: Copy;
+  if (BRAND_SUBCATEGORIES.has(category)) {
+    const title = fmt(t.watchBrandTitle, { brand: found.name });
+    copy = {
+      name: found.name,
+      title,
+      metaTitle: fmt(t.watchBrandMetaTitle, { brand: found.name }),
+      metaDescription: fmt(t.watchBrandDescription, { brand: found.name }),
+      intro: fmt(t.watchBrandIntro, { brand: found.name }),
+    };
+  } else {
+    const type = getDictionary(locale).jewelryTypes[sub] ?? found.name;
+    copy = {
+      name: type,
+      title: type,
+      metaTitle: fmt(t.jewelryTypeMetaTitle, { type }),
+      metaDescription: fmt(t.jewelryTypeDescription, { type: type.toLowerCase() }),
+      intro: t.jewelryTypeIntro,
+    };
+  }
+  return { parent, copy, filter: found.filter, base: `/shop/${category}/${sub}` };
+}
+
+export async function categoryMetadata(locale: Locale, category: string, page: number, sub?: string): Promise<Metadata> {
+  const listing = await resolveListing(locale, category, sub);
+  if (!listing) return {};
   const suffix = page > 1 ? ` — ${fmt(getDictionary(locale).listing.page, { n: page })}` : "";
   return pageMetadata({
     locale,
-    path: pagePath(`/shop/${category}`, page),
-    title: copy.metaTitle + suffix,
-    description: copy.metaDescription,
+    path: pagePath(listing.base, page),
+    title: listing.copy.metaTitle + suffix,
+    description: listing.copy.metaDescription,
   });
 }
 
-export async function CategoryListing({ locale, category, page }: { locale: Locale; category: string; page: number }) {
-  const copy = await categoryCopy(category, locale);
-  if (!copy) notFound();
+const chip = "border border-border px-3 py-2 text-xs tracking-[0.1em] uppercase transition-colors hover:border-foreground";
+
+export async function CategoryListing({ locale, category, sub, page }: { locale: Locale; category: string; sub?: string; page: number }) {
+  const resolved = await resolveListing(locale, category, sub);
+  if (!resolved) notFound();
+  const { parent, copy, filter, base } = resolved;
 
   const t = getDictionary(locale);
-  const [listing, channels] = await Promise.all([getProductPage({ category }, page, locale), getContactChannels()]);
+  const [listing, channels, subcategories, liveModels] = await Promise.all([
+    getProductPage(filter, page, locale),
+    getContactChannels(),
+    sub ? Promise.resolve([]) : getSubcategories(category),
+    getLiveModels(),
+  ]);
   if (!listing) notFound();
-  const models = (await getLiveModels()).filter((m) => m.category === category);
-  const base = `/shop/${category}`;
+  const models = liveModels.filter((m) => m.category === category && (!filter.brand || m.brandSlug === filter.brand));
+  const byBrand = BRAND_SUBCATEGORIES.has(category);
+
+  const crumbs = [
+    { name: t.nav.home, path: "/" },
+    { name: parent.name, path: `/shop/${category}` },
+    ...(sub ? [{ name: copy.name, path: base }] : []),
+    ...(page > 1 ? [{ name: fmt(t.listing.page, { n: page }), path: pagePath(base, page) }] : []),
+  ];
 
   return (
     <>
-      <PageHero eyebrow={t.listing.eyebrow} title={copy.title} image={categoryImage(category)} video={VIDEO[category]} priority />
+      <PageHero eyebrow={sub ? parent.name : t.listing.eyebrow} title={copy.title} image={categoryImage(category)} video={VIDEO[category]} priority />
 
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-10">
-        <Breadcrumbs
-          locale={locale}
-          items={[
-            { name: t.nav.home, path: "/" },
-            { name: copy.name, path: base },
-            ...(page > 1 ? [{ name: fmt(t.listing.page, { n: page }), path: pagePath(base, page) }] : []),
-          ]}
-        />
+        <Breadcrumbs locale={locale} items={crumbs} />
         {copy.intro && page === 1 && <p className="max-w-3xl text-base leading-relaxed text-foreground/80">{copy.intro}</p>}
 
+        {subcategories.length > 0 && page === 1 && (
+          <nav aria-label={byBrand ? t.listing.byBrand : t.listing.byType} className="mt-8">
+            <h2 className="mb-3 text-xs tracking-[0.1em] text-muted-foreground uppercase">{byBrand ? t.listing.byBrand : t.listing.byType}</h2>
+            <ul className="flex flex-wrap gap-2">
+              {subcategories.map((s) => (
+                <li key={s.slug}>
+                  <Link href={localePath(locale, `/shop/${category}/${s.slug}`)} className={chip}>
+                    {byBrand ? s.name : (t.jewelryTypes[s.slug] ?? s.name)} <span className="text-muted-foreground">({s.count})</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
+
         {models.length > 0 && page === 1 && (
-          <nav aria-label={copy.name} className="mt-8 flex flex-wrap gap-2">
+          <nav aria-label={copy.name} className="mt-6 flex flex-wrap gap-2">
             {models.map((m) => (
-              <Link
-                key={m.slug}
-                href={localePath(locale, `/models/${m.slug}`)}
-                className="border border-border px-3 py-2 text-xs tracking-[0.1em] uppercase transition-colors hover:border-foreground"
-              >
+              <Link key={m.slug} href={localePath(locale, `/models/${m.slug}`)} className={chip}>
                 {m.brand} {m.model}
               </Link>
             ))}
@@ -97,4 +160,3 @@ export async function CategoryListing({ locale, category, page }: { locale: Loca
     </>
   );
 }
-
