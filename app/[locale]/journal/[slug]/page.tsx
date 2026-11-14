@@ -199,7 +199,7 @@ export default async function JournalPostPage({ params }: Props) {
           <div className="flex size-14 shrink-0 items-center justify-center rounded-full bg-foreground font-heading text-xl text-white">M</div>
           <div>
             <p className="text-xs tracking-[0.15em] text-muted-foreground uppercase">Written by</p>
-            <p className="mt-1 font-heading text-lg">{SITE_NAME} Specialists</p>
+            <p className="mt-1 font-heading text-lg">{SITE_NAME}</p>
             <p className="mt-1 text-sm leading-relaxed text-foreground/75">
               Our team in Monaco and Miami authenticates and sources Hermès, rare watches and fine jewelry for clients worldwide. Every piece we sell is checked before it ships.{" "}
               <Link href={localePath(locale, "/about")} className="underline underline-offset-4 hover:text-[var(--gold)]">
@@ -248,7 +248,7 @@ export default async function JournalPostPage({ params }: Props) {
           mainEntityOfPage: url,
           articleSection: post.category,
           wordCount: readingMinutes(post) * 220,
-          author: { "@type": "Organization", name: `${SITE_NAME} Specialists`, url: absoluteUrl(DEFAULT_LOCALE, "/about") },
+          author: { "@type": "Organization", name: SITE_NAME, url: absoluteUrl(DEFAULT_LOCALE, "/about") },
           publisher: { "@id": `${siteUrl()}/#organization` },
           citation: post.sources.map((s) => s.url),
           abstract: plainText(post.intro[0]),
