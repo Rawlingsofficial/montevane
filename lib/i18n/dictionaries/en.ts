@@ -249,6 +249,7 @@ const en = {
     popular: "Popular",
   },
   ui: {
+    buyingGuide: "Buying guide",
     weAccept: "We accept",
     tagline: "Hermès · Rare Watches · Fine Jewelry",
     firstAccess: "Get first access to new arrivals",

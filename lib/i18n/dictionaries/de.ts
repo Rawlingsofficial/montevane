@@ -240,6 +240,7 @@ const de: Dictionary = {
     popular: "Beliebt",
   },
   ui: {
+    buyingGuide: "Kaufberatung",
     weAccept: "Wir akzeptieren",
     tagline: "Hermès · Seltene Uhren · Edelschmuck",
     firstAccess: "Als Erste von Neuheiten erfahren",

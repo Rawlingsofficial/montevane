@@ -241,6 +241,7 @@ const uz: Dictionary = {
     popular: "Mashhur",
   },
   ui: {
+    buyingGuide: "Xarid qo'llanmasi",
     weAccept: "Qabul qilamiz",
     tagline: "Hermès · Noyob soatlar · Zargarlik",
     firstAccess: "Yangi kelganlardan birinchi bo'lib xabardor bo'ling",

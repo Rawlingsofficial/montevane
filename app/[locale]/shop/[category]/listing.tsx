@@ -24,6 +24,7 @@ import {
 } from "@/lib/data/catalog";
 import { fmt, getDictionary, localePath, type Locale } from "@/lib/i18n";
 import { categoryImage } from "@/lib/images";
+import { guideFor } from "@/lib/journal";
 import { pageMetadata } from "@/lib/seo/metadata";
 
 // Shared by /shop/[category], /shop/[category]/[sub] and their /page/[n] routes.
@@ -136,6 +137,7 @@ export async function CategoryListing({
   if (!listing) notFound();
   const models = liveModels.filter((m) => m.category === category && (!filter.brand || m.brandSlug === filter.brand));
   const byBrand = BRAND_SUBCATEGORIES.has(category);
+  const guide = guideFor(category, sub);
 
   const crumbs = [
     { name: t.nav.home, path: "/" },
@@ -208,6 +210,16 @@ export async function CategoryListing({
               </nav>
             )}
           </div>
+        )}
+
+        {page === 1 && !filtered && guide && (
+          <Link href={localePath(locale, `/journal/${guide.slug}`)} hrefLang="en" className="group mt-16 flex max-w-3xl items-center justify-between gap-6 bg-[var(--ivory)] p-6 sm:p-8">
+            <span>
+              <span className="block text-xs tracking-[0.2em] text-[var(--gold)] uppercase">{t.ui.buyingGuide}</span>
+              <span className="mt-2 block font-heading text-xl font-light sm:text-2xl">{guide.title}</span>
+            </span>
+            <span aria-hidden="true" className="text-2xl transition-transform group-hover:translate-x-1">→</span>
+          </Link>
         )}
 
         {page === 1 && !filtered && <ListingFaq title={t.ui.faqTitle} items={t.ui.faq[faqFor(category)]} />}

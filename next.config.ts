@@ -11,6 +11,13 @@ const MOVED: [string, string][] = [
   ["/models/louis-vuitton-neverfull", "/brands/hermes"],
   ["/models/louis-vuitton-speedy", "/brands/hermes"],
   ["/models/goyard-tote", "/brands/hermes"],
+  // Early placeholder journal posts, replaced by the buying guides.
+  ["/journal/how-to-authenticate-a-luxury-handbag", "/journal/how-to-authenticate-hermes"],
+  ["/journal/inside-the-atelier", "/journal/hermes-birkin-buying-guide"],
+  ["/journal/brief-history-of-the-quilt", "/journal"],
+  ["/journal/spring-editorial-pastels-and-patent", "/journal"],
+  ["/journal/the-rise-of-the-micro-bag", "/journal"],
+  ["/journal/caring-for-your-investment-piece", "/journal"],
   ...["louis-vuitton", "loewe", "gucci", "prada", "saint-laurent", "dior", "celine", "burberry", "givenchy", "chloe", "goyard"].map(
     (b): [string, string] => [`/brands/${b}`, "/brands/hermes"]
   ),

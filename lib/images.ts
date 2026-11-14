@@ -63,15 +63,6 @@ export const COLLECTION_IMAGE: Record<string, string> = {
 };
 
 // Journal post slug → editorial asset base.
-export const JOURNAL_IMAGE: Record<string, string> = {
-  "inside-the-atelier": "editorial_setup",
-  "brief-history-of-the-quilt": "lifestyle_1",
-  "how-to-authenticate-a-luxury-handbag": "product_interior",
-  "spring-editorial-pastels-and-patent": "lifestyle_2",
-  "the-rise-of-the-micro-bag": "product_45deg",
-  "caring-for-your-investment-piece": "feature_card_1",
-};
-
 export function brandBanner(slug: string): string {
   return BRAND_BANNER[slug] ?? "hero_2";
 }
@@ -80,6 +71,3 @@ export function collectionImage(slug: string): string {
   return COLLECTION_IMAGE[slug] ?? "collection_curated";
 }
 
-export function journalImage(slug: string): string {
-  return JOURNAL_IMAGE[slug] ?? "editorial_setup";
-}
