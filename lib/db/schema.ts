@@ -86,7 +86,7 @@ export const products = pgTable(
       .references(() => brands.slug, { onUpdate: "cascade" }),
     categorySlug: text("category_slug")
       .notNull()
-      .default("bags")
+      .default("birkin-bags")
       .references(() => categories.slug, { onUpdate: "cascade" }),
     collectionSlug: text("collection_slug")
       .notNull()
@@ -189,6 +189,10 @@ export const storeSettings = pgTable(
     telegramUsername: text("telegram_username"),
     signalNumber: text("signal_number"),
     tiktokUrl: text("tiktok_url"),
+    // Shown on the About page; empty hides it.
+    ownerName: text("owner_name"),
+    ownerTitle: text("owner_title"),
+    googleReviewUrl: text("google_review_url"),
     updatedAt,
   },
   (t) => [check("store_settings_singleton", sql`${t.id} = 1`)]

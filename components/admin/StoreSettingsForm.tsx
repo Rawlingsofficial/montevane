@@ -57,6 +57,26 @@ export function StoreSettingsForm({ initial }: { initial: StoreSettingsInput }) 
 
       <div className="h-10" />
 
+      <Section title="About & Reviews">
+        <p className="-mt-1 mb-5 text-xs text-muted-foreground">
+          Your name shows on the About page. The review link (from your Google Business Profile → &ldquo;Ask for reviews&rdquo;) adds a
+          &ldquo;Review us on Google&rdquo; button to the About and Contact pages.
+        </p>
+        <div className="grid gap-5 sm:grid-cols-2">
+          <Field label="Owner / Founder Name">
+            <input value={values.owner_name} onChange={(e) => set("owner_name", e.target.value)} className={inputClass} />
+          </Field>
+          <Field label="Title">
+            <input value={values.owner_title} onChange={(e) => set("owner_title", e.target.value)} placeholder="Founder" className={inputClass} />
+          </Field>
+          <Field label="Google Review Link">
+            <input value={values.google_review_url} onChange={(e) => set("google_review_url", e.target.value)} placeholder="https://g.page/r/…/review" className={inputClass} />
+          </Field>
+        </div>
+      </Section>
+
+      <div className="h-10" />
+
       <Section title="Store Configuration">
         <div className="grid gap-5 sm:grid-cols-2">
           <Field label="Store Name">

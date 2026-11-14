@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/common/PageHero";
 import { ContactButtons } from "@/components/contact/ContactButtons";
 import { InquiryForm } from "@/components/contact/InquiryForm";
-import { getContactChannels } from "@/lib/data/catalog";
+import { VisitBoutique } from "@/components/common/VisitBoutique";
+import { getContactChannels, getStoreProfile } from "@/lib/data/catalog";
 import { getDictionary, localePath } from "@/lib/i18n";
 import { resolveLocale } from "@/lib/i18n/server";
 import { pageMetadata } from "@/lib/seo/metadata";
@@ -19,7 +20,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/contact"
 export default async function ContactPage({ params }: PageProps<"/[locale]/contact">) {
   const locale = await resolveLocale(params);
   const t = getDictionary(locale);
-  const channels = await getContactChannels();
+  const [channels, profile] = await Promise.all([getContactChannels(), getStoreProfile()]);
 
   return (
     <>
@@ -32,6 +33,9 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
             <ContactButtons channels={channels} message={t.contact.greeting} subject={t.contact.subject} labels={t.contact.channels} />
           </div>
           <p className="mt-8 text-sm leading-relaxed text-muted-foreground">{t.payment.note}</p>
+          <div className="mt-12 border-t border-border pt-10">
+            <VisitBoutique locale={locale} profile={profile} />
+          </div>
         </div>
 
         <div>

@@ -29,8 +29,18 @@ export type Country = { iso: string; name: string; dial: string; flag: string };
 
 const flag = (iso: string) => String.fromCodePoint(...[...iso].map((c) => 0x1f1a5 + c.charCodeAt(0)));
 
-/** Every country, named in the visitor's language and sorted by that name. */
-export function countryList(locale: string): Country[] {
+/**
+ * Every country, named in the visitor's language and sorted by that name.
+ * Without a locale, names are the ISO codes: server and browser ICU data name
+ * some countries differently, so the server render uses codes and the
+ * browser swaps in names after hydration (no hydration mismatch).
+ */
+export function countryList(locale?: string): Country[] {
+  if (!locale) {
+    return Object.entries(DIAL_CODES)
+      .map(([iso, dial]) => ({ iso, dial, flag: flag(iso), name: iso }))
+      .sort((a, b) => a.iso.localeCompare(b.iso));
+  }
   const names = new Intl.DisplayNames([locale, "en"], { type: "region" });
   return Object.entries(DIAL_CODES)
     .map(([iso, dial]) => ({ iso, dial, flag: flag(iso), name: names.of(iso) ?? iso }))

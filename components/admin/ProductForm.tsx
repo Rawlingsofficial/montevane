@@ -774,7 +774,7 @@ export function ProductForm({
             <Field label="Dimensions">
               <input
                 {...register("dimensions")}
-                placeholder={values.category_slug === "bags" ? "25 × 20 × 13 cm" : values.category_slug === "watches" ? "41 mm case, 12 mm thick" : "17 cm length"}
+                placeholder={values.category_slug.endsWith("-bags") ? "25 × 20 × 13 cm" : values.category_slug === "watches" ? "41 mm case, 12 mm thick" : "17 cm length"}
                 className={inputClass}
               />
             </Field>

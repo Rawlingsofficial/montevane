@@ -117,24 +117,44 @@ export type ProductFilter = {
   nameMatches?: string[];
   excludeSlug?: string;
   limit?: number;
+  offset?: number;
 };
 
+function filterWhere(filter: ProductFilter) {
+  return and(
+    filter.brand ? eq(p.brandSlug, filter.brand) : undefined,
+    filter.nameMatches?.length ? or(...filter.nameMatches.map((t) => ilike(p.name, `%${t}%`))) : undefined,
+    filter.collection
+      ? or(eq(p.collectionSlug, filter.collection), arrayContains(p.collectionSlugs, [filter.collection]))
+      : undefined,
+    filter.category ? eq(p.categorySlug, filter.category) : undefined,
+    filter.excludeSlug ? ne(p.slug, filter.excludeSlug) : undefined
+  );
+}
+
 export async function getProducts(filter: ProductFilter = {}, locale: Locale = DEFAULT_LOCALE): Promise<StoreProduct[]> {
-  const query = selectProducts(
-    and(
-      filter.brand ? eq(p.brandSlug, filter.brand) : undefined,
-      filter.nameMatches?.length ? or(...filter.nameMatches.map((t) => ilike(p.name, `%${t}%`))) : undefined,
-      filter.collection
-        ? or(eq(p.collectionSlug, filter.collection), arrayContains(p.collectionSlugs, [filter.collection]))
-        : undefined,
-      filter.category ? eq(p.categorySlug, filter.category) : undefined,
-      filter.excludeSlug ? ne(p.slug, filter.excludeSlug) : undefined
-    )
-  )
-    .orderBy(desc(p.createdAt))
-    .limit(filter.limit ?? 200);
+  const query = selectProducts(filterWhere(filter))
+    .orderBy(desc(p.createdAt), asc(p.slug))
+    .limit(filter.limit ?? 200)
+    .offset(filter.offset ?? 0);
 
   return (await query).map((row) => toStoreProduct(row, locale));
+}
+
+export async function countProducts(filter: ProductFilter = {}): Promise<number> {
+  const [row] = await db.select({ n: sql<number>`count(*)::int` }).from(p).where(and(isLive, filterWhere(filter)));
+  return row?.n ?? 0;
+}
+
+export const PAGE_SIZE = 48;
+
+/** One page of a listing; null when the page number is out of range. */
+export async function getProductPage(filter: ProductFilter, page: number, locale: Locale) {
+  const total = await countProducts(filter);
+  const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  if (page < 1 || page > pages) return null;
+  const products = await getProducts({ ...filter, limit: PAGE_SIZE, offset: (page - 1) * PAGE_SIZE }, locale);
+  return { products, total, page, pages };
 }
 
 export async function getProduct(slug: string, locale: Locale = DEFAULT_LOCALE): Promise<StoreProduct | null> {
@@ -168,6 +188,14 @@ export async function getCategories(): Promise<{ slug: string; name: string }[]>
     .select({ slug: schema.categories.slug, name: schema.categories.name })
     .from(schema.categories)
     .orderBy(asc(schema.categories.sortOrder));
+}
+
+export type StoreProfile = { ownerName: string | null; ownerTitle: string | null; googleReviewUrl: string | null };
+
+/** Owner name and Google review link from Settings (About / Contact pages). */
+export async function getStoreProfile(): Promise<StoreProfile> {
+  const [s] = await db.select().from(schema.storeSettings).where(eq(schema.storeSettings.id, 1));
+  return { ownerName: s?.ownerName || null, ownerTitle: s?.ownerTitle || null, googleReviewUrl: s?.googleReviewUrl || null };
 }
 
 export type ContactChannels = {

@@ -14,7 +14,8 @@ const pool = new Pool({
   // Neon drops idle connections (and scales to zero); release ours first so
   // a query never lands on a socket the server already closed (ECONNRESET).
   idleTimeoutMillis: 10_000,
-  connectionTimeoutMillis: 10_000,
+  // Generous: static builds run many pages at once against one pool.
+  connectionTimeoutMillis: 20_000,
   keepAlive: true,
 });
 

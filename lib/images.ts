@@ -16,31 +16,38 @@ export const LOGO = {
 
 export const HERO_IMAGES = ["hero_1", "hero_2", "hero_3", "hero_4"] as const;
 
-// Brand slug → banner asset base. Two houses use short filenames.
+// Brand slug → banner asset base. watch_* / jewelry_* are the watch and
+// jewelry shots; the rest of the library is Hermès-style bag photography.
 export const BRAND_BANNER: Record<string, string> = {
   hermes: "banner_hermes",
-  chanel: "banner_chanel",
-  "louis-vuitton": "banner_lv",
-  loewe: "banner_loewe",
-  gucci: "banner_gucci",
-  prada: "banner_prada",
-  "saint-laurent": "banner_ysl",
-  dior: "banner_dior",
-  celine: "banner_celine",
-  burberry: "banner_burberry",
-  givenchy: "banner_givenchy",
-  chloe: "banner_chloe",
-  // Watch and jewelry houses have no dedicated banner yet.
-  rolex: "hero_4",
-  "patek-philippe": "hero_4",
-  "audemars-piguet": "hero_4",
-  cartier: "feature_card_2",
-  "van-cleef-arpels": "lifestyle_2",
-  "van-cleef-and-arpels": "lifestyle_2",
-  tiffany: "lifestyle_2",
-  "tiffany-co": "lifestyle_2",
-  bvlgari: "lifestyle_2",
+  "bag-bestie": "product_interior",
+  baginizer: "product_interior",
+  rolex: "watch_1",
+  "patek-philippe": "watch_2",
+  "audemars-piguet": "watch_1",
+  cartier: "watch_3",
+  "van-cleef-arpels": "jewelry_1",
+  "van-cleef-and-arpels": "jewelry_1",
+  tiffany: "jewelry_1",
+  "tiffany-co": "jewelry_1",
+  bvlgari: "jewelry_1",
 };
+
+// Category slug → hero asset base (shop pages and the home category tiles).
+export const CATEGORY_IMAGE: Record<string, string> = {
+  "birkin-bags": "hero_2",
+  "kelly-bags": "hero_4",
+  watches: "watch_1",
+  jewelry: "jewelry_1",
+  "bag-charms": "product_45deg",
+  "twilly-scarves": "lifestyle_3",
+  "scarves-shawls": "lifestyle_1",
+  "bag-organizers": "product_interior",
+};
+
+export function categoryImage(slug: string): string {
+  return CATEGORY_IMAGE[slug] ?? "hero_2";
+}
 
 // Collection slug → cover asset base. Only two dedicated collection banners
 // exist, so the other two reuse the feature-card shots.
@@ -49,6 +56,10 @@ export const COLLECTION_IMAGE: Record<string, string> = {
   "best-sellers": "collection_monochrome",
   "limited-edition": "feature_card_1",
   "classic-heritage": "feature_card_2",
+  "exotic-hermes": "hero_3",
+  "hss-special-order": "feature_card_1",
+  "pre-owned-hermes": "lifestyle_1",
+  "custom-rare": "product_45deg",
 };
 
 // Journal post slug → editorial asset base.

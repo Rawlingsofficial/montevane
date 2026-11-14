@@ -8,9 +8,9 @@ export function Navbar({ locale }: { locale: Locale }) {
   return (
     <NavbarClient
       locale={locale}
-      left={[link(t.bags, "/shop/bags"), link(t.watches, "/shop/watches"), link(t.jewelry, "/shop/jewelry")]}
+      left={[link(t.birkin, "/shop/birkin-bags"), link(t.kelly, "/shop/kelly-bags"), link(t.watches, "/shop/watches"), link(t.jewelry, "/shop/jewelry")]}
       right={[link(t.brands, "/brands"), link(t.collections, "/collections"), link(t.contact, "/contact")]}
-      extra={[link(t.payment, "/payment-shipping"), link(t.about, "/about"), link(t.journal, "/journal")]}
+      extra={[link(t.authenticity, "/authenticity"), link(t.payment, "/payment-shipping"), link(t.about, "/about"), link(t.journal, "/journal")]}
       homeHref={localePath(locale, "/")}
       labels={{ open: t.openMenu, close: t.closeMenu, home: t.homeLabel, language: t.language }}
       languages={LOCALES.map((l) => ({ locale: l, label: LOCALE_LABEL[l] }))}

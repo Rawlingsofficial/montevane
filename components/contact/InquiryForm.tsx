@@ -52,7 +52,8 @@ export function InquiryForm({
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
-  const countries = useMemo(() => countryList(locale), [locale]);
+  const hydrated = useSyncExternalStore(noSubscribe, () => true, () => false);
+  const countries = useMemo(() => countryList(hydrated ? locale : undefined), [hydrated, locale]);
   // Until the visitor picks, both selects follow a guess: the store locale's
   // country, or for English the browser region (en-GB → GB) once hydrated.
   const region = useSyncExternalStore(noSubscribe, browserRegion, () => "");

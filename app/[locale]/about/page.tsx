@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 
 import { AssetImage } from "@/components/common/AssetImage";
 import { PageHero } from "@/components/common/PageHero";
+import { VisitBoutique } from "@/components/common/VisitBoutique";
 import { WhyShopWithUs } from "@/components/home/WhyShopWithUs";
+import { SITE_NAME } from "@/lib/constants";
+import { getStoreProfile } from "@/lib/data/catalog";
 import { getDictionary } from "@/lib/i18n";
 import { PAGES } from "@/lib/i18n/dictionaries/pages";
 import { resolveLocale } from "@/lib/i18n/server";
@@ -19,6 +22,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/about">)
 export default async function AboutPage({ params }: PageProps<"/[locale]/about">) {
   const locale = await resolveLocale(params);
   const { about } = PAGES[locale];
+  const profile = await getStoreProfile();
   const [house, craft, experience] = about.blocks;
 
   return (
@@ -47,6 +51,23 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
         <p className="text-xs font-medium tracking-[0.25em] text-[var(--gold)] uppercase">{experience.eyebrow}</p>
         <h2 className="mt-4 max-w-2xl text-3xl font-light sm:text-4xl">{experience.title}</h2>
         <p className="mt-5 max-w-xl text-sm text-foreground/80">{experience.body}</p>
+      </section>
+
+      <section className="mx-auto grid max-w-6xl gap-16 border-t border-border px-8 py-20 sm:px-16 lg:grid-cols-2 lg:py-24">
+        {profile.ownerName ? (
+          <div>
+            <p className="text-xs font-medium tracking-[0.25em] text-[var(--gold)] uppercase">{about.founderEyebrow}</p>
+            <h2 className="mt-4 text-3xl font-light sm:text-4xl">{profile.ownerName}</h2>
+            {profile.ownerTitle && <p className="mt-2 text-sm tracking-[0.1em] text-muted-foreground uppercase">{profile.ownerTitle}, {SITE_NAME}</p>}
+            <p className="mt-5 max-w-md text-sm text-foreground/80">{about.founderBody}</p>
+          </div>
+        ) : (
+          <div>
+            <p className="text-xs font-medium tracking-[0.25em] text-[var(--gold)] uppercase">{about.founderEyebrow}</p>
+            <p className="mt-5 max-w-md text-sm text-foreground/80">{about.founderBody}</p>
+          </div>
+        )}
+        <VisitBoutique locale={locale} profile={profile} />
       </section>
 
       <WhyShopWithUs locale={locale} />

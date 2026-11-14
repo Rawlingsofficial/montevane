@@ -12,11 +12,11 @@ export const FACETS: Record<string, Facet[]> = {
     { id: "case_size", label: "Case size", options: ["36 mm", "40 mm", "41 mm", "42 mm"] },
     { id: "case_material", label: "Case material", options: ["Oystersteel", "Stainless steel", "Yellow gold", "White gold", "Rose gold", "Two-tone", "Platinum", "Titanium"] },
   ],
-  bags: [
-    { id: "leather", label: "Leather / material", options: ["Togo", "Epsom", "Clemence", "Swift", "Box calf", "Caviar", "Lambskin", "Canvas", "Exotic"] },
-    { id: "hardware", label: "Hardware", options: ["Gold", "Palladium", "Rose gold", "Ruthenium", "Brushed gold"] },
-    { id: "size", label: "Size", options: ["Mini", "Small", "Medium", "Large", "25", "28", "30", "35"] },
-    { id: "closure", label: "Closure", options: ["Turn-lock", "Clasp", "Zip", "Magnetic", "Open top"] },
+  "birkin-bags": [
+    { id: "leather", label: "Leather / material", options: ["Togo", "Epsom", "Clemence", "Swift", "Box calf", "Chèvre", "Evercolor", "Toile", "Exotic"] },
+    { id: "hardware", label: "Hardware", options: ["Gold", "Palladium", "Rose gold", "Permabrass", "Ruthenium", "Brushed gold"] },
+    { id: "size", label: "Size", options: ["Mini", "20", "25", "28", "30", "32", "35", "40"] },
+    { id: "closure", label: "Closure", options: ["Turn-lock", "Sangles & turn-lock", "Clasp", "Zip"] },
   ],
   jewelry: [
     { id: "metal", label: "Metal", options: ["Yellow gold", "White gold", "Rose gold", "Platinum", "Sterling silver"] },
@@ -25,6 +25,8 @@ export const FACETS: Record<string, Facet[]> = {
     { id: "size", label: "Size", options: ["XS", "S", "M", "L", "16 cm", "17 cm", "18 cm"] },
   ],
 };
+
+FACETS["kelly-bags"] = FACETS["birkin-bags"];
 
 export function facetsFor(categorySlug: string): Facet[] {
   return FACETS[categorySlug] ?? [];

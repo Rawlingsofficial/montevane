@@ -1,5 +1,18 @@
 export const SITE_NAME = "Montévane";
 
+// The one boutique address — keep it identical to the Google Business Profile
+// (name, address, phone must match everywhere for local SEO).
+export const STORE_ADDRESS = {
+  street: "Place du Casino",
+  postalCode: "98000",
+  locality: "Monaco",
+  country: "MC",
+  countryName: "Monaco",
+  lat: 43.7396,
+  lng: 7.4276,
+};
+export const MAPS_URL = "https://www.google.com/maps/search/?api=1&query=Place+du+Casino%2C+98000+Monaco";
+
 export type JournalPost = {
   slug: string;
   title: string;
@@ -43,7 +56,7 @@ export const JOURNAL_POSTS: JournalPost[] = [
     body: [
       "Authentication begins with weight and smell — genuine leather has a density and scent that coated synthetics rarely replicate convincingly, even to a casual hand.",
       "Stitch count matters more than most buyers realize: authentic houses hold themselves to a consistent number of stitches per inch, while counterfeit workshops optimize for speed over precision.",
-      "Every bag we carry passes through a multi-point inspection by an independent authenticator before it's listed — hardware, date codes, lining, and stitch geometry, all cross-referenced against house archives.",
+      "Every Hermès piece we carry is verified with Entrupy before it's listed — leather grain, hardware, stamps and stitch geometry examined under magnification — and if any item ever fails a third-party check, we refund the full price.",
     ],
   },
   {

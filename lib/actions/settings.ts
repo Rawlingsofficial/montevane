@@ -15,6 +15,9 @@ export type StoreSettingsInput = {
   phone_number: string;
   contact_email: string;
   tiktok_url: string;
+  owner_name: string;
+  owner_title: string;
+  google_review_url: string;
   newsletter_sender_email: string;
 };
 
@@ -39,6 +42,9 @@ export async function updateStoreSettings(input: StoreSettingsInput): Promise<{ 
     phoneNumber: input.phone_number || null,
     contactEmail: input.contact_email || null,
     tiktokUrl: tiktokUrl(input.tiktok_url),
+    ownerName: input.owner_name.trim() || null,
+    ownerTitle: input.owner_title.trim() || null,
+    googleReviewUrl: input.google_review_url.trim() || null,
     newsletterSenderEmail: input.newsletter_sender_email || null,
   };
 

@@ -1,6 +1,7 @@
 import { displayPrice } from "@/lib/catalog/pricing";
 import type { ContactChannels, StoreProduct } from "@/lib/data/catalog";
 import { siteUrl, type Locale } from "@/lib/i18n/config";
+import { MAPS_URL, STORE_ADDRESS } from "@/lib/constants";
 import { SITE_NAME, absoluteUrl } from "@/lib/seo/metadata";
 
 // schema.org objects for <JsonLd>. Google uses these for rich results
@@ -15,6 +16,23 @@ const AVAILABILITY: Record<StoreProduct["availability"], string> = {
 
 const absoluteImage = (url: string) => (url.startsWith("http") ? url : `${siteUrl()}${url}`);
 
+/** 14-day returns, worldwide (see /payment-shipping and /authenticity). */
+function returnPolicy() {
+  return {
+    "@type": "MerchantReturnPolicy",
+    applicableCountry: ["US", "GB", "DE", "AT", "CH", "FR", "IT", "MC", "UZ"],
+    returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+    merchantReturnDays: 14,
+    returnMethod: "https://schema.org/ReturnByMail",
+    returnFees: "https://schema.org/FreeReturn",
+    merchantReturnLink: `${siteUrl()}/authenticity`,
+  };
+}
+
+export function merchantReturnLd() {
+  return { "@context": "https://schema.org", ...returnPolicy() };
+}
+
 export function organizationLd(channels: ContactChannels) {
   const contactPoint = [
     channels.phone && { "@type": "ContactPoint", telephone: channels.phone, contactType: "sales" },
@@ -24,13 +42,26 @@ export function organizationLd(channels: ContactChannels) {
 
   return {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": ["Organization", "Store"],
     "@id": `${siteUrl()}/#organization`,
     name: SITE_NAME,
     url: siteUrl(),
     logo: `${siteUrl()}/images/web_optimized/logo_montevane_full.webp`,
-    description: "Independent boutique for authentic luxury bags, watches and jewelry with worldwide shipping.",
-    areaServed: ["US", "GB", "DE", "AT", "CH", "UZ", "EU"],
+    image: `${siteUrl()}/images/web_optimized/about_boutique.webp`,
+    description: "Hermès & rare watches specialist in Monaco: authentic Birkin, Kelly and Hermès accessories, rare watches and jewelry.",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: STORE_ADDRESS.street,
+      postalCode: STORE_ADDRESS.postalCode,
+      addressLocality: STORE_ADDRESS.locality,
+      addressCountry: STORE_ADDRESS.country,
+    },
+    geo: { "@type": "GeoCoordinates", latitude: STORE_ADDRESS.lat, longitude: STORE_ADDRESS.lng },
+    hasMap: MAPS_URL,
+    ...(channels.phone ? { telephone: channels.phone } : {}),
+    priceRange: "$$$$",
+    hasMerchantReturnPolicy: returnPolicy(),
+    areaServed: ["MC", "FR", "US", "GB", "DE", "AT", "CH", "UZ", "EU"],
     sameAs: channels.tiktok ? [channels.tiktok] : undefined,
     ...(contactPoint.length ? { contactPoint } : {}),
   };
@@ -83,6 +114,7 @@ export function productLd(product: StoreProduct, locale: Locale, description: st
       availability: AVAILABILITY[product.availability],
       itemCondition: product.condition === "new" ? "https://schema.org/NewCondition" : "https://schema.org/UsedCondition",
       seller: { "@id": `${siteUrl()}/#organization` },
+      hasMerchantReturnPolicy: returnPolicy(),
     },
   };
 }

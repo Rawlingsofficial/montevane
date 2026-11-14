@@ -5,7 +5,7 @@ import type { Locale } from "../config";
 
 type Block = { eyebrow: string; title: string; body: string };
 type PageCopy = {
-  about: { eyebrow: string; title: string; description: string; blocks: [Block, Block, Block] };
+  about: { eyebrow: string; title: string; description: string; blocks: [Block, Block, Block]; founderEyebrow: string; founderBody: string };
   journal: { eyebrow: string; title: string; description: string; back: string; more: string; englishOnly: string };
   privacy: { title: string; updated: string; sections: { title: string; body: string }[] };
 };
@@ -14,30 +14,32 @@ export const PAGES: Record<Locale, PageCopy> = {
   en: {
     about: {
       eyebrow: "Our Story",
-      title: "An Independent Boutique for Authentic Luxury",
-      description: "Bags, watches and jewelry from the world's great houses — not affiliated with any of them.",
+      title: "Hermès & Rare Watches Specialist in Monaco",
+      description: "An independent boutique on Place du Casino — not affiliated with Hermès or any watch house.",
       blocks: [
         {
           eyebrow: "The House",
-          title: "Carefully curated, expertly authenticated",
-          body: "Montévane was founded on a simple belief: a luxury piece is not just an accessory but an investment in craft. We source from the world's most prestigious houses, and every bag, watch and jewel passes independent authentication before it reaches you.",
+          title: "Hermès first, and only what we can stand behind",
+          body: "Montévane focuses on what it knows best: Hermès — Birkin, Kelly, exotics, special orders and the accessories that go with them — and rare watches. Every Hermès piece is verified with Entrupy and every watch by an independent authenticator, and if any item ever fails a third-party check we refund the full price.",
         },
         {
           eyebrow: "Craftsmanship",
           title: "Every stitch tells the story of an atelier",
-          body: "From saddle-stitched leather to hand-finished movements, the pieces we carry represent decades — sometimes centuries — of refined technique. We celebrate that craft rather than hide it behind marketing.",
+          body: "A Birkin is saddle-stitched by one artisan from start to finish; a great watch is assembled and regulated by hand. We look for the pieces where that craft shows — the right leather, the right hardware, the right condition — and tell you exactly what you are buying.",
         },
         {
           eyebrow: "The Experience",
-          title: "Personal service, from first message to delivery",
-          body: "Talk to us on WhatsApp, Telegram, Signal or by phone. We arrange payment by bank wire, crypto or card, and ship fully insured to the US, UK, Europe, Uzbekistan and worldwide.",
+          title: "Personal service, in Monaco or anywhere",
+          body: "See a piece in person at our boutique on Place du Casino, or talk to us on WhatsApp, Telegram, Signal or by phone. Pay by bank wire, crypto or card, receive it fully insured anywhere in the world, and return it within 14 days if it isn't right.",
         },
       ],
+      founderEyebrow: "Who You'll Deal With",
+      founderBody: "Every inquiry is answered personally — by message, by phone, or face to face at the boutique.",
     },
     journal: {
       eyebrow: "The Journal",
       title: "Luxury Guides & Stories",
-      description: "How to authenticate, buy and care for luxury bags, watches and jewelry — and the heritage behind the icons.",
+      description: "How to authenticate, buy and care for Hermès bags and rare watches — and the heritage behind the icons.",
       back: "Back to Journal",
       more: "More Stories",
       englishOnly: "",
@@ -59,25 +61,27 @@ export const PAGES: Record<Locale, PageCopy> = {
   de: {
     about: {
       eyebrow: "Unsere Geschichte",
-      title: "Eine unabhängige Boutique für originalen Luxus",
-      description: "Taschen, Uhren und Schmuck der großen Häuser – mit keinem davon verbunden.",
+      title: "Spezialist für Hermès & seltene Uhren in Monaco",
+      description: "Eine unabhängige Boutique am Place du Casino – nicht mit Hermès oder einem Uhrenhaus verbunden.",
       blocks: [
         {
           eyebrow: "Das Haus",
-          title: "Sorgfältig ausgewählt, fachkundig geprüft",
-          body: "Montévane beruht auf einer einfachen Überzeugung: Ein Luxusstück ist kein Accessoire, sondern eine Investition in Handwerk. Wir beziehen von den renommiertesten Häusern, und jede Tasche, Uhr und jedes Schmuckstück wird vor der Lieferung unabhängig auf Echtheit geprüft.",
+          title: "Hermès zuerst – und nur, wofür wir einstehen",
+          body: "Montévane konzentriert sich auf das, was es am besten kennt: Hermès – Birkin, Kelly, Exoten, Sonderanfertigungen und passende Accessoires – sowie seltene Uhren. Jedes Hermès-Stück wird mit Entrupy geprüft, jede Uhr von einem unabhängigen Experten. Besteht ein Stück je eine Drittprüfung nicht, erstatten wir den vollen Preis.",
         },
         {
           eyebrow: "Handwerk",
           title: "Jeder Stich erzählt von einem Atelier",
-          body: "Von sattelgenähtem Leder bis zu handveredelten Uhrwerken – unsere Stücke stehen für Jahrzehnte, manchmal Jahrhunderte verfeinerter Technik.",
+          body: "Eine Birkin wird von einer Hand von Anfang bis Ende sattelgenäht; eine große Uhr von Hand montiert und reguliert. Wir suchen Stücke, bei denen dieses Handwerk sichtbar ist – und sagen Ihnen genau, was Sie kaufen.",
         },
         {
           eyebrow: "Der Service",
-          title: "Persönlich, von der ersten Nachricht bis zur Lieferung",
-          body: "Schreiben Sie uns per WhatsApp, Telegram, Signal oder rufen Sie an. Zahlung per Überweisung, Krypto oder Karte; voll versicherter Versand nach Deutschland, Österreich, in die Schweiz und weltweit.",
+          title: "Persönlich – in Monaco oder überall",
+          body: "Sehen Sie Stücke in unserer Boutique am Place du Casino oder schreiben Sie uns per WhatsApp, Telegram, Signal oder rufen Sie an. Zahlung per Überweisung, Krypto oder Karte, voll versicherter Versand weltweit und 14 Tage Rückgabe.",
         },
       ],
+      founderEyebrow: "Ihr Ansprechpartner",
+      founderBody: "Jede Anfrage wird persönlich beantwortet – per Nachricht, Telefon oder direkt in der Boutique.",
     },
     journal: {
       eyebrow: "Das Journal",
@@ -104,25 +108,27 @@ export const PAGES: Record<Locale, PageCopy> = {
   uz: {
     about: {
       eyebrow: "Bizning tariximiz",
-      title: "Original brendlar uchun mustaqil butik",
-      description: "Dunyoning eng mashhur brendlaridan sumkalar, soatlar va zargarlik buyumlari – ularning hech biriga aloqador emasmiz.",
+      title: "Monakodagi Hermès va noyob soatlar mutaxassisi",
+      description: "Place du Casino'dagi mustaqil butik – Hermès yoki soat brendlariga aloqador emas.",
       blocks: [
         {
           eyebrow: "Butik",
-          title: "Puxta tanlangan, mutaxassislar tekshirgan",
-          body: "Montévane oddiy g'oyaga asoslanadi: lyuks buyum shunchaki aksessuar emas, balki mahoratga qilingan sarmoya. Biz eng nufuzli brendlardan mahsulot olamiz va har bir sumka, soat va zargarlik buyumi sizga yetib borishidan oldin mustaqil tekshiruvdan o'tadi.",
+          title: "Avvalo Hermès – faqat kafolat bera oladiganimiz",
+          body: "Montévane eng yaxshi biladigan narsasiga e'tibor qaratadi: Hermès – Birkin, Kelly, ekzotik, maxsus buyurtmalar va aksessuarlar – hamda noyob soatlar. Har bir Hermès buyumi Entrupy bilan, har bir soat mustaqil mutaxassis tomonidan tekshiriladi; uchinchi tomon tekshiruvidan o'tmasa, to'liq pul qaytariladi.",
         },
         {
           eyebrow: "Mahorat",
           title: "Har bir chok ustaxona tarixini so'zlaydi",
-          body: "Qo'lda tikilgan charmdan tortib qo'lda pardozlangan mexanizmlargacha – biz taklif qiladigan buyumlar o'n yillar, ba'zan asrlar davomida sayqallangan mahoratdir.",
+          body: "Birkin boshidan oxirigacha bitta usta tomonidan qo'lda tikiladi; yaxshi soat qo'lda yig'iladi va sozlanadi. Biz shu mahorat ko'rinadigan buyumlarni tanlaymiz va nima sotib olayotganingizni aniq aytamiz.",
         },
         {
           eyebrow: "Xizmat",
-          title: "Birinchi xabardan yetkazib berishgacha shaxsiy xizmat",
-          body: "WhatsApp, Telegram, Signal orqali yozing yoki qo'ng'iroq qiling. To'lov: bank o'tkazmasi, kripto yoki karta. Toshkent, O'zbekiston bo'ylab va butun dunyoga sug'urtalangan yetkazib berish.",
+          title: "Monakoda yoki istalgan joyda shaxsiy xizmat",
+          body: "Place du Casino'dagi butikimizda ko'ring yoki WhatsApp, Telegram, Signal orqali yozing. Bank o'tkazmasi, kripto yoki karta bilan to'lov, butun dunyoga sug'urtalangan yetkazib berish va 14 kun ichida qaytarish.",
         },
       ],
+      founderEyebrow: "Siz bilan kim ishlaydi",
+      founderBody: "Har bir so'rovga shaxsan javob beriladi – xabar, telefon yoki butikda yuzma-yuz.",
     },
     journal: {
       eyebrow: "Jurnal",

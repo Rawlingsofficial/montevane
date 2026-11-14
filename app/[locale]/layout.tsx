@@ -11,7 +11,8 @@ import { LOCALES, getDictionary, isLocale, siteUrl } from "@/lib/i18n";
 import { SITE_NAME } from "@/lib/seo/metadata";
 import { organizationLd, websiteLd } from "@/lib/seo/structured-data";
 
-export const dynamicParams = false;
+// Unknown locales 404 in the layout itself (isLocale check), so child routes
+// can still render products, pages 2+ etc. on demand (dynamicParams default).
 
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));

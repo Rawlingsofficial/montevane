@@ -9,6 +9,7 @@ import { ProductGrid } from "@/components/products/ProductGrid";
 import { getContactChannels, getProducts } from "@/lib/data/catalog";
 import { fmt, getDictionary, localePath } from "@/lib/i18n";
 import { resolveLocale } from "@/lib/i18n/server";
+import { categoryImage } from "@/lib/images";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { MODELS, getModel } from "@/lib/seo/models";
 
@@ -20,8 +21,6 @@ export function generateStaticParams() {
 }
 
 type Props = PageProps<"/[locale]/models/[model]">;
-
-const HERO: Record<string, string> = { bags: "hero_2", watches: "hero_4", jewelry: "lifestyle_2" };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = await resolveLocale(params);
@@ -39,7 +38,7 @@ export default async function ModelPage({ params }: Props) {
   const t = getDictionary(locale);
   const copy = model.copy[locale];
   const [products, channels] = await Promise.all([
-    getProducts({ brand: model.brandSlug, nameMatches: model.match }, locale),
+    getProducts({ brand: model.brandSlug, category: model.category, nameMatches: model.match }, locale),
     getContactChannels(),
   ]);
   const siblings = MODELS.filter((m) => m.category === model.category && m.slug !== model.slug);
@@ -48,7 +47,7 @@ export default async function ModelPage({ params }: Props) {
 
   return (
     <>
-      <PageHero eyebrow={model.brand} title={copy.title} image={HERO[model.category]} priority />
+      <PageHero eyebrow={model.brand} title={copy.title} image={categoryImage(model.category)} priority />
 
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-10">
         <Breadcrumbs

@@ -11,7 +11,7 @@ import { ProductGrid } from "@/components/products/ProductGrid";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { facetsFor } from "@/lib/catalog/facets";
 import { displayPrice } from "@/lib/catalog/pricing";
-import { getContactChannels, getProduct, getProductIndex, getProducts } from "@/lib/data/catalog";
+import { getContactChannels, getProduct, getProducts } from "@/lib/data/catalog";
 import { fmt, getDictionary, localePath } from "@/lib/i18n";
 import { resolveLocale } from "@/lib/i18n/server";
 import { pageMetadata } from "@/lib/seo/metadata";
@@ -26,8 +26,11 @@ export const dynamicParams = true;
 // Hourly refresh so promo start/end dates take effect without a save.
 export const revalidate = 3600;
 
+// Only the newest pieces are pre-rendered at build (hundreds of product pages ×
+// three languages would exhaust the database pool); the rest render on first
+// visit and are cached like the others.
 export async function generateStaticParams() {
-  return (await getProductIndex()).map((p) => ({ slug: p.slug }));
+  return (await getProducts({ limit: 24 })).map((p) => ({ slug: p.slug }));
 }
 
 type Props = PageProps<"/[locale]/products/[slug]">;
@@ -53,8 +56,9 @@ export default async function ProductPage({ params }: Props) {
   const model = MODELS.find((m) => m.brandSlug === product.brandSlug && m.match.some((term) => product.name.toLowerCase().includes(term)));
   const category = t.categories[product.categorySlug];
 
-  const sameBrand = await getProducts({ brand: product.brandSlug, excludeSlug: product.slug, limit: 4 }, locale);
-  const related = sameBrand.length > 0 ? sameBrand : await getProducts({ excludeSlug: product.slug, limit: 4 }, locale);
+  // Related: same category first (a Birkin shows Birkins, a charm shows charms), then same house.
+  const sameCategory = await getProducts({ category: product.categorySlug, excludeSlug: product.slug, limit: 4 }, locale);
+  const related = sameCategory.length > 0 ? sameCategory : await getProducts({ brand: product.brandSlug, excludeSlug: product.slug, limit: 4 }, locale);
   const price = displayPrice(product, locale);
   const money = new Intl.NumberFormat(locale, { style: "currency", currency: price.currency, maximumFractionDigits: 0 });
 
@@ -156,7 +160,17 @@ export default async function ProductPage({ params }: Props) {
                   ? [{ title: t.product.modifications, content: <p className="whitespace-pre-line">{product.modifications}</p> }]
                   : []),
                 { title: t.product.paymentShipping, content: t.payment.note },
-                { title: t.product.authenticity, content: product.authenticityNotes || t.product.authenticityDefault },
+                {
+                  title: t.product.authenticity,
+                  content: (
+                    <>
+                      <p>{product.authenticityNotes || t.product.authenticityDefault}</p>
+                      <Link href={localePath(locale, "/authenticity")} className="mt-2 inline-block underline underline-offset-4 hover:text-[var(--gold)]">
+                        {t.product.authenticityLink}
+                      </Link>
+                    </>
+                  ),
+                },
               ]}
             />
           </div>

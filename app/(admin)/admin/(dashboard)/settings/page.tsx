@@ -40,6 +40,9 @@ export default async function AdminSettingsPage() {
             phone_number: settings?.phoneNumber ?? "",
             contact_email: settings?.contactEmail ?? "",
             tiktok_url: settings?.tiktokUrl ?? "",
+            owner_name: settings?.ownerName ?? "",
+            owner_title: settings?.ownerTitle ?? "",
+            google_review_url: settings?.googleReviewUrl ?? "",
             newsletter_sender_email: settings?.newsletterSenderEmail ?? "",
           }}
         />

@@ -44,3 +44,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .neon
+
+# supplier photo/description drop — imported to Neon storage + DB, never deployed
+/public/brkin bags/
