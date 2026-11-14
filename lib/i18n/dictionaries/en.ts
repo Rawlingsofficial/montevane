@@ -279,12 +279,15 @@ const en = {
     product: {
       similar: "Similar Pieces",
       recentlyViewed: "Recently Viewed",
+      shippingFree: "Complimentary insured express shipping",
+      shippingFrom: "Insured express shipping from {rate}",
+      secureCourier: "Complimentary secure courier delivery",
       shipsBy: "Ships by {date}",
       sendEnquiry: "Send an enquiry",
       enquireOr: "Or contact us by",
       shippingReturns: "Shipping & Returns",
       shippingReturnsBody:
-        "Every order ships fully insured and tracked, with signature on delivery, worldwide. Pieces marked In Stock leave within a few business days; pieces marked Ships in 14 days are sourced to order and ship within 14 days. Returns are accepted within 14 days of delivery, unworn and complete, and refunds go back to the same account the payment came from.",
+        "We arrange every delivery ourselves: insured express, tracked, with signature on delivery, worldwide. It is complimentary on orders over $5,000 (smaller orders from $45), and pieces over $100,000 travel by secure courier, arranged personally. Pieces marked In Stock leave within a few business days; pieces marked Ships in 14 days are sourced to order and ship within 14 days. Import duties, where they apply, are paid by the buyer and confirmed before you pay. Returns are accepted within 14 days of delivery, unworn and complete, and refunds go back to the same account the payment came from.",
       specifications: "Specifications",
       groups: { overview: "Overview", case: "Case & Bezel", dial: "Dial", bracelet: "Bracelet", movement: "Movement", stones: "Stones & Metal", details: "Details" } as Record<string, string>,
       gallery: { open: "Open image {n} full screen", close: "Close", prev: "Previous image", next: "Next image", show: "Show image {n}" },
@@ -307,13 +310,13 @@ const en = {
         { q: "Is every watch authentic?", a: "Yes. Every watch is verified by our authentication specialists before it ships: case, movement, serial and reference numbers, and any box and papers listed. If a piece ever fails an independent third-party check, we refund the full price." },
         { q: "What does “Ships in 14 days” mean?", a: "The watch is sourced to order. Once you confirm, we secure it, verify it and ship it within 14 days. Watches marked In Stock leave within a few business days." },
         { q: "Do the watches come with box and papers?", a: "Where a watch has its original box and papers, they are listed in its specifications. If a detail matters to you and is not listed, ask us before you buy and we will confirm it in writing." },
-        { q: "How is my watch shipped?", a: "Fully insured and tracked, with signature on delivery, worldwide. Cross-border orders may be subject to import VAT and duties in your country; we tell you before you pay." },
+        { q: "How is my watch shipped?", a: "We arrange it ourselves: insured express, tracked, with signature on delivery, worldwide, and complimentary on every watch over $5,000. Pieces over $100,000 travel by secure courier. Import VAT and duties, where they apply, are paid by the buyer; we confirm them before you pay." },
         { q: "Can I return a watch?", a: "Yes, within 14 days of delivery, unworn and complete as received. The refund goes back to the same account the payment came from: bank account, crypto wallet or digital wallet." },
       ],
       jewelry: [
         { q: "Are the diamonds natural and certified?", a: "Each listing states the stones, their weight and any certificate (for example GIA) with its number. Every piece is verified by our specialists before it ships." },
         { q: "What if the ring size is not mine?", a: "The size is listed on each ring where known. Ask us before you order and we will tell you what is possible for that piece." },
-        { q: "How is jewelry shipped?", a: "Fully insured and tracked, with signature on delivery, worldwide. Import VAT and duties may apply in your country; we tell you before you pay." },
+        { q: "How is jewelry shipped?", a: "Insured express, tracked, with signature on delivery, worldwide, and complimentary on orders over $5,000 (smaller orders from $45). Import VAT and duties may apply in your country; we confirm them before you pay." },
         { q: "Can I return a piece?", a: "Yes, within 14 days of delivery, unworn and complete as received. The refund goes back to the same account the payment came from." },
       ],
       hermes: [
@@ -339,7 +342,7 @@ const en = {
     channels: { whatsapp: "WhatsApp", telegram: "Telegram", signal: "Signal", sms: "Text", call: "Call", email: "Email" } as Record<string, string>,
   },
   payment: {
-    note: "We don't take payment on the site. Contact us and we'll arrange a fast, secure transaction by bank wire, crypto, card, or a secure online payment link. Insured worldwide shipping.",
+    note: "We don't take payment on the site. Contact us and we'll arrange a fast, secure transaction by bank wire, crypto, card, or a secure online payment link. Complimentary insured express shipping on orders over $5,000.",
     eyebrow: "How Buying Works",
     title: "Payment & Worldwide Shipping",
     sections: [
@@ -353,7 +356,7 @@ const en = {
       },
       {
         title: "3. Insured worldwide shipping",
-        body: "Each order ships fully insured and tracked, with signature on delivery, to the US, UK, Germany, Austria, Switzerland, the rest of Europe, Uzbekistan and worldwide.",
+        body: "We arrange every delivery ourselves, so it is seamless and stress-free: insured express, tracked, with signature on delivery, to the US, UK, Europe, Uzbekistan and worldwide. Shipping is complimentary on orders over $5,000. Below that: under $2,000, $45 to the US, $55 to the UK & Europe and $85 to the rest of the world; from $2,000 to $5,000, $75, $95 and $145. Pieces over $100,000 travel by secure courier, arranged personally with you at no charge.",
       },
       {
         title: "4. 14-day returns",

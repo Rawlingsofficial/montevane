@@ -2,6 +2,7 @@ import { displayPrice } from "@/lib/catalog/pricing";
 import type { ContactChannels, StoreProduct } from "@/lib/data/catalog";
 import { siteUrl, type Locale } from "@/lib/i18n/config";
 import { MAPS_URL, STORE_ADDRESS } from "@/lib/constants";
+import { REGION_COUNTRIES, shippingRates, type Region } from "@/lib/catalog/shipping";
 import { SITE_NAME, absoluteUrl } from "@/lib/seo/metadata";
 
 // schema.org objects for <JsonLd>. Google uses these for rich results
@@ -121,8 +122,25 @@ export function productLd(product: StoreProduct, locale: Locale, description: st
       itemCondition: product.condition === "new" ? "https://schema.org/NewCondition" : "https://schema.org/UsedCondition",
       seller: { "@id": `${siteUrl()}/#organization` },
       hasMerchantReturnPolicy: returnPolicy(),
+      shippingDetails: shippingDetails(product),
     },
   };
+}
+
+/** Insured express, arranged by us: one entry per region, complimentary over $5,000. */
+function shippingDetails(product: StoreProduct) {
+  const rates = shippingRates(product.promoPrice && product.promoPrice < product.price ? product.promoPrice : product.price);
+  const toOrder = product.availability === "pre_order";
+  return (Object.keys(REGION_COUNTRIES) as Region[]).map((region) => ({
+    "@type": "OfferShippingDetails",
+    shippingRate: { "@type": "MonetaryAmount", value: rates[region].toFixed(2), currency: "USD" },
+    shippingDestination: REGION_COUNTRIES[region].map((country) => ({ "@type": "DefinedRegion", addressCountry: country })),
+    deliveryTime: {
+      "@type": "ShippingDeliveryTime",
+      handlingTime: { "@type": "QuantitativeValue", minValue: toOrder ? 7 : 1, maxValue: toOrder ? 14 : 3, unitCode: "DAY" },
+      transitTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: region === "world" ? 5 : 3, unitCode: "DAY" },
+    },
+  }));
 }
 
 /** ItemList of products on a listing / landing page. */

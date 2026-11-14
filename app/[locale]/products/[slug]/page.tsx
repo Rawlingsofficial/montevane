@@ -16,6 +16,7 @@ import { WishlistButton } from "@/components/shop/WishlistButton";
 import { WhatsAppIcon } from "@/components/whatsapp/WhatsAppIcon";
 import { WhatsAppLink } from "@/components/whatsapp/WhatsAppLink";
 import { facetsFor } from "@/lib/catalog/facets";
+import { SECURE_COURIER_FROM, shippingRates } from "@/lib/catalog/shipping";
 import { groupSpecs } from "@/lib/catalog/spec-groups";
 import { BRAND_SUBCATEGORIES, JEWELRY_TYPES } from "@/lib/catalog/taxonomy";
 import { getContactChannels, getProduct, getProducts } from "@/lib/data/catalog";
@@ -106,6 +107,15 @@ export default async function ProductPage({ params }: Props) {
     ...(model ? [{ name: model.model, path: `/models/${model.slug}` }] : []),
     { name: product.name, path: `/products/${product.slug}` },
   ];
+  const rates = shippingRates(amounts.usd);
+  const shippingLine =
+    amounts.usd >= SECURE_COURIER_FROM
+      ? ui.product.secureCourier
+      : rates.us === 0
+        ? ui.product.shippingFree
+        : fmt(ui.product.shippingFrom, {
+            rate: new Intl.NumberFormat(locale, { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(Math.min(rates.us, rates.europe, rates.world)),
+          });
   const saved = { slug: product.slug, title: item, image: product.images[0]?.url ?? null, usd: amounts.usd, eur: amounts.eur };
 
   return (
@@ -137,6 +147,7 @@ export default async function ProductPage({ params }: Props) {
             {product.availability === "pre_order" ? fmt(ui.product.shipsBy, { date: shipsBy }) : t.availability[product.availability]} ·{" "}
             {t.product.condition[product.condition]}
           </p>
+          <p className="mt-1.5 text-xs text-muted-foreground">{shippingLine}</p>
 
           <p className="mt-6 max-w-lg text-base leading-relaxed text-foreground/80">{product.shortDescription || product.description}</p>
 

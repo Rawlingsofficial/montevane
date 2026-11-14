@@ -271,12 +271,15 @@ const uz: Dictionary = {
     product: {
       similar: "O'xshash buyumlar",
       recentlyViewed: "Yaqinda ko'rilganlar",
+      shippingFree: "Bepul sug'urtalangan ekspress yetkazish",
+      shippingFrom: "Sug'urtalangan ekspress yetkazish {rate} dan",
+      secureCourier: "Bepul xavfsiz kuryer orqali yetkazish",
       shipsBy: "{date} gacha jo'natiladi",
       sendEnquiry: "So'rov yuborish",
       enquireOr: "Yoki biz bilan bog'laning",
       shippingReturns: "Yetkazish va qaytarish",
       shippingReturnsBody:
-        "Har bir buyurtma butun dunyoga to'liq sug'urtalangan, kuzatiladigan holda va imzo bilan topshiriladi. \"Mavjud\" buyumlar bir necha ish kunida jo'natiladi; \"14 kunda jo'natiladi\" belgisi bor buyumlar buyurtma asosida topiladi va 14 kun ichida jo'natiladi. Qaytarish yetkazilgandan keyin 14 kun ichida, taqilmagan va to'liq holda qabul qilinadi; pul to'lov qilingan hisobga qaytariladi.",
+        "Har bir yetkazib berishni o'zimiz tashkil qilamiz: sug'urtalangan ekspress, kuzatiladigan, imzo bilan, butun dunyoga. 5 000 $ dan yuqori buyurtmalarda bepul (kichikroq buyurtmalar 45 $ dan); 100 000 $ dan qimmat buyumlar xavfsiz kuryer orqali yetkaziladi. \"Mavjud\" buyumlar bir necha ish kunida jo'natiladi; \"14 kunda jo'natiladi\" belgisi bor buyumlar buyurtma asosida topiladi va 14 kun ichida jo'natiladi. Import bojlari bo'lsa, xaridor to'laydi; to'lovdan oldin aytamiz. Qaytarish yetkazilgandan keyin 14 kun ichida, taqilmagan va to'liq holda qabul qilinadi; pul to'lov qilingan hisobga qaytariladi.",
       specifications: "Xususiyatlar",
       groups: { overview: "Umumiy", case: "Korpus va bezel", dial: "Siferblat", bracelet: "Bilaguzuk", movement: "Mexanizm", stones: "Toshlar va metall", details: "Tafsilotlar" } as Record<string, string>,
       gallery: { open: "{n}-rasmni to'liq ekranda ochish", close: "Yopish", prev: "Oldingi rasm", next: "Keyingi rasm", show: "{n}-rasmni ko'rsatish" },
@@ -299,13 +302,13 @@ const uz: Dictionary = {
         { q: "Har bir soat originalmi?", a: "Ha. Har bir soat jo'natishdan oldin autentifikatsiya mutaxassislarimiz tomonidan tekshiriladi: korpus, mexanizm, seriya va referens raqamlari hamda ko'rsatilgan quti va hujjatlar. Agar buyum mustaqil tekshiruvdan o'tmasa, to'liq pul qaytariladi." },
         { q: "\"14 kunda jo'natiladi\" nimani anglatadi?", a: "Soat buyurtma asosida topiladi. Tasdiqlaganingizdan so'ng biz uni olamiz, tekshiramiz va 14 kun ichida jo'natamiz. \"Mavjud\" soatlar bir necha ish kunida jo'natiladi." },
         { q: "Soatlar quti va hujjatlar bilan keladimi?", a: "Agar soatning asl qutisi va hujjatlari bo'lsa, bu xususiyatlarda ko'rsatilgan. Siz uchun muhim ma'lumot ko'rsatilmagan bo'lsa, xariddan oldin so'rang — yozma tasdiqlaymiz." },
-        { q: "Soat qanday yetkaziladi?", a: "Butun dunyoga to'liq sug'urtalangan, kuzatiladigan holda va imzo bilan. Chegaradan o'tuvchi buyurtmalarga import QQS va bojlar qo'llanishi mumkin; to'lovdan oldin aytamiz." },
+        { q: "Soat qanday yetkaziladi?", a: "O'zimiz tashkil qilamiz: sug'urtalangan ekspress, kuzatiladigan, imzo bilan, butun dunyoga — 5 000 $ dan qimmat har bir soat uchun bepul. 100 000 $ dan qimmat buyumlar xavfsiz kuryer orqali yetkaziladi. Import QQS va bojlar bo'lsa, xaridor to'laydi; to'lovdan oldin aytamiz." },
         { q: "Soatni qaytarsa bo'ladimi?", a: "Ha, yetkazilgandan keyin 14 kun ichida, taqilmagan va to'liq holda. Pul to'lov qilingan hisobga qaytariladi: bank hisobi, kripto hamyon yoki raqamli hamyon." },
       ],
       jewelry: [
         { q: "Olmoslar tabiiy va sertifikatlanganmi?", a: "Har bir e'londa toshlar, ularning vazni va sertifikat (masalan, GIA) raqami bilan ko'rsatilgan. Har bir buyum jo'natishdan oldin mutaxassislarimiz tomonidan tekshiriladi." },
         { q: "Uzuk o'lchami mos kelmasa-chi?", a: "Ma'lum bo'lsa, o'lcham har bir uzukda ko'rsatilgan. Buyurtmadan oldin so'rang — bu buyum uchun nima mumkinligini aytamiz." },
-        { q: "Zargarlik buyumlari qanday yetkaziladi?", a: "Butun dunyoga to'liq sug'urtalangan, kuzatiladigan holda va imzo bilan. Import QQS va bojlar qo'llanishi mumkin; to'lovdan oldin aytamiz." },
+        { q: "Zargarlik buyumlari qanday yetkaziladi?", a: "Sug'urtalangan ekspress, kuzatiladigan, imzo bilan, butun dunyoga; 5 000 $ dan yuqori buyurtmalarda bepul (kichikroq buyurtmalar 45 $ dan). Import QQS va bojlar qo'llanishi mumkin; to'lovdan oldin aytamiz." },
         { q: "Buyumni qaytarsa bo'ladimi?", a: "Ha, yetkazilgandan keyin 14 kun ichida, taqilmagan va to'liq holda. Pul to'lov qilingan hisobga qaytariladi." },
       ],
       hermes: [
@@ -331,7 +334,7 @@ const uz: Dictionary = {
     channels: { whatsapp: "WhatsApp", telegram: "Telegram", signal: "Signal", sms: "SMS", call: "Qo'ng'iroq", email: "Email" },
   },
   payment: {
-    note: "Saytda to'lov qabul qilmaymiz. Biz bilan bog'laning – bank o'tkazmasi, kripto, karta yoki xavfsiz onlayn to'lov havolasi orqali tez va xavfsiz to'lovni tashkil qilamiz. Butun dunyo bo'ylab sug'urtalangan yetkazib berish.",
+    note: "Saytda to'lov qabul qilmaymiz. Biz bilan bog'laning – bank o'tkazmasi, kripto, karta yoki xavfsiz onlayn to'lov havolasi orqali tez va xavfsiz to'lovni tashkil qilamiz. 5 000 $ dan yuqori buyurtmalarda sug'urtalangan ekspress yetkazish bepul.",
     eyebrow: "Xarid qanday amalga oshadi",
     title: "To'lov va butun dunyoga yetkazib berish",
     sections: [
@@ -345,7 +348,7 @@ const uz: Dictionary = {
       },
       {
         title: "3. Sug'urtalangan yetkazib berish",
-        body: "Har bir buyurtma to'liq sug'urtalangan va kuzatiladigan holda, imzo bilan topshiriladi – Toshkent, O'zbekiston bo'ylab va butun dunyoga.",
+        body: "Har bir yetkazib berishni o'zimiz tashkil qilamiz — qulay va xotirjam: sug'urtalangan ekspress, kuzatiladigan, imzo bilan topshiriladi; AQSh, Buyuk Britaniya, Yevropa, O'zbekiston va butun dunyoga. 5 000 $ dan yuqori buyurtmalarda yetkazish bepul. Undan past: 2 000 $ gacha — AQShga 45 $, Buyuk Britaniya va Yevropaga 55 $, boshqa davlatlarga 85 $; 2 000–5 000 $ — 75 $, 95 $ va 145 $. 100 000 $ dan qimmat buyumlar bepul xavfsiz kuryer orqali, siz bilan shaxsan kelishilgan holda yetkaziladi.",
       },
       {
         title: "4. 14 kun ichida qaytarish",

@@ -270,12 +270,15 @@ const de: Dictionary = {
     product: {
       similar: "Ähnliche Stücke",
       recentlyViewed: "Zuletzt angesehen",
+      shippingFree: "Kostenloser versicherter Expressversand",
+      shippingFrom: "Versicherter Expressversand ab {rate}",
+      secureCourier: "Kostenlose Lieferung per Sicherheitskurier",
       shipsBy: "Versand bis {date}",
       sendEnquiry: "Anfrage senden",
       enquireOr: "Oder kontaktieren Sie uns per",
       shippingReturns: "Versand & Rückgabe",
       shippingReturnsBody:
-        "Jede Bestellung wird weltweit voll versichert und mit Sendungsverfolgung verschickt, Zustellung gegen Unterschrift. Stücke mit „Verfügbar“ gehen innerhalb weniger Werktage raus; Stücke mit „Lieferung in 14 Tagen“ beschaffen wir auf Bestellung und versenden sie innerhalb von 14 Tagen. Rückgaben innerhalb von 14 Tagen nach Lieferung, ungetragen und vollständig; die Erstattung geht auf das Konto, von dem bezahlt wurde.",
+        "Wir organisieren jede Lieferung selbst: versicherter Expressversand mit Sendungsverfolgung, Zustellung gegen Unterschrift, weltweit. Kostenlos ab 5.000 $ (kleinere Bestellungen ab 45 $); Stücke über 100.000 $ reisen per Sicherheitskurier, persönlich abgestimmt. Stücke mit „Verfügbar“ gehen innerhalb weniger Werktage raus; Stücke mit „Lieferung in 14 Tagen“ beschaffen wir auf Bestellung und versenden sie innerhalb von 14 Tagen. Etwaige Einfuhrabgaben trägt der Käufer; wir nennen sie vor der Zahlung. Rückgaben innerhalb von 14 Tagen nach Lieferung, ungetragen und vollständig; die Erstattung geht auf das Konto, von dem bezahlt wurde.",
       specifications: "Technische Daten",
       groups: { overview: "Überblick", case: "Gehäuse & Lünette", dial: "Zifferblatt", bracelet: "Armband", movement: "Uhrwerk", stones: "Steine & Metall", details: "Details" } as Record<string, string>,
       gallery: { open: "Bild {n} im Vollbild öffnen", close: "Schließen", prev: "Vorheriges Bild", next: "Nächstes Bild", show: "Bild {n} anzeigen" },
@@ -298,13 +301,13 @@ const de: Dictionary = {
         { q: "Ist jede Uhr echt?", a: "Ja. Jede Uhr wird vor dem Versand von unseren Authentifizierungsspezialisten geprüft: Gehäuse, Werk, Serien- und Referenznummern sowie angegebene Box und Papiere. Besteht ein Stück eine unabhängige Prüfung nicht, erstatten wir den vollen Preis." },
         { q: "Was bedeutet „Lieferung in 14 Tagen“?", a: "Die Uhr wird auf Bestellung beschafft. Nach Ihrer Bestätigung sichern und prüfen wir sie und versenden sie innerhalb von 14 Tagen. Uhren mit „Verfügbar“ gehen innerhalb weniger Werktage raus." },
         { q: "Haben die Uhren Box und Papiere?", a: "Wenn eine Uhr Originalbox und -papiere hat, steht das in den technischen Daten. Fehlt eine Angabe, die Ihnen wichtig ist, fragen Sie vor dem Kauf – wir bestätigen es schriftlich." },
-        { q: "Wie wird die Uhr versendet?", a: "Weltweit voll versichert und mit Sendungsverfolgung, Zustellung gegen Unterschrift. Bei grenzüberschreitenden Bestellungen können Einfuhrumsatzsteuer und Zölle anfallen; wir informieren Sie vor der Zahlung." },
+        { q: "Wie wird die Uhr versendet?", a: "Wir organisieren den Versand selbst: versicherter Expressversand mit Sendungsverfolgung und Zustellung gegen Unterschrift, weltweit – kostenlos für jede Uhr über 5.000 $. Stücke über 100.000 $ reisen per Sicherheitskurier. Etwaige Einfuhrumsatzsteuer und Zölle trägt der Käufer; wir nennen sie vor der Zahlung." },
         { q: "Kann ich eine Uhr zurückgeben?", a: "Ja, innerhalb von 14 Tagen nach Lieferung, ungetragen und vollständig. Die Erstattung geht auf das Konto, von dem bezahlt wurde: Bankkonto, Krypto-Wallet oder digitale Wallet." },
       ],
       jewelry: [
         { q: "Sind die Diamanten natürlich und zertifiziert?", a: "Jedes Angebot nennt die Steine, ihr Gewicht und ein etwaiges Zertifikat (z. B. GIA) mit Nummer. Jedes Stück wird vor dem Versand von unseren Spezialisten geprüft." },
         { q: "Was, wenn die Ringgröße nicht passt?", a: "Die Größe steht bei jedem Ring, sofern bekannt. Fragen Sie uns vor der Bestellung, was bei diesem Stück möglich ist." },
-        { q: "Wie wird Schmuck versendet?", a: "Weltweit voll versichert und mit Sendungsverfolgung, Zustellung gegen Unterschrift. Einfuhrumsatzsteuer und Zölle können anfallen; wir informieren Sie vor der Zahlung." },
+        { q: "Wie wird Schmuck versendet?", a: "Versicherter Expressversand mit Sendungsverfolgung und Zustellung gegen Unterschrift, weltweit; kostenlos ab 5.000 $ (kleinere Bestellungen ab 45 $). Einfuhrumsatzsteuer und Zölle können anfallen; wir nennen sie vor der Zahlung." },
         { q: "Kann ich ein Stück zurückgeben?", a: "Ja, innerhalb von 14 Tagen nach Lieferung, ungetragen und vollständig. Die Erstattung geht auf das Konto, von dem bezahlt wurde." },
       ],
       hermes: [
@@ -330,7 +333,7 @@ const de: Dictionary = {
     channels: { whatsapp: "WhatsApp", telegram: "Telegram", signal: "Signal", sms: "SMS", call: "Anrufen", email: "E-Mail" },
   },
   payment: {
-    note: "Wir nehmen keine Zahlungen auf der Website entgegen. Kontaktieren Sie uns – wir arrangieren eine schnelle, sichere Zahlung per Überweisung, Krypto, Karte oder sicherem Online-Zahlungslink. Versicherter weltweiter Versand.",
+    note: "Wir nehmen keine Zahlungen auf der Website entgegen. Kontaktieren Sie uns – wir arrangieren eine schnelle, sichere Zahlung per Überweisung, Krypto, Karte oder sicherem Online-Zahlungslink. Kostenloser versicherter Expressversand ab 5.000 $.",
     eyebrow: "So funktioniert der Kauf",
     title: "Zahlung & weltweiter Versand",
     sections: [
@@ -344,7 +347,7 @@ const de: Dictionary = {
       },
       {
         title: "3. Versicherter Versand",
-        body: "Jede Bestellung wird voll versichert und verfolgbar versendet, Zustellung gegen Unterschrift – nach Deutschland, Österreich, in die Schweiz, in ganz Europa und weltweit.",
+        body: "Wir organisieren jede Lieferung selbst – nahtlos und sorgenfrei: versicherter Expressversand mit Sendungsverfolgung und Zustellung gegen Unterschrift, in die USA, nach Großbritannien, Europa, Usbekistan und weltweit. Ab 5.000 $ Bestellwert ist der Versand kostenlos. Darunter: unter 2.000 $ kostet er 45 $ in die USA, 55 $ nach Großbritannien & Europa und 85 $ in die übrige Welt; von 2.000 bis 5.000 $ 75 $, 95 $ und 145 $. Stücke über 100.000 $ reisen kostenlos per Sicherheitskurier, persönlich mit Ihnen abgestimmt.",
       },
       {
         title: "4. 14 Tage Rückgabe",
