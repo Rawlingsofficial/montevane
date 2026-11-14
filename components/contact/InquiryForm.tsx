@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo, useState, useSyncExternalStore } from "react";
 
 import { submitInquiry } from "@/lib/actions/inquiries";
-import { CONTACT_METHODS, PAYMENT_METHODS, type ContactMethod } from "@/lib/contact";
+import { PAYMENT_METHODS } from "@/lib/contact";
 import type { Dictionary } from "@/lib/i18n/dictionaries/en";
 import { DIAL_CODES, countryList } from "@/lib/phone";
 import { cn } from "@/lib/utils";
@@ -48,7 +48,6 @@ export function InquiryForm({
   labels: Dictionary["form"];
   privacyHref: string;
 }) {
-  const [methods, setMethods] = useState<ContactMethod[]>(["whatsapp"]);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
@@ -87,10 +86,6 @@ export function InquiryForm({
     return dialIso && local ? `+${DIAL_CODES[dialIso]} ${local}` : "";
   }
 
-  function toggle(method: ContactMethod) {
-    setMethods((m) => (m.includes(method) ? m.filter((x) => x !== method) : [...m, method]));
-  }
-
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
@@ -105,7 +100,8 @@ export function InquiryForm({
       country: countries.find((c) => c.iso === country)?.name ?? "",
       message: get("message"),
       payment_method: get("payment_method"),
-      contact_methods: methods,
+      // We choose how to follow up; the customer just leaves their details.
+      contact_methods: [],
       product_id: product?.id ?? "",
       product_name: product?.name ?? "",
     });
@@ -188,28 +184,6 @@ export function InquiryForm({
           <input name="email" type="email" required autoComplete="email" className={fieldClass} suppressHydrationWarning />
         </label>
       </div>
-
-      <fieldset>
-        <legend className={labelClass}>{t.methods}</legend>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {CONTACT_METHODS.map((m) => (
-            <button
-              key={m.value}
-              type="button"
-              aria-pressed={methods.includes(m.value)}
-              onClick={() => toggle(m.value)}
-              className={cn(
-                "border px-3 py-2 text-xs tracking-[0.1em] uppercase transition-colors",
-                methods.includes(m.value)
-                  ? "border-foreground bg-foreground text-background"
-                  : "border-border text-foreground/70 hover:border-foreground"
-              )}
-            >
-              {t.methodLabels[m.value] ?? m.label}
-            </button>
-          ))}
-        </div>
-      </fieldset>
 
       <label className="block">
         <span className={labelClass}>{t.payment}</span>

@@ -294,6 +294,19 @@ export async function getBrands(): Promise<StoreBrand[]> {
   }));
 }
 
+/**
+ * Cover photo per brand: its most expensive piece on the site, preferring
+ * pieces in stock — so every tile shows a real, available product.
+ */
+export async function getBrandCovers(): Promise<Record<string, { url: string; alt: string; slug: string }>> {
+  const { rows } = await db.execute<{ brand: string; url: string; name: string; slug: string }>(sql`
+    select distinct on (${p.brandSlug}) ${p.brandSlug} as brand, ${p.mainImageUrl} as url, ${p.name} as name, ${p.slug} as slug
+    from ${p}
+    where ${isLive} and ${p.mainImageUrl} <> ''
+    order by ${p.brandSlug}, (${p.availabilityStatus} = 'in_stock') desc, ${p.price} desc`);
+  return Object.fromEntries(rows.map((r) => [r.brand, { url: r.url, alt: r.name, slug: r.slug }]));
+}
+
 export type Subcategory = { slug: string; name: string; count: number };
 
 /**

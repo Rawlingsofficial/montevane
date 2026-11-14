@@ -25,9 +25,7 @@ const inquirySchema = z
     message: z.string().trim().max(2000),
     product_id: z.string().uuid().or(z.literal("")),
     product_name: z.string().max(200),
-    contact_methods: z
-      .array(z.enum(CONTACT_METHODS.map((m) => m.value) as [string, ...string[]]))
-      .min(1, "Choose at least one way for us to reach you."),
+    contact_methods: z.array(z.enum(CONTACT_METHODS.map((m) => m.value) as [string, ...string[]])).default([]),
     payment_method: z.enum(PAYMENT_METHODS.map((m) => m.value) as [string, ...string[]]).or(z.literal("")),
   });
 
@@ -74,7 +72,7 @@ async function notifyInquiry(v: z.output<typeof inquirySchema>) {
     v.email && `Email: ${v.email}`,
     v.phone && `Phone: ${v.phone}`,
     v.country && `Country: ${v.country}`,
-    `Contact via: ${v.contact_methods.map((m) => label(CONTACT_METHODS, m)).join(", ")}`,
+    v.contact_methods.length > 0 && `Contact via: ${v.contact_methods.map((m) => label(CONTACT_METHODS, m)).join(", ")}`,
     v.payment_method && `Payment: ${label(PAYMENT_METHODS, v.payment_method)}`,
     v.message && `\nMessage:\n${v.message}`,
   ].filter(Boolean);

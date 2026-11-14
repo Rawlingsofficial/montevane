@@ -37,3 +37,10 @@ export const BRAND_SUBCATEGORIES = new Set(["watches"]);
 export function brandPath(slug: string, categories: string[]): string {
   return categories.length === 1 && BRAND_SUBCATEGORIES.has(categories[0]) ? `/shop/${categories[0]}/${slug}` : `/brands/${slug}`;
 }
+
+/** Showcase order: Hermès first, then the watch houses in menu order, then everyone else. */
+export function brandRank(slug: string): number {
+  if (slug === "hermes") return -1;
+  const i = (WATCH_BRAND_ORDER as readonly string[]).indexOf(slug);
+  return i === -1 ? 1_000 : i;
+}
