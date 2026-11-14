@@ -24,8 +24,8 @@ const uz: Dictionary = {
     privacyDescription: "Montévane siz bergan ma'lumotlarni qanday yig'adi, ishlatadi va himoya qiladi.",
     journalTitle: "Jurnal – Hermès qo'llanmalari, haqiqiylik va tarix",
     journalDescription: "Hermès sumkalari va noyob soatlarni tekshirish, xarid qilish va parvarishlash bo'yicha qo'llanmalar.",
-    authenticityTitle: "Haqiqiylik kafolati – to'liq pul qaytarish, Entrupy tekshiruvi",
-    authenticityDescription: "Har bir Hermès buyumi Entrupy bilan, har bir soat mustaqil mutaxassis tomonidan tekshiriladi. Uchinchi tomon tekshiruvidan o'tmasa, to'liq pul qaytariladi.",
+    authenticityTitle: "Haqiqiylik kafolati – har bir buyum tekshirilgan, to'liq pul qaytarish",
+    authenticityDescription: "Har bir Hermès buyumi va har bir soat sotuvga qo'yilishidan oldin mutaxassislarimiz tomonidan tekshiriladi. Uchinchi tomon tekshiruvidan o'tmasa, to'liq pul qaytariladi.",
   },
   nav: {
     home: "Bosh sahifa",
@@ -74,7 +74,7 @@ const uz: Dictionary = {
     newsletterBody: "Yangi Birkin, Kelly va noyob soatlar haqida birinchi bo'lib bilib oling.",
   },
   why: [
-    { title: "Haqiqiylik kafolati", description: "Hermès Entrupy bilan, soatlar mustaqil mutaxassis tomonidan tekshiriladi. Uchinchi tomon tekshiruvidan o'tmasa – to'liq pul qaytariladi." },
+    { title: "Haqiqiylik kafolati", description: "Har bir buyum sotuvdan oldin mutaxassislarimiz tomonidan tekshiriladi. Uchinchi tomon tekshiruvidan o'tmasa – to'liq pul qaytariladi." },
     { title: "14 kun ichida qaytarish", description: "Har qanday buyumni yetkazilgandan keyin 14 kun ichida, taqilmagan va to'liq holda qaytarishingiz mumkin." },
     { title: "Monakodagi butik", description: "Place du Casino'dagi butikimizga keling yoki sug'urtalangan yetkazib berish bilan masofadan xarid qiling." },
     { title: "Shaxsiy konsyerj", description: "Istalgan Birkin, Kelly yoki noyob soatni so'rang – maxsus buyurtma va ekzotiklarni topib beramiz." },
@@ -84,8 +84,8 @@ const uz: Dictionary = {
       name: "Birkin",
       title: "Hermès Birkin sumkalari",
       metaTitle: "Hermès Birkin narxi – original Birkin 25, 30 va ekzotik",
-      metaDescription: "Original Hermès Birkin 20, 25, 30 va 35 – Togo, Epsom va ekzotik charm, HSS maxsus buyurtmalar. Yangi va ishlatilgan, Entrupy bilan tekshirilgan.",
-      intro: "Birkin – biz eng yaxshi biladigan sumka. Original Birkin 20, 25, 30 va 35 – Togo, Epsom, Clemence va Swift, timsoh, alligator va tuyaqush charmi, HSS maxsus buyurtmalar – yangi va ishlatilgan. Har bir sumka Entrupy bilan tekshirilgan.",
+      metaDescription: "Original Hermès Birkin 20, 25, 30 va 35 – Togo, Epsom va ekzotik charm, HSS maxsus buyurtmalar. Yangi va ishlatilgan, har biri tekshirilgan.",
+      intro: "Birkin – biz eng yaxshi biladigan sumka. Original Birkin 20, 25, 30 va 35 – Togo, Epsom, Clemence va Swift, timsoh, alligator va tuyaqush charmi, HSS maxsus buyurtmalar – yangi va ishlatilgan. Har bir sumka mutaxassislarimiz tomonidan tekshirilgan.",
     },
     "kelly-bags": {
       name: "Kelly",
@@ -99,7 +99,7 @@ const uz: Dictionary = {
       title: "Noyob soatlar",
       metaTitle: "Noyob soatlar narxi – Rolex, Patek Philippe, AP, Cartier",
       metaDescription: "Noyob soatlar: Rolex Daytona va Submariner, Patek Philippe Nautilus, Audemars Piguet Royal Oak, Cartier. Tekshirilgan, to'liq pul qaytarish kafolati.",
-      intro: "Noyob va topilishi qiyin soatlar – Rolex Daytona va Submariner, Patek Philippe Nautilus, Audemars Piguet Royal Oak va Cartier. Har bir soat mustaqil mutaxassis tomonidan tekshiriladi.",
+      intro: "Noyob va topilishi qiyin soatlar – Rolex Daytona va Submariner, Patek Philippe Nautilus, Audemars Piguet Royal Oak va Cartier. Har bir soat mutaxassislarimiz tomonidan tekshiriladi.",
     },
     jewelry: {
       name: "Zargarlik",
@@ -194,7 +194,7 @@ const uz: Dictionary = {
     details: "Tafsilotlar",
     paymentShipping: "To'lov va yetkazib berish",
     authenticity: "Haqiqiylik",
-    authenticityDefault: "Hermès buyumlari Entrupy bilan, soatlar mustaqil mutaxassis tomonidan tekshiriladi, sertifikat yetkazib berishda beriladi. Bu buyum uchinchi tomon tekshiruvidan o'tmasa, to'liq narxini qaytaramiz.",
+    authenticityDefault: "Sotuvga qo'yilishidan oldin mutaxassislarimiz tomonidan tekshirilgan. Bu buyum uchinchi tomon tekshiruvidan o'tmasa, to'liq narxini qaytaramiz.",
     authenticityLink: "Haqiqiylik kafolatimiz",
     specLabels: { color: "Rang", materials: "Material", dimensions: "O'lcham", weight: "Og'irlik" },
     inquireTitle: "Biz siz bilan bog'lanaylikmi?",
@@ -239,7 +239,7 @@ const uz: Dictionary = {
       },
       {
         title: "4. 14 kun ichida qaytarish",
-        body: "Buyumni qaytarish uchun yetkazilgandan keyin 14 kun ichida biz bilan bog'laning. U taqilmagan va to'liq – yorliqlar, aksessuarlar va qadoq bilan qaytishi kerak. Sug'urtalangan qaytarishni biz tashkil qilamiz; pul tekshiruvdan so'ng asl to'lov usuliga qaytariladi.",
+        body: "Buyumni qaytarish uchun yetkazilgandan keyin 14 kun ichida biz bilan bog'laning. U taqilmagan va to'liq – yorliqlar, aksessuarlar va qadoq bilan qaytishi kerak. Sug'urtalangan qaytarishni biz tashkil qilamiz; xavfsizlik uchun pul tekshiruvdan so'ng to'lov qilingan hisobning o'ziga – bank hisobi, kripto hamyon yoki raqamli hamyonga – qaytariladi.",
       },
       {
         title: "Bojxona va soliqlar",
@@ -293,10 +293,11 @@ const uz: Dictionary = {
     title: "Haqiqiylik kafolati",
     intro: "Biz sotadigan har bir buyum original. Agar biror buyum uchinchi tomon tekshiruvidan o'tmasa, to'langan to'liq narxni – yetkazib berish bilan birga – qaytaramiz.",
     sections: [
-      { title: "Hermès qanday tekshiriladi", body: "Har bir Hermès sumkasi, breloki va charm aksessuari Entrupy – charm, chok, furnitura va muhrlarni kattalashtirib tekshiradigan mustaqil xizmat – orqali tekshiriladi va aynan shu buyum uchun sertifikat beriladi." },
-      { title: "Soat va zargarlik qanday tekshiriladi", body: "Har bir soat mustaqil soat mutaxassisi tomonidan tekshiriladi – mexanizm, korpus, siferblat, seriya va referens raqamlari – va uning yozma sertifikati bilan sotiladi. Zargarlik buyumlari tamg'a va seriya raqamlari bo'yicha tekshiriladi." },
-      { title: "Tekshiruvdan o'tmasa – to'liq pul qaytarish", body: "Agar tan olingan uchinchi tomon (masalan, Entrupy, brendning o'zi yoki akkreditatsiyalangan mustaqil ekspert) biz sotgan buyum original emasligini aniqlasa, hisobotni bizga yuboring. Buyumni qaytarib olamiz va narxning 100 foizini yetkazib berish bilan qaytaramiz." },
+      { title: "Hermès qanday tekshiriladi", body: "Har bir Hermès sumkasi, breloki va charm aksessuari sotuvga qo'yilishidan oldin mutaxassislarimiz tomonidan tekshiriladi – charm, chok, furnitura, muhr va sana belgilari. Saytga faqat ishonchimiz komil bo'lgan buyumlar chiqadi." },
+      { title: "Soat va zargarlik qanday tekshiriladi", body: "Har bir soat sotuvdan oldin mutaxassislarimiz tomonidan tekshiriladi – mexanizm, korpus, siferblat, seriya va referens raqamlari. Zargarlik buyumlari tamg'a va seriya raqamlari bo'yicha tekshiriladi." },
+      { title: "Tekshiruvdan o'tmasa – to'liq pul qaytarish", body: "Agar tan olingan uchinchi tomon (brendning o'zi yoki akkreditatsiyalangan mustaqil ekspert) biz sotgan buyum original emasligini aniqlasa, hisobotni bizga yuboring. Buyumni qaytarib olamiz va narxning 100 foizini yetkazib berish bilan qaytaramiz." },
       { title: "14 kun ichida qaytarish", body: "Kafolatdan tashqari, har qanday buyumni yetkazilgandan keyin 14 kun ichida, taqilmagan va to'liq holda qaytarishingiz mumkin." },
+      { title: "Pul qayerga qaytariladi", body: "Xavfsizlik uchun har qanday pul to'lov qilingan hisobning o'ziga – o'sha bank hisobi, kripto hamyon yoki raqamli hamyonga qaytariladi. Boshqa hisobga hech qachon pul qaytarmaymiz." },
       { title: "Savollar", body: "Xariddan oldin sertifikat yoki qo'shimcha rasmlarni so'rang – WhatsApp, Telegram, Signal, telefon yoki email orqali yoki Place du Casino, Monakodagi butikimizda." },
     ],
   },

@@ -16,7 +16,7 @@ const en = {
     collectionsTitle: "Collections — Exotic Hermès, HSS Special Orders & New Arrivals",
     collectionsDescription: "New arrivals, exotic Hermès, HSS special orders, pre-owned and rare pieces — curated edits from a Hermès specialist.",
     contactTitle: "Contact Us — Monaco Boutique, WhatsApp, Telegram or Call",
-    contactDescription: "Visit us at Place du Casino, Monaco, or reach Montévane on WhatsApp, Telegram, Signal, phone or email about a Hermès piece or a rare watch.",
+    contactDescription: "Visit us at 1 Place du Casino, Monaco, or reach Montévane on WhatsApp, Telegram, Signal, phone or email about a Hermès piece or a rare watch.",
     aboutTitle: "About Montévane — Hermès & Rare Watches Specialist, Monaco",
     aboutDescription: "Montévane is a Monaco boutique at Place du Casino specialising in authentic Hermès and rare watches, with a guarantee on every piece.",
     paymentTitle: "Payment, Shipping & 14-Day Returns",
@@ -26,9 +26,9 @@ const en = {
     privacyDescription: "How Montévane collects, uses and protects the details you share with us.",
     journalTitle: "The Journal — Hermès Guides, Authentication & Heritage",
     journalDescription: "Guides to authenticating, buying and caring for Hermès bags and rare watches, plus the heritage behind the icons.",
-    authenticityTitle: "Authenticity Guarantee — Full Refund, Entrupy Verified",
+    authenticityTitle: "Authenticity Guarantee — Every Piece Verified, Full Refund",
     authenticityDescription:
-      "Every Hermès piece is verified with Entrupy and every watch by an independent authenticator. If any item fails a third-party check, you get a full refund.",
+      "Every Hermès piece and every watch is verified by our authentication specialists before it is listed. If any item fails a third-party check, you get a full refund.",
   },
   nav: {
     home: "Home",
@@ -77,9 +77,9 @@ const en = {
     newsletterBody: "Be the first to hear about new Birkins, Kellys and rare watches.",
   },
   why: [
-    { title: "Authenticity Guarantee", description: "Hermès verified with Entrupy, watches by an independent authenticator. Full refund if any item fails a third-party check." },
+    { title: "Authenticity Guarantee", description: "Every piece is verified by our specialists before it is listed. Full refund if any item fails a third-party check." },
     { title: "14-Day Returns", description: "Changed your mind? Return any piece within 14 days of delivery, unworn and complete, for a refund." },
-    { title: "Monaco Boutique", description: "Visit us at Place du Casino, Monaco, or buy remotely with fully insured, tracked worldwide shipping." },
+    { title: "Monaco Boutique", description: "Visit us at 1 Place du Casino, Monaco, or buy remotely with fully insured, tracked worldwide shipping." },
     { title: "Personal Concierge", description: "Ask us for any Birkin, Kelly or rare watch — we source special orders and exotics on request." },
   ],
   categories: {
@@ -88,9 +88,9 @@ const en = {
       title: "Hermès Birkin Bags",
       metaTitle: "Hermès Birkin Bags for Sale — Birkin 25, 30 & Exotics",
       metaDescription:
-        "Authentic Hermès Birkin 20, 25, 30 and 35 in Togo, Epsom and exotic leathers, including HSS special orders. New and pre-owned, Entrupy authenticated.",
+        "Authentic Hermès Birkin 20, 25, 30 and 35 in Togo, Epsom and exotic leathers, including HSS special orders. New and pre-owned, every bag verified.",
       intro:
-        "The Birkin is the bag we know best. Shop authentic Birkin 20, 25, 30 and 35 in Togo, Epsom, Clemence and Swift, exotic crocodile, alligator and ostrich, and Horseshoe-stamped special orders, new and pre-owned. Every bag is authenticated with Entrupy and covered by our full-refund guarantee.",
+        "The Birkin is the bag we know best. Shop authentic Birkin 20, 25, 30 and 35 in Togo, Epsom, Clemence and Swift, exotic crocodile, alligator and ostrich, and Horseshoe-stamped special orders, new and pre-owned. Every bag is verified by our specialists and covered by our full-refund guarantee.",
     },
     "kelly-bags": {
       name: "Kelly Bags",
@@ -108,7 +108,7 @@ const en = {
       metaDescription:
         "Rare and sought-after watches: Rolex Daytona and Submariner, Patek Philippe Nautilus, Audemars Piguet Royal Oak, Cartier. Authenticated, full-refund guarantee.",
       intro:
-        "Rare and hard-to-find watches — Rolex Daytona and Submariner, Patek Philippe Nautilus, Audemars Piguet Royal Oak and Cartier. Each watch is checked by an independent authenticator, sold with a full-refund guarantee and delivered insured worldwide.",
+        "Rare and hard-to-find watches — Rolex Daytona and Submariner, Patek Philippe Nautilus, Audemars Piguet Royal Oak and Cartier. Each watch is verified by our specialists, sold with a full-refund guarantee and delivered insured worldwide.",
     },
     jewelry: {
       name: "Jewelry",
@@ -202,7 +202,7 @@ const en = {
     paymentShipping: "Payment & Shipping",
     authenticity: "Authenticity",
     authenticityDefault:
-      "Hermès pieces are verified with Entrupy and watches by an independent authenticator, with the certificate included at delivery. If this item ever fails a third-party check, we refund the full price.",
+      "Verified by our authentication specialists before listing. If this item ever fails a third-party check, we refund the full price.",
     authenticityLink: "Read our authenticity guarantee",
     specLabels: { color: "Color", materials: "Materials", dimensions: "Dimensions", weight: "Weight" },
     inquireTitle: "Prefer we contact you?",
@@ -247,7 +247,7 @@ const en = {
       },
       {
         title: "4. 14-day returns",
-        body: "Contact us within 14 days of delivery to return a piece for a refund. It must come back unworn and complete — tags, accessories and packaging as received. We arrange insured return shipping, and refunds go to your original payment method once the piece is received and checked.",
+        body: "Contact us within 14 days of delivery to return a piece for a refund. It must come back unworn and complete — tags, accessories and packaging as received. We arrange insured return shipping, and once the piece is received and checked, the refund is sent back to the same account the payment came from — bank account, crypto wallet or digital wallet — for your security.",
       },
       {
         title: "Duties & taxes",
@@ -304,23 +304,27 @@ const en = {
     sections: [
       {
         title: "How we verify Hermès",
-        body: "Every Hermès bag, charm and small leather good is checked with Entrupy, an independent authentication service that examines the leather, stitching, hardware and stamps under magnification and issues a certificate for that specific item. The certificate travels with your piece.",
+        body: "Every Hermès bag, charm and small leather good is examined by our authentication specialists before it is listed — leather, stitching, hardware, stamps and date codes — and only pieces we are certain of reach the site.",
       },
       {
         title: "How we verify watches and jewelry",
-        body: "Every watch is examined by an independent watch authenticator — movement, case, dial, serial and reference numbers — and sold with their written certificate naming the authenticator. Jewelry is checked against the maker's hallmarks and serials, and diamonds against their grading report where one exists.",
+        body: "Every watch is examined by our specialists — movement, case, dial, serial and reference numbers — before it is listed. Jewelry is checked against the maker's hallmarks and serials, and diamonds against their grading report where one exists.",
       },
       {
         title: "Full refund if any item fails a check",
-        body: "If a recognised third-party authenticator (for example Entrupy, the brand itself, or an accredited independent expert) finds that an item we sold is not authentic, send us their report. We take the piece back and refund 100% of the price, including shipping.",
+        body: "If a recognised third-party authenticator (the brand itself or an accredited independent expert) finds that an item we sold is not authentic, send us their report. We take the piece back and refund 100% of the price, including shipping.",
       },
       {
         title: "14-day returns",
-        body: "Separate from the guarantee, you can return any piece within 14 days of delivery for a refund, as long as it comes back unworn and complete, with its tags, accessories and packaging.",
+        body: "Separate from the guarantee, you can return any piece within 14 days of delivery for a refund, as long as it comes back unworn and complete, with its tags, accessories and packaging."
+      },
+      {
+        title: "Where refunds go",
+        body: "For your security, every refund is paid back to the same account that made the payment — the same bank account, crypto wallet or digital wallet. We never send a refund to a different account.",
       },
       {
         title: "Questions",
-        body: "Ask us for an item's certificate or extra photos before you buy — on WhatsApp, Telegram, Signal, by phone or email, or in person at our boutique on Place du Casino, Monaco.",
+        body: "Ask us for an item's certificate or extra photos before you buy — on WhatsApp, Telegram, Signal, by phone or email, or in person at our boutique on 1 Place du Casino, Monaco.",
       },
     ],
   },

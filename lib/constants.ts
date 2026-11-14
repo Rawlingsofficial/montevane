@@ -3,7 +3,7 @@ export const SITE_NAME = "Montévane";
 // The one boutique address — keep it identical to the Google Business Profile
 // (name, address, phone must match everywhere for local SEO).
 export const STORE_ADDRESS = {
-  street: "Place du Casino",
+  street: "1 Place du Casino",
   postalCode: "98000",
   locality: "Monaco",
   country: "MC",
@@ -11,7 +11,9 @@ export const STORE_ADDRESS = {
   lat: 43.7396,
   lng: 7.4276,
 };
-export const MAPS_URL = "https://www.google.com/maps/search/?api=1&query=Place+du+Casino%2C+98000+Monaco";
+// Keyless Google Maps embed (contact page).
+export const MAP_EMBED_URL = "https://www.google.com/maps/embed?origin=mfe&pb=!1m3!2m1!1s1+Place+du+Casino,+98000+Monaco!6i17";
+export const MAPS_URL = "https://www.google.com/maps/search/?api=1&query=1+Place+du+Casino%2C+98000+Monaco";
 
 export type JournalPost = {
   slug: string;
@@ -56,7 +58,7 @@ export const JOURNAL_POSTS: JournalPost[] = [
     body: [
       "Authentication begins with weight and smell — genuine leather has a density and scent that coated synthetics rarely replicate convincingly, even to a casual hand.",
       "Stitch count matters more than most buyers realize: authentic houses hold themselves to a consistent number of stitches per inch, while counterfeit workshops optimize for speed over precision.",
-      "Every Hermès piece we carry is verified with Entrupy before it's listed — leather grain, hardware, stamps and stitch geometry examined under magnification — and if any item ever fails a third-party check, we refund the full price.",
+      "Every Hermès piece we carry is verified by our authentication specialists before it's listed — leather grain, hardware, stamps and stitch geometry examined under magnification — and if any item ever fails a third-party check, we refund the full price.",
     ],
   },
   {

@@ -20,7 +20,7 @@ export const PAGES: Record<Locale, PageCopy> = {
         {
           eyebrow: "The House",
           title: "Hermès first, and only what we can stand behind",
-          body: "Montévane focuses on what it knows best: Hermès — Birkin, Kelly, exotics, special orders and the accessories that go with them — and rare watches. Every Hermès piece is verified with Entrupy and every watch by an independent authenticator, and if any item ever fails a third-party check we refund the full price.",
+          body: "Montévane focuses on what it knows best: Hermès — Birkin, Kelly, exotics, special orders and the accessories that go with them — and rare watches. Every Hermès piece and every watch is verified by our authentication specialists before it is listed, and if any item ever fails a third-party check we refund the full price.",
         },
         {
           eyebrow: "Craftsmanship",
@@ -67,7 +67,7 @@ export const PAGES: Record<Locale, PageCopy> = {
         {
           eyebrow: "Das Haus",
           title: "Hermès zuerst – und nur, wofür wir einstehen",
-          body: "Montévane konzentriert sich auf das, was es am besten kennt: Hermès – Birkin, Kelly, Exoten, Sonderanfertigungen und passende Accessoires – sowie seltene Uhren. Jedes Hermès-Stück wird mit Entrupy geprüft, jede Uhr von einem unabhängigen Experten. Besteht ein Stück je eine Drittprüfung nicht, erstatten wir den vollen Preis.",
+          body: "Montévane konzentriert sich auf das, was es am besten kennt: Hermès – Birkin, Kelly, Exoten, Sonderanfertigungen und passende Accessoires – sowie seltene Uhren. Jedes Hermès-Stück und jede Uhr wird vor dem Angebot von unseren Experten geprüft. Besteht ein Stück je eine Drittprüfung nicht, erstatten wir den vollen Preis.",
         },
         {
           eyebrow: "Handwerk",
@@ -114,7 +114,7 @@ export const PAGES: Record<Locale, PageCopy> = {
         {
           eyebrow: "Butik",
           title: "Avvalo Hermès – faqat kafolat bera oladiganimiz",
-          body: "Montévane eng yaxshi biladigan narsasiga e'tibor qaratadi: Hermès – Birkin, Kelly, ekzotik, maxsus buyurtmalar va aksessuarlar – hamda noyob soatlar. Har bir Hermès buyumi Entrupy bilan, har bir soat mustaqil mutaxassis tomonidan tekshiriladi; uchinchi tomon tekshiruvidan o'tmasa, to'liq pul qaytariladi.",
+          body: "Montévane eng yaxshi biladigan narsasiga e'tibor qaratadi: Hermès – Birkin, Kelly, ekzotik, maxsus buyurtmalar va aksessuarlar – hamda noyob soatlar. Har bir Hermès buyumi va soat sotuvdan oldin mutaxassislarimiz tomonidan tekshiriladi; uchinchi tomon tekshiruvidan o'tmasa, to'liq pul qaytariladi.",
         },
         {
           eyebrow: "Mahorat",
