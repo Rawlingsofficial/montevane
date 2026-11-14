@@ -11,6 +11,8 @@ const MOVED: [string, string][] = [
   ["/models/louis-vuitton-neverfull", "/brands/hermes"],
   ["/models/louis-vuitton-speedy", "/brands/hermes"],
   ["/models/goyard-tote", "/brands/hermes"],
+  // Product imported with a wrong brand prefix in its address.
+  ["/products/audemars-piguet-kelly-pochette-swift-rose-sakura-phw", "/products/hermes-kelly-pochette-swift-rose-sakura-phw"],
   // Early placeholder journal posts, replaced by the buying guides.
   ["/journal/how-to-authenticate-a-luxury-handbag", "/journal/how-to-authenticate-hermes"],
   ["/journal/inside-the-atelier", "/journal/hermes-birkin-buying-guide"],

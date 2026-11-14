@@ -5,12 +5,24 @@ import { post as kelly } from "@/lib/journal/posts/hermes-kelly-buying-guide";
 import { post as authenticate } from "@/lib/journal/posts/how-to-authenticate-hermes";
 import { post as patek } from "@/lib/journal/posts/patek-philippe-buying-guide";
 import { post as rolex } from "@/lib/journal/posts/rolex-buying-guide";
+import { post as birkin2530 } from "@/lib/journal/posts/birkin-25-vs-30";
+import { post as gmt } from "@/lib/journal/posts/rolex-gmt-pepsi-vs-batman";
+import { post as yellowDiamonds } from "@/lib/journal/posts/fancy-yellow-diamonds";
+import { post as dateStamps } from "@/lib/journal/posts/hermes-date-stamp-chart";
+import { post as nautilusRoyalOak } from "@/lib/journal/posts/nautilus-vs-royal-oak";
+import { post as togoEpsom } from "@/lib/journal/posts/togo-vs-epsom";
+import { post as giaReport } from "@/lib/journal/posts/how-to-read-a-gia-report";
+import { post as submariner } from "@/lib/journal/posts/rolex-submariner-date-vs-no-date";
+import { post as himalaya } from "@/lib/journal/posts/himalaya-birkin";
+import { post as fakeRolex } from "@/lib/journal/posts/how-to-spot-a-fake-rolex";
+import { post as birkinInvestment } from "@/lib/journal/posts/is-a-birkin-a-good-investment";
+import { post as hermesCare } from "@/lib/journal/posts/how-to-care-for-a-hermes-bag";
 import type { Block, Post } from "@/lib/journal/types";
 
 export type { Post } from "@/lib/journal/types";
 
 /** Every article, newest first. Scheduled posts are included; use publishedPosts() for anything public. */
-const ALL: Post[] = [birkin, kelly, authenticate, rolex, patek, apRoyalOak, diamonds].sort((a, b) => b.date.localeCompare(a.date));
+const ALL: Post[] = [birkin, kelly, authenticate, rolex, patek, apRoyalOak, diamonds, birkin2530, gmt, yellowDiamonds, dateStamps, nautilusRoyalOak, togoEpsom, giaReport, submariner, himalaya, fakeRolex, birkinInvestment, hermesCare].sort((a, b) => b.date.localeCompare(a.date));
 
 /** Posts whose date has arrived (UTC day). Pages revalidate hourly, so scheduled posts appear on their day. */
 export function publishedPosts(now = new Date()): Post[] {
