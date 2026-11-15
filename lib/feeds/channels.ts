@@ -1,4 +1,5 @@
 import { feedItems, type FeedItem } from "./items";
+import { pinterestItems } from "./pinterest";
 import { connexityTsv, glamiXml, googleRss, idealoCsv, microsoftTsv } from "./formats";
 
 /**
@@ -22,7 +23,7 @@ export const CHANNELS: Channel[] = [
   { name: "microsoft", ext: "xml", locale: "en", render: rss(true), label: "Microsoft Merchant Center (Bing Shopping)" },
   { name: "microsoft", ext: "txt", locale: "en", render: microsoftTsv, label: "Microsoft Merchant Center, tab-separated" },
   { name: "meta", ext: "xml", locale: "en", render: rss(false), label: "Meta Commerce Manager (Facebook / Instagram)" },
-  { name: "pinterest", ext: "xml", locale: "en", render: rss(false), label: "Pinterest Catalogs" },
+  { name: "pinterest", ext: "xml", locale: "en", render: (items) => googleRss(pinterestItems(items), { shipping: false }), label: "Pinterest Catalogs (in-stock, unaltered pieces only)" },
   { name: "tiktok", ext: "xml", locale: "en", render: rss(false), label: "TikTok Catalog" },
   { name: "lyst", ext: "xml", locale: "en", render: rss(false), label: "Lyst" },
   { name: "connexity", ext: "tsv", locale: "en", render: connexityTsv, label: "Connexity (US comparison shopping)" },
