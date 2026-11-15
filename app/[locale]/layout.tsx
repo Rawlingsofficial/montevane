@@ -41,7 +41,8 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
         "Xj4u5UNqtx4lPeh6kNn-Vda72pLnjKa3_cXPmk-9pi8",
       ],
       // Other engines: set the code each webmaster tool gives in Vercel env vars.
-      ...(process.env.YANDEX_VERIFICATION ? { yandex: process.env.YANDEX_VERIFICATION } : {}),
+      // Comma-separated when several Yandex properties (e.g. apex and www) are verified.
+      ...(process.env.YANDEX_VERIFICATION ? { yandex: process.env.YANDEX_VERIFICATION.split(",").map((c) => c.trim()) } : {}),
       other: Object.fromEntries(
         (
           [
