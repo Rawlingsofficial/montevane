@@ -2,11 +2,13 @@
 
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 
 import { requireAdmin } from "@/lib/auth";
 import { db, schema } from "@/lib/db";
 import type { ProductI18n } from "@/lib/db/schema";
 import { pgErrorMessage } from "@/lib/db/errors";
+import { allLocaleUrls, submitIndexNow } from "@/lib/seo/indexnow";
 import { productSchema, publishChecklist, type ProductFormValues } from "@/lib/validation/product";
 
 export type SaveProductResult = { id: string } | { error: string };
@@ -106,12 +108,15 @@ export async function saveProduct(values: ProductFormValues): Promise<SaveProduc
   }
 
   revalidatePath("/[locale]", "layout");
+  after(() => submitIndexNow(allLocaleUrls(`/products/${data.slug}`)));
   return { id };
 }
 
 export async function deleteProduct(id: string): Promise<{ error?: string }> {
   await requireAdmin();
-  await db.delete(schema.products).where(eq(schema.products.id, id));
+  const [row] = await db.delete(schema.products).where(eq(schema.products.id, id)).returning({ slug: schema.products.slug });
   revalidatePath("/[locale]", "layout");
+  // Removed pages are submitted too, so engines recrawl and drop them.
+  if (row) after(() => submitIndexNow(allLocaleUrls(`/products/${row.slug}`)));
   return {};
 }

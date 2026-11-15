@@ -264,8 +264,16 @@ export async function getProduct(slug: string, locale: Locale = DEFAULT_LOCALE):
 }
 
 /** Slugs and last-modified dates of every live product (sitemap, static params). */
-export async function getProductIndex(): Promise<{ slug: string; updatedAt: Date }[]> {
-  return db.select({ slug: p.slug, updatedAt: p.updatedAt }).from(p).where(isLive);
+export async function getProductIndex(): Promise<{ slug: string; updatedAt: Date; images: string[] }[]> {
+  const rows = await db
+    .select({ slug: p.slug, updatedAt: p.updatedAt, main: p.mainImageUrl, related: p.relatedImages })
+    .from(p)
+    .where(isLive);
+  return rows.map((r) => ({
+    slug: r.slug,
+    updatedAt: r.updatedAt,
+    images: [r.main, ...[...r.related].sort((a, b) => a.position - b.position).map((i) => i.url)].filter(Boolean),
+  }));
 }
 
 export type StoreBrand = {

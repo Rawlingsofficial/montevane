@@ -40,6 +40,20 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
         process.env.GOOGLE_SITE_VERIFICATION || "Hk2M437j8uWOxaoymiYUTvjDhKauQHpzwZxYs342Qoo",
         "Xj4u5UNqtx4lPeh6kNn-Vda72pLnjKa3_cXPmk-9pi8",
       ],
+      // Other engines: set the code each webmaster tool gives in Vercel env vars.
+      ...(process.env.YANDEX_VERIFICATION ? { yandex: process.env.YANDEX_VERIFICATION } : {}),
+      other: Object.fromEntries(
+        (
+          [
+            ["msvalidate.01", process.env.BING_SITE_VERIFICATION],
+            ["naver-site-verification", process.env.NAVER_SITE_VERIFICATION],
+            ["baidu-site-verification", process.env.BAIDU_SITE_VERIFICATION],
+            ["seznam-wmt", process.env.SEZNAM_VERIFICATION],
+            ["p:domain_verify", process.env.PINTEREST_VERIFICATION],
+            ["facebook-domain-verification", process.env.META_DOMAIN_VERIFICATION],
+          ] as [string, string | undefined][]
+        ).filter((pair): pair is [string, string] => Boolean(pair[1]))
+      ),
     },
   };
 }
