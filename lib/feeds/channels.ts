@@ -1,5 +1,5 @@
 import { feedItems, type FeedItem } from "./items";
-import { connexityTsv, glamiXml, googleRss, idealoCsv } from "./formats";
+import { connexityTsv, glamiXml, googleRss, idealoCsv, microsoftTsv } from "./formats";
 
 /**
  * Every marketplace / shopping channel, built from the same product data.
@@ -7,7 +7,7 @@ import { connexityTsv, glamiXml, googleRss, idealoCsv } from "./formats";
  */
 export type Channel = {
   name: string;
-  ext: "xml" | "csv" | "tsv";
+  ext: "xml" | "csv" | "tsv" | "txt";
   /** Landing-page language: decides link, text and currency (en = USD, de = EUR). */
   locale: "en" | "de";
   render: (items: FeedItem[]) => string;
@@ -20,6 +20,7 @@ const rss = (shipping: boolean) => (items: FeedItem[]) => googleRss(items, { shi
 export const CHANNELS: Channel[] = [
   { name: "google-merchant", ext: "xml", locale: "en", render: rss(true), label: "Google Merchant Center" },
   { name: "microsoft", ext: "xml", locale: "en", render: rss(true), label: "Microsoft Merchant Center (Bing Shopping)" },
+  { name: "microsoft", ext: "txt", locale: "en", render: microsoftTsv, label: "Microsoft Merchant Center, tab-separated" },
   { name: "meta", ext: "xml", locale: "en", render: rss(false), label: "Meta Commerce Manager (Facebook / Instagram)" },
   { name: "pinterest", ext: "xml", locale: "en", render: rss(false), label: "Pinterest Catalogs" },
   { name: "tiktok", ext: "xml", locale: "en", render: rss(false), label: "TikTok Catalog" },
@@ -30,7 +31,7 @@ export const CHANNELS: Channel[] = [
   { name: "glami", ext: "xml", locale: "de", render: glamiXml, label: "GLAMI (EUR)" },
 ];
 
-const CONTENT_TYPE = { xml: "application/xml; charset=utf-8", csv: "text/csv; charset=utf-8", tsv: "text/tab-separated-values; charset=utf-8" };
+const CONTENT_TYPE = { xml: "application/xml; charset=utf-8", csv: "text/csv; charset=utf-8", tsv: "text/tab-separated-values; charset=utf-8", txt: "text/plain; charset=utf-8" };
 
 export const channelFiles = () => CHANNELS.flatMap((c) => [`${c.name}.${c.ext}`, `${c.name}.${c.ext}.gz`]);
 

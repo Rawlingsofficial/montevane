@@ -78,7 +78,8 @@ export function delimited(rows: Record<string, string | number | null>[], sep: "
   const head = Object.keys(rows[0]);
   const cell = (v: string | number | null) => {
     const s = v === null ? "" : String(v);
-    return sep === "\t" ? s.replace(/[\t\r\n]+/g, " ") : `"${s.replace(/"/g, '""').replace(/[\r\n]+/g, " ")}"`;
+    // TSV: no quoting, so tabs/newlines are flattened and double quotes softened (parsers treat a leading quote as a quoted field).
+    return sep === "\t" ? s.replace(/[\t\r\n]+/g, " ").replace(/"/g, "'") : `"${s.replace(/"/g, '""').replace(/[\r\n]+/g, " ")}"`;
   };
   return [head.map((h) => cell(h)).join(sep), ...rows.map((r) => head.map((h) => cell(r[h])).join(sep))].join("\n") + "\n";
 }
@@ -161,4 +162,32 @@ export function glamiXml(items: FeedItem[]): string {
       "</SHOPITEM>",
     ].join("");
   return ['<?xml version="1.0" encoding="UTF-8"?>', "<SHOP>", ...items.filter((i) => i.availability !== "out_of_stock").map(item), "</SHOP>", ""].join("\n");
+}
+
+/** Microsoft Merchant Center tab-separated text (columns from Microsoft's sample feed). */
+export function microsoftTsv(items: FeedItem[]): string {
+  return delimited(
+    items.map((i) => ({
+      id: i.id,
+      title: i.title,
+      // Unbranded pieces are the house's own (Microsoft rejects items without a brand).
+      brand: i.brand ?? "Montévane",
+      link: i.link,
+      price: i.price.toFixed(2),
+      description: i.description,
+      image_link: i.images[0],
+      additional_image_link: i.images.slice(1, 10).join(","),
+      mpn: i.mpn,
+      availability: i.availability === "in_stock" ? "In Stock" : i.availability === "preorder" ? "Preorder" : "Out of Stock",
+      condition: i.condition === "new" ? "New" : "Used",
+      product_type: i.categoryPath.replace(/ > /g, " | "),
+      product_category: i.googleCategory,
+      gender: i.gender,
+      age_group: "adult",
+      color: i.color,
+      material: i.material,
+      sale_price: i.salePrice ? i.salePrice.toFixed(2) : null,
+    })),
+    "\t"
+  );
 }
