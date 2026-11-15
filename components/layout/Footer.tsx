@@ -1,3 +1,4 @@
+import { SELL } from "@/lib/i18n/dictionaries/sell";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -33,6 +34,7 @@ export async function Footer({ locale, channels }: { locale: Locale; channels: C
     { label: t.nav.contact, href: href("/contact") },
     { label: t.nav.authenticity, href: href("/authenticity") },
     { label: t.nav.payment, href: href("/payment-shipping") },
+    { label: SELL[locale].nav, href: href("/sell") },
     { label: t.nav.about, href: href("/about") },
     { label: t.nav.privacy, href: href("/privacy") },
   ];

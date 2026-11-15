@@ -38,6 +38,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/authenticity", priority: 0.6 },
     { path: "/payment-shipping", priority: 0.6 },
     { path: "/contact", priority: 0.6 },
+    { path: "/sell", priority: 0.6 },
     { path: "/about", priority: 0.5 },
     { path: "/privacy", priority: 0.2 },
     // Journal articles are English-only.
