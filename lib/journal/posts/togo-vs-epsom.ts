@@ -7,8 +7,12 @@ export const post: Post = {
   description: "Togo or Epsom for your Hermès Birkin or Kelly? Grain, weight, structure, scratch resistance, colour and ageing compared to help you choose.",
   category: "Hermès Guides",
   cluster: "hermes",
-  date: "2026-11-24",
+  date: "2026-12-11",
+  keyword: "togo vs epsom",
+  keywords: ["togo leather", "epsom leather", "best leather for birkin"],
   image: "product_side",
+  cover: "hermes-birkin-25-gris-meyer-togo-permabrass-hardware",
+  picks: { query: "togo", category: "birkin-bags", sort: "newest" },
   intro: [
     "Togo and Epsom are the two most popular leathers for the Birkin and Kelly, and between them they account for most of the calfskin Birkins on the market. They look similar in photos but feel completely different in the hand.",
   ],

@@ -7,8 +7,12 @@ export const post: Post = {
   description: "Does a Hermès Birkin hold its value? What drives resale prices, which sizes, leathers and colours hold best, the costs and risks, and how to think about it.",
   category: "Hermès Guides",
   cluster: "hermes",
-  date: "2026-12-03",
+  date: "2026-12-30",
+  keyword: "is a birkin a good investment",
+  keywords: ["birkin resale value", "birkin price increase", "does a birkin hold its value"],
   image: "lifestyle_2",
+  cover: "hermes-birkin-35-etoupe-togo-palladium-hardware",
+  picks: { category: "birkin-bags", sort: "newest" },
   intro: [
     "The Birkin is often described as a better investment than gold or stocks. The truth is more nuanced: some Birkins hold or grow their value remarkably well, others don't, and there are costs that headlines usually leave out.",
     "Here's what drives Birkin prices and what to weigh up. This is general information, not financial advice.",

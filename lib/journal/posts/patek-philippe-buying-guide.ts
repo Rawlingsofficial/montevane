@@ -9,7 +9,11 @@ export const post: Post = {
   cluster: "watches",
   pillar: true,
   date: "2026-11-10",
+  keyword: "patek philippe buying guide",
+  keywords: ["nautilus", "aquanaut", "calatrava", "pre-owned patek philippe"],
   image: "watch_2",
+  cover: "patek-philippe-nautilus-7118-1452g-001-18k-white-gold-ruby-bezel-diamond-pave-ruby-index",
+  picks: { brand: "patek-philippe", sort: "newest" },
   intro: [
     "Patek Philippe is the watchmaker collectors aspire to. Its watches set auction records, its sports models have waiting lists measured in years, and its slogan – that you never actually own one, you merely look after it for the next generation – is as much a promise about value as about craft.",
     "Here is how the collection is structured, which references matter, and how to buy one with confidence.",

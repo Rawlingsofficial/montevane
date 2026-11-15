@@ -7,8 +7,12 @@ export const post: Post = {
   description: "The Rolex GMT-Master II colourways explained – Pepsi, Batman, Sprite and more – with references, how the GMT function works and current market prices.",
   category: "Watch Guides",
   cluster: "watches",
-  date: "2026-11-17",
+  date: "2026-11-27",
+  keyword: "rolex pepsi vs batman",
+  keywords: ["gmt-master ii 126710blro", "gmt-master ii 126710blnr", "rolex gmt"],
   image: "watch_1",
+  cover: "rolex-gmt-master-ii-126710blnr-batman-stainless-steel-black-index-dial-jubilee-bracelet",
+  picks: { query: "gmt", brand: "rolex", sort: "newest" },
   intro: [
     "Few watches have as many nicknames as the Rolex GMT-Master II. The colours of its two-tone bezel – red and blue, blue and black, green and black – have become shorthand among collectors, and each has its own following and its own price.",
     "This guide explains the references, how the GMT function works and what each colourway costs today. For Rolex basics – reference numbers, papers and condition – start with our [Rolex buying guide](/journal/rolex-buying-guide).",

@@ -9,7 +9,11 @@ export const post: Post = {
   cluster: "jewelry",
   pillar: true,
   date: "2026-11-08",
+  keyword: "diamond buying guide",
+  keywords: ["4cs of diamonds", "diamond cut", "diamond clarity", "gia certified"],
   image: "jewelry_1",
+  cover: "two-pear-shaped-diamond-halo-toi-et-moi-ring-platinum-two-pear-shaped-halo-diamond-toi-et",
+  picks: { category: "jewelry", sort: "price_asc" },
   intro: [
     "Two diamonds of the same weight can differ in price several times over. The reason is the grading – and once you understand it, you can choose where to spend and where to save.",
     "This guide explains the 4Cs, what a grading report tells you, the difference between natural and laboratory-grown diamonds, and how setting and metal change the look of a piece.",

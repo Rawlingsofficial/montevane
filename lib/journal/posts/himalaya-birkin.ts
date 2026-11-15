@@ -7,8 +7,12 @@ export const post: Post = {
   description: "Everything about the Hermès Himalaya Birkin: the Niloticus crocodile, the gradient, white gold and diamond hardware, sizes, how to check one and current prices.",
   category: "Hermès Guides",
   cluster: "hermes",
-  date: "2026-11-30",
+  date: "2026-12-23",
+  keyword: "himalaya birkin",
+  keywords: ["himalaya birkin price", "hermes himalaya", "niloticus crocodile birkin"],
   image: "hero_2",
+  cover: "matte-niloticus-crocodile-himalaya-birkin-30-blanc",
+  picks: { query: "himalaya", sort: "price_asc" },
   intro: [
     "The Himalaya is the most coveted handbag in the world. Its smoky grey fading to white recalls a snow-capped mountain, and its rarity has made it the benchmark for the entire Hermès market.",
     "Here's what makes a Himalaya, which versions exist and what they cost. For the Birkin in general, start with our [Birkin buying guide](/journal/hermes-birkin-buying-guide).",

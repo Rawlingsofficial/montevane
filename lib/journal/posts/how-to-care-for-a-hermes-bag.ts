@@ -7,8 +7,12 @@ export const post: Post = {
   description: "How to care for your Hermès Birkin or Kelly: daily habits, storage, rain and stains, care for each leather and exotic, and when to go to the Hermès spa.",
   category: "Hermès Guides",
   cluster: "hermes",
-  date: "2026-12-05",
+  date: "2026-12-21",
+  keyword: "how to care for a hermes bag",
+  keywords: ["birkin storage", "hermes spa", "clean hermes leather"],
   image: "product_front",
+  cover: "hermes-birkin-30-black-togo-and-matte-alligator-touch-gold-hardware",
+  picks: { category: "bag-organizers", sort: "newest" },
   intro: [
     "A Hermès bag is built to last for decades, and a little care keeps it looking its best – and keeps its value. Most of it comes down to simple habits.",
   ],

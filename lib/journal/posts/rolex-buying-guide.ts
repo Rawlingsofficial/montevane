@@ -9,7 +9,11 @@ export const post: Post = {
   cluster: "watches",
   pillar: true,
   date: "2026-11-11",
+  keyword: "rolex buying guide",
+  keywords: ["pre-owned rolex", "rolex reference numbers", "rolex box and papers"],
   image: "watch_1",
+  cover: "rolex-submariner-116610-stainless-steel-black-index-dial-oyster-bracelet-40-mm",
+  picks: { brand: "rolex", sort: "newest" },
   intro: [
     "Rolex is the most recognised watch brand in the world, and its steel sports models are among the hardest luxury goods to buy at retail. That makes the pre-owned and sourced market the way most collectors actually get the watch they want.",
     "This guide explains the main collections, how to read a reference number, what \"box and papers\" means, and how to judge price and condition – so you can buy the right Rolex, not just any Rolex.",

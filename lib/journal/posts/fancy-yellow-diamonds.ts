@@ -7,8 +7,12 @@ export const post: Post = {
   description: "What makes a diamond fancy yellow, how GIA grades colour intensity from Fancy Light to Fancy Vivid, what affects price, and the settings that show it best.",
   category: "Jewelry Guides",
   cluster: "jewelry",
-  date: "2026-11-19",
+  date: "2026-12-07",
+  keyword: "fancy yellow diamonds",
+  keywords: ["canary diamond", "yellow diamond ring", "fancy intense yellow"],
   image: "jewelry_1",
+  cover: "fancy-yellow-radiant-cut-diamond-halo-ring-platinum-and-18k-yellow-gold-rectangular-and",
+  picks: { category: "jewelry", piece: "Ring", sort: "price_desc" },
   intro: [
     "Most diamonds are prized for having as little colour as possible. Fancy coloured diamonds turn that around: in a fancy yellow – often called a \"canary\" diamond – colour is the point, and the stronger and purer it is, the more the stone is worth.",
     "Here is how yellow diamonds are graded and how to choose one. If you are new to diamonds, start with our [diamond buying guide](/journal/diamond-buying-guide).",

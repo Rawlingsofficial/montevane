@@ -7,8 +7,12 @@ export const post: Post = {
   description: "Birkin 25 or Birkin 30? We compare dimensions, what fits inside, how each wears, resale demand and real prices to help you choose the right size.",
   category: "Hermès Guides",
   cluster: "hermes",
-  date: "2026-11-16",
+  date: "2026-11-20",
+  keyword: "birkin 25 vs 30",
+  keywords: ["birkin 25 size", "birkin 30 size", "which birkin size"],
   image: "product_front",
+  cover: "hermes-birkin-25-black-togo-palladium-hardware",
+  picks: { query: "birkin 25", category: "birkin-bags", sort: "newest" },
   intro: [
     "The Birkin 25 and Birkin 30 are the two sizes our clients ask about most, and the choice between them is personal. Five centimetres sounds small, but it changes how the bag carries, what it holds and how it looks in photographs.",
     "Here is a side-by-side comparison. For the wider picture – leathers, hardware and date stamps – see our [complete Birkin buying guide](/journal/hermes-birkin-buying-guide).",

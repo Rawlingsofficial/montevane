@@ -2,7 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import { AssetImage } from "@/components/common/AssetImage";
+import { CoverImage } from "@/components/journal/CoverImage";
+import { ProductCard } from "@/components/products/ProductCard";
 import { Breadcrumbs } from "@/components/common/Breadcrumbs";
 import { RichText, plainText } from "@/components/journal/RichText";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -11,8 +12,9 @@ import { SITE_NAME } from "@/lib/constants";
 import { DEFAULT_LOCALE, getDictionary, localePath, siteUrl } from "@/lib/i18n";
 import { PAGES } from "@/lib/i18n/dictionaries/pages";
 import { resolveLocale } from "@/lib/i18n/server";
-import { asset } from "@/lib/images";
+import type { StoreProduct } from "@/lib/data/catalog";
 import { getPost, publishedPosts, readingMinutes, relatedPosts } from "@/lib/journal";
+import { loadPicks, postCovers } from "@/lib/journal/media";
 import type { Block } from "@/lib/journal/types";
 import { absoluteUrl, pageMetadata } from "@/lib/seo/metadata";
 
@@ -29,24 +31,42 @@ type Props = PageProps<"/[locale]/journal/[slug]">;
 
 // Articles are English-only: other locales show them with a canonical to the English page.
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  await resolveLocale(params);
+  const locale = await resolveLocale(params);
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) return {};
   const path = `/journal/${post.slug}`;
+  const cover = (await postCovers([post], locale))[post.slug];
   const meta = pageMetadata({
     locale: DEFAULT_LOCALE,
     path,
     title: post.metaTitle,
     description: post.description,
-    image: asset(post.image),
+    image: cover.url,
     locales: [DEFAULT_LOCALE],
     type: "article",
   });
   return { ...meta, alternates: { ...meta.alternates, canonical: absoluteUrl(DEFAULT_LOCALE, path) } };
 }
 
-function BlockView({ block, locale }: { block: Block; locale: Parameters<typeof RichText>[0]["locale"] }) {
+type Loc = Parameters<typeof RichText>[0]["locale"];
+
+function ProductRow({ products, locale, title }: { products: StoreProduct[]; locale: Loc; title?: string }) {
+  if (!products.length) return null;
+  return (
+    <div className="not-prose -mx-6 border-y border-border bg-[var(--ivory)]/50 px-6 py-6 sm:mx-0 sm:border sm:px-6">
+      {title && <p className="mb-4 text-xs tracking-[0.15em] text-[var(--gold)] uppercase">{title}</p>}
+      <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} locale={locale} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function BlockView({ block, locale, products }: { block: Block; locale: Loc; products: Map<Block, StoreProduct[]> }) {
+  if (typeof block === "object" && "products" in block) return <ProductRow products={products.get(block) ?? []} locale={locale} title={block.title} />;
   if (typeof block === "string")
     return (
       <p>
@@ -106,6 +126,14 @@ export default async function JournalPostPage({ params }: Props) {
   const t = getDictionary(locale);
   const { journal } = PAGES[locale];
   const related = relatedPosts(post);
+  const productBlocks = post.sections.flatMap((s) => s.blocks).filter((b): b is Extract<Block, { products: unknown }> => typeof b === "object" && "products" in b);
+  const [covers, picks, inline] = await Promise.all([
+    postCovers([post, ...related], locale),
+    post.picks ? loadPicks(post.picks, locale, post.picks.limit ?? 8) : Promise.resolve([]),
+    Promise.all(productBlocks.map((b) => loadPicks(b.products, locale))),
+  ]);
+  const products = new Map<Block, StoreProduct[]>(productBlocks.map((b, i) => [b, inline[i]]));
+  const cover = covers[post.slug];
   const url = absoluteUrl(DEFAULT_LOCALE, `/journal/${post.slug}`);
   const crumbs = [
     { name: t.nav.home, path: "/" },
@@ -115,17 +143,32 @@ export default async function JournalPostPage({ params }: Props) {
 
   return (
     <article lang="en">
-      <header data-page-hero className="relative flex h-[42vh] min-h-[320px] w-full items-end overflow-hidden">
-        <AssetImage base={post.image} alt="" priority sizes="100vw" className="absolute inset-0" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/35 to-black/20" />
-        <div className="relative mx-auto w-full max-w-3xl px-6 pb-10">
-          <p className="text-xs font-medium tracking-[0.2em] text-[var(--gold)] uppercase">{post.category}</p>
-          <h1 className="mt-3 font-heading text-3xl font-extralight text-white sm:text-5xl">{post.title}</h1>
-          <p className="mt-4 text-xs tracking-[0.1em] text-white/80 uppercase">
-            <time dateTime={post.date}>{dateFormatter.format(new Date(post.date))}</time> · {readingMinutes(post)} min read
-          </p>
-        </div>
-      </header>
+      {cover.product ? (
+        <header className="bg-[var(--ivory)] pt-28 lg:pt-32">
+          <div className="mx-auto grid max-w-6xl items-center gap-8 px-6 pb-10 lg:grid-cols-[3fr_2fr] lg:gap-16 lg:px-10 lg:pb-14">
+            <div>
+              <p className="text-xs font-medium tracking-[0.2em] text-[var(--gold)] uppercase">{post.category}</p>
+              <h1 className="mt-3 font-heading text-3xl font-extralight sm:text-5xl">{post.title}</h1>
+              <p className="mt-4 text-xs tracking-[0.1em] text-muted-foreground uppercase">
+                <time dateTime={post.date}>{dateFormatter.format(new Date(post.date))}</time> · {readingMinutes(post)} min read
+              </p>
+            </div>
+            <CoverImage cover={cover} priority sizes="(max-width: 1024px) 100vw, 40vw" className="aspect-square max-h-[55vh] w-full lg:max-h-none" />
+          </div>
+        </header>
+      ) : (
+        <header data-page-hero className="relative flex h-[42vh] min-h-[320px] w-full items-end overflow-hidden">
+          <CoverImage cover={cover} priority sizes="100vw" className="absolute inset-0" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/35 to-black/20" />
+          <div className="relative mx-auto w-full max-w-3xl px-6 pb-10">
+            <p className="text-xs font-medium tracking-[0.2em] text-[var(--gold)] uppercase">{post.category}</p>
+            <h1 className="mt-3 font-heading text-3xl font-extralight text-white sm:text-5xl">{post.title}</h1>
+            <p className="mt-4 text-xs tracking-[0.1em] text-white/80 uppercase">
+              <time dateTime={post.date}>{dateFormatter.format(new Date(post.date))}</time> · {readingMinutes(post)} min read
+            </p>
+          </div>
+        </header>
+      )}
 
       <div className="mx-auto max-w-3xl px-6 py-8 lg:py-12">
         <Breadcrumbs locale={locale} items={crumbs} />
@@ -157,11 +200,23 @@ export default async function JournalPostPage({ params }: Props) {
             <h2 className="text-2xl sm:text-3xl">{s.heading}</h2>
             <div className="mt-5 space-y-5 text-base leading-relaxed text-foreground/85">
               {s.blocks.map((b, i) => (
-                <BlockView key={i} block={b} locale={locale} />
+                <BlockView key={i} block={b} locale={locale} products={products} />
               ))}
             </div>
           </section>
         ))}
+
+        {picks.length > 0 && (
+          <section aria-label="Shop this guide" className="mt-16">
+            <p className="text-xs tracking-[0.2em] text-[var(--gold)] uppercase">Shop this guide</p>
+            <h2 className="mt-2 text-2xl sm:text-3xl">Available now at Montévane</h2>
+            <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-4">
+              {picks.map((product) => (
+                <ProductCard key={product.id} product={product} locale={locale} />
+              ))}
+            </div>
+          </section>
+        )}
 
         {post.shop.length > 0 && (
           <section aria-label="Shop" className="mt-16 bg-[var(--ivory)] p-6 sm:p-8">
@@ -224,7 +279,7 @@ export default async function JournalPostPage({ params }: Props) {
             {related.map((p) => (
               <Link key={p.slug} href={localePath(locale, `/journal/${p.slug}`)} className="group block">
                 <div className="overflow-hidden">
-                  <AssetImage base={p.image} alt="" sizes="(max-width: 640px) 100vw, 33vw" className="aspect-[4/3] transition-transform duration-500 group-hover:scale-105" />
+                  <CoverImage cover={covers[p.slug]} sizes="(max-width: 640px) 100vw, 33vw" className="aspect-[4/3] transition-transform duration-500 group-hover:scale-105" />
                 </div>
                 <p className="mt-4 text-xs font-medium tracking-[0.15em] text-[var(--gold)] uppercase">{p.category}</p>
                 <h3 className="mt-1 font-heading text-lg font-light">{p.title}</h3>
@@ -244,7 +299,8 @@ export default async function JournalPostPage({ params }: Props) {
           datePublished: post.date,
           dateModified: post.updated ?? post.date,
           inLanguage: "en",
-          image: `${siteUrl()}${asset(post.image)}`,
+          image: `${siteUrl()}${cover.url}`,
+          keywords: [post.keyword, ...post.keywords].join(", "),
           mainEntityOfPage: url,
           articleSection: post.category,
           wordCount: readingMinutes(post) * 220,

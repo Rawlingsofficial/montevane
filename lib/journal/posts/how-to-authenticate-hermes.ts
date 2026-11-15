@@ -9,7 +9,11 @@ export const post: Post = {
   cluster: "hermes",
   pillar: true,
   date: "2026-11-12",
+  keyword: "how to authenticate a hermes bag",
+  keywords: ["fake birkin", "hermes blind stamp", "real vs fake hermes"],
   image: "product_interior",
+  cover: "hermes-birkin-25-craie-togo-gold-hardware",
+  picks: { category: "birkin-bags", sort: "newest" },
   intro: [
     "High-grade replicas of Hermès bags are better than ever, and no single detail proves a bag is genuine. Authentication is the sum of many small checks, each of which has to agree with the others: the stamps with the leather, the leather with the colour, the hardware with the year.",
     "This guide walks through what our specialists look at. It will help you ask the right questions and spot obvious problems – but for a purchase of this size, always buy from a seller who stands behind authenticity with a refund.",

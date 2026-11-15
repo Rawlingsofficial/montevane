@@ -7,8 +7,12 @@ export const post: Post = {
   description: "Rolex Submariner 124060 or 126610LN? Symmetry vs practicality, the green-bezel Kermit and Hulk, movements, generations and current prices compared.",
   category: "Watch Guides",
   cluster: "watches",
-  date: "2026-11-28",
+  date: "2026-12-18",
+  keyword: "submariner date vs no date",
+  keywords: ["rolex 124060", "rolex 126610ln", "rolex kermit", "rolex hulk"],
   image: "watch_3",
+  cover: "rolex-submariner-116618ln-18k-yellow-gold-black-index-dial-oyster-bracelet-40mm",
+  picks: { query: "submariner", brand: "rolex", sort: "newest" },
   intro: [
     "The Submariner is the archetypal luxury dive watch, and the first decision when buying one is simple but surprisingly hard: with a date, or without?",
     "Here's how the two compare, plus the green-bezel versions collectors know as the Kermit and the Hulk. For Rolex fundamentals, see our [Rolex buying guide](/journal/rolex-buying-guide).",

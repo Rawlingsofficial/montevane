@@ -7,8 +7,12 @@ export const post: Post = {
   description: "A GIA diamond report explained section by section: report number, shape, measurements, the 4Cs, proportions, clarity plot, fluorescence and inscription.",
   category: "Jewelry Guides",
   cluster: "jewelry",
-  date: "2026-11-26",
+  date: "2026-12-14",
+  keyword: "how to read a gia report",
+  keywords: ["gia certificate", "gia report check", "diamond grading report"],
   image: "jewelry_1",
+  cover: "radiant-and-trapezoid-cut-diamond-engagement-ring-14k-white-gold-radiant-and-trapezoid",
+  picks: { category: "jewelry", piece: "Ring", sort: "price_asc" },
   intro: [
     "A grading report is the closest thing a diamond has to a passport. It records exactly what the stone is, so you can compare diamonds fairly and make sure the one you receive is the one you paid for.",
     "Here's what each part of a GIA report means. For the basics of the 4Cs, see our [diamond buying guide](/journal/diamond-buying-guide).",

@@ -7,8 +7,12 @@ export const post: Post = {
   description: "How to find and read the Hermès blind stamp: where it sits, what the circle and square mean, and the year letters from 1971 to today.",
   category: "Hermès Guides",
   cluster: "hermes",
-  date: "2026-11-21",
+  date: "2026-11-18",
+  keyword: "hermes date stamp",
+  keywords: ["hermes year stamp", "hermes blind stamp chart", "what year is my hermes bag"],
   image: "product_interior",
+  cover: "pre-owned-hermes-birkin-35-black-togo-gold-hardware",
+  picks: { category: "birkin-bags", sort: "newest" },
   intro: [
     "Every Hermès bag carries a small stamp that tells you when it was made. Knowing how to read it helps you check a listing's description, judge a fair price and spot inconsistencies.",
     "Here is where to find the stamp and how to read it, with the year letters from 1971 to today.",

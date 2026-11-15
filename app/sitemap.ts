@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { brandPath } from "@/lib/catalog/taxonomy";
 import { getBrands, getCategories, getCollections, getLiveModels, getProductIndex, getSubcategories } from "@/lib/data/catalog";
-import { publishedPosts } from "@/lib/journal";
+import { publishedPosts, TOPICS } from "@/lib/journal";
 import { DEFAULT_LOCALE, LOCALES, type Locale } from "@/lib/i18n/config";
 import { absoluteUrl, languageAlternates } from "@/lib/seo/metadata";
 
@@ -42,6 +42,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/privacy", priority: 0.2 },
     // Journal articles are English-only.
     { path: "/journal", priority: 0.5, locales: [DEFAULT_LOCALE] },
+    ...TOPICS.filter((t) => publishedPosts().some((p) => p.cluster === t.id)).map((t) => ({ path: `/journal/topic/${t.id}`, priority: 0.4, locales: [DEFAULT_LOCALE] as const })),
     ...publishedPosts().map((post) => ({ path: `/journal/${post.slug}`, priority: 0.7, lastModified: new Date(post.updated ?? post.date), locales: [DEFAULT_LOCALE] as const })),
   ];
 

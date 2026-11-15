@@ -1,28 +1,18 @@
-import { post as apRoyalOak } from "@/lib/journal/posts/audemars-piguet-royal-oak-guide";
-import { post as diamonds } from "@/lib/journal/posts/diamond-buying-guide";
-import { post as birkin } from "@/lib/journal/posts/hermes-birkin-buying-guide";
-import { post as kelly } from "@/lib/journal/posts/hermes-kelly-buying-guide";
-import { post as authenticate } from "@/lib/journal/posts/how-to-authenticate-hermes";
-import { post as patek } from "@/lib/journal/posts/patek-philippe-buying-guide";
-import { post as rolex } from "@/lib/journal/posts/rolex-buying-guide";
-import { post as birkin2530 } from "@/lib/journal/posts/birkin-25-vs-30";
-import { post as gmt } from "@/lib/journal/posts/rolex-gmt-pepsi-vs-batman";
-import { post as yellowDiamonds } from "@/lib/journal/posts/fancy-yellow-diamonds";
-import { post as dateStamps } from "@/lib/journal/posts/hermes-date-stamp-chart";
-import { post as nautilusRoyalOak } from "@/lib/journal/posts/nautilus-vs-royal-oak";
-import { post as togoEpsom } from "@/lib/journal/posts/togo-vs-epsom";
-import { post as giaReport } from "@/lib/journal/posts/how-to-read-a-gia-report";
-import { post as submariner } from "@/lib/journal/posts/rolex-submariner-date-vs-no-date";
-import { post as himalaya } from "@/lib/journal/posts/himalaya-birkin";
-import { post as fakeRolex } from "@/lib/journal/posts/how-to-spot-a-fake-rolex";
-import { post as birkinInvestment } from "@/lib/journal/posts/is-a-birkin-a-good-investment";
-import { post as hermesCare } from "@/lib/journal/posts/how-to-care-for-a-hermes-bag";
-import type { Block, Post } from "@/lib/journal/types";
+import { POSTS } from "@/lib/journal/posts/all";
+import type { Block, Cluster, Post } from "@/lib/journal/types";
 
 export type { Post } from "@/lib/journal/types";
 
+/** Journal topics, in index order. */
+export const TOPICS: { id: Cluster; title: string; description: string }[] = [
+  { id: "hermes", title: "Hermès", description: "Buying guides, comparisons and care for the Birkin, Kelly and the wider world of Hermès." },
+  { id: "watches", title: "Rare Watches", description: "References, comparisons and collecting advice for Rolex, Patek Philippe, Audemars Piguet and independent watchmaking." },
+  { id: "jewelry", title: "Fine Jewelry", description: "Diamonds, coloured stones, grading reports and how to choose fine jewelry with confidence." },
+  { id: "buying", title: "Gifts & Buying Advice", description: "Gift guides, delivery, payment, insurance and travel: practical advice for buying and owning luxury pieces." },
+];
+
 /** Every article, newest first. Scheduled posts are included; use publishedPosts() for anything public. */
-const ALL: Post[] = [birkin, kelly, authenticate, rolex, patek, apRoyalOak, diamonds, birkin2530, gmt, yellowDiamonds, dateStamps, nautilusRoyalOak, togoEpsom, giaReport, submariner, himalaya, fakeRolex, birkinInvestment, hermesCare].sort((a, b) => b.date.localeCompare(a.date));
+const ALL: Post[] = [...POSTS].sort((a, b) => b.date.localeCompare(a.date));
 
 /** Posts whose date has arrived (UTC day). Pages revalidate hourly, so scheduled posts appear on their day. */
 export function publishedPosts(now = new Date()): Post[] {
@@ -57,7 +47,7 @@ export function guideFor(category: string, sub?: string): Post | null {
 
 /** Rough reading time from all text in the post. */
 export function readingMinutes(post: Post): number {
-  const text = (b: Block): string => (typeof b === "string" ? b : "list" in b ? b.list.join(" ") : "table" in b ? b.table.rows.flat().join(" ") : b.note);
+  const text = (b: Block): string => (typeof b === "string" ? b : "list" in b ? b.list.join(" ") : "table" in b ? b.table.rows.flat().join(" ") : "note" in b ? b.note : "");
   const words = [...post.intro, ...post.sections.flatMap((s) => [s.heading, ...s.blocks.map(text)]), ...post.faq.flatMap((f) => [f.q, f.a])].join(" ").split(/\s+/).length;
   return Math.max(1, Math.round(words / 220));
 }

@@ -7,8 +7,12 @@ export const post: Post = {
   description: "Patek Philippe Nautilus or Audemars Piguet Royal Oak? Design, history, wearability, key references and real market prices compared side by side.",
   category: "Watch Guides",
   cluster: "watches",
-  date: "2026-11-23",
+  date: "2026-12-04",
+  keyword: "nautilus vs royal oak",
+  keywords: ["patek nautilus 5711", "royal oak 15510", "gerald genta"],
   image: "watch_2",
+  cover: "patek-philippe-nautilus-5980-1ar-001-stainless-steel-and-18k-rose-gold-blue-dial-40-mm",
+  picks: { query: "nautilus", brand: "patek-philippe", sort: "newest" },
   intro: [
     "Both were designed by Gérald Genta in the 1970s. Both are steel sports watches with integrated bracelets that cost more than most gold watches. And both have defined luxury watch collecting for half a century. So which one should you buy?",
     "Here's how they compare. For each house in depth, see our guides to [Patek Philippe](/journal/patek-philippe-buying-guide) and the [Royal Oak](/journal/audemars-piguet-royal-oak-guide).",

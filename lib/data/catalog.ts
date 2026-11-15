@@ -127,6 +127,11 @@ export type ProductFilter = {
   /** Visitor-chosen filters and sort (filtered listing pages). */
   listing?: ListingQuery;
   excludeSlug?: string;
+  /** USD price bounds (min inclusive, max exclusive). */
+  minPrice?: number;
+  maxPrice?: number;
+  /** Only pieces that can be bought now (in stock or pre-order). */
+  available?: boolean;
   limit?: number;
   offset?: number;
 };
@@ -146,7 +151,10 @@ function filterWhere(filter: ProductFilter) {
         or array_to_string(${p.tags}, ' ') ilike ${like} or ${p.facets}->>'reference' ilike ${like})`;
     }),
     ...queryConditions(filter.listing),
-    filter.excludeSlug ? ne(p.slug, filter.excludeSlug) : undefined
+    filter.excludeSlug ? ne(p.slug, filter.excludeSlug) : undefined,
+    filter.minPrice != null ? sql`${p.price} >= ${filter.minPrice}` : undefined,
+    filter.maxPrice != null ? sql`${p.price} < ${filter.maxPrice}` : undefined,
+    filter.available ? sql`${p.availabilityStatus} in ('in_stock', 'pre_order')` : undefined
   );
 }
 
@@ -305,6 +313,13 @@ export async function getBrandCovers(): Promise<Record<string, { url: string; al
     where ${isLive} and ${p.mainImageUrl} <> ''
     order by ${p.brandSlug}, (${p.availabilityStatus} = 'in_stock') desc, ${p.price} desc`);
   return Object.fromEntries(rows.map((r) => [r.brand, { url: r.url, alt: r.name, slug: r.slug }]));
+}
+
+/** Main photo of each product (any live product, sold or not), keyed by slug. */
+export async function getProductPhotos(slugs: string[]): Promise<Record<string, { url: string; alt: string }>> {
+  if (!slugs.length) return {};
+  const rows = await selectProducts(sql`${p.slug} in (${sql.join(slugs.map((s) => sql`${s}`), sql`, `)}) and ${p.mainImageUrl} <> ''`);
+  return Object.fromEntries(rows.map((row) => [row.slug, { url: row.mainImageUrl, alt: row.mainImageAlt || toStoreProduct(row, DEFAULT_LOCALE).title }]));
 }
 
 export type Subcategory = { slug: string; name: string; count: number };

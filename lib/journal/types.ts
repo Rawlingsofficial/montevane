@@ -2,11 +2,34 @@
 // written as [text](/path) or [text](https://…); internal paths are localised
 // when rendered.
 
-export type Block = string | { list: string[] } | { table: { head: string[]; rows: string[][] } } | { note: string };
+/**
+ * Live products from the shop. Resolved when the page renders (hourly), so
+ * sold pieces drop out by themselves; only in-stock and pre-order pieces show.
+ */
+export type Picks = {
+  brand?: string;
+  category?: string;
+  /** Every word must match name, brand, reference or tags (same as site search). */
+  query?: string;
+  /** Jewelry type facet: Ring, Necklace, Bracelet, Earrings, Pendant. */
+  piece?: string;
+  min?: number;
+  max?: number;
+  sort?: "newest" | "price_asc" | "price_desc";
+  limit?: number;
+};
+
+export type Block =
+  | string
+  | { list: string[] }
+  | { table: { head: string[]; rows: string[][] } }
+  | { note: string }
+  /** A row of product cards inside the article, linking to the product pages. */
+  | { products: Picks; title?: string };
 
 export type Section = { id: string; heading: string; blocks: Block[] };
 
-export type Cluster = "hermes" | "watches" | "jewelry";
+export type Cluster = "hermes" | "watches" | "jewelry" | "buying";
 
 export type Post = {
   slug: string;
@@ -23,8 +46,16 @@ export type Post = {
   /** ISO date; the post goes live on this day (scheduled publishing). */
   date: string;
   updated?: string;
-  /** Asset base name in public/images/web_optimized. */
+  /** Primary keyword: the one search this article is built to answer. */
+  keyword: string;
+  /** Supporting keywords used naturally in headings and copy. */
+  keywords: string[];
+  /** Fallback photo: asset base name in public/images/web_optimized. */
   image: string;
+  /** Cover photo: a product slug. Defaults to the first of `picks`, then `image`. */
+  cover?: string;
+  /** Products shown in "Shop this guide" (and the default cover). */
+  picks?: Picks;
   intro: string[];
   sections: Section[];
   faq: { q: string; a: string }[];

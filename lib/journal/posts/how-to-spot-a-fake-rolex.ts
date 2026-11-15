@@ -7,8 +7,12 @@ export const post: Post = {
   description: "How to spot a fake Rolex: the Cyclops, rehaut engraving, serial and reference numbers, dial print, weight, movement, papers and the seller.",
   category: "Watch Guides",
   cluster: "watches",
-  date: "2026-12-01",
+  date: "2026-12-28",
+  keyword: "how to spot a fake rolex",
+  keywords: ["fake rolex vs real", "rolex authentication", "rolex serial number"],
   image: "watch_1",
+  cover: "rolex-day-date-36-118238-18k-yellow-gold-pink-index-dial-presidential-bracelet-36-mm",
+  picks: { brand: "rolex", sort: "newest" },
   intro: [
     "Counterfeit Rolex watches have become remarkably convincing, and \"frankenwatches\" built from a mix of genuine and aftermarket parts are harder still to spot. No single check proves a watch is genuine – but several together will tell you whether to walk away.",
     "Here are the checks to run before you buy. For Rolex basics, see our [Rolex buying guide](/journal/rolex-buying-guide).",

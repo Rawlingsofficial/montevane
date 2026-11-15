@@ -9,7 +9,11 @@ export const post: Post = {
   cluster: "watches",
   pillar: true,
   date: "2026-11-09",
+  keyword: "audemars piguet royal oak guide",
+  keywords: ["royal oak 15510", "royal oak jumbo", "royal oak sizes"],
   image: "watch_3",
+  cover: "audemars-piguet-royal-oak-26240or-chronograph-50th-anniversary-18k-rose-gold-black-grande",
+  picks: { query: "royal oak", brand: "audemars-piguet", sort: "newest" },
   intro: [
     "In 1972 Audemars Piguet launched a steel watch priced like a gold one, with an octagonal bezel held by eight visible screws. The industry thought it was mad. The Royal Oak went on to define the luxury sports watch and remains the house's signature fifty years later.",
     "This guide covers the references collectors look for, how the Royal Oak family is organised, and what to check before you buy.",

@@ -9,7 +9,11 @@ export const post: Post = {
   cluster: "hermes",
   pillar: true,
   date: "2026-11-14",
+  keyword: "hermes birkin buying guide",
+  keywords: ["birkin sizes", "birkin leathers", "birkin price", "pre-owned birkin"],
   image: "hero_2",
+  cover: "pre-owned-hermes-birkin-30-etoupe-togo-gold-hardware",
+  picks: { category: "birkin-bags", sort: "newest" },
   intro: [
     "The Birkin is the most recognisable handbag in the world, and the hardest to buy new. Hermès makes it by hand, one artisan per bag, and sells it only to clients it chooses. That scarcity is why most Birkins change hands on the resale market, and why buying one well takes more than picking a colour.",
     "This guide covers everything we check with clients before they commit: the sizes and how they wear, the leathers and how they age, hardware, the date stamp, condition, and what prices look like today. If you would rather talk it through, [our specialists](/contact) can source the exact combination you want.",

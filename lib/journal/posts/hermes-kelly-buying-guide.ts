@@ -9,7 +9,11 @@ export const post: Post = {
   cluster: "hermes",
   pillar: true,
   date: "2026-11-13",
+  keyword: "hermes kelly buying guide",
+  keywords: ["kelly sellier vs retourne", "kelly sizes", "kelly bag price"],
   image: "hero_4",
+  cover: "hermes-kelly-mini-ii-cloute-sellier-box-calf-cream-phw",
+  picks: { category: "kelly-bags", sort: "newest" },
   intro: [
     "The Kelly is older than the Birkin, more formal, and for many collectors the more elegant of the two. Its single handle and structured flap make it the bag Hermès clients reach for when they want to look composed rather than casual.",
     "It is also a bag with a Monaco story. Here is what makes a Kelly a Kelly, how the two constructions differ, which size to choose, and what to look for when you buy one.",
