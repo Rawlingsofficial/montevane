@@ -46,6 +46,16 @@ export function ListingFilters({
   const [open, setOpen] = useState<FilterKey | "sheet" | null>(null);
   const [draft, setDraft] = useState(query.filters);
   const bar = useRef<HTMLDivElement>(null);
+  const inline = useRef<HTMLDivElement>(null);
+  // Mobile: once the inline bar scrolls under the header, a compact copy stays pinned below it.
+  const [pinned, setPinned] = useState(false);
+  useEffect(() => {
+    const el = inline.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setPinned(!e.isIntersecting && e.boundingClientRect.top < 64), { rootMargin: "-64px 0px 0px 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const keys = FILTER_KEYS.filter((k) => !hidden.includes(k) && ((options[k]?.length ?? 0) > 1 || query.filters[k]?.length));
   const usd = new Intl.NumberFormat(locale, { style: "currency", currency: "USD", maximumFractionDigits: 0 });
@@ -129,7 +139,7 @@ export function ListingFilters({
 
   return (
     <div ref={bar} className="mb-8">
-      <div className="flex items-center justify-between gap-4 border-y border-border">
+      <div ref={inline} className="flex items-center justify-between gap-4 border-y border-border">
         {/* Desktop: one dropdown per filter */}
         <div className="hidden flex-wrap items-center gap-x-6 lg:flex">
           {keys.map((key) => (
@@ -168,6 +178,22 @@ export function ListingFilters({
           {active.length > 0 && <span className="text-[var(--gold)]">({active.length})</span>}
         </button>
 
+        {sortSelect}
+      </div>
+
+      <div
+        aria-hidden={!pinned}
+        inert={!pinned}
+        className={cn(
+          "fixed inset-x-0 top-16 z-40 flex items-center justify-between gap-4 border-b border-border bg-white/95 px-4 backdrop-blur transition-transform duration-200 lg:hidden",
+          pinned ? "translate-y-0" : "-translate-y-[calc(100%+4rem)]"
+        )}
+      >
+        <button type="button" onClick={() => openPanel("sheet")} className="flex min-h-11 items-center gap-2 text-xs tracking-[0.1em] uppercase">
+          <SlidersHorizontal className="size-4" strokeWidth={1.5} />
+          {labels.title}
+          {active.length > 0 && <span className="text-[var(--gold)]">({active.length})</span>}
+        </button>
         {sortSelect}
       </div>
 

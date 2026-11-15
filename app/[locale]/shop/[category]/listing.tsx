@@ -1,3 +1,4 @@
+import { Waitlist } from "@/components/shop/Waitlist";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -223,6 +224,8 @@ export async function CategoryListing({
         )}
 
         {page === 1 && !filtered && <ListingFaq title={t.ui.faqTitle} items={t.ui.faq[faqFor(category)]} />}
+
+        {page === 1 && !filtered && <Waitlist item={copy.name} labels={t.waitlist} className="mt-16 max-w-3xl" />}
 
         <SourcingCta locale={locale} />
       </div>

@@ -396,6 +396,15 @@ const de: Dictionary = {
     locations: "Boutique",
     directions: "Route planen",
   },
+  waitlist: {
+    title: "Auf die Warteliste",
+    body: "Neue Stücke ({item}) sind oft verkauft, bevor sie online stehen. Hinterlassen Sie Ihre E-Mail – wir schreiben Ihnen zuerst, sobald eines eintrifft.",
+    email: "Ihre E-Mail",
+    submit: "Benachrichtigen",
+    done: "Sie stehen auf der Liste. Wir melden uns, sobald ein neues Stück ({item}) eintrifft.",
+    error: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+    privacy: "Eine E-Mail bei Eintreffen. Kein Newsletter.",
+  },
   models: {
     eyebrow: "{brand}",
     available: "Jetzt verfügbar",

@@ -405,6 +405,15 @@ const en = {
     locations: "Boutique",
     directions: "Get directions",
   },
+  waitlist: {
+    title: "Join the waitlist",
+    body: "New {item} pieces often sell before they are listed. Leave your email and we'll write to you first when one arrives.",
+    email: "Your email",
+    submit: "Notify me",
+    done: "You're on the list. We'll email you when a new {item} arrives.",
+    error: "Please enter a valid email.",
+    privacy: "One email when it arrives. No newsletter.",
+  },
   models: {
     eyebrow: "{brand}",
     available: "Available Now",

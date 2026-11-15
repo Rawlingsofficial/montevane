@@ -6,6 +6,7 @@ import { Breadcrumbs } from "@/components/common/Breadcrumbs";
 import { Price, priceAmounts } from "@/components/common/Price";
 import { ContactButtons } from "@/components/contact/ContactButtons";
 import { PaymentMethods } from "@/components/common/PaymentMethods";
+import { Waitlist } from "@/components/shop/Waitlist";
 import { InquiryForm } from "@/components/contact/InquiryForm";
 import { ProductAccordion } from "@/components/products/ProductAccordion";
 import { ProductGallery } from "@/components/products/ProductGallery";
@@ -151,6 +152,8 @@ export default async function ProductPage({ params }: Props) {
           <p className="mt-1.5 text-xs text-muted-foreground">{shippingLine}</p>
 
           <p className="mt-6 max-w-lg text-base leading-relaxed text-foreground/80">{product.shortDescription || product.description}</p>
+
+          {product.availability === "sold_out" && <Waitlist item={item} productId={product.id} labels={t.waitlist} className="mt-8 max-w-lg" />}
 
           <div className="mt-8 max-w-lg space-y-3">
             {hasWhatsApp && (

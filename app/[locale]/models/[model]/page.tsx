@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 
 import { Breadcrumbs } from "@/components/common/Breadcrumbs";
 import { PageHero } from "@/components/common/PageHero";
+import { Waitlist } from "@/components/shop/Waitlist";
 import { InquiryForm } from "@/components/contact/InquiryForm";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { getContactChannels, getLiveModels, getProducts } from "@/lib/data/catalog";
@@ -74,6 +75,8 @@ export default async function ModelPage({ params }: Props) {
             <p className="max-w-2xl text-sm text-muted-foreground">{fmt(t.models.empty, { model: modelName })}</p>
           )}
         </section>
+
+        <Waitlist item={modelName} labels={t.waitlist} className="mt-16 max-w-3xl" />
 
         <section className="mt-20 max-w-3xl">
           <h2 className="text-2xl">{t.listing.sourceTitle}</h2>

@@ -397,6 +397,15 @@ const uz: Dictionary = {
     locations: "Butik",
     directions: "Yo'nalish",
   },
+  waitlist: {
+    title: "Kutish ro'yxatiga yoziling",
+    body: "Yangi {item} buyumlari ko'pincha saytga chiqmasdan sotiladi. Emailingizni qoldiring – kelishi bilan birinchi bo'lib sizga yozamiz.",
+    email: "Emailingiz",
+    submit: "Xabar bering",
+    done: "Siz ro'yxatdasiz. Yangi {item} kelganda emailga xabar beramiz.",
+    error: "Iltimos, to'g'ri email kiriting.",
+    privacy: "Kelganda bitta email. Axborot byulleteni emas.",
+  },
   models: {
     eyebrow: "{brand}",
     available: "Hozir mavjud",
