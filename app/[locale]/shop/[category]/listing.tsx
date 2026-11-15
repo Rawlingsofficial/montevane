@@ -1,3 +1,4 @@
+import { WATCH_BRAND_COPY } from "@/lib/catalog/brand-copy";
 import { Waitlist } from "@/components/shop/Waitlist";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -65,7 +66,8 @@ async function resolveListing(locale: Locale, category: string, sub?: string) {
       title,
       metaTitle: fmt(t.watchBrandMetaTitle, { brand: found.name }),
       metaDescription: fmt(t.watchBrandDescription, { brand: found.name }),
-      intro: fmt(t.watchBrandIntro, { brand: found.name }),
+      // Brand story first (when written), then the shared guarantee paragraph.
+      intro: [WATCH_BRAND_COPY[sub]?.[locale], fmt(t.watchBrandIntro, { brand: found.name })].filter(Boolean).join("\n\n"),
     };
   } else {
     const type = getDictionary(locale).jewelryTypes[sub] ?? found.name;
@@ -155,7 +157,11 @@ export async function CategoryListing({
         <Breadcrumbs locale={locale} items={crumbs} />
         {copy.intro && page === 1 && !filtered && (
           <Expandable more={t.ui.filters.readMore} less={t.ui.filters.readLess} className="max-w-3xl">
-            <p className="text-base leading-relaxed text-foreground/80">{copy.intro}</p>
+            {copy.intro.split("\n\n").map((para) => (
+              <p key={para.slice(0, 40)} className="text-base leading-relaxed text-foreground/80 [&+p]:mt-4">
+                {para}
+              </p>
+            ))}
           </Expandable>
         )}
 
