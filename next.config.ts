@@ -37,11 +37,12 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // montevane.com is the main domain; the old one forwards page for page.
+      // montevane.com is the main domain; the old one forwards page for page,
+      // except search-engine verification files, which must load on the domain itself.
       {
-        source: "/:path*",
+        source: "/:path((?!yandex_[0-9a-f]+\\.html$|BingSiteAuth\\.xml$|google[0-9a-f]+\\.html$).*)",
         has: [{ type: "host" as const, value: "(?:www\\.)?luxurybagsandwatches\\.com" }],
-        destination: "https://www.montevane.com/:path*",
+        destination: "https://www.montevane.com/:path",
         permanent: true,
       },
       ...MOVED.flatMap(([from, to]) => [
