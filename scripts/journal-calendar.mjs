@@ -165,6 +165,9 @@ planned.sort((a, b) => a.date.localeCompare(b.date));
 const dir = new URL("../lib/journal/posts/", import.meta.url);
 const written = [];
 for (const f of readdirSync(dir).filter((f) => f.endsWith(".ts") && f !== "all.ts")) written.push((await import(new URL(f, dir).href)).post);
+// A planned slot is done once a post is written for its date.
+const writtenDates = new Set(written.map((p) => p.date));
+planned.splice(0, planned.length, ...planned.filter((s) => !writtenDates.has(s.date)));
 written.sort((a, b) => a.date.localeCompare(b.date));
 const TYPE = { 1: "Educational", 3: "Insight / guide", 5: "Comparison" };
 

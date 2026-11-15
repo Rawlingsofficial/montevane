@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Fragment, type ReactNode } from "react";
 
 import { localePath, type Locale } from "@/lib/i18n";
+import { getPost } from "@/lib/journal";
 
 // Tiny inline formatter for journal copy: [text](url), **bold** and *italic*.
 const TOKEN = /\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+)\*\*|\*([^*]+)\*/g;
@@ -14,6 +15,13 @@ export function RichText({ text, locale }: { text: string; locale: Locale }) {
     const key = m.index;
     if (m[1] && m[2]) {
       const href = m[2];
+      // A link to an article that isn't live yet reads as plain text until its date.
+      const article = href.match(/^\/journal\/([a-z0-9-]+)(?:#.*)?$/)?.[1];
+      if (article && article !== "topic" && !getPost(article)) {
+        out.push(m[1]);
+        last = m.index + m[0].length;
+        continue;
+      }
       const cls = "underline decoration-[var(--gold)] underline-offset-4 hover:text-[var(--gold)]";
       out.push(
         href.startsWith("/") ? (

@@ -122,6 +122,8 @@ export default async function JournalPostPage({ params }: Props) {
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) notFound();
+  // Links to articles that aren't live yet are held back until their date.
+  const shopLinks = post.shop.filter((s) => !s.path.startsWith("/journal/") || getPost(s.path.slice("/journal/".length)));
 
   const t = getDictionary(locale);
   const { journal } = PAGES[locale];
@@ -218,11 +220,11 @@ export default async function JournalPostPage({ params }: Props) {
           </section>
         )}
 
-        {post.shop.length > 0 && (
+        {shopLinks.length > 0 && (
           <section aria-label="Shop" className="mt-16 bg-[var(--ivory)] p-6 sm:p-8">
             <p className="text-xs tracking-[0.2em] text-[var(--gold)] uppercase">Shop the guide</p>
             <ul className="mt-4 flex flex-wrap gap-3">
-              {post.shop.map((s) => (
+              {shopLinks.map((s) => (
                 <li key={s.path}>
                   <Link href={localePath(locale, s.path)} className="inline-flex min-h-11 items-center border border-foreground px-5 text-xs tracking-[0.15em] uppercase transition-colors hover:bg-foreground hover:text-white">
                     {s.label}
