@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { PageHero } from "@/components/common/PageHero";
+import { PaymentMethods } from "@/components/common/PaymentMethods";
 import { SourcingCta } from "@/components/common/SourcingCta";
 import { getDictionary } from "@/lib/i18n";
 import { resolveLocale } from "@/lib/i18n/server";
@@ -31,6 +32,7 @@ export default async function PaymentShippingPage({ params }: PageProps<"/[local
             </section>
           ))}
         </div>
+        <PaymentMethods label={t.ui.weAccept} crypto className="mt-12" />
         <SourcingCta locale={locale} />
       </div>
     </>

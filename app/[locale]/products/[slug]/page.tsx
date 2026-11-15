@@ -262,9 +262,14 @@ export default async function ProductPage({ params }: Props) {
 
       <section id="inquire" className="mt-24 max-w-3xl scroll-mt-28">
         <h2 className="text-2xl">{t.product.inquireTitle}</h2>
-        <p className="mt-2 text-base text-muted-foreground">{t.product.inquireBody}</p>
+        <p className="mt-2 text-base text-muted-foreground">{t.product.purchaseBody}</p>
         <div className="mt-8">
-          <InquiryForm locale={locale} product={{ id: product.id, name: item }} labels={t.form} privacyHref={localePath(locale, "/privacy")} />
+          <InquiryForm
+            locale={locale}
+            product={{ id: product.id, name: item }}
+            labels={{ ...t.form, submit: t.product.purchaseSubmit, messageDefault: t.product.purchaseMessage }}
+            privacyHref={localePath(locale, "/privacy")}
+          />
         </div>
       </section>
 

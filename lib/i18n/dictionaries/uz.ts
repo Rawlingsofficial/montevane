@@ -214,7 +214,10 @@ const uz: Dictionary = {
     authenticityDefault: "Sotuvga qo'yilishidan oldin mutaxassislarimiz tomonidan tekshirilgan. Bu buyum uchinchi tomon tekshiruvidan o'tmasa, to'liq narxini qaytaramiz.",
     authenticityLink: "Haqiqiylik kafolatimiz",
     specLabels: { color: "Rang", materials: "Material", dimensions: "O'lcham", weight: "Og'irlik" },
-    inquireTitle: "Bu buyum sizni qiziqtiryaptimi?",
+    inquireTitle: "Xaridni yakunlang",
+    purchaseBody: "Ma'lumotlaringizni qoldiring – buyumni tasdiqlaymiz va sizga xavfsiz to'lov havolasini yuboramiz. Karta va bank o'tkazmasi ham mavjud.",
+    purchaseSubmit: "Xarid so'rovini yuborish",
+    purchaseMessage: "Men {item} sotib olmoqchiman.",
     inquireBody: "Ma'lumotlaringiz bilan biz bilan bog'laning — mutaxassisimiz sizga javob beradi.",
     related: "Sizga yoqishi mumkin",
     message: "Assalomu alaykum, men {item} bilan qiziqyapman.",
@@ -277,7 +280,7 @@ const uz: Dictionary = {
       shippingFrom: "Sug'urtalangan ekspress yetkazish {rate} dan",
       secureCourier: "Bepul xavfsiz kuryer orqali yetkazish",
       shipsBy: "{date} gacha jo'natiladi",
-      sendEnquiry: "Qiziqasizmi? Biz bilan bog'laning",
+      sendEnquiry: "Hozir sotib olish",
       enquireOr: "Yoki biz bilan bog'laning",
       shippingReturns: "Yetkazish va qaytarish",
       shippingReturnsBody:
@@ -305,7 +308,7 @@ const uz: Dictionary = {
         { q: "\"14 kunda jo'natiladi\" nimani anglatadi?", a: "Soat buyurtma asosida topiladi. Tasdiqlaganingizdan so'ng biz uni olamiz, tekshiramiz va 14 kun ichida jo'natamiz. \"Mavjud\" soatlar bir necha ish kunida jo'natiladi." },
         { q: "Soatlar quti va hujjatlar bilan keladimi?", a: "Agar soatning asl qutisi va hujjatlari bo'lsa, bu xususiyatlarda ko'rsatilgan. Siz uchun muhim ma'lumot ko'rsatilmagan bo'lsa, xariddan oldin so'rang — yozma tasdiqlaymiz." },
         { q: "Soat qanday yetkaziladi?", a: "O'zimiz tashkil qilamiz: sug'urtalangan ekspress, kuzatiladigan, imzo bilan, butun dunyoga — 5 000 $ dan qimmat har bir soat uchun bepul. 100 000 $ dan qimmat buyumlar xavfsiz kuryer orqali yetkaziladi. Import QQS va bojlar bo'lsa, xaridor to'laydi; to'lovdan oldin aytamiz." },
-        { q: "Soatni qaytarsa bo'ladimi?", a: "Ha, yetkazilgandan keyin 14 kun ichida, taqilmagan va to'liq holda. Pul to'lov qilingan hisobga qaytariladi: bank hisobi, kripto hamyon yoki raqamli hamyon." },
+        { q: "Soatni qaytarsa bo'ladimi?", a: "Ha, yetkazilgandan keyin 14 kun ichida, taqilmagan va to'liq holda. Pul to'lov qilingan hisobga qaytariladi." },
       ],
       jewelry: [
         { q: "Olmoslar tabiiy va sertifikatlanganmi?", a: "Har bir e'londa toshlar, ularning vazni va sertifikat (masalan, GIA) raqami bilan ko'rsatilgan. Har bir buyum jo'natishdan oldin mutaxassislarimiz tomonidan tekshiriladi." },
@@ -316,7 +319,7 @@ const uz: Dictionary = {
       hermes: [
         { q: "Har bir Hermès buyumi originalmi?", a: "Ha. Har bir buyum jo'natishdan oldin autentifikatsiya mutaxassislarimiz tomonidan tekshiriladi. Mustaqil tekshiruvdan o'tmasa, to'liq pul qaytariladi." },
         { q: "Sumka yangimi yoki ishlatilganmi?", a: "Holati har bir e'londa ko'rsatilgan. Biror buyumning qo'shimcha suratlari yoki videosini xohlasangiz, bizga yozing." },
-        { q: "Qanday to'layman?", a: "Bank o'tkazmasi, kripto, karta yoki xavfsiz onlayn to'lov havolasi orqali, biz bilan bevosita kelishilgan holda." },
+        { q: "Qanday to'layman?", a: "Buyumda „Hozir sotib olish“ni bosing – sizga xavfsiz to'lov havolasini yuboramiz; karta va bank o'tkazmasi ham mavjud." },
         { q: "Sumkani qaytarsa bo'ladimi?", a: "Ha, yetkazilgandan keyin 14 kun ichida, ishlatilmagan va barcha jihozlari bilan. Pul to'lov qilingan hisobga qaytariladi." },
       ],
     },
@@ -336,17 +339,17 @@ const uz: Dictionary = {
     channels: { whatsapp: "WhatsApp", telegram: "Telegram", signal: "Signal", sms: "SMS", call: "Qo'ng'iroq", email: "Email" },
   },
   payment: {
-    note: "Saytda to'lov qabul qilmaymiz. Biz bilan bog'laning – bank o'tkazmasi, kripto, karta yoki xavfsiz onlayn to'lov havolasi orqali tez va xavfsiz to'lovni tashkil qilamiz. 5 000 $ dan yuqori buyurtmalarda sug'urtalangan ekspress yetkazish bepul.",
+    note: "Istalgan buyumda „Hozir sotib olish“ni tanlang: uni tasdiqlaymiz va xavfsiz to'lov havolasini yuboramiz – yoki karta, bank o'tkazmasi yoki kripto bilan to'lashingiz mumkin. 5 000 $ dan yuqori buyurtmalarda sug'urtalangan ekspress yetkazish bepul.",
     eyebrow: "Xarid qanday amalga oshadi",
     title: "To'lov va butun dunyoga yetkazib berish",
     sections: [
       {
-        title: "1. Mahsulot haqida yozing",
-        body: "WhatsApp, Telegram, Signal, SMS, telefon yoki email orqali yozing – yoki ma'lumotlaringizni qoldiring. Mavjudligi, holati va yakuniy narxini tasdiqlaymiz.",
+        title: "1. „Hozir sotib olish“ni tanlang",
+        body: "Buyumda „Hozir sotib olish“ni bosing va ma'lumotlaringizni qoldiring – yoki WhatsApp, Telegram, Signal, SMS, telefon yoki email orqali yozing. Mavjudligi, holati va yakuniy narxini tasdiqlaymiz.",
       },
       {
-        title: "2. Qulay usulda to'lang",
-        body: "Bank o'tkazmasi, kripto (Bitcoin, USDT va boshqalar), karta yoki xavfsiz onlayn to'lov havolasi. Har bir to'lov to'g'ridan-to'g'ri biz bilan kelishiladi.",
+        title: "2. Xavfsiz to'lang",
+        body: "Biz yuborgan xavfsiz to'lov havolasi orqali yoki karta, bank o'tkazmasi yoki kripto (Bitcoin, USDT va boshqalar) bilan to'lang.",
       },
       {
         title: "3. Sug'urtalangan yetkazib berish",
@@ -421,7 +424,7 @@ const uz: Dictionary = {
       { title: "Soat va zargarlik qanday tekshiriladi", body: "Har bir soat sotuvdan oldin mutaxassislarimiz tomonidan tekshiriladi – mexanizm, korpus, siferblat, seriya va referens raqamlari. Zargarlik buyumlari tamg'a va seriya raqamlari bo'yicha tekshiriladi." },
       { title: "Tekshiruvdan o'tmasa – to'liq pul qaytarish", body: "Agar tan olingan uchinchi tomon (brendning o'zi yoki akkreditatsiyalangan mustaqil ekspert) biz sotgan buyum original emasligini aniqlasa, hisobotni bizga yuboring. Buyumni qaytarib olamiz va narxning 100 foizini yetkazib berish bilan qaytaramiz." },
       { title: "14 kun ichida qaytarish", body: "Kafolatdan tashqari, har qanday buyumni yetkazilgandan keyin 14 kun ichida, taqilmagan va to'liq holda qaytarishingiz mumkin." },
-      { title: "Pul qayerga qaytariladi", body: "Xavfsizlik uchun har qanday pul to'lov qilingan hisobning o'ziga – o'sha bank hisobi, kripto hamyon yoki raqamli hamyonga qaytariladi. Boshqa hisobga hech qachon pul qaytarmaymiz." },
+      { title: "Pul qayerga qaytariladi", body: "Xavfsizlik uchun har qanday pul to'lov qilingan hisobning o'ziga – o'sha bank hisobi, karta yoki hamyonga qaytariladi. Boshqa hisobga hech qachon pul qaytarmaymiz." },
       { title: "Savollar", body: "Xariddan oldin sertifikat yoki qo'shimcha rasmlarni so'rang – WhatsApp, Telegram, Signal, telefon yoki email orqali yoki Monako va Mayamidagi butiklarimizda." },
     ],
   },

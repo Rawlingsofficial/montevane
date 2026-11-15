@@ -222,7 +222,10 @@ const en = {
       "Verified by our authentication specialists before listing. If this item ever fails a third-party check, we refund the full price.",
     authenticityLink: "Read our authenticity guarantee",
     specLabels: { color: "Color", materials: "Materials", dimensions: "Dimensions", weight: "Weight" },
-    inquireTitle: "Interested in this piece?",
+    inquireTitle: "Complete your purchase",
+    purchaseBody: "Leave your details and we'll confirm the piece and send you a secure payment link. Card and bank wire are also available.",
+    purchaseSubmit: "Send purchase request",
+    purchaseMessage: "I'd like to buy the {item}.",
     inquireBody: "Contact us with your details and a specialist will get back to you.",
     related: "You May Also Like",
     message: "Hello, I'm interested in the {item}.",
@@ -285,7 +288,7 @@ const en = {
       shippingFrom: "Insured express shipping from {rate}",
       secureCourier: "Complimentary secure courier delivery",
       shipsBy: "Ships by {date}",
-      sendEnquiry: "Interested? Contact us",
+      sendEnquiry: "Buy now",
       enquireOr: "Or contact us by",
       shippingReturns: "Shipping & Returns",
       shippingReturnsBody:
@@ -313,7 +316,7 @@ const en = {
         { q: "What does “Ships in 14 days” mean?", a: "The watch is sourced to order. Once you confirm, we secure it, verify it and ship it within 14 days. Watches marked In Stock leave within a few business days." },
         { q: "Do the watches come with box and papers?", a: "Where a watch has its original box and papers, they are listed in its specifications. If a detail matters to you and is not listed, ask us before you buy and we will confirm it in writing." },
         { q: "How is my watch shipped?", a: "We arrange it ourselves: insured express, tracked, with signature on delivery, worldwide, and complimentary on every watch over $5,000. Pieces over $100,000 travel by secure courier. Import VAT and duties, where they apply, are paid by the buyer; we confirm them before you pay." },
-        { q: "Can I return a watch?", a: "Yes, within 14 days of delivery, unworn and complete as received. The refund goes back to the same account the payment came from: bank account, crypto wallet or digital wallet." },
+        { q: "Can I return a watch?", a: "Yes, within 14 days of delivery, unworn and complete as received. The refund goes back to the same account the payment came from." },
       ],
       jewelry: [
         { q: "Are the diamonds natural and certified?", a: "Each listing states the stones, their weight and any certificate (for example GIA) with its number. Every piece is verified by our specialists before it ships." },
@@ -324,7 +327,7 @@ const en = {
       hermes: [
         { q: "Is every Hermès piece authentic?", a: "Yes. Every piece is verified by our authentication specialists before it ships. If it ever fails an independent third-party check, we refund the full price." },
         { q: "Is the bag new or pre-owned?", a: "Each listing states its condition. If you would like more photos or a video of a specific piece, message us and we will send them." },
-        { q: "How do I pay?", a: "By bank wire, crypto, card or a secure online payment link, arranged directly with us." },
+        { q: "How do I pay?", a: "Press Buy now on the piece and we send you a secure payment link; card and bank wire are also available." },
         { q: "Can I return a bag?", a: "Yes, within 14 days of delivery, unused and complete with everything it came with. The refund goes back to the same account the payment came from." },
       ],
     },
@@ -344,17 +347,17 @@ const en = {
     channels: { whatsapp: "WhatsApp", telegram: "Telegram", signal: "Signal", sms: "Text", call: "Call", email: "Email" } as Record<string, string>,
   },
   payment: {
-    note: "We don't take payment on the site. Contact us and we'll arrange a fast, secure transaction by bank wire, crypto, card, or a secure online payment link. Complimentary insured express shipping on orders over $5,000.",
+    note: "Choose Buy now on any piece: we confirm it and send you a secure payment link, or you can pay by card, bank wire or crypto. Complimentary insured express shipping on orders over $5,000.",
     eyebrow: "How Buying Works",
     title: "Payment & Worldwide Shipping",
     sections: [
       {
-        title: "1. Contact us about a piece",
-        body: "Message us on WhatsApp, Telegram, Signal, text, phone or email — or leave your details and we'll reach you. We confirm availability, condition and the final price.",
+        title: "1. Choose Buy now",
+        body: "Press Buy now on the piece and leave your details – or message us on WhatsApp, Telegram, Signal, text, phone or email. We confirm availability, condition and the final price.",
       },
       {
-        title: "2. Pay the way you prefer",
-        body: "Bank wire, crypto (Bitcoin, USDT and other major coins), card, or a secure online payment link. Every transaction is arranged directly with us — fast and secure.",
+        title: "2. Pay securely",
+        body: "Pay through the secure payment link we send you, or by card, bank wire or crypto (Bitcoin, USDT and other major coins).",
       },
       {
         title: "3. Insured worldwide shipping",
@@ -444,7 +447,7 @@ const en = {
       },
       {
         title: "Where refunds go",
-        body: "For your security, every refund is paid back to the same account that made the payment — the same bank account, crypto wallet or digital wallet. We never send a refund to a different account.",
+        body: "For your security, every refund is paid back to the same account that made the payment — the same bank account, card or wallet. We never send a refund to a different account.",
       },
       {
         title: "Questions",

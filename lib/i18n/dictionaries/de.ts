@@ -213,7 +213,10 @@ const de: Dictionary = {
     authenticityDefault: "Vor dem Angebot von unseren Echtheitsexperten geprüft. Besteht dieses Stück je eine Drittprüfung nicht, erstatten wir den vollen Preis.",
     authenticityLink: "Zu unserer Echtheitsgarantie",
     specLabels: { color: "Farbe", materials: "Material", dimensions: "Maße", weight: "Gewicht" },
-    inquireTitle: "Interesse an diesem Stück?",
+    inquireTitle: "Kauf abschließen",
+    purchaseBody: "Hinterlassen Sie Ihre Daten – wir bestätigen das Stück und senden Ihnen einen sicheren Zahlungslink. Karte und Überweisung sind ebenfalls möglich.",
+    purchaseSubmit: "Kaufanfrage senden",
+    purchaseMessage: "Ich möchte {item} kaufen.",
     inquireBody: "Kontaktieren Sie uns mit Ihren Daten – ein Spezialist meldet sich bei Ihnen.",
     related: "Das könnte Ihnen gefallen",
     message: "Hallo, ich interessiere mich für {item}.",
@@ -276,7 +279,7 @@ const de: Dictionary = {
       shippingFrom: "Versicherter Expressversand ab {rate}",
       secureCourier: "Kostenlose Lieferung per Sicherheitskurier",
       shipsBy: "Versand bis {date}",
-      sendEnquiry: "Interesse? Kontaktieren Sie uns",
+      sendEnquiry: "Jetzt kaufen",
       enquireOr: "Oder kontaktieren Sie uns per",
       shippingReturns: "Versand & Rückgabe",
       shippingReturnsBody:
@@ -304,7 +307,7 @@ const de: Dictionary = {
         { q: "Was bedeutet „Lieferung in 14 Tagen“?", a: "Die Uhr wird auf Bestellung beschafft. Nach Ihrer Bestätigung sichern und prüfen wir sie und versenden sie innerhalb von 14 Tagen. Uhren mit „Verfügbar“ gehen innerhalb weniger Werktage raus." },
         { q: "Haben die Uhren Box und Papiere?", a: "Wenn eine Uhr Originalbox und -papiere hat, steht das in den technischen Daten. Fehlt eine Angabe, die Ihnen wichtig ist, fragen Sie vor dem Kauf – wir bestätigen es schriftlich." },
         { q: "Wie wird die Uhr versendet?", a: "Wir organisieren den Versand selbst: versicherter Expressversand mit Sendungsverfolgung und Zustellung gegen Unterschrift, weltweit – kostenlos für jede Uhr über 5.000 $. Stücke über 100.000 $ reisen per Sicherheitskurier. Etwaige Einfuhrumsatzsteuer und Zölle trägt der Käufer; wir nennen sie vor der Zahlung." },
-        { q: "Kann ich eine Uhr zurückgeben?", a: "Ja, innerhalb von 14 Tagen nach Lieferung, ungetragen und vollständig. Die Erstattung geht auf das Konto, von dem bezahlt wurde: Bankkonto, Krypto-Wallet oder digitale Wallet." },
+        { q: "Kann ich eine Uhr zurückgeben?", a: "Ja, innerhalb von 14 Tagen nach Lieferung, ungetragen und vollständig. Die Erstattung geht auf das Konto, von dem bezahlt wurde." },
       ],
       jewelry: [
         { q: "Sind die Diamanten natürlich und zertifiziert?", a: "Jedes Angebot nennt die Steine, ihr Gewicht und ein etwaiges Zertifikat (z. B. GIA) mit Nummer. Jedes Stück wird vor dem Versand von unseren Spezialisten geprüft." },
@@ -315,7 +318,7 @@ const de: Dictionary = {
       hermes: [
         { q: "Ist jedes Hermès-Stück echt?", a: "Ja. Jedes Stück wird vor dem Versand von unseren Authentifizierungsspezialisten geprüft. Besteht es eine unabhängige Prüfung nicht, erstatten wir den vollen Preis." },
         { q: "Ist die Tasche neu oder gebraucht?", a: "Der Zustand steht in jedem Angebot. Möchten Sie mehr Fotos oder ein Video eines Stücks, schreiben Sie uns." },
-        { q: "Wie bezahle ich?", a: "Per Banküberweisung, Krypto, Karte oder sicherem Online-Zahlungslink, direkt mit uns abgestimmt." },
+        { q: "Wie bezahle ich?", a: "Klicken Sie beim Stück auf „Jetzt kaufen“ – wir senden Ihnen einen sicheren Zahlungslink; Karte und Überweisung sind ebenfalls möglich." },
         { q: "Kann ich eine Tasche zurückgeben?", a: "Ja, innerhalb von 14 Tagen nach Lieferung, unbenutzt und vollständig mit allem Zubehör. Die Erstattung geht auf das Konto, von dem bezahlt wurde." },
       ],
     },
@@ -335,17 +338,17 @@ const de: Dictionary = {
     channels: { whatsapp: "WhatsApp", telegram: "Telegram", signal: "Signal", sms: "SMS", call: "Anrufen", email: "E-Mail" },
   },
   payment: {
-    note: "Wir nehmen keine Zahlungen auf der Website entgegen. Kontaktieren Sie uns – wir arrangieren eine schnelle, sichere Zahlung per Überweisung, Krypto, Karte oder sicherem Online-Zahlungslink. Kostenloser versicherter Expressversand ab 5.000 $.",
+    note: "Wählen Sie bei jedem Stück „Jetzt kaufen“: Wir bestätigen es und senden Ihnen einen sicheren Zahlungslink – oder Sie zahlen per Karte, Überweisung oder Krypto. Kostenloser versicherter Expressversand ab 5.000 $.",
     eyebrow: "So funktioniert der Kauf",
     title: "Zahlung & weltweiter Versand",
     sections: [
       {
-        title: "1. Kontaktieren Sie uns zu einem Stück",
-        body: "Schreiben Sie uns per WhatsApp, Telegram, Signal, SMS, Telefon oder E-Mail – oder hinterlassen Sie Ihre Daten. Wir bestätigen Verfügbarkeit, Zustand und Endpreis.",
+        title: "1. „Jetzt kaufen“ wählen",
+        body: "Klicken Sie beim Stück auf „Jetzt kaufen“ und hinterlassen Sie Ihre Daten – oder schreiben Sie uns per WhatsApp, Telegram, Signal, SMS, Telefon oder E-Mail. Wir bestätigen Verfügbarkeit, Zustand und Endpreis.",
       },
       {
-        title: "2. Bezahlen Sie, wie Sie möchten",
-        body: "Überweisung, Krypto (Bitcoin, USDT und weitere), Karte oder sicherer Online-Zahlungslink. Jede Zahlung wird direkt mit uns abgestimmt – schnell und sicher.",
+        title: "2. Sicher bezahlen",
+        body: "Bezahlen Sie über den sicheren Zahlungslink, den wir Ihnen senden, oder per Karte, Überweisung oder Krypto (Bitcoin, USDT und weitere).",
       },
       {
         title: "3. Versicherter Versand",
@@ -420,7 +423,7 @@ const de: Dictionary = {
       { title: "So prüfen wir Uhren und Schmuck", body: "Jede Uhr wird vor dem Angebot von unseren Experten untersucht – Werk, Gehäuse, Zifferblatt, Serien- und Referenznummern. Schmuck wird anhand von Punzen und Seriennummern geprüft, Diamanten anhand ihres Gutachtens, sofern vorhanden." },
       { title: "Volle Rückerstattung bei nicht bestandener Prüfung", body: "Stellt ein anerkannter Dritter (die Marke selbst oder ein akkreditierter unabhängiger Experte) fest, dass ein von uns verkauftes Stück nicht echt ist, senden Sie uns den Bericht. Wir nehmen das Stück zurück und erstatten 100 % des Preises inklusive Versand." },
       { title: "14 Tage Rückgabe", body: "Unabhängig von der Garantie können Sie jedes Stück innerhalb von 14 Tagen nach Lieferung zurückgeben, sofern es ungetragen und vollständig mit Etiketten, Zubehör und Verpackung zurückkommt." },
-      { title: "Wohin Erstattungen gehen", body: "Zu Ihrer Sicherheit wird jede Erstattung auf dasselbe Konto zurückgezahlt, von dem die Zahlung kam – dasselbe Bankkonto, dieselbe Krypto-Wallet oder digitale Wallet. Erstattungen auf andere Konten nehmen wir nie vor." },
+      { title: "Wohin Erstattungen gehen", body: "Zu Ihrer Sicherheit wird jede Erstattung auf dasselbe Konto zurückgezahlt, von dem die Zahlung kam – dasselbe Bankkonto, dieselbe Karte oder Wallet. Erstattungen auf andere Konten nehmen wir nie vor." },
       { title: "Fragen", body: "Fragen Sie vor dem Kauf nach dem Zertifikat oder weiteren Fotos – per WhatsApp, Telegram, Signal, Telefon oder E-Mail, oder persönlich in unseren Boutiquen in Monaco und Miami." },
     ],
   },
