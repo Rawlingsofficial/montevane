@@ -217,6 +217,7 @@ const de: Dictionary = {
     purchaseBody: "Hinterlassen Sie Ihre Daten – wir bestätigen das Stück und senden Ihnen einen sicheren Zahlungslink. Karte und Überweisung sind ebenfalls möglich.",
     purchaseSubmit: "Kaufanfrage senden",
     purchaseMessage: "Ich möchte {item} kaufen.",
+    checkoutEmpty: "Diese Stücke sind nicht mehr verfügbar. Entdecken Sie die Kollektion oder bitten Sie unseren Concierge, eines für Sie zu beschaffen.",
     inquireBody: "Kontaktieren Sie uns mit Ihren Daten – ein Spezialist meldet sich bei Ihnen.",
     related: "Das könnte Ihnen gefallen",
     message: "Hallo, ich interessiere mich für {item}.",

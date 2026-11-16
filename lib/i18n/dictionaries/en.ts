@@ -226,6 +226,7 @@ const en = {
     purchaseBody: "Leave your details and we'll confirm the piece and send you a secure payment link. Card and bank wire are also available.",
     purchaseSubmit: "Send purchase request",
     purchaseMessage: "I'd like to buy the {item}.",
+    checkoutEmpty: "These pieces are no longer available. Browse the collection or ask our concierge to source one for you.",
     inquireBody: "Contact us with your details and a specialist will get back to you.",
     related: "You May Also Like",
     message: "Hello, I'm interested in the {item}.",

@@ -218,6 +218,7 @@ const uz: Dictionary = {
     purchaseBody: "Ma'lumotlaringizni qoldiring – buyumni tasdiqlaymiz va sizga xavfsiz to'lov havolasini yuboramiz. Karta va bank o'tkazmasi ham mavjud.",
     purchaseSubmit: "Xarid so'rovini yuborish",
     purchaseMessage: "Men {item} sotib olmoqchiman.",
+    checkoutEmpty: "Bu buyumlar endi mavjud emas. Kolleksiyani ko'ring yoki konsyerjimizdan siz uchun topib berishni so'rang.",
     inquireBody: "Ma'lumotlaringiz bilan biz bilan bog'laning — mutaxassisimiz sizga javob beradi.",
     related: "Sizga yoqishi mumkin",
     message: "Assalomu alaykum, men {item} bilan qiziqyapman.",

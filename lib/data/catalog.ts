@@ -1,6 +1,6 @@
 import "server-only";
 
-import { and, arrayContains, asc, desc, eq, getTableColumns, ilike, isNull, lte, ne, or, sql, type SQL } from "drizzle-orm";
+import { and, arrayContains, asc, desc, eq, getTableColumns, ilike, inArray, isNull, lte, ne, or, sql, type SQL } from "drizzle-orm";
 
 import { db, schema } from "@/lib/db";
 import type { ProductLocaleFields, RegionalPrices, SpecRow } from "@/lib/db/schema";
@@ -261,6 +261,14 @@ export async function getProductPage(filter: ProductFilter, page: number, locale
 export async function getProduct(slug: string, locale: Locale = DEFAULT_LOCALE): Promise<StoreProduct | null> {
   const [row] = await selectProducts(eq(p.slug, slug)).limit(1);
   return row ? toStoreProduct(row, locale) : null;
+}
+
+/** Live products by SKU (the id shopping channels use), in the order asked. */
+export async function getProductsBySku(skus: string[], locale: Locale = DEFAULT_LOCALE): Promise<StoreProduct[]> {
+  if (!skus.length) return [];
+  const rows = await selectProducts(inArray(p.sku, skus));
+  const bySku = new Map(rows.map((row) => [row.sku, toStoreProduct(row, locale)]));
+  return skus.map((sku) => bySku.get(sku)).filter((x): x is StoreProduct => !!x);
 }
 
 /** Slugs and last-modified dates of every live product (sitemap, static params). */
