@@ -37,8 +37,8 @@ export function contactLinks(
   if (channels.signal) links.push({ method: "signal", label: "Signal", href: `https://signal.me/#p/+${digits(channels.signal)}` });
   if (channels.phone) {
     // "?&body=" is the form both iOS and Android accept.
+    // The business line takes texts only, so no Call button.
     links.push({ method: "sms", label: "Text", href: `sms:+${digits(channels.phone)}?&body=${text}` });
-    links.push({ method: "call", label: "Call", href: `tel:+${digits(channels.phone)}` });
   }
   if (channels.email)
     links.push({ method: "email", label: "Email", href: `mailto:${channels.email}?subject=${encodeURIComponent(subject)}&body=${text}` });
