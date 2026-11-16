@@ -63,7 +63,10 @@ value is set:
 | Pinterest | `PINTEREST_VERIFICATION` | Settings → Claimed accounts → Websites |
 | Meta | `META_DOMAIN_VERIFICATION` | Business settings → Brand safety → Domains |
 
-Submit both sitemaps in each tool: `/sitemap.xml` and `/sitemap-images.xml`.
+Submit `/sitemap.xml` in each tool. It is an index pointing at one sitemap per
+language (`/sitemaps/en.xml`, `/sitemaps/de.xml`, `/sitemaps/uz.xml`) and the
+image sitemap (`/sitemap-images.xml`), all built ahead and refreshed hourly
+(`lib/seo/sitemap.ts`).
 
 ## IndexNow
 

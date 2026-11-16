@@ -4,6 +4,7 @@ import { absoluteUrl } from "@/lib/seo/metadata";
 
 // Image sitemap for product photos (Google Images, Bing Images). Kept apart
 // from /sitemap.xml so neither file grows past a comfortable size.
+export const dynamic = "force-static";
 export const revalidate = 3600;
 
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");

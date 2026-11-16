@@ -1,17 +1,22 @@
-import type { MetadataRoute } from "next";
-
 import { brandPath } from "@/lib/catalog/taxonomy";
 import { getBrands, getCategories, getCollections, getLiveModels, getProductIndex, getSubcategories } from "@/lib/data/catalog";
 import { publishedPosts, TOPICS } from "@/lib/journal";
-import { DEFAULT_LOCALE, LOCALES, type Locale } from "@/lib/i18n/config";
+import { DEFAULT_LOCALE, LOCALES, siteUrl, type Locale } from "@/lib/i18n/config";
 import { absoluteUrl, languageAlternates } from "@/lib/seo/metadata";
 
-// Regenerated hourly so new products show up without a deploy.
-export const revalidate = 3600;
+/**
+ * Sitemaps. /sitemap.xml is an index pointing at one file per language
+ * (/sitemaps/en.xml, …) plus /sitemap-images.xml. A single file with every
+ * language and its hreflang links grew past 13 MB and was rebuilt on every
+ * request, which crawlers often give up on; the per-language files are a few
+ * MB each and served from cache.
+ */
 
 type Entry = { path: string; priority: number; lastModified?: Date; locales?: readonly Locale[] };
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export const SITEMAP_LOCALES = LOCALES;
+
+async function entries(): Promise<Entry[]> {
   const [products, brands, categories, collections, models] = await Promise.all([
     getProductIndex(),
     getBrands(),
@@ -23,7 +28,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     categories.map(async (c) => (await getSubcategories(c.slug)).map((s) => `/shop/${c.slug}/${s.slug}`))
   );
 
-  const entries: Entry[] = [
+  return [
     { path: "/", priority: 1 },
     { path: "/products", priority: 0.9 },
     ...categories.map((c) => ({ path: `/shop/${c.slug}`, priority: 0.9 })),
@@ -46,14 +51,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...TOPICS.filter((t) => publishedPosts().some((p) => p.cluster === t.id)).map((t) => ({ path: `/journal/topic/${t.id}`, priority: 0.4, locales: [DEFAULT_LOCALE] as const })),
     ...publishedPosts().map((post) => ({ path: `/journal/${post.slug}`, priority: 0.7, lastModified: new Date(post.updated ?? post.date), locales: [DEFAULT_LOCALE] as const })),
   ];
+}
 
-  // One URL per language, each listing its translations (hreflang).
-  return entries.flatMap(({ path, priority, lastModified, locales = LOCALES }) =>
-    locales.map((locale) => ({
-      url: absoluteUrl(locale, path),
-      lastModified: lastModified ?? new Date(),
-      priority,
-      alternates: { languages: languageAlternates(path, locales) },
-    }))
-  );
+const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+/** Every page in one language, each with its hreflang alternates. */
+export async function localeSitemap(locale: Locale): Promise<string> {
+  const now = new Date().toISOString();
+  const urls = (await entries())
+    .filter((e) => (e.locales ?? LOCALES).includes(locale))
+    .map(({ path, priority, lastModified, locales = LOCALES }) => {
+      const links = Object.entries(languageAlternates(path, locales))
+        .map(([lang, href]) => `<xhtml:link rel="alternate" hreflang="${lang}" href="${esc(href)}"/>`)
+        .join("");
+      return `<url><loc>${esc(absoluteUrl(locale, path))}</loc>${links}<lastmod>${lastModified?.toISOString() ?? now}</lastmod><priority>${priority}</priority></url>`;
+    });
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls.join("\n")}\n</urlset>\n`;
+}
+
+/** The index Search Console and robots.txt point at. */
+export function sitemapIndex(): string {
+  const now = new Date().toISOString();
+  const files = [...SITEMAP_LOCALES.map((l) => `/sitemaps/${l}.xml`), "/sitemap-images.xml"];
+  const body = files.map((f) => `<sitemap><loc>${siteUrl()}${f}</loc><lastmod>${now}</lastmod></sitemap>`).join("\n");
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</sitemapindex>\n`;
 }
