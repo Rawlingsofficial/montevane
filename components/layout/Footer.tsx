@@ -64,7 +64,7 @@ export async function Footer({ locale, channels }: { locale: Locale; channels: C
             <p className="mt-4 max-w-xs text-sm text-white/60">{t.footer.tagline}</p>
             {channels.phone && (
               <a
-                href={`tel:${channels.phone.replace(/[^\d+]/g, "")}`}
+                href={`sms:${channels.phone.replace(/[^\d+]/g, "")}`}
                 className="mt-5 block text-sm text-white/80 transition-colors hover:text-[var(--gold)]"
               >
                 {channels.phone}
