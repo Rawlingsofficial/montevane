@@ -88,7 +88,8 @@ const SMALL_IMAGES = new Set<string>(smallImages);
 const feedImages = (p: StoreProduct) => p.images.map((i) => i.url).filter((url) => url && !SMALL_IMAGES.has(url));
 
 const image = (url: string) => (url.startsWith("http") ? url : `${siteUrl()}${url}`);
-const plain = (s: string) => s.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+// Strips HTML and stray control characters (they show as broken symbols in feeds).
+const plain = (s: string) => s.replace(/<[^>]+>/g, " ").replace(/[\u0000-\u001f\u007f]/g, " ").replace(/\s+/g, " ").trim();
 
 function googleCategory(p: StoreProduct): string {
   if (p.categorySlug === "jewelry") return JEWELRY_CATEGORY[(p.facets.piece_type ?? "").toLowerCase()] ?? "Apparel & Accessories > Jewelry";

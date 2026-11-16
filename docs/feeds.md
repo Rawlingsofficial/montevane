@@ -9,7 +9,7 @@ repriced pieces flow through automatically. Every file is also available gzipped
 | --- | --- | --- | --- |
 | Google Merchant Center | https://www.montevane.com/feeds/google-merchant.xml.gz | Google RSS, with shipping | USD, English |
 | Microsoft Merchant Center | https://www.montevane.com/feeds/microsoft.txt | Tab-separated text (Microsoft sample format) | USD, English |
-| Meta Commerce Manager | https://www.montevane.com/feeds/meta.xml | Google RSS; same in-stock, unaltered selection as Pinterest | USD, English |
+| Meta Commerce Manager | https://www.montevane.com/feeds/meta.xml | Google RSS; Pinterest selection minus exotic skins, unbranded pieces branded Montévane (lib/feeds/pinterest.ts) | USD, English |
 | Pinterest Catalogs | https://www.montevane.com/feeds/pinterest.xml | Google RSS; in-stock, unaltered pieces only, risky wording removed (lib/feeds/pinterest.ts) | USD, English |
 | TikTok Catalog | https://www.montevane.com/feeds/tiktok.xml | Google RSS | USD, English |
 | Lyst | https://www.montevane.com/feeds/lyst.xml | Google RSS | USD, English |

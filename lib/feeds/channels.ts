@@ -1,5 +1,5 @@
 import { feedItems, type FeedItem } from "./items";
-import { pinterestItems } from "./pinterest";
+import { metaItems, pinterestItems } from "./pinterest";
 import { connexityTsv, glamiXml, googleRss, idealoCsv, microsoftTsv } from "./formats";
 
 /**
@@ -22,7 +22,7 @@ export const CHANNELS: Channel[] = [
   { name: "google-merchant", ext: "xml", locale: "en", render: rss(true), label: "Google Merchant Center" },
   { name: "microsoft", ext: "xml", locale: "en", render: rss(true), label: "Microsoft Merchant Center (Bing Shopping)" },
   { name: "microsoft", ext: "txt", locale: "en", render: microsoftTsv, label: "Microsoft Merchant Center, tab-separated" },
-  { name: "meta", ext: "xml", locale: "en", render: (items) => googleRss(pinterestItems(items), { shipping: false }), label: "Meta Commerce Manager (Facebook / Instagram; in-stock, unaltered pieces only)" },
+  { name: "meta", ext: "xml", locale: "en", render: (items) => googleRss(metaItems(items), { shipping: false }), label: "Meta Commerce Manager (Facebook / Instagram; in-stock, unaltered, no exotic skins)" },
   { name: "pinterest", ext: "xml", locale: "en", render: (items) => googleRss(pinterestItems(items), { shipping: false }), label: "Pinterest Catalogs (in-stock, unaltered pieces only)" },
   { name: "tiktok", ext: "xml", locale: "en", render: rss(false), label: "TikTok Catalog" },
   { name: "lyst", ext: "xml", locale: "en", render: rss(false), label: "Lyst" },
