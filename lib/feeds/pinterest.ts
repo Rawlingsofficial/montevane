@@ -1,8 +1,8 @@
 import type { FeedItem } from "./items";
 
 /**
- * Pinterest is strict about counterfeit signals and stock accuracy, and one
- * flagged bulk upload can cost the account. Its feed therefore carries only:
+ * Pinterest and Meta are strict about counterfeit signals and stock accuracy,
+ * and one flagged bulk upload can cost the account. Their feeds therefore carry only:
  * - pieces physically in stock (sourced-to-order pieces are left out);
  * - unaltered pieces (customised / crystal-set branded goods are left out);
  * - descriptions without wording automated reviews read as "imitation"

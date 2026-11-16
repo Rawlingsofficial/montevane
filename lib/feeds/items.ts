@@ -4,6 +4,8 @@ import { getProducts, type StoreProduct } from "@/lib/data/catalog";
 import { siteUrl, type Locale } from "@/lib/i18n/config";
 import { absoluteUrl } from "@/lib/seo/metadata";
 
+import smallImages from "./small-images.json";
+
 /**
  * One normalized product record that every channel format is rendered from.
  * Prices and links always match the landing page: USD on English pages, EUR
@@ -76,6 +78,15 @@ const AVAILABILITY: Record<StoreProduct["availability"], FeedItem["availability"
   sold_out: "out_of_stock",
 };
 
+/**
+ * Product photos under 500 × 500 px (Google Merchant Center's minimum from
+ * 2027). Feeds skip them; a product left with no photo is dropped from feeds.
+ * Uploads below that size are refused, so this list only shrinks. Regenerate
+ * with `node --env-file=.env.local scripts/scan-feed-images.mjs`.
+ */
+const SMALL_IMAGES = new Set<string>(smallImages);
+const feedImages = (p: StoreProduct) => p.images.map((i) => i.url).filter((url) => url && !SMALL_IMAGES.has(url));
+
 const image = (url: string) => (url.startsWith("http") ? url : `${siteUrl()}${url}`);
 const plain = (s: string) => s.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 
@@ -97,7 +108,7 @@ function toItem(p: StoreProduct, locale: Locale): FeedItem {
     title: p.title.slice(0, 150),
     description: plain(p.description || p.shortDescription || p.title).slice(0, 5000),
     link: absoluteUrl(locale, `/products/${p.slug}`),
-    images: p.images.slice(0, 11).map((i) => image(i.url)),
+    images: feedImages(p).slice(0, 11).map(image),
     availability: AVAILABILITY[p.availability],
     toOrder,
     currency: shown.currency as FeedItem["currency"],
@@ -122,7 +133,7 @@ function toItem(p: StoreProduct, locale: Locale): FeedItem {
 /** Every live, priced, photographed product as feed items for one landing-page language. */
 export async function feedItems(locale: Locale): Promise<FeedItem[]> {
   const products = await getProducts({ limit: 10_000 }, locale);
-  return products.filter((p) => p.price > 0 && p.images[0]?.url).map((p) => toItem(p, locale));
+  return products.filter((p) => p.price > 0 && feedImages(p).length > 0).map((p) => toItem(p, locale));
 }
 
 /** Main shipping markets (Merchant Center ignores countries a feed doesn't target). */

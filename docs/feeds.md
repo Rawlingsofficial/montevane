@@ -9,7 +9,7 @@ repriced pieces flow through automatically. Every file is also available gzipped
 | --- | --- | --- | --- |
 | Google Merchant Center | https://www.montevane.com/feeds/google-merchant.xml.gz | Google RSS, with shipping | USD, English |
 | Microsoft Merchant Center | https://www.montevane.com/feeds/microsoft.txt | Tab-separated text (Microsoft sample format) | USD, English |
-| Meta Commerce Manager | https://www.montevane.com/feeds/meta.xml | Google RSS | USD, English |
+| Meta Commerce Manager | https://www.montevane.com/feeds/meta.xml | Google RSS; same in-stock, unaltered selection as Pinterest | USD, English |
 | Pinterest Catalogs | https://www.montevane.com/feeds/pinterest.xml | Google RSS; in-stock, unaltered pieces only, risky wording removed (lib/feeds/pinterest.ts) | USD, English |
 | TikTok Catalog | https://www.montevane.com/feeds/tiktok.xml | Google RSS | USD, English |
 | Lyst | https://www.montevane.com/feeds/lyst.xml | Google RSS | USD, English |
@@ -21,6 +21,15 @@ repriced pieces flow through automatically. Every file is also available gzipped
 Prices in each feed always match the landing page: English pages show USD,
 German pages show the product's EUR price. Other currencies (GBP, local EUR
 markets in their own language) need localized landing pages first.
+
+## Photo size
+
+Google Merchant Center requires product photos of at least 500 × 500 px from
+2027. Feeds skip smaller photos (listed in `lib/feeds/small-images.json`), and a
+product with no photo of that size is left out of every feed until a larger
+photo is uploaded. The admin refuses uploads under 500 × 500 px. After a bulk
+import that bypasses the admin, re-run
+`node --env-file=.env.local scripts/scan-feed-images.mjs`.
 
 ## Setting up each channel
 
