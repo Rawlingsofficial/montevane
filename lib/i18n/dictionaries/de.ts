@@ -370,7 +370,7 @@ const de: Dictionary = {
     titles: ["Herr", "Frau"],
     titleLabel: "Anrede",
     reach: "Wie sollen wir Ihnen schreiben?",
-    reachLabels: { email: "E-Mail", whatsapp: "WhatsApp", sms: "SMS" },
+    reachLabels: { email: "E-Mail", whatsapp: "WhatsApp", sms: "SMS / iMessage" },
     textOnlyNorthAmerica: "SMS ist für Nummern aus den USA und Kanada.",
     viaLabels: { whatsapp: "über WhatsApp", sms: "per SMS" },
     noPayment: "Jetzt keine Zahlung. Wir reservieren das Stück, während wir die Details mit Ihnen bestätigen.",

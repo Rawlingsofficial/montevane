@@ -371,7 +371,7 @@ const uz: Dictionary = {
     titles: ["Janob", "Xonim"],
     titleLabel: "Murojaat",
     reach: "Sizga qanday yozaylik?",
-    reachLabels: { email: "Email", whatsapp: "WhatsApp", sms: "SMS" },
+    reachLabels: { email: "Email", whatsapp: "WhatsApp", sms: "SMS / iMessage" },
     textOnlyNorthAmerica: "SMS faqat AQSh va Kanada raqamlari uchun.",
     viaLabels: { whatsapp: "WhatsApp orqali", sms: "SMS orqali" },
     noPayment: "Hozir to'lov yo'q. Tafsilotlarni siz bilan tasdiqlaguncha buyumni band qilib turamiz.",
