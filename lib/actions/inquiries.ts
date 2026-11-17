@@ -63,7 +63,7 @@ const label = (list: readonly { value: string; label: string }[], value: string)
 /** Emails the store about a new inquiry and confirms receipt to the customer. */
 async function notifyInquiry(v: z.output<typeof inquirySchema>) {
   const [s] = await db.select().from(schema.storeSettings).where(eq(schema.storeSettings.id, 1));
-  const storeEmail = s?.contactEmail || s?.storeEmail || "info@luxurybagsandwatches.com";
+  const storeEmail = s?.contactEmail || s?.storeEmail || "info@montevane.com";
   const item = v.product_name || "General inquiry";
 
   const lines = [
