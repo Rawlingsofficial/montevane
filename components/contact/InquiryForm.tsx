@@ -221,7 +221,7 @@ export function InquiryForm({
         <span className={labelClass}>{t.phone} *</span>
         <div className="flex gap-2">
           {/* Closed, the picker shows just flag + code; open, the full names. */}
-          <div className={cn(fieldClass, "relative flex w-24 shrink-0 items-center justify-between gap-1 focus-within:border-[var(--gold)]")}>
+          <div className={cn(fieldClass, "relative flex w-[7.5rem] shrink-0 items-center justify-between gap-1 focus-within:border-[var(--gold)]")}>
             <span aria-hidden="true" className="truncate">
               {dialIso && dialIso !== OTHER ? `${countryFlag(dialIso)} +${DIAL_CODES[dialIso]}` : dialIso === OTHER ? "🌐" : "+"}
             </span>
