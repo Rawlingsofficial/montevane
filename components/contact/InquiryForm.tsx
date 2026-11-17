@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState, useSyncExternalStore } from "react";
 
@@ -183,6 +184,12 @@ export function InquiryForm({
           {phoneRequired && " *"}
         </span>
         <div className="flex gap-2">
+          {/* Closed, the picker shows just flag + code; open, the full names. */}
+          <div className={cn(fieldClass, "relative flex w-24 shrink-0 items-center justify-between gap-1 focus-within:border-[var(--gold)]")}>
+            <span aria-hidden="true" className="truncate">
+              {dialIso && dialIso !== OTHER ? `${countryFlag(dialIso)} +${DIAL_CODES[dialIso]}` : dialIso === OTHER ? "🌐" : "+"}
+            </span>
+            <ChevronDown aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />
           <select
             aria-label={t.phoneCode}
             value={dialIso}
@@ -191,7 +198,7 @@ export function InquiryForm({
               if (e.target.value === OTHER) setCustomCode("");
             }}
             autoComplete="tel-country-code"
-            className={cn(fieldClass, "w-28 shrink-0")}
+            className="absolute inset-0 cursor-pointer opacity-0"
           >
             <option value="">{t.phoneCode}</option>
             {MAIN_MARKETS.map((iso) => (
@@ -201,6 +208,7 @@ export function InquiryForm({
             ))}
             <option value={OTHER}>{t.otherCountry}</option>
           </select>
+          </div>
           {dialIso === OTHER && (
             <input
               aria-label={t.phoneCode}
