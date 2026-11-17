@@ -10,10 +10,38 @@ import { getCategories, type ContactChannels } from "@/lib/data/catalog";
 import { getDictionary, localePath, type Locale } from "@/lib/i18n";
 import { LOGO } from "@/lib/images";
 
+const ICON = "size-[18px]";
+
 function TikTokIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className="size-4" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="currentColor" className={ICON} aria-hidden="true">
       <path d="M16.6 5.82a4.28 4.28 0 0 1-3.14-1.42V15.5a4.5 4.5 0 1 1-3.87-4.46v2.62a1.88 1.88 0 1 0 1.37 1.84V2h2.5a4.28 4.28 0 0 0 3.14 3.66v.16Z" />
+    </svg>
+  );
+}
+
+function InstagramIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" className={ICON} aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4.2" />
+      <circle cx="17.4" cy="6.6" r="0.9" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function FacebookIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={ICON} aria-hidden="true">
+      <path d="M13.5 21.5v-8h2.7l.4-3.2h-3.1V8.3c0-.9.3-1.5 1.6-1.5h1.6V3.9a22 22 0 0 0-2.4-.1c-2.4 0-4 1.4-4 4.1v2.4H7.6v3.2h2.7v8h3.2Z" />
+    </svg>
+  );
+}
+
+function PinterestIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={ICON} aria-hidden="true">
+      <path d="M12 2a10 10 0 0 0-3.64 19.31c-.09-.79-.17-2 .04-2.86l1.17-4.96s-.3-.6-.3-1.48c0-1.39.8-2.42 1.8-2.42.85 0 1.26.64 1.26 1.4 0 .85-.54 2.12-.82 3.3-.24.99.5 1.8 1.47 1.8 1.77 0 3.13-1.87 3.13-4.56 0-2.38-1.71-4.05-4.16-4.05-2.83 0-4.5 2.13-4.5 4.33 0 .86.33 1.78.74 2.28.08.1.1.19.07.29l-.27 1.13c-.05.18-.15.22-.34.13-1.25-.58-2.03-2.4-2.03-3.87 0-3.15 2.29-6.04 6.6-6.04 3.46 0 6.16 2.47 6.16 5.77 0 3.44-2.17 6.22-5.19 6.22-1.01 0-1.97-.53-2.3-1.15l-.62 2.38c-.23.87-.84 1.96-1.25 2.62A10 10 0 1 0 12 2Z" />
     </svg>
   );
 }
@@ -38,6 +66,13 @@ export async function Footer({ locale, channels }: { locale: Locale; channels: C
     { label: t.nav.about, href: href("/about") },
     { label: t.nav.privacy, href: href("/privacy") },
   ];
+
+  const socials = [
+    { label: "Instagram", url: channels.instagram, Icon: InstagramIcon },
+    { label: "Facebook", url: channels.facebook, Icon: FacebookIcon },
+    { label: "Pinterest", url: channels.pinterest, Icon: PinterestIcon },
+    { label: "TikTok", url: channels.tiktok, Icon: TikTokIcon },
+  ].filter((s): s is typeof s & { url: string } => !!s.url);
 
   return (
     <footer className="relative overflow-hidden bg-[#0d0d0d] text-white/70">
@@ -70,16 +105,29 @@ export async function Footer({ locale, channels }: { locale: Locale; channels: C
                 {channels.phone}
               </a>
             )}
-            {channels.tiktok && (
+            {channels.email && (
               <a
-                href={channels.tiktok}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-5 inline-flex items-center gap-2 text-white/60 transition-colors hover:text-[var(--gold)]"
-                aria-label="TikTok"
+                href={`mailto:${channels.email}`}
+                className="mt-1.5 block text-sm text-white/80 transition-colors hover:text-[var(--gold)]"
               >
-                <TikTokIcon />
+                {channels.email}
               </a>
+            )}
+            {socials.length > 0 && (
+              <div className="mt-5 flex items-center gap-4">
+                {socials.map(({ label, url, Icon }) => (
+                  <a
+                    key={label}
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white/60 transition-colors hover:text-[var(--gold)]"
+                    aria-label={label}
+                  >
+                    <Icon />
+                  </a>
+                ))}
+              </div>
             )}
           </div>
 

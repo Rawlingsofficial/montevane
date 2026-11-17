@@ -16,6 +16,9 @@ export type StoreSettingsInput = {
   phone_number: string;
   contact_email: string;
   tiktok_url: string;
+  instagram_url: string;
+  facebook_url: string;
+  pinterest_url: string;
   owner_name: string;
   owner_title: string;
   google_review_url: string;
@@ -23,11 +26,12 @@ export type StoreSettingsInput = {
 };
 
 /** Accepts a full profile URL or just a handle ("@montevane"). */
-function tiktokUrl(value: string): string | null {
+function profileUrl(value: string, base: string): string | null {
   const v = value.trim();
   if (!v) return null;
   if (/^https?:\/\//i.test(v)) return v;
-  return `https://www.tiktok.com/@${v.replace(/^@/, "")}`;
+  if (/^(www\.)?[a-z]+\.com\//i.test(v)) return `https://${v}`;
+  return base + v.replace(/^@/, "");
 }
 
 export async function updateStoreSettings(input: StoreSettingsInput): Promise<{ error?: string }> {
@@ -49,7 +53,10 @@ export async function updateStoreSettings(input: StoreSettingsInput): Promise<{ 
     signalNumber: input.signal_number || null,
     phoneNumber: input.phone_number || null,
     contactEmail: input.contact_email || null,
-    tiktokUrl: tiktokUrl(input.tiktok_url),
+    tiktokUrl: profileUrl(input.tiktok_url, "https://www.tiktok.com/@"),
+    instagramUrl: profileUrl(input.instagram_url, "https://www.instagram.com/"),
+    facebookUrl: profileUrl(input.facebook_url, "https://www.facebook.com/"),
+    pinterestUrl: profileUrl(input.pinterest_url, "https://www.pinterest.com/"),
     ownerName: input.owner_name.trim() || null,
     ownerTitle: input.owner_title.trim() || null,
     googleReviewUrl: input.google_review_url.trim() || null,

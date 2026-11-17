@@ -193,6 +193,9 @@ export const storeSettings = pgTable(
     telegramUsername: text("telegram_username"),
     signalNumber: text("signal_number"),
     tiktokUrl: text("tiktok_url"),
+    instagramUrl: text("instagram_url"),
+    facebookUrl: text("facebook_url"),
+    pinterestUrl: text("pinterest_url"),
     // Shown on the About page; empty hides it.
     ownerName: text("owner_name"),
     ownerTitle: text("owner_title"),

@@ -80,7 +80,10 @@ export function organizationLd(channels: ContactChannels) {
     priceRange: "$$$$",
     hasMerchantReturnPolicy: returnPolicy(),
     areaServed: ["MC", "FR", "US", "GB", "DE", "AT", "CH", "UZ", "EU"],
-    sameAs: channels.tiktok ? [channels.tiktok] : undefined,
+    sameAs: (() => {
+      const links = [channels.instagram, channels.facebook, channels.pinterest, channels.tiktok].filter((u): u is string => !!u);
+      return links.length ? links : undefined;
+    })(),
     ...(contactPoint.length ? { contactPoint } : {}),
   };
 }

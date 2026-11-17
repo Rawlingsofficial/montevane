@@ -426,6 +426,9 @@ export type ContactChannels = {
   phone: string | null;
   email: string | null;
   tiktok: string | null;
+  instagram: string | null;
+  facebook: string | null;
+  pinterest: string | null;
 };
 
 export async function getContactChannels(): Promise<ContactChannels> {
@@ -440,5 +443,8 @@ export async function getContactChannels(): Promise<ContactChannels> {
     phone: s?.phoneNumber || null,
     email: s?.contactEmail || null,
     tiktok: s?.tiktokUrl || null,
+    instagram: s?.instagramUrl || null,
+    facebook: s?.facebookUrl || null,
+    pinterest: s?.pinterestUrl || null,
   };
 }

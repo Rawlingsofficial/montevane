@@ -42,8 +42,8 @@ export function StoreSettingsForm({ initial }: { initial: StoreSettingsInput }) 
     <form onSubmit={handleSubmit} className="max-w-xl">
       <Section title="Customer Contact">
         <p className="-mt-1 mb-5 text-xs text-muted-foreground">
-          Set once — these show as contact buttons on every product and the contact page, and the phone number and
-          TikTok link show in the footer. Leave a field empty to hide that channel. Phone numbers in international format, e.g. +1 555 000 0000.
+          Set once — these show as contact buttons on every product and the contact page, and the phone number, email and
+          social profile links show in the footer. Leave a field empty to hide that channel. Phone numbers in international format, e.g. +1 555 000 0000.
         </p>
         <div className="grid gap-5 sm:grid-cols-2">
           <Field label="Phone (calls & texts)">
@@ -60,6 +60,15 @@ export function StoreSettingsForm({ initial }: { initial: StoreSettingsInput }) 
           </Field>
           <Field label="TikTok Profile Link">
             <input value={values.tiktok_url} onChange={(e) => set("tiktok_url", e.target.value)} placeholder="https://www.tiktok.com/@montevane" className={inputClass} />
+          </Field>
+          <Field label="Instagram Profile Link">
+            <input value={values.instagram_url} onChange={(e) => set("instagram_url", e.target.value)} placeholder="https://www.instagram.com/shop.montevane" className={inputClass} />
+          </Field>
+          <Field label="Facebook Page Link">
+            <input value={values.facebook_url} onChange={(e) => set("facebook_url", e.target.value)} placeholder="https://www.facebook.com/montevane" className={inputClass} />
+          </Field>
+          <Field label="Pinterest Profile Link">
+            <input value={values.pinterest_url} onChange={(e) => set("pinterest_url", e.target.value)} placeholder="https://www.pinterest.com/montevane" className={inputClass} />
           </Field>
         </div>
       </Section>
