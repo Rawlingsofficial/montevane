@@ -4,19 +4,27 @@ import Link from "next/link";
 import { useMemo, useState, useSyncExternalStore } from "react";
 
 import { submitInquiry } from "@/lib/actions/inquiries";
-import { PAYMENT_METHODS } from "@/lib/contact";
 import type { Dictionary } from "@/lib/i18n/dictionaries/en";
-import { DIAL_CODES, countryList } from "@/lib/phone";
+import { DIAL_CODES, MAIN_MARKETS, TEXT_COUNTRIES, countryFlag } from "@/lib/phone";
 import { cn } from "@/lib/utils";
 
 const fieldClass =
   "mt-2 w-full border border-border bg-transparent px-3 py-3 text-sm focus:border-[var(--gold)] focus:outline-none";
 const labelClass = "text-xs tracking-[0.1em] text-muted-foreground uppercase";
+const chipClass = (on: boolean) =>
+  cn(
+    "min-h-11 border px-4 text-xs font-medium tracking-[0.1em] uppercase transition-colors",
+    on ? "border-foreground bg-foreground text-white" : "border-border hover:border-foreground"
+  );
 
 // Store locales with an obvious home country; English guesses from the browser.
 const LOCALE_COUNTRY: Record<string, string> = { de: "DE", uz: "UZ" };
 // Italy, San Marino and the Vatican keep the leading 0 after the country code.
 const KEEPS_ZERO = new Set(["IT", "SM", "VA"]);
+const OTHER = "OTHER";
+const MAIN = new Set<string>(MAIN_MARKETS);
+
+type Reach = "email" | "whatsapp" | "sms";
 
 const noSubscribe = () => () => {};
 function browserRegion() {
@@ -24,15 +32,17 @@ function browserRegion() {
   return DIAL_CODES[region] ? region : "";
 }
 
-/** "+44 07700 900123" or "0044…" pasted into the number box → [code country, rest]. */
-function splitInternational(raw: string, current: string): [string, string] | null {
+/** A pasted "+44 7700…" / "0044…" → [listed country or OTHER, its code, the rest]. */
+function splitInternational(raw: string, current: string): [string, string, string] | null {
   const digits = raw.trim().replace(/^00/, "+");
   if (!digits.startsWith("+")) return null;
   const all = digits.replace(/\D/g, "");
   for (let len = 4; len >= 1; len--) {
     const code = all.slice(0, len);
-    const iso = DIAL_CODES[current] === code ? current : Object.keys(DIAL_CODES).find((k) => DIAL_CODES[k] === code);
-    if (iso) return [iso, all.slice(len)];
+    if (current !== OTHER && DIAL_CODES[current] === code) return [current, code, all.slice(len)];
+    const listed = MAIN_MARKETS.find((iso) => DIAL_CODES[iso] === code);
+    if (listed) return [listed, code, all.slice(len)];
+    if (Object.values(DIAL_CODES).includes(code)) return [OTHER, code, all.slice(len)];
   }
   return null;
 }
@@ -42,39 +52,51 @@ export function InquiryForm({
   product,
   labels: t,
   privacyHref,
+  noteOpen = false,
 }: {
   locale: string;
   product?: { id: string; name: string };
   labels: Dictionary["form"];
   privacyHref: string;
+  /** Show the note box from the start (e.g. selling, where the note is the point). */
+  noteOpen?: boolean;
 }) {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [sent, setSent] = useState(false);
+  const [thanks, setThanks] = useState<string | null>(null);
   const hydrated = useSyncExternalStore(noSubscribe, () => true, () => false);
-  const countries = useMemo(() => countryList(hydrated ? locale : undefined), [hydrated, locale]);
-  // Until the visitor picks, both selects follow a guess: the store locale's
+
+  // Country names in the visitor's language once hydrated (server and
+  // browser ICU data differ, so the server render shows ISO codes).
+  const names = useMemo(
+    () => (hydrated ? new Intl.DisplayNames([locale, "en"], { type: "region" }) : null),
+    [hydrated, locale]
+  );
+  const countryName = (iso: string) => names?.of(iso) ?? iso;
+
+  // Until the visitor picks, the code follows a guess: the store locale's
   // country, or for English the browser region (en-GB → GB) once hydrated.
   const region = useSyncExternalStore(noSubscribe, browserRegion, () => "");
   const guess = LOCALE_COUNTRY[locale] ?? region;
-  const [pickedCountry, setCountry] = useState<string | null>(null);
-  const [pickedDial, setDialIso] = useState<string | null>(null);
-  const country = pickedCountry ?? guess;
-  const dialIso = pickedDial ?? country;
-  const [dialTouched, setDialTouched] = useState(false);
+  const [picked, setPicked] = useState<string | null>(null);
+  const [customCode, setCustomCode] = useState<string | null>(null);
+  const dialIso = picked ?? (MAIN.has(guess) ? guess : guess ? OTHER : "");
+  const code = dialIso === OTHER ? (customCode ?? (guess ? DIAL_CODES[guess] : "")) : (DIAL_CODES[dialIso] ?? "");
   const [number, setNumber] = useState("");
 
-  function chooseCountry(iso: string) {
-    setCountry(iso);
-    if (!dialTouched) setDialIso(iso || null);
-  }
+  const [title, setTitle] = useState("");
+  const [chosen, setReach] = useState<Reach>("email");
+  const textOk = TEXT_COUNTRIES.has(dialIso);
+  // Text goes to North American numbers only; anyone else falls back to email.
+  const reach: Reach = chosen === "sms" && !textOk ? "email" : chosen;
+  const [showNote, setShowNote] = useState(noteOpen);
 
   function changeNumber(raw: string) {
     const split = splitInternational(raw, dialIso);
     if (split) {
-      setDialIso(split[0]);
-      setDialTouched(true);
-      setNumber(split[1]);
+      setPicked(split[0]);
+      setCustomCode(split[1]);
+      setNumber(split[2]);
     } else {
       setNumber(raw.replace(/[^\d\s()-]/g, ""));
     }
@@ -83,147 +105,183 @@ export function InquiryForm({
   function fullPhone() {
     let local = number.replace(/\D/g, "");
     if (!KEEPS_ZERO.has(dialIso)) local = local.replace(/^0+/, "");
-    return dialIso && local ? `+${DIAL_CODES[dialIso]} ${local}` : "";
+    const c = code.replace(/\D/g, "");
+    return c && local ? `+${c} ${local}` : "";
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
-    const get = (k: string) => String(form.get(k) ?? "");
+    const get = (k: string) => String(form.get(k) ?? "").trim();
+    const name = get("name");
+    const countryIso = dialIso === OTHER ? (guess && DIAL_CODES[guess] === code ? guess : "") : dialIso;
 
     setPending(true);
     setError(null);
     const result = await submitInquiry({
-      name: get("name"),
+      name: title ? `${title} ${name}` : name,
       email: get("email"),
       phone: fullPhone(),
-      country: countries.find((c) => c.iso === country)?.name ?? "",
+      country: countryIso ? countryName(countryIso) : "",
       message: get("message"),
-      payment_method: get("payment_method"),
-      // We choose how to follow up; the customer just leaves their details.
-      contact_methods: [],
+      contact_methods: reach === "email" ? ["email"] : [reach, "email"],
       product_id: product?.id ?? "",
       product_name: product?.name ?? "",
     });
     setPending(false);
-    if (result.error) setError(result.error);
-    else setSent(true);
+    if (result.error) {
+      setError(result.error);
+      return;
+    }
+    // "Mrs Smith" with a title, otherwise the first name.
+    const parts = name.split(/\s+/);
+    const greet = title ? `${title} ${parts.length > 1 ? parts[parts.length - 1] : parts[0]}` : parts[0];
+    setThanks(greet ? t.thanksNamed.replace("{name}", greet) : t.thanks);
   }
 
-  if (sent) {
+  if (thanks) {
     return (
-      <div className="border border-border p-8">
-        <p className="text-sm">{t.thanks}</p>
+      <div className="border border-border p-8" role="status">
+        <p className="font-heading text-xl font-light">{thanks}</p>
       </div>
     );
   }
 
+  const phoneRequired = reach !== "email";
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      <div role="radiogroup" aria-label={t.titleLabel} className="flex flex-wrap gap-2">
+        {t.titles.map((x) => (
+          <button
+            key={x}
+            type="button"
+            role="radio"
+            aria-checked={title === x}
+            onClick={() => setTitle(title === x ? "" : x)}
+            className={chipClass(title === x)}
+          >
+            {x}
+          </button>
+        ))}
+      </div>
+
       <div className="grid gap-6 sm:grid-cols-2">
         <label className="block">
           <span className={labelClass}>{t.name}</span>
           <input name="name" required autoComplete="name" className={fieldClass} suppressHydrationWarning />
         </label>
         <label className="block">
-          <span className={labelClass}>{t.country}</span>
-          <select
-            name="country"
-            value={country}
-            onChange={(e) => chooseCountry(e.target.value)}
-            autoComplete="country"
-            className={fieldClass}
-          >
-            <option value="">{t.countrySelect}</option>
-            {countries.map((c) => (
-              <option key={c.iso} value={c.iso}>
-                {c.flag} {c.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <div className="block">
-          <span className={labelClass}>{t.phone}</span>
-          <div className="flex gap-2">
-            <select
-              aria-label={t.phoneCode}
-              required
-              value={dialIso}
-              onChange={(e) => {
-                setDialIso(e.target.value);
-                setDialTouched(true);
-              }}
-              autoComplete="tel-country-code"
-              className={cn(fieldClass, "w-32 shrink-0")}
-            >
-              <option value="">{t.phoneCode}</option>
-              {countries.map((c) => (
-                <option key={c.iso} value={c.iso}>
-                  {c.flag} +{c.dial} {c.name}
-                </option>
-              ))}
-            </select>
-            <input
-              name="phone"
-              type="tel"
-              required
-              aria-label={t.phoneNumber}
-              inputMode="tel"
-              autoComplete="tel-national"
-              value={number}
-              onChange={(e) => changeNumber(e.target.value)}
-              placeholder={dialIso ? `+${DIAL_CODES[dialIso]} …` : "7700 900123"}
-              pattern="[\d\s()\-]{4,}"
-              className={fieldClass}
-              suppressHydrationWarning
-            />
-          </div>
-        </div>
-        <label className="block">
           <span className={labelClass}>{t.email}</span>
           <input name="email" type="email" required autoComplete="email" className={fieldClass} suppressHydrationWarning />
         </label>
       </div>
 
-      <label className="block">
-        <span className={labelClass}>{t.payment}</span>
-        <select name="payment_method" defaultValue="" className={fieldClass}>
-          <option value="">{t.paymentLater}</option>
-          {PAYMENT_METHODS.map((m) => (
-            <option key={m.value} value={m.value}>
-              {t.paymentLabels[m.value] ?? m.label}
-            </option>
+      <div>
+        <span className={labelClass}>
+          {t.phone}
+          {phoneRequired && " *"}
+        </span>
+        <div className="flex gap-2">
+          <select
+            aria-label={t.phoneCode}
+            value={dialIso}
+            onChange={(e) => {
+              setPicked(e.target.value);
+              if (e.target.value === OTHER) setCustomCode("");
+            }}
+            autoComplete="tel-country-code"
+            className={cn(fieldClass, "w-28 shrink-0")}
+          >
+            <option value="">{t.phoneCode}</option>
+            {MAIN_MARKETS.map((iso) => (
+              <option key={iso} value={iso}>
+                {countryFlag(iso)} +{DIAL_CODES[iso]} {countryName(iso)}
+              </option>
+            ))}
+            <option value={OTHER}>{t.otherCountry}</option>
+          </select>
+          {dialIso === OTHER && (
+            <input
+              aria-label={t.phoneCode}
+              inputMode="numeric"
+              autoComplete="tel-country-code"
+              value={code ? `+${code}` : ""}
+              onChange={(e) => setCustomCode(e.target.value.replace(/\D/g, "").slice(0, 4))}
+              placeholder="+…"
+              className={cn(fieldClass, "w-20 shrink-0")}
+            />
+          )}
+          <input
+            name="phone"
+            type="tel"
+            required={phoneRequired}
+            aria-label={t.phoneNumber}
+            inputMode="tel"
+            autoComplete="tel-national"
+            value={number}
+            onChange={(e) => changeNumber(e.target.value)}
+            placeholder={code ? `+${code} …` : "7700 900123"}
+            pattern="[\d\s()\-]{4,}"
+            className={fieldClass}
+            suppressHydrationWarning
+          />
+        </div>
+      </div>
+
+      <div>
+        <span className={labelClass}>{t.reach}</span>
+        <div role="radiogroup" aria-label={t.reach} className="mt-2 flex flex-wrap gap-2">
+          {(["email", "whatsapp", ...(textOk ? ["sms"] : [])] as Reach[]).map((m) => (
+            <button
+              key={m}
+              type="button"
+              role="radio"
+              aria-checked={reach === m}
+              onClick={() => setReach(m)}
+              className={chipClass(reach === m)}
+            >
+              {t.reachLabels[m]}
+            </button>
           ))}
-        </select>
-      </label>
+        </div>
+        {!textOk && <p className="mt-2 text-xs text-muted-foreground">{t.textOnlyNorthAmerica}</p>}
+      </div>
 
-      <label className="block">
-        <span className={labelClass}>{t.message}</span>
-        <textarea
-          name="message"
-          rows={4}
-          defaultValue={product ? t.messageDefault.replace("{item}", product.name) : ""}
-          className={fieldClass}
-        />
-      </label>
-
-      <p className="text-xs text-muted-foreground">
-        {t.consent}{" "}
-        <Link href={privacyHref} className="underline underline-offset-2">
-          {t.privacyLink}
-        </Link>
-        .
-      </p>
+      {showNote ? (
+        <label className="block">
+          <span className={labelClass}>{t.message}</span>
+          <textarea
+            name="message"
+            rows={3}
+            defaultValue={noteOpen && product ? t.messageDefault.replace("{item}", product.name) : ""}
+            className={fieldClass}
+          />
+        </label>
+      ) : (
+        <button type="button" onClick={() => setShowNote(true)} className="text-sm underline-offset-4 hover:underline">
+          {t.addNote}
+        </button>
+      )}
 
       {error && <p className="text-sm text-destructive">{error}</p>}
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="bg-primary px-10 py-4 text-xs font-medium tracking-[0.2em] text-primary-foreground uppercase transition-colors hover:bg-[var(--gold)] hover:text-primary disabled:opacity-50"
-      >
-        {pending ? t.sending : t.submit}
-      </button>
+      <div className="space-y-3">
+        <button
+          type="submit"
+          disabled={pending}
+          className="w-full bg-primary px-10 py-4 text-xs font-medium tracking-[0.2em] text-primary-foreground uppercase transition-colors hover:bg-[var(--gold)] hover:text-primary disabled:opacity-50 sm:w-auto"
+        >
+          {pending ? t.sending : t.submit}
+        </button>
+        <p className="text-xs text-muted-foreground">
+          {t.consent}{" "}
+          <Link href={privacyHref} className="underline underline-offset-2">
+            {t.privacyLink}
+          </Link>
+          .
+        </p>
+      </div>
     </form>
   );
 }

@@ -20,13 +20,16 @@ const inquirySchema = z
       .string()
       .trim()
       .max(40)
-      .refine(isInternationalPhone, "Please enter your phone number with the country code, e.g. +44 7700 900123."),
+      .refine((v) => v === "" || isInternationalPhone(v), "Please enter your phone number with the country code, e.g. +44 7700 900123."),
     country: z.string().trim().max(80),
     message: z.string().trim().max(2000),
     product_id: z.string().uuid().or(z.literal("")),
     product_name: z.string().max(200),
     contact_methods: z.array(z.enum(CONTACT_METHODS.map((m) => m.value) as [string, ...string[]])).default([]),
-    payment_method: z.enum(PAYMENT_METHODS.map((m) => m.value) as [string, ...string[]]).or(z.literal("")),
+    payment_method: z.enum(PAYMENT_METHODS.map((m) => m.value) as [string, ...string[]]).or(z.literal("")).default(""),
+  })
+  .refine((v) => v.phone || !v.contact_methods.some((m) => m === "whatsapp" || m === "sms"), {
+    message: "Please add your phone number so we can message you.",
   });
 
 export type InquiryInput = z.input<typeof inquirySchema>;
@@ -40,7 +43,7 @@ export async function submitInquiry(input: InquiryInput): Promise<{ error?: stri
     await db.insert(schema.inquiries).values({
       name: v.name,
       email: v.email,
-      phone: v.phone,
+      phone: v.phone || null,
       country: v.country || null,
       message: v.message || null,
       productId: v.product_id || null,
@@ -72,7 +75,7 @@ async function notifyInquiry(v: z.output<typeof inquirySchema>) {
     v.email && `Email: ${v.email}`,
     v.phone && `Phone: ${v.phone}`,
     v.country && `Country: ${v.country}`,
-    v.contact_methods.length > 0 && `Contact via: ${v.contact_methods.map((m) => label(CONTACT_METHODS, m)).join(", ")}`,
+    v.contact_methods.length > 0 && `Reach via: ${v.contact_methods.map((m) => label(CONTACT_METHODS, m)).join(", ")}`,
     v.payment_method && `Payment: ${label(PAYMENT_METHODS, v.payment_method)}`,
     v.message && `\nMessage:\n${v.message}`,
   ].filter(Boolean);
@@ -80,7 +83,7 @@ async function notifyInquiry(v: z.output<typeof inquirySchema>) {
   await Promise.allSettled([
     sendEmail({
       to: storeEmail,
-      subject: `New inquiry — ${item}`,
+      subject: `New request (${label(CONTACT_METHODS, v.contact_methods[0] ?? "email")}) — ${item}`,
       text: lines.join("\n"),
       replyTo: v.email || undefined,
     }),
@@ -92,7 +95,7 @@ async function notifyInquiry(v: z.output<typeof inquirySchema>) {
           `Dear ${v.name},`,
           "",
           `Thank you for your interest in: ${item}.`,
-          "A member of our team will contact you shortly using the method you chose.",
+          "A member of our team will message you shortly.",
           "",
           "If you have anything to add, simply reply to this email.",
           "",

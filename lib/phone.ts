@@ -55,3 +55,13 @@ export function isInternationalPhone(value: string): boolean {
   const total = match[1].length + local.length;
   return local.length >= 4 && total >= 7 && total <= 15;
 }
+
+/** Shown first (and only) in the inquiry form; anyone else types their code. */
+export const MAIN_MARKETS = ["US", "CA", "PR", "MC", "GB", "DE", "FR", "CH", "AT", "IT", "ES", "NL", "BE", "AE", "UZ"] as const;
+
+/** Our texting line reaches North American numbers only (+1 US, Canada, Puerto Rico). */
+export const TEXT_COUNTRIES = new Set(["US", "CA", "PR"]);
+
+export function countryFlag(iso: string): string {
+  return flag(iso);
+}

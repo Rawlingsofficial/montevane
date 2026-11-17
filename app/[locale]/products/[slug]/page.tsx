@@ -11,6 +11,7 @@ import { InquiryForm } from "@/components/contact/InquiryForm";
 import { ProductAccordion } from "@/components/products/ProductAccordion";
 import { ProductGallery } from "@/components/products/ProductGallery";
 import { ProductGrid } from "@/components/products/ProductGrid";
+import { BuyNowPanel } from "@/components/products/BuyNowPanel";
 import { StickyProductBar } from "@/components/products/StickyProductBar";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { RecentlyViewed } from "@/components/shop/SavedItems";
@@ -260,10 +261,22 @@ export default async function ProductPage({ params }: Props) {
         </section>
       )}
 
-      <section id="inquire" className="mt-24 max-w-3xl scroll-mt-28">
-        <h2 className="text-2xl">{t.product.inquireTitle}</h2>
-        <p className="mt-2 text-base text-muted-foreground">{t.product.purchaseBody}</p>
-        <div className="mt-8">
+      <BuyNowPanel closeLabel={t.form.close}>
+        <div className="flex items-center gap-4 border-b border-border pb-5 pr-10">
+          {product.images[0] && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={product.images[0].url} alt="" className="size-16 shrink-0 bg-[#f6f4f0] object-contain" />
+          )}
+          <div className="min-w-0">
+            <p className="font-heading text-lg leading-snug font-light">{item}</p>
+            <Price amounts={amounts} locale={locale} className="mt-1 block text-sm text-muted-foreground" />
+          </div>
+        </div>
+        <h2 id="inquire-title" className="mt-6 text-2xl">
+          {t.product.inquireTitle}
+        </h2>
+        <p className="mt-1 text-sm text-muted-foreground">{t.product.purchaseBody}</p>
+        <div className="mt-6">
           <InquiryForm
             locale={locale}
             product={{ id: product.id, name: item }}
@@ -271,7 +284,7 @@ export default async function ProductPage({ params }: Props) {
             privacyHref={localePath(locale, "/privacy")}
           />
         </div>
-      </section>
+      </BuyNowPanel>
 
       {similar.length > 0 && (
         <section className="mt-24">
