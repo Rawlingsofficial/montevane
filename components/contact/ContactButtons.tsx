@@ -8,6 +8,7 @@ const ICONS: Record<ContactMethod, typeof Mail> = {
   telegram: Send,
   signal: ShieldCheck,
   sms: MessageSquare,
+  imessage: MessageSquare,
   call: Phone,
   email: Mail,
 };

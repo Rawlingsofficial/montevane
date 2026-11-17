@@ -6,6 +6,7 @@ export const CONTACT_METHODS = [
   { value: "telegram", label: "Telegram" },
   { value: "signal", label: "Signal" },
   { value: "sms", label: "Text / iMessage" },
+  { value: "imessage", label: "iMessage" },
   { value: "call", label: "Phone Call" },
   { value: "email", label: "Email" },
 ] as const;

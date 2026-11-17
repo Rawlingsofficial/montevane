@@ -29,7 +29,7 @@ const inquirySchema = z
     payment_method: z.enum(PAYMENT_METHODS.map((m) => m.value) as [string, ...string[]]).or(z.literal("")).default(""),
   })
   // Email always, plus a personal line (WhatsApp or Text) on the phone number.
-  .refine((v) => v.phone && v.contact_methods.some((m) => m === "whatsapp" || m === "sms"), {
+  .refine((v) => v.phone && v.contact_methods.some((m) => m !== "email"), {
     message: "Please add your phone number so we can message you.",
   });
 

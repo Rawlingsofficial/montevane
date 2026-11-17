@@ -25,7 +25,11 @@ const KEEPS_ZERO = new Set(["IT", "SM", "VA"]);
 const OTHER = "OTHER";
 const MAIN = new Set<string>(MAIN_MARKETS);
 
-type Reach = "whatsapp" | "sms";
+type Reach = "whatsapp" | "sms" | "imessage" | "telegram";
+// +1 numbers (US, Canada, Puerto Rico) reach our texting line; everyone
+// else picks the app our team messages them on.
+const NORTH_AMERICA: Reach[] = ["sms", "whatsapp"];
+const ELSEWHERE: Reach[] = ["whatsapp", "imessage", "telegram"];
 
 const noSubscribe = () => () => {};
 function browserRegion() {
@@ -92,13 +96,11 @@ export function InquiryForm({
   const [number, setNumber] = useState("");
 
   const [title, setTitle] = useState("");
-  // Email is always taken; on top, a personal line: WhatsApp or Text.
-  // Text reaches +1 numbers only (US, Canada, Puerto Rico), so it is the
-  // default there and unavailable once another country code is chosen.
-  const textOk = !dialIso || TEXT_COUNTRIES.has(dialIso);
+  // Email is always taken; on top, a personal line whose choices follow the
+  // phone's country. The first choice is the default.
+  const options = TEXT_COUNTRIES.has(dialIso) ? NORTH_AMERICA : ELSEWHERE;
   const [chosen, setReach] = useState<Reach | null>(null);
-  const preferred: Reach = chosen ?? (TEXT_COUNTRIES.has(dialIso) ? "sms" : "whatsapp");
-  const reach: Reach = preferred === "sms" && !textOk ? "whatsapp" : preferred;
+  const reach: Reach = chosen && options.includes(chosen) ? chosen : options[0];
   const [showNote, setShowNote] = useState(noteOpen);
 
   function changeNumber(raw: string) {
@@ -200,13 +202,12 @@ export function InquiryForm({
       <div>
         <span className={labelClass}>{t.reach}</span>
         <div role="radiogroup" aria-label={t.reach} className="mt-2 flex flex-wrap gap-2">
-          {(["whatsapp", "sms"] as Reach[]).map((m) => (
+          {options.map((m) => (
             <button
               key={m}
               type="button"
               role="radio"
               aria-checked={reach === m}
-              disabled={m === "sms" && !textOk}
               onClick={() => setReach(m)}
               className={chipClass(reach === m)}
             >
@@ -214,7 +215,6 @@ export function InquiryForm({
             </button>
           ))}
         </div>
-        {!textOk && <p className="mt-2 text-xs text-muted-foreground">{t.textOnlyNorthAmerica}</p>}
       </div>
 
       <div>
