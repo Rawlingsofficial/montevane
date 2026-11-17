@@ -14,8 +14,8 @@ const fieldClass =
 const labelClass = "text-xs tracking-[0.1em] text-muted-foreground uppercase";
 const chipClass = (on: boolean) =>
   cn(
-    "min-h-11 border px-4 text-xs font-medium tracking-[0.1em] uppercase transition-colors",
-    on ? "border-foreground bg-foreground text-white" : "border-border hover:border-foreground"
+    "min-h-10 border px-3.5 text-xs font-medium tracking-[0.1em] uppercase transition-colors disabled:cursor-not-allowed disabled:opacity-35",
+    on ? "border-foreground bg-foreground text-white" : "border-border enabled:hover:border-foreground"
   );
 
 // Store locales with an obvious home country; English guesses from the browser.
@@ -25,7 +25,7 @@ const KEEPS_ZERO = new Set(["IT", "SM", "VA"]);
 const OTHER = "OTHER";
 const MAIN = new Set<string>(MAIN_MARKETS);
 
-type Reach = "email" | "whatsapp" | "sms";
+type Reach = "whatsapp" | "sms";
 
 const noSubscribe = () => () => {};
 function browserRegion() {
@@ -54,6 +54,8 @@ export function InquiryForm({
   labels: t,
   privacyHref,
   noteOpen = false,
+  purchase = false,
+  continueHref,
 }: {
   locale: string;
   product?: { id: string; name: string };
@@ -61,6 +63,10 @@ export function InquiryForm({
   privacyHref: string;
   /** Show the note box from the start (e.g. selling, where the note is the point). */
   noteOpen?: boolean;
+  /** A purchase request: shows the "no payment now" line above the button. */
+  purchase?: boolean;
+  /** Where "Keep browsing" goes after sending; inside the Buy now panel it just closes the panel. */
+  continueHref?: string;
 }) {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -86,10 +92,13 @@ export function InquiryForm({
   const [number, setNumber] = useState("");
 
   const [title, setTitle] = useState("");
-  const [chosen, setReach] = useState<Reach>("email");
-  const textOk = TEXT_COUNTRIES.has(dialIso);
-  // Text goes to North American numbers only; anyone else falls back to email.
-  const reach: Reach = chosen === "sms" && !textOk ? "email" : chosen;
+  // Email is always taken; on top, a personal line: WhatsApp or Text.
+  // Text reaches +1 numbers only (US, Canada, Puerto Rico), so it is the
+  // default there and unavailable once another country code is chosen.
+  const textOk = !dialIso || TEXT_COUNTRIES.has(dialIso);
+  const [chosen, setReach] = useState<Reach | null>(null);
+  const preferred: Reach = chosen ?? (TEXT_COUNTRIES.has(dialIso) ? "sms" : "whatsapp");
+  const reach: Reach = preferred === "sms" && !textOk ? "whatsapp" : preferred;
   const [showNote, setShowNote] = useState(noteOpen);
 
   function changeNumber(raw: string) {
@@ -125,7 +134,7 @@ export function InquiryForm({
       phone: fullPhone(),
       country: countryIso ? countryName(countryIso) : "",
       message: get("message"),
-      contact_methods: reach === "email" ? ["email"] : [reach, "email"],
+      contact_methods: [reach, "email"],
       product_id: product?.id ?? "",
       product_name: product?.name ?? "",
     });
@@ -137,21 +146,31 @@ export function InquiryForm({
     // "Mrs Smith" with a title, otherwise the first name.
     const parts = name.split(/\s+/);
     const greet = title ? `${title} ${parts.length > 1 ? parts[parts.length - 1] : parts[0]}` : parts[0];
-    setThanks(greet ? t.thanksNamed.replace("{name}", greet) : t.thanks);
+    const via = t.viaLabels[reach];
+    setThanks((greet ? t.thanksNamed.replace("{name}", greet) : t.thanks).replace("{via}", via));
   }
 
   if (thanks) {
+    const keepClass =
+      "mt-6 inline-flex min-h-11 items-center border border-foreground px-6 text-xs font-medium tracking-[0.15em] uppercase transition-colors hover:bg-foreground hover:text-white";
     return (
-      <div className="border border-border p-8" role="status">
-        <p className="font-heading text-xl font-light">{thanks}</p>
+      <div className="border border-border p-6 sm:p-8" role="status">
+        <p className="font-heading text-xl leading-snug font-light">{thanks}</p>
+        {continueHref ? (
+          <Link href={continueHref} className={keepClass}>
+            {t.keepBrowsing}
+          </Link>
+        ) : (
+          <button type="button" onClick={(e) => e.currentTarget.closest("dialog")?.close()} className={keepClass}>
+            {t.keepBrowsing}
+          </button>
+        )}
       </div>
     );
   }
 
-  const phoneRequired = reach !== "email";
-
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-5">
       <div role="radiogroup" aria-label={t.titleLabel} className="flex flex-wrap gap-2">
         {t.titles.map((x) => (
           <button
@@ -167,7 +186,7 @@ export function InquiryForm({
         ))}
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2">
+      <div className="grid gap-5 sm:grid-cols-2">
         <label className="block">
           <span className={labelClass}>{t.name}</span>
           <input name="name" required autoComplete="name" className={fieldClass} suppressHydrationWarning />
@@ -179,10 +198,27 @@ export function InquiryForm({
       </div>
 
       <div>
-        <span className={labelClass}>
-          {t.phone}
-          {phoneRequired && " *"}
-        </span>
+        <span className={labelClass}>{t.reach}</span>
+        <div role="radiogroup" aria-label={t.reach} className="mt-2 flex flex-wrap gap-2">
+          {(["whatsapp", "sms"] as Reach[]).map((m) => (
+            <button
+              key={m}
+              type="button"
+              role="radio"
+              aria-checked={reach === m}
+              disabled={m === "sms" && !textOk}
+              onClick={() => setReach(m)}
+              className={chipClass(reach === m)}
+            >
+              {t.reachLabels[m]}
+            </button>
+          ))}
+        </div>
+        {!textOk && <p className="mt-2 text-xs text-muted-foreground">{t.textOnlyNorthAmerica}</p>}
+      </div>
+
+      <div>
+        <span className={labelClass}>{t.phone} *</span>
         <div className="flex gap-2">
           {/* Closed, the picker shows just flag + code; open, the full names. */}
           <div className={cn(fieldClass, "relative flex w-24 shrink-0 items-center justify-between gap-1 focus-within:border-[var(--gold)]")}>
@@ -190,28 +226,30 @@ export function InquiryForm({
               {dialIso && dialIso !== OTHER ? `${countryFlag(dialIso)} +${DIAL_CODES[dialIso]}` : dialIso === OTHER ? "🌐" : "+"}
             </span>
             <ChevronDown aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />
-          <select
-            aria-label={t.phoneCode}
-            value={dialIso}
-            onChange={(e) => {
-              setPicked(e.target.value);
-              if (e.target.value === OTHER) setCustomCode("");
-            }}
-            autoComplete="tel-country-code"
-            className="absolute inset-0 cursor-pointer opacity-0"
-          >
-            <option value="">{t.phoneCode}</option>
-            {MAIN_MARKETS.map((iso) => (
-              <option key={iso} value={iso}>
-                {countryFlag(iso)} +{DIAL_CODES[iso]} {countryName(iso)}
-              </option>
-            ))}
-            <option value={OTHER}>{t.otherCountry}</option>
-          </select>
+            <select
+              aria-label={t.phoneCode}
+              required
+              value={dialIso}
+              onChange={(e) => {
+                setPicked(e.target.value);
+                if (e.target.value === OTHER) setCustomCode("");
+              }}
+              autoComplete="tel-country-code"
+              className="absolute inset-0 cursor-pointer opacity-0"
+            >
+              <option value="">{t.phoneCode}</option>
+              {MAIN_MARKETS.map((iso) => (
+                <option key={iso} value={iso}>
+                  {countryFlag(iso)} +{DIAL_CODES[iso]} {countryName(iso)}
+                </option>
+              ))}
+              <option value={OTHER}>{t.otherCountry}</option>
+            </select>
           </div>
           {dialIso === OTHER && (
             <input
               aria-label={t.phoneCode}
+              required
               inputMode="numeric"
               autoComplete="tel-country-code"
               value={code ? `+${code}` : ""}
@@ -223,7 +261,7 @@ export function InquiryForm({
           <input
             name="phone"
             type="tel"
-            required={phoneRequired}
+            required
             aria-label={t.phoneNumber}
             inputMode="tel"
             autoComplete="tel-national"
@@ -235,25 +273,6 @@ export function InquiryForm({
             suppressHydrationWarning
           />
         </div>
-      </div>
-
-      <div>
-        <span className={labelClass}>{t.reach}</span>
-        <div role="radiogroup" aria-label={t.reach} className="mt-2 flex flex-wrap gap-2">
-          {(["email", "whatsapp", ...(textOk ? ["sms"] : [])] as Reach[]).map((m) => (
-            <button
-              key={m}
-              type="button"
-              role="radio"
-              aria-checked={reach === m}
-              onClick={() => setReach(m)}
-              className={chipClass(reach === m)}
-            >
-              {t.reachLabels[m]}
-            </button>
-          ))}
-        </div>
-        {!textOk && <p className="mt-2 text-xs text-muted-foreground">{t.textOnlyNorthAmerica}</p>}
       </div>
 
       {showNote ? (
@@ -275,6 +294,7 @@ export function InquiryForm({
       {error && <p className="text-sm text-destructive">{error}</p>}
 
       <div className="space-y-3">
+        {purchase && <p className="text-sm">{t.noPayment}</p>}
         <button
           type="submit"
           disabled={pending}

@@ -75,6 +75,7 @@ export default async function SellPage({ params }: PageProps<"/[locale]/sell">) 
               labels={{ ...t.form, messageDefault: s.messageDefault }}
               privacyHref={localePath(locale, "/privacy")}
               noteOpen
+              continueHref={localePath(locale, "/")}
             />
           </div>
         </section>

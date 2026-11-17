@@ -262,26 +262,27 @@ export default async function ProductPage({ params }: Props) {
       )}
 
       <BuyNowPanel closeLabel={t.form.close}>
-        <div className="flex items-center gap-4 border-b border-border pb-5 pr-10">
+        <div className="flex items-center gap-3 border-b border-border pr-10 pb-4">
           {product.images[0] && (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={product.images[0].url} alt="" className="size-16 shrink-0 bg-[#f6f4f0] object-contain" />
+            <img src={product.images[0].url} alt="" className="size-12 shrink-0 bg-[#f6f4f0] object-contain" />
           )}
           <div className="min-w-0">
-            <p className="font-heading text-lg leading-snug font-light">{item}</p>
-            <Price amounts={amounts} locale={locale} className="mt-1 block text-sm text-muted-foreground" />
+            <p className="line-clamp-2 text-sm leading-snug">{item}</p>
+            <Price amounts={amounts} locale={locale} className="mt-0.5 block text-sm text-muted-foreground" />
           </div>
         </div>
-        <h2 id="inquire-title" className="mt-6 text-2xl">
+        <h2 id="inquire-title" className="mt-5 text-2xl">
           {t.product.inquireTitle}
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">{t.product.purchaseBody}</p>
-        <div className="mt-6">
+        <div className="mt-5">
           <InquiryForm
             locale={locale}
             product={{ id: product.id, name: item }}
             labels={{ ...t.form, submit: t.product.purchaseSubmit, messageDefault: t.product.purchaseMessage }}
             privacyHref={localePath(locale, "/privacy")}
+            purchase
           />
         </div>
       </BuyNowPanel>

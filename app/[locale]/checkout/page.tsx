@@ -70,6 +70,8 @@ export default async function CheckoutPage({ params, searchParams }: Props) {
                 }}
                 labels={{ ...t.form, submit: t.product.purchaseSubmit, messageDefault: t.product.purchaseMessage }}
                 privacyHref={localePath(locale, "/privacy")}
+                purchase
+                continueHref={localePath(locale, "/")}
               />
             </div>
           </section>
