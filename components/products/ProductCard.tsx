@@ -26,14 +26,12 @@ export function ProductCard({ product, locale, priority = false }: { product: St
             loading={priority ? "eager" : "lazy"}
             className="object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-105 sm:p-6"
           />
-          <span
-            className={cn(
-              "absolute bottom-3 left-3 px-2 py-1 text-[10px] font-medium tracking-[0.1em] uppercase",
-              inStock ? "bg-foreground text-white" : "bg-[var(--ivory)] text-foreground"
-            )}
-          >
-            {t.availability[product.availability]}
-          </span>
+          <div className="absolute bottom-3 left-3 flex gap-1.5 text-[10px] font-medium tracking-[0.1em] uppercase">
+            {product.condition === "new" && <span className="bg-emerald-700 px-2 py-1 text-white">{t.product.condition.new}</span>}
+            <span className={cn("px-2 py-1", inStock ? "bg-foreground text-white" : "bg-[var(--ivory)] text-foreground")}>
+              {t.availability[product.availability]}
+            </span>
+          </div>
         </div>
         {product.showBrand && <p className="mt-4 text-xs tracking-[0.15em] text-[var(--gold)] uppercase">{product.brand}</p>}
         <h3 className={cn("line-clamp-2 text-base font-light", product.showBrand ? "mt-1" : "mt-4")}>{product.name}</h3>

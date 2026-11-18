@@ -148,7 +148,7 @@ export default async function ProductPage({ params }: Props) {
           </div>
           <p className={`mt-2 text-xs font-medium tracking-[0.1em] uppercase ${product.availability === "in_stock" ? "text-[var(--gold)]" : "text-foreground/70"}`}>
             {product.availability === "pre_order" ? fmt(ui.product.shipsBy, { date: shipsBy }) : t.availability[product.availability]} ·{" "}
-            {t.product.condition[product.condition]}
+            <span className={product.condition === "new" ? "text-emerald-700" : undefined}>{t.product.condition[product.condition]}</span>
           </p>
           <p className="mt-1.5 text-xs text-muted-foreground">{shippingLine}</p>
 

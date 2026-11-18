@@ -178,7 +178,7 @@ const en = {
     watchBrandTitle: "{brand} Watches",
     watchBrandMetaTitle: "Authentic {brand} Watches for Sale",
     watchBrandDescription: "Authentic {brand} watches, new and pre-owned, each verified by our authentication specialists before it ships. Worldwide delivery, 14-day returns.",
-    watchBrandIntro: "Every {brand} watch we offer is checked by our authentication specialists before it ships: case, movement, serial numbers and papers. Pieces marked In Stock leave within days; the rest are sourced to order and ship within 14 days, with the same guarantee and a full refund if any piece ever fails an independent check.",
+    watchBrandIntro: "Every {brand} watch we offer is checked by our authentication specialists before it ships: case, movement, serial numbers and papers. Pieces marked Available leave within days; the rest are sourced to order and ship within 14 days, with the same guarantee and a full refund if any piece ever fails an independent check.",
     jewelryTypeMetaTitle: "{type} | Diamond & Fine Jewelry",
     jewelryTypeDescription: "Fine jewelry {type}: natural diamonds and precious stones, certified where stated and verified before shipping. Worldwide delivery, 14-day returns.",
     jewelryTypeIntro: "Natural diamonds and precious stones in platinum and gold. Certificates are listed on each piece where the stone has one, and every item is verified by our specialists before it ships.",
@@ -291,7 +291,7 @@ const en = {
       enquireOr: "Or contact us by",
       shippingReturns: "Shipping & Returns",
       shippingReturnsBody:
-        "We arrange every delivery ourselves: insured express, tracked, with signature on delivery, worldwide. It is complimentary on orders over $5,000 (smaller orders from $45), and pieces over $100,000 travel by secure courier, arranged personally. Pieces marked In Stock leave within a few business days; pieces marked Ships in 14 days are sourced to order and ship within 14 days. Import duties, where they apply, are paid by the buyer and confirmed before you pay. Returns are accepted within 14 days of delivery, unworn and complete, and refunds go back to the same account the payment came from.",
+        "We arrange every delivery ourselves: insured express, tracked, with signature on delivery, worldwide. It is complimentary on orders over $5,000 (smaller orders from $45), and pieces over $100,000 travel by secure courier, arranged personally. Pieces marked Available leave within a few business days; pieces marked Ships in 14 days are sourced to order and ship within 14 days. Import duties, where they apply, are paid by the buyer and confirmed before you pay. Returns are accepted within 14 days of delivery, unworn and complete, and refunds go back to the same account the payment came from.",
       specifications: "Specifications",
       groups: { overview: "Overview", case: "Case & Bezel", dial: "Dial", bracelet: "Bracelet", movement: "Movement", stones: "Stones & Metal", details: "Details" } as Record<string, string>,
       gallery: { open: "Open image {n} full screen", close: "Close", prev: "Previous image", next: "Next image", show: "Show image {n}" },
@@ -312,7 +312,7 @@ const en = {
     faq: {
       watches: [
         { q: "Is every watch authentic?", a: "Yes. Every watch is verified by our authentication specialists before it ships: case, movement, serial and reference numbers, and any box and papers listed. If a piece ever fails an independent third-party check, we refund the full price." },
-        { q: "What does “Ships in 14 days” mean?", a: "The watch is sourced to order. Once you confirm, we secure it, verify it and ship it within 14 days. Watches marked In Stock leave within a few business days." },
+        { q: "What does “Ships in 14 days” mean?", a: "The watch is sourced to order. Once you confirm, we secure it, verify it and ship it within 14 days. Watches marked Available leave within a few business days." },
         { q: "Do the watches come with box and papers?", a: "Where a watch has its original box and papers, they are listed in its specifications. If a detail matters to you and is not listed, ask us before you buy and we will confirm it in writing." },
         { q: "How is my watch shipped?", a: "We arrange it ourselves: insured express, tracked, with signature on delivery, worldwide, and complimentary on every watch over $5,000. Pieces over $100,000 travel by secure courier. Import VAT and duties, where they apply, are paid by the buyer; we confirm them before you pay." },
         { q: "Can I return a watch?", a: "Yes, within 14 days of delivery, unworn and complete as received. The refund goes back to the same account the payment came from." },
@@ -331,7 +331,7 @@ const en = {
       ],
     },
   },
-  availability: { in_stock: "In Stock", pre_order: "Ships in 14 days", sold_out: "Sold Out", coming_soon: "Coming Soon" } as Record<string, string>,
+  availability: { in_stock: "Available", pre_order: "Ships in 14 days", sold_out: "Sold Out", coming_soon: "Coming Soon" } as Record<string, string>,
   contact: {
     eyebrow: "Concierge",
     title: "Get in Touch",
