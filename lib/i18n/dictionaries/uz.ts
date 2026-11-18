@@ -259,11 +259,9 @@ const uz: Dictionary = {
       float: "WhatsApp orqali yozing",
       global: "Salom Montévane, menga yordam kerak.",
       product: "Salom Montévane, menga {item}{ref} qiziq – {url}",
-      video: "Salom Montévane, {item}{ref} uchun video-ko'rikka yozilmoqchiman – {url}",
       viewing: "Salom Montévane, konsyerjingiz bilan gaplashmoqchiman.",
       sourcing: "Salom Montévane, men aniq bir referensni qidiryapman: ",
       enquire: "WhatsApp orqali so'rash",
-      videoViewing: "Video-ko'rikka yozilish",
     },
     wishlistPage: {
       title: "Saralanganlar",

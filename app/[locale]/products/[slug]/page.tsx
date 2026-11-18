@@ -170,26 +170,12 @@ export default async function ProductPage({ params }: Props) {
                 {ui.wa.enquire}
               </WhatsAppLink>
             )}
-            <div className="grid grid-cols-2 gap-3">
-              {hasWhatsApp && (
-                <WhatsAppLink
-                  lines={channels.whatsappLines}
-                  message={fmt(ui.wa.video, { item, ref: refText, url })}
-                  location="video_viewing"
-                  itemId={product.slug}
-                  chooseLabel={ui.wa.choose}
-                  className="flex min-h-12 w-full items-center justify-center border border-foreground px-3 text-center text-xs font-medium tracking-[0.1em] uppercase transition-colors hover:bg-foreground hover:text-white"
-                >
-                  {ui.wa.videoViewing}
-                </WhatsAppLink>
-              )}
-              <a
-                href="#inquire"
-                className={`flex min-h-12 items-center justify-center border border-border px-3 text-center text-xs font-medium tracking-[0.1em] uppercase transition-colors hover:border-foreground ${hasWhatsApp ? "" : "col-span-2"}`}
-              >
-                {ui.product.sendEnquiry}
-              </a>
-            </div>
+            <a
+              href="#inquire"
+              className="flex min-h-12 items-center justify-center border border-border px-3 text-center text-xs font-medium tracking-[0.1em] uppercase transition-colors hover:border-foreground"
+            >
+              {ui.product.sendEnquiry}
+            </a>
             <div className="pt-2">
               <p className="mb-2 text-xs tracking-[0.1em] text-muted-foreground uppercase">{ui.product.enquireOr}</p>
               <ContactButtons

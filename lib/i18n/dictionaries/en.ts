@@ -267,11 +267,9 @@ const en = {
       float: "Chat with us on WhatsApp",
       global: "Hello Montévane, I'd like some help.",
       product: "Hello Montévane, I'm interested in the {item}{ref} – {url}",
-      video: "Hello Montévane, I'd like to book a video viewing of the {item}{ref} – {url}",
       viewing: "Hello Montévane, I'd like to speak with your concierge.",
       sourcing: "Hello Montévane, I'm looking for a specific reference: ",
       enquire: "Enquire on WhatsApp",
-      videoViewing: "Book a video viewing",
     },
     wishlistPage: {
       title: "Wishlist",

@@ -258,11 +258,9 @@ const de: Dictionary = {
       float: "Mit uns auf WhatsApp chatten",
       global: "Hallo Montévane, ich hätte gern Hilfe.",
       product: "Hallo Montévane, ich interessiere mich für {item}{ref} – {url}",
-      video: "Hallo Montévane, ich möchte eine Video-Besichtigung von {item}{ref} buchen – {url}",
       viewing: "Hallo Montévane, ich möchte gerne mit Ihrem Concierge sprechen.",
       sourcing: "Hallo Montévane, ich suche eine bestimmte Referenz: ",
       enquire: "Per WhatsApp anfragen",
-      videoViewing: "Video-Besichtigung buchen",
     },
     wishlistPage: {
       title: "Merkliste",

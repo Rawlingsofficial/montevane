@@ -8,6 +8,7 @@ import { CURRENCY_SCRIPT } from "@/components/common/CurrencySwitch";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { InAppWhatsApp } from "@/components/whatsapp/InAppWhatsApp";
 import { WhatsAppFloat } from "@/components/whatsapp/WhatsAppFloat";
 import { getContactChannels } from "@/lib/data/catalog";
 import { cormorant, inter } from "@/lib/fonts";
@@ -82,6 +83,7 @@ export default async function StoreLayout({ children, params }: LayoutProps<"/[l
         <Footer locale={locale} channels={channels} />
         <WhatsAppFloat lines={channels.whatsappLines} message={t.ui.wa.global} label={t.ui.wa.float} chooseLabel={t.ui.wa.choose} />
         <JsonLd data={[organizationLd(channels), websiteLd(locale)]} />
+        <InAppWhatsApp />
         <GoogleAnalytics />
       </body>
     </html>

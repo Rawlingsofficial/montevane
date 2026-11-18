@@ -69,7 +69,7 @@ export const post: Post = {
             head: ["Step", "What happens"],
             rows: [
               ["Enquire", "Contact us about a piece – by form, WhatsApp, phone or email."],
-              ["Confirm", "A specialist confirms availability, condition, extra photos or a video viewing, and the final price including any duties."],
+              ["Confirm", "A specialist confirms availability, condition, extra photos or videos, and the final price including any duties."],
               ["Pay", "By bank wire, card, crypto or a secure payment link – arranged directly with us."],
               ["Receive", "Insured express delivery with signature, complimentary over $5,000."],
               ["Return", "Within 14 days if it's not right, unworn and complete."],
