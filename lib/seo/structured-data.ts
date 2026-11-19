@@ -127,10 +127,11 @@ export function productLd(product: StoreProduct, locale: Locale, description: st
     "@id": `${url}#product`,
     name: product.title,
     description,
-    sku: product.slug,
+    sku: product.sku,
     ...(product.facets.reference ? { mpn: product.facets.reference } : {}),
     image: product.images.map((img) => absoluteImage(img.url)),
-    ...(product.showBrand ? { brand: { "@type": "Brand", name: product.brand } } : {}),
+    // Unbranded pieces carry the house name, as in the feeds, so every product has a brand identifier.
+    brand: { "@type": "Brand", name: product.showBrand ? product.brand : SITE_NAME },
     ...(product.color ? { color: product.color } : {}),
     ...(product.materials ? { material: product.materials } : {}),
     offers: {
