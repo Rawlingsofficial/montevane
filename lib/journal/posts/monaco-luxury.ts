@@ -14,7 +14,7 @@ export const post: Post = {
   cover: "richard-mille-transparent-dial-rm12-01-sapphire-blue-tourbillion-transparent-dial-50-mm",
   picks: { category: "watches", min: 50000, sort: "price_desc", limit: 8 },
   intro: [
-    "Monaco is small, but between spring and autumn it hosts some of the world's most watched events. It's also where Montévane began, at 1 Place du Casino.",
+    "Monaco is small, but between spring and autumn it hosts some of the world's most watched events. It's also where Montévane began.",
   ],
   sections: [
     {
@@ -45,14 +45,14 @@ export const post: Post = {
       id: "visit",
       heading: "Visiting our Monaco boutique",
       blocks: [
-        "Our boutique is at 1 Place du Casino. If there's a particular watch or Hermès bag you'd like to see, contact us before your visit so we can have it ready. Travelling with a new piece? Read [travelling with a Birkin or Rolex](/journal/travelling-with-a-birkin-or-rolex).",
+        "We're in Monaco. If there's a particular watch or Hermès bag you'd like to see, contact us before your visit so we can have it ready. Travelling with a new piece? Read [travelling with a Birkin or Rolex](/journal/travelling-with-a-birkin-or-rolex).",
       ],
     },
   ],
   faq: [
     { q: "When is the Monaco Grand Prix?", a: "Traditionally in late May or early June; check the official Formula 1 calendar for the exact dates." },
     { q: "When is the Monaco Yacht Show?", a: "Usually in late September at Port Hercule." },
-    { q: "Where is Montévane in Monaco?", a: "At 1 Place du Casino, Monte-Carlo. We also have a boutique in Miami." },
+    { q: "Where is Montévane in Monaco?", a: "In Monte-Carlo. Contact us before your visit. We also have a boutique in Miami." },
   ],
   sources: [
     { label: "Visit Monaco – official tourism site", url: "https://www.visitmonaco.com/en" },

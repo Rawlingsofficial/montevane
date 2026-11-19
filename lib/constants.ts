@@ -24,17 +24,6 @@ const maps = (q: string) => ({
 
 export const STORE_LOCATIONS: StoreLocation[] = [
   {
-    city: "Monaco",
-    street: "1 Place du Casino",
-    postalCode: "98000",
-    locality: "Monaco",
-    country: "MC",
-    countryName: "Monaco",
-    lat: 43.7396,
-    lng: 7.4276,
-    ...maps("1 Place du Casino, 98000 Monaco"),
-  },
-  {
     city: "Miami",
     street: "4000 NE 1st Avenue",
     postalCode: "33137",
@@ -52,7 +41,7 @@ export const STORE_ADDRESS = STORE_LOCATIONS[0];
 export const MAP_EMBED_URL = STORE_ADDRESS.embedUrl;
 export const MAPS_URL = STORE_ADDRESS.mapsUrl;
 
-/** "98000 Monaco" / "Miami, FL 33137" */
+/** "Miami, FL 33137" (or "98000 Monaco" for an address without a region) */
 export function cityLine(l: StoreLocation): string {
   return l.region ? `${l.locality}, ${l.region} ${l.postalCode}` : `${l.postalCode} ${l.locality}`;
 }

@@ -14,9 +14,9 @@ const de: Dictionary = {
     collectionsTitle: "Kollektionen – exotisches Hermès, HSS & Neuheiten",
     collectionsDescription: "Neuheiten, exotisches Hermès, HSS-Sonderanfertigungen, gebrauchte und seltene Stücke – kuratiert vom Hermès-Spezialisten.",
     contactTitle: "Kontakt – Boutiquen Monaco & Miami, WhatsApp, Telegram oder Anruf",
-    contactDescription: "Besuchen Sie uns in Monaco (1 Place du Casino) oder Miami (4000 NE 1st Avenue), oder schreiben Sie Montévane per WhatsApp, Telegram, Signal, Telefon oder E-Mail.",
+    contactDescription: "Besuchen Sie uns in Monaco oder Miami (4000 NE 1st Avenue), oder schreiben Sie Montévane per WhatsApp, Telegram, Signal, Telefon oder E-Mail.",
     aboutTitle: "Über Montévane – Hermès- & Uhrenspezialist in Monaco & Miami",
-    aboutDescription: "Montévane hat Boutiquen in Monaco (Place du Casino) und Miami (Design District), spezialisiert auf originales Hermès und seltene Uhren – mit Garantie auf jedes Stück.",
+    aboutDescription: "Montévane hat Boutiquen in Monaco und Miami (Design District), spezialisiert auf originales Hermès und seltene Uhren – mit Garantie auf jedes Stück.",
     paymentTitle: "Zahlung, Versand & 14 Tage Rückgabe",
     paymentDescription: "Zahlung per Überweisung, Krypto (Bitcoin, USDT) oder Karte. Voll versicherter, verfolgbarer Versand weltweit und 14 Tage Rückgaberecht auf jedes Stück.",
     privacyTitle: "Datenschutzerklärung",
@@ -83,7 +83,7 @@ const de: Dictionary = {
   why: [
     { title: "Echtheitsgarantie", description: "Jedes Stück wird vor dem Angebot von unseren Experten geprüft. Volle Rückerstattung, falls ein Stück eine Drittprüfung nicht besteht." },
     { title: "14 Tage Rückgabe", description: "Jedes Stück innerhalb von 14 Tagen nach Lieferung zurückgeben – ungetragen und vollständig." },
-    { title: "Monaco & Miami", description: "Besuchen Sie uns am 1 Place du Casino, Monaco, oder 4000 NE 1st Avenue, Miami – oder kaufen Sie aus der Ferne mit voll versichertem Versand." },
+    { title: "Monaco & Miami", description: "Besuchen Sie uns in Monaco oder in der 4000 NE 1st Avenue, Miami – oder kaufen Sie aus der Ferne mit voll versichertem Versand." },
     { title: "Persönlicher Concierge", description: "Fragen Sie nach jeder Birkin, Kelly oder seltenen Uhr – wir finden Sonderanfertigungen und Exoten." },
   ],
   categories: {

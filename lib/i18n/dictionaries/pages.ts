@@ -30,7 +30,7 @@ export const PAGES: Record<Locale, PageCopy> = {
         {
           eyebrow: "The Experience",
           title: "Personal service, in Monaco or anywhere",
-          body: "See a piece in person at our boutique on Place du Casino, or talk to us on WhatsApp, Telegram, Signal or by phone. Pay securely by payment link, card or bank wire, receive it fully insured anywhere in the world, and return it within 14 days if it isn't right.",
+          body: "See a piece in person at our boutique in Monaco, or talk to us on WhatsApp, Telegram, Signal or by phone. Pay securely by payment link, card or bank wire, receive it fully insured anywhere in the world, and return it within 14 days if it isn't right.",
         },
       ],
       founderEyebrow: "Who You'll Deal With",
@@ -77,7 +77,7 @@ export const PAGES: Record<Locale, PageCopy> = {
         {
           eyebrow: "Der Service",
           title: "Persönlich – in Monaco oder überall",
-          body: "Sehen Sie Stücke in unserer Boutique am Place du Casino oder schreiben Sie uns per WhatsApp, Telegram, Signal oder rufen Sie an. Sichere Zahlung per Zahlungslink, Karte oder Überweisung, voll versicherter Versand weltweit und 14 Tage Rückgabe.",
+          body: "Sehen Sie Stücke in unserer Boutique in Monaco oder schreiben Sie uns per WhatsApp, Telegram, Signal oder rufen Sie an. Sichere Zahlung per Zahlungslink, Karte oder Überweisung, voll versicherter Versand weltweit und 14 Tage Rückgabe.",
         },
       ],
       founderEyebrow: "Ihr Ansprechpartner",
@@ -124,7 +124,7 @@ export const PAGES: Record<Locale, PageCopy> = {
         {
           eyebrow: "Xizmat",
           title: "Monakoda yoki istalgan joyda shaxsiy xizmat",
-          body: "Place du Casino'dagi butikimizda ko'ring yoki WhatsApp, Telegram, Signal orqali yozing. To'lov havolasi, karta yoki bank o'tkazmasi bilan xavfsiz to'lov, butun dunyoga sug'urtalangan yetkazib berish va 14 kun ichida qaytarish.",
+          body: "Monakodagi butikimizda ko'ring yoki WhatsApp, Telegram, Signal orqali yozing. To'lov havolasi, karta yoki bank o'tkazmasi bilan xavfsiz to'lov, butun dunyoga sug'urtalangan yetkazib berish va 14 kun ichida qaytarish.",
         },
       ],
       founderEyebrow: "Siz bilan kim ishlaydi",

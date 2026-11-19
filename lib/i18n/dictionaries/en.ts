@@ -16,9 +16,9 @@ const en = {
     collectionsTitle: "Collections — Exotic Hermès, HSS Special Orders & New Arrivals",
     collectionsDescription: "New arrivals, exotic Hermès, HSS special orders, pre-owned and rare pieces — curated edits from a Hermès specialist.",
     contactTitle: "Contact Us — Monaco & Miami Boutiques, WhatsApp, Telegram or Call",
-    contactDescription: "Visit us in Monaco (1 Place du Casino) or Miami (4000 NE 1st Avenue), or reach Montévane on WhatsApp, Telegram, Signal, phone or email about a Hermès piece or a rare watch.",
+    contactDescription: "Visit us in Monaco or Miami (4000 NE 1st Avenue), or reach Montévane on WhatsApp, Telegram, Signal, phone or email about a Hermès piece or a rare watch.",
     aboutTitle: "About Montévane — Hermès & Rare Watches Specialist, Monaco & Miami",
-    aboutDescription: "Montévane has boutiques in Monaco (Place du Casino) and Miami (Design District), specialising in authentic Hermès and rare watches, with a guarantee on every piece.",
+    aboutDescription: "Montévane has boutiques in Monaco and Miami (Design District), specialising in authentic Hermès and rare watches, with a guarantee on every piece.",
     paymentTitle: "Payment, Shipping & 14-Day Returns",
     paymentDescription:
       "Pay by bank wire, crypto (Bitcoin, USDT) or card. Fully insured, tracked worldwide shipping, and a 14-day return window on every piece.",
@@ -87,7 +87,7 @@ const en = {
   why: [
     { title: "Authenticity Guarantee", description: "Every piece is verified by our specialists before it is listed. Full refund if any item fails a third-party check." },
     { title: "14-Day Returns", description: "Changed your mind? Return any piece within 14 days of delivery, unworn and complete, for a refund." },
-    { title: "Monaco & Miami", description: "Visit us at 1 Place du Casino, Monaco, or 4000 NE 1st Avenue, Miami — or buy remotely with fully insured, tracked worldwide shipping." },
+    { title: "Monaco & Miami", description: "Visit us in Monaco, or at 4000 NE 1st Avenue, Miami — or buy remotely with fully insured, tracked worldwide shipping." },
     { title: "Personal Concierge", description: "Ask us for any Birkin, Kelly or rare watch — we source special orders and exotics on request." },
   ],
   categories: {

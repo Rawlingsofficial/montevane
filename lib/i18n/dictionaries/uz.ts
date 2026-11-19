@@ -15,9 +15,9 @@ const uz: Dictionary = {
     collectionsTitle: "Kolleksiyalar – ekzotik Hermès, HSS va yangi kelganlar",
     collectionsDescription: "Yangi kelganlar, ekzotik Hermès, HSS maxsus buyurtmalar, ishlatilgan va noyob buyumlar – Hermès mutaxassisi tanlovi.",
     contactTitle: "Aloqa – Monako va Mayami butiklari, WhatsApp, Telegram yoki qo'ng'iroq",
-    contactDescription: "Monako (1 Place du Casino) yoki Mayamidagi (4000 NE 1st Avenue) butiklarimizga keling yoki Montévane bilan WhatsApp, Telegram, Signal, telefon yoki email orqali bog'laning.",
+    contactDescription: "Monako yoki Mayamidagi (4000 NE 1st Avenue) butiklarimizga keling yoki Montévane bilan WhatsApp, Telegram, Signal, telefon yoki email orqali bog'laning.",
     aboutTitle: "Montévane haqida – Monako va Mayamidagi Hermès va soatlar mutaxassisi",
-    aboutDescription: "Montévane – Monako (Place du Casino) va Mayamidagi (Design District) butiklari: original Hermès va noyob soatlarga ixtisoslashgan. Har bir buyumga kafolat.",
+    aboutDescription: "Montévane – Monako va Mayamidagi (Design District) butiklari: original Hermès va noyob soatlarga ixtisoslashgan. Har bir buyumga kafolat.",
     paymentTitle: "To'lov, yetkazib berish va 14 kun ichida qaytarish",
     paymentDescription: "Bank o'tkazmasi, kripto (Bitcoin, USDT) yoki karta bilan to'lov. Butun dunyoga sug'urtalangan yetkazib berish va har bir buyumni 14 kun ichida qaytarish.",
     privacyTitle: "Maxfiylik siyosati",
@@ -84,7 +84,7 @@ const uz: Dictionary = {
   why: [
     { title: "Haqiqiylik kafolati", description: "Har bir buyum sotuvdan oldin mutaxassislarimiz tomonidan tekshiriladi. Uchinchi tomon tekshiruvidan o'tmasa – to'liq pul qaytariladi." },
     { title: "14 kun ichida qaytarish", description: "Har qanday buyumni yetkazilgandan keyin 14 kun ichida, taqilmagan va to'liq holda qaytarishingiz mumkin." },
-    { title: "Monako va Mayami", description: "Monako (1 Place du Casino) yoki Mayamidagi (4000 NE 1st Avenue) butiklarimizga keling yoki sug'urtalangan yetkazib berish bilan masofadan xarid qiling." },
+    { title: "Monako va Mayami", description: "Monako yoki Mayamidagi (4000 NE 1st Avenue) butiklarimizga keling yoki sug'urtalangan yetkazib berish bilan masofadan xarid qiling." },
     { title: "Shaxsiy konsyerj", description: "Istalgan Birkin, Kelly yoki noyob soatni so'rang – maxsus buyurtma va ekzotiklarni topib beramiz." },
   ],
   categories: {
