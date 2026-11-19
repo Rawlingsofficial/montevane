@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-06-30",
   keyword: "vacheron constantin overseas",
   keywords: ["overseas 4500v", "overseas dual time", "overseas vs royal oak", "overseas chronograph", "vacheron sports watch"],
-  image: "watch_2",
+  image: "watches_showcase",
   cover: "vacheron-constantin-overseas-4520v-210r-b705-18k-rose-gold-sunburst-blue-index-dial-41-mm",
   picks: { brand: "vacheron-constantin", sort: "price_asc", limit: 8 },
   intro: [

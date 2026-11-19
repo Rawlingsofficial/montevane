@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-04-30",
   keyword: "royal oak 37 vs 41",
   keywords: ["15550st", "15510st", "royal oak size", "royal oak 37mm", "royal oak 41mm"],
-  image: "watch_2",
+  image: "watches_showcase",
   cover: "audemars-piguet-royal-oak-15550st-50th-anniversary-stainless-steel-silver-index-dial-37-mm",
   picks: { brand: "audemars-piguet", query: "royal oak", sort: "price_asc", limit: 8 },
   intro: [

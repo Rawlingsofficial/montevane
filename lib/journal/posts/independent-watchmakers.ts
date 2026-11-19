@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-06-16",
   keyword: "independent watchmakers",
   keywords: ["fp journe", "mb&f", "de bethune", "akrivia", "independent watch brands"],
-  image: "watch_3",
+  image: "watches_showcase",
   cover: "f-p-journe-titalyt-titanium-luminicent-white-dial-40-mm",
   picks: { brand: "fp-journe", sort: "price_asc", limit: 8 },
   intro: [

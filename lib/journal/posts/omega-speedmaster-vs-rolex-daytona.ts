@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-03-12",
   keyword: "speedmaster vs daytona",
   keywords: ["omega moonwatch", "rolex daytona", "best luxury chronograph", "speedmaster price", "daytona alternative"],
-  image: "watch_3",
+  image: "watches_showcase",
   cover: "omega-speedmaster-311-92-44-30-01-001-dark-side-of-the-moon-ceramic-skeleton-dial-44-mm",
   picks: { brand: "omega", sort: "price_asc", limit: 4 },
   intro: [

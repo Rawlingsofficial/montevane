@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-01-06",
   keyword: "fp journe",
   keywords: ["fp journe chronometre bleu", "fp journe octa", "fp journe tourbillon souverain", "fp journe price", "independent watchmakers"],
-  image: "watch_2",
+  image: "watches_showcase",
   cover: "f-p-journe-octa-automatique-lune-platinum-guilloche-silver-dial-40-mm-2",
   picks: { brand: "fp-journe", sort: "price_asc", limit: 8 },
   intro: [

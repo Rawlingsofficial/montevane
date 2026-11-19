@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-04-26",
   keyword: "watch water resistance",
   keywords: ["can i swim with my rolex", "100m water resistant", "screw-down crown", "dive watch", "iso 6425"],
-  image: "watch_3",
+  image: "watches_showcase",
   cover: "rolex-submariner-126610lv-starbucks-stainless-steel-black-index-dial-oyster-bracelet-41",
   picks: { brand: "rolex", query: "submariner", sort: "newest", limit: 4 },
   intro: [

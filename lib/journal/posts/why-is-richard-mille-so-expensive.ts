@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-11-25",
   keyword: "why is richard mille so expensive",
   keywords: ["richard mille price", "richard mille rm 011", "richard mille rm 07-01", "carbon tpt", "richard mille resale"],
-  image: "watch_3",
+  image: "watches_showcase",
   cover: "richard-mille-rm-028-rm028-titanium-blue-skeleton-dial-47-mm",
   picks: { brand: "richard-mille", sort: "price_asc", limit: 8 },
   intro: [

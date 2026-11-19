@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-01-15",
   keyword: "tudor black bay vs rolex submariner",
   keywords: ["tudor vs rolex", "black bay 58", "is tudor as good as rolex", "rolex submariner 124060", "tudor black bay review"],
-  image: "watch_3",
+  image: "watches_showcase",
   cover: "tudor-black-bay-79230n-steel-red-bezel-black-dial-41-mm",
   picks: { brand: "tudor", sort: "price_asc", limit: 4 },
   intro: [

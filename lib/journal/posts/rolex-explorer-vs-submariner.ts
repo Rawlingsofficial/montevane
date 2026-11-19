@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-04-02",
   keyword: "explorer vs submariner",
   keywords: ["explorer 124270", "submariner 124060", "everyday rolex", "explorer 40", "rolex explorer size"],
-  image: "watch_3",
+  image: "watches_showcase",
   cover: "rolex-explorer-224270-stainless-steel-black-dial-oyster-bracelet-40-mm",
   picks: { brand: "rolex", query: "explorer", sort: "price_asc", limit: 8 },
   intro: [

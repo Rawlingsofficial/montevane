@@ -11,7 +11,7 @@ export const post: Post = {
   date: "2026-11-09",
   keyword: "audemars piguet royal oak guide",
   keywords: ["royal oak 15510", "royal oak jumbo", "royal oak sizes"],
-  image: "watch_3",
+  image: "watches_showcase",
   cover: "audemars-piguet-royal-oak-26240or-chronograph-50th-anniversary-18k-rose-gold-black-grande",
   picks: { query: "royal oak", brand: "audemars-piguet", sort: "newest" },
   intro: [

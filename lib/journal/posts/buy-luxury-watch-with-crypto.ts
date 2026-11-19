@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-12-09",
   keyword: "buy rolex with bitcoin",
   keywords: ["buy birkin with crypto", "pay with usdt luxury", "luxury watch crypto payment", "bitcoin luxury goods", "is buying with crypto taxable"],
-  image: "watch_2",
+  image: "watches_showcase",
   cover: "rolex-datejust-31-278278-18k-yellow-gold-tahitian-mop-diamond-dial-presidential-bracelet",
   picks: { brand: "rolex", min: 15000, sort: "newest", limit: 8 },
   intro: [

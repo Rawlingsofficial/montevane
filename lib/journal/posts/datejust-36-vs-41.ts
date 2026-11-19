@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-01-08",
   keyword: "datejust 36 vs 41",
   keywords: ["rolex datejust 36", "rolex datejust 41", "126334 vs 126234", "datejust size", "datejust jubilee or oyster"],
-  image: "watch_1",
+  image: "watches_showcase",
   cover: "rolex-datejust-41-126331-stainless-steel-and-18k-rose-gold-sundust-dial-jubilee-bracelet",
   picks: { brand: "rolex", query: "datejust 41", sort: "newest", limit: 4 },
   intro: [

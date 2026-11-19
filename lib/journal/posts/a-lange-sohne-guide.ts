@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-06-23",
   keyword: "a lange sohne",
   keywords: ["lange 1", "datograph", "saxonia", "zeitwerk", "glashutte watches"],
-  image: "watch_3",
+  image: "watches_showcase",
   cover: "a-lange-and-sohne-320-025-platinum-silver-dial-39-mm",
   picks: { brand: "a-lange-sohne", sort: "price_asc", limit: 8 },
   intro: [

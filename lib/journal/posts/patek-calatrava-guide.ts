@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-03-10",
   keyword: "patek philippe calatrava",
   keywords: ["calatrava 6119", "calatrava 5227", "calatrava 5196", "best dress watch", "patek calatrava price"],
-  image: "watch_2",
+  image: "watches_showcase",
   cover: "patek-philippe-calatrava-5524g-001-pilot-travel-time-18k-white-gold-blue-dial-42-mm",
   picks: { brand: "patek-philippe", query: "calatrava", sort: "price_asc", limit: 8 },
   intro: [

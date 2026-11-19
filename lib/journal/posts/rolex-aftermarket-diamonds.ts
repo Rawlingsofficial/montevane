@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-02-10",
   keyword: "aftermarket diamonds rolex",
   keywords: ["factory diamond rolex", "rolex diamond bezel", "rolex rbr meaning", "custom rolex value", "iced out rolex"],
-  image: "watch_1",
+  image: "watches_showcase",
   cover: "rolex-datejust-36-126234-stainless-steel-black-diamond-dial-oyster-bracelet-36-mm",
   picks: { brand: "rolex", query: "diamond", sort: "price_asc", limit: 8 },
   intro: [

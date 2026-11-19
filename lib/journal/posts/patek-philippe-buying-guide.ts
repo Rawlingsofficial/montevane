@@ -11,7 +11,7 @@ export const post: Post = {
   date: "2026-11-10",
   keyword: "patek philippe buying guide",
   keywords: ["nautilus", "aquanaut", "calatrava", "pre-owned patek philippe"],
-  image: "watch_2",
+  image: "watches_showcase",
   cover: "patek-philippe-nautilus-7118-1452g-001-18k-white-gold-ruby-bezel-diamond-pave-ruby-index",
   picks: { brand: "patek-philippe", sort: "newest" },
   intro: [

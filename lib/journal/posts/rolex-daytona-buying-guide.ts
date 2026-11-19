@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-01-20",
   keyword: "rolex daytona buying guide",
   keywords: ["rolex daytona 126500ln", "rolex daytona 116500ln", "daytona panda", "rolex daytona price", "daytona gold"],
-  image: "watch_1",
+  image: "watches_showcase",
   cover: "rolex-daytona-116520-stainless-steel-white-index-dial-oyster-bracelet-40-mm",
   picks: { brand: "rolex", query: "daytona", sort: "price_asc", limit: 8 },
   intro: [

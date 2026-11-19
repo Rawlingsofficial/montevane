@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-04-23",
   keyword: "datejust vs day-date",
   keywords: ["president vs jubilee", "day-date gold", "datejust steel", "rolex president", "day-date 40"],
-  image: "watch_1",
+  image: "watches_showcase",
   cover: "rolex-day-date-36-118208-18k-yellow-gold-champagne-dial-oyster-bracelet-36-mm",
   picks: { brand: "rolex", query: "day-date", sort: "price_asc", limit: 8 },
   intro: [

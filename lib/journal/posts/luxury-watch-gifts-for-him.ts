@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-11-15",
   keyword: "luxury watch gift for him",
   keywords: ["best watch to gift husband", "rolex as a gift", "first luxury watch", "christmas watch gift", "watch gift ideas"],
-  image: "watch_1",
+  image: "watches_showcase",
   cover: "rolex-yacht-master-ii-116681-stainless-steel-and-18k-rose-gold-white-index-dial-oyster",
   picks: { category: "watches", min: 3000, max: 30000, sort: "newest", limit: 8 },
   intro: [

@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-01-04",
   keyword: "watch size guide",
   keywords: ["what size watch should i wear", "watch size for wrist", "lug to lug", "36mm vs 40mm", "how to measure wrist for watch"],
-  image: "watch_1",
+  image: "watches_showcase",
   cover: "rolex-land-dweller-127234-stainless-steel-and-18k-white-gold-white-honeycomb-motif-dial",
   picks: { brand: "rolex", query: "36", sort: "newest", limit: 8 },
   intro: [

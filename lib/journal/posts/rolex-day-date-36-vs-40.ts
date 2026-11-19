@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-02-19",
   keyword: "day-date 36 vs 40",
   keywords: ["rolex day-date 40", "rolex day-date 36", "rolex president", "day-date platinum ice blue", "day-date 228238"],
-  image: "watch_1",
+  image: "watches_showcase",
   cover: "rolex-day-date-36-18238-18k-yellow-gold-champagne-dial-36-mm",
   picks: { brand: "rolex", query: "day-date", sort: "price_asc", limit: 8 },
   intro: [

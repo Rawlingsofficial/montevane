@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-02-17",
   keyword: "holy trinity watches",
   keywords: ["patek philippe vs audemars piguet vs vacheron constantin", "vacheron constantin overseas", "best luxury watch brands", "haute horlogerie", "royal oak vs overseas"],
-  image: "watch_2",
+  image: "watches_showcase",
   cover: "vacheron-constantin-overseas-7920v-210a-b546-dual-time-stainless-steel-black-index-dial",
   picks: { brand: "vacheron-constantin", sort: "price_asc", limit: 4 },
   intro: [

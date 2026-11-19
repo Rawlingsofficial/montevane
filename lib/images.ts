@@ -22,10 +22,10 @@ export const BRAND_BANNER: Record<string, string> = {
   hermes: "banner_hermes",
   "bag-bestie": "product_interior",
   baginizer: "product_interior",
-  rolex: "watch_1",
-  "patek-philippe": "watch_2",
-  "audemars-piguet": "watch_1",
-  cartier: "watch_3",
+  rolex: "watches_showcase",
+  "patek-philippe": "watches_showcase",
+  "audemars-piguet": "watches_showcase",
+  cartier: "watches_showcase",
   "van-cleef-arpels": "jewelry_1",
   "van-cleef-and-arpels": "jewelry_1",
   tiffany: "jewelry_1",
@@ -37,7 +37,7 @@ export const BRAND_BANNER: Record<string, string> = {
 export const CATEGORY_IMAGE: Record<string, string> = {
   "birkin-bags": "hero_2",
   "kelly-bags": "hero_4",
-  watches: "watch_1",
+  watches: "watches_showcase",
   jewelry: "jewelry_1",
   "bag-charms": "product_45deg",
   "twilly-scarves": "lifestyle_3",
@@ -60,6 +60,8 @@ export const COLLECTION_IMAGE: Record<string, string> = {
   "hss-special-order": "feature_card_1",
   "pre-owned-hermes": "lifestyle_1",
   "custom-rare": "product_45deg",
+  "rare-watches": "watches_showcase",
+  "fine-jewelry": "jewelry_1",
 };
 
 // Journal post slug → editorial asset base.

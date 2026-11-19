@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-05-21",
   keyword: "gmt-master ii vs explorer ii",
   keywords: ["explorer ii polar", "gmt bezel", "explorer ii 226570", "rolex gmt", "24 hour hand"],
-  image: "watch_1",
+  image: "watches_showcase",
   cover: "rolex-explorer-ii-16570-stainless-steel-black-index-dial-oyster-bracelet-40-mm",
   picks: { brand: "rolex", query: "explorer ii", sort: "price_asc", limit: 8 },
   intro: [

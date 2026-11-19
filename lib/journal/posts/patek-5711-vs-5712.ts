@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-05-07",
   keyword: "5711 vs 5712",
   keywords: ["5712 power reserve moon phase", "nautilus complications", "patek 5712", "nautilus 5712 price", "patek micro-rotor"],
-  image: "watch_2",
+  image: "watches_showcase",
   cover: "patek-philippe-nautilus-5990-1423g-001-18k-white-gold-charcoal-gray-dial-41-mm",
   picks: { brand: "patek-philippe", query: "nautilus", sort: "price_desc", limit: 8 },
   intro: [

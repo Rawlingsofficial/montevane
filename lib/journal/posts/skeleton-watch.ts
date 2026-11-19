@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-06-14",
   keyword: "skeleton watch",
   keywords: ["openworked watch", "royal oak openworked", "richard mille skeleton", "skeleton vs open heart", "skeletonised movement"],
-  image: "watch_2",
+  image: "watches_showcase",
   cover: "richard-mille-rm-38-02-bubba-watson-tourbillon-limited-to-50-pcs-carbon-tpt-and-quartz",
   picks: { category: "watches", query: "skeleton", sort: "price_desc", limit: 8 },
   intro: [

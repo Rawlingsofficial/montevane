@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-01-22",
   keyword: "royal oak vs royal oak offshore",
   keywords: ["royal oak offshore", "royal oak offshore 42mm", "royal oak chronograph", "audemars piguet offshore price", "royal oak 41mm"],
-  image: "watch_3",
+  image: "watches_showcase",
   cover: "audemars-piguet-royal-oak-offshore-26470st-stainless-steel-blue-mega-tapisserie-arabic",
   picks: { brand: "audemars-piguet", query: "offshore", sort: "price_asc", limit: 8 },
   intro: [

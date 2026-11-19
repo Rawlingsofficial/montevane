@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-05-28",
   keyword: "yacht-master vs submariner",
   keywords: ["platinum bezel", "rolesium", "sailing watch", "yacht-master 40", "yacht-master 42"],
-  image: "watch_3",
+  image: "watches_showcase",
   cover: "rolex-yacht-master-126621-stainless-steel-and-18k-rose-gold-chocolate-index-dial-oyster",
   picks: { brand: "rolex", query: "yacht-master", sort: "price_asc", limit: 8 },
   intro: [

@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-12-28",
   keyword: "how to spot a fake rolex",
   keywords: ["fake rolex vs real", "rolex authentication", "rolex serial number"],
-  image: "watch_1",
+  image: "watches_showcase",
   cover: "rolex-day-date-36-118238-18k-yellow-gold-pink-index-dial-presidential-bracelet-36-mm",
   picks: { brand: "rolex", sort: "newest" },
   intro: [

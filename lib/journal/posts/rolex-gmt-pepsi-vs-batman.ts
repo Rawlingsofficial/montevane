@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-11-27",
   keyword: "rolex pepsi vs batman",
   keywords: ["gmt-master ii 126710blro", "gmt-master ii 126710blnr", "rolex gmt"],
-  image: "watch_1",
+  image: "watches_showcase",
   cover: "rolex-gmt-master-ii-126710blnr-batman-stainless-steel-black-index-dial-jubilee-bracelet",
   picks: { query: "gmt", brand: "rolex", sort: "newest" },
   intro: [

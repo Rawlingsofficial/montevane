@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-06-04",
   keyword: "richard mille vs audemars piguet",
   keywords: ["rm vs royal oak offshore", "luxury sports watch", "richard mille or ap", "royal oak vs richard mille"],
-  image: "watch_2",
+  image: "watches_showcase",
   cover: "richard-mille-rm56-01-transparent-dial-tourbillon-brown-sapphire-skeleton-dial-50-mm",
   picks: { brand: "richard-mille", sort: "price_desc", limit: 8 },
   intro: [

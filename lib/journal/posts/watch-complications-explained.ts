@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-01-18",
   keyword: "watch complications explained",
   keywords: ["perpetual calendar", "annual calendar watch", "tourbillon", "minute repeater", "grand complication"],
-  image: "watch_2",
+  image: "watches_showcase",
   cover: "patek-philippe-grand-complications-5496p-014-perpetual-calendar-platinum-honey-index-dial",
   picks: { brand: "patek-philippe", query: "perpetual", sort: "price_asc", limit: 8 },
   intro: [
