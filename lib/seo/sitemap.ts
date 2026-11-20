@@ -1,5 +1,5 @@
-import { brandPath } from "@/lib/catalog/taxonomy";
-import { getBrands, getCategories, getCollections, getLiveModels, getProductIndex, getSubcategories } from "@/lib/data/catalog";
+import { BRAND_SUBCATEGORIES, INDEX_MIN_PIECES, brandPath } from "@/lib/catalog/taxonomy";
+import { getBrandConditions, getBrands, getCategories, getCollections, getLiveModels, getProductIndex, getSubcategories } from "@/lib/data/catalog";
 import { publishedPosts, TOPICS } from "@/lib/journal";
 import { DEFAULT_LOCALE, LOCALES, siteUrl, type Locale } from "@/lib/i18n/config";
 import { absoluteUrl, languageAlternates } from "@/lib/seo/metadata";
@@ -25,7 +25,17 @@ async function entries(): Promise<Entry[]> {
     getLiveModels(),
   ]);
   const subcategories = await Promise.all(
-    categories.map(async (c) => (await getSubcategories(c.slug)).map((s) => `/shop/${c.slug}/${s.slug}`))
+    categories.map(async (c) => {
+      const subs = await getSubcategories(c.slug);
+      // Birkin pages join the sitemap once they have enough bags (they are noindex until then).
+      const paths = subs.filter((s) => c.slug !== "birkin-bags" || s.count >= INDEX_MIN_PIECES).map((s) => `/shop/${c.slug}/${s.slug}`);
+      if (!BRAND_SUBCATEGORIES.has(c.slug)) return paths;
+      // Each watch brand's New / Pre-Owned page, same rule.
+      const conditions = await Promise.all(
+        subs.map(async (s) => (await getBrandConditions(s.slug)).filter((x) => x.count >= INDEX_MIN_PIECES).map((x) => `/shop/${c.slug}/${s.slug}/${x.slug}`))
+      );
+      return [...paths, ...conditions.flat()];
+    })
   );
 
   return [

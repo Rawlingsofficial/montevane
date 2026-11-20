@@ -44,3 +44,22 @@ export function brandRank(slug: string): number {
   const i = (WATCH_BRAND_ORDER as readonly string[]).indexOf(slug);
   return i === -1 ? 1_000 : i;
 }
+
+/** A sub-page with fewer pieces than this stays out of Google (noindex, not in the sitemap) until it grows. */
+export const INDEX_MIN_PIECES = 8;
+
+/** Birkin landing pages under /shop/birkin-bags/<slug>, each a distinct set of bags. */
+export const BIRKIN_SUBS = [
+  { slug: "pre-owned", condition: "pre_owned" },
+  { slug: "new-unused", condition: "new" },
+  { slug: "exotic-leather", collection: "exotic-hermes" },
+  { slug: "hss", collection: "hss-special-order" },
+  { slug: "custom-special-order", collection: "custom-rare" },
+  { slug: "limited-edition", collection: "limited-edition" },
+] as const satisfies readonly { slug: string; condition?: "new" | "pre_owned"; collection?: string }[];
+
+/** Condition pages under every watch brand: /shop/watches/<brand>/<slug>. */
+export const CONDITION_SUBS = [
+  { slug: "new", condition: "new" },
+  { slug: "pre-owned", condition: "pre_owned" },
+] as const;

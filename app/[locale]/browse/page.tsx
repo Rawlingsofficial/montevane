@@ -16,7 +16,7 @@ const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) 
 async function resolve({ params, searchParams }: Props) {
   const locale = await resolveLocale(params);
   const sp = await searchParams;
-  const m = /^\/shop\/([a-z0-9-]+)(?:\/([a-z0-9-]+))?$/.exec(one(sp.scope));
+  const m = /^\/shop\/([a-z0-9-]+)(?:\/([a-z0-9-]+(?:\/[a-z0-9-]+)?))?$/.exec(one(sp.scope));
   if (!m) return null;
   const page = Number(one(sp.page)) || 1;
   return { locale, category: m[1], sub: m[2], page: page >= 1 ? Math.floor(page) : 1, query: parseListingQuery(sp) };

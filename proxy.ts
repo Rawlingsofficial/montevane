@@ -4,8 +4,8 @@ import { SESSION_COOKIE, verifySessionToken } from "@/lib/auth/session";
 import { isFilteredRequest } from "@/lib/catalog/filters";
 import { DEFAULT_LOCALE, isLocale, type Locale } from "@/lib/i18n/config";
 
-// /shop/<category>[/<sub>][/page/<n>] — the listings that take filters.
-const SHOP_LISTING = /^(\/shop\/[a-z0-9-]+(?:\/(?!page\/)[a-z0-9-]+)?)(?:\/page\/(\d+))?\/?$/;
+// /shop/<category>[/<sub>[/<condition>]][/page/<n>] — the listings that take filters.
+const SHOP_LISTING = /^(\/shop\/[a-z0-9-]+(?:\/(?!page\/)[a-z0-9-]+){0,2})(?:\/page\/(\d+))?\/?$/;
 
 /** Filtered shop listings are served by the dynamic /[locale]/browse route. */
 function filteredListing(request: NextRequest, locale: Locale, path: string) {

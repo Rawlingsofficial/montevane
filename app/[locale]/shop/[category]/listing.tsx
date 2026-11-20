@@ -13,7 +13,8 @@ import { Expandable } from "@/components/shop/Expandable";
 import { ListingFaq } from "@/components/shop/ListingFaq";
 import { ListingFilters, type FilterLabels } from "@/components/shop/ListingFilters";
 import { EMPTY_QUERY, hasQuery, queryString, type ListingQuery } from "@/lib/catalog/filters";
-import { BRAND_SUBCATEGORIES, JEWELRY_TYPES } from "@/lib/catalog/taxonomy";
+import { BRAND_SUBCATEGORIES, INDEX_MIN_PIECES, JEWELRY_TYPES } from "@/lib/catalog/taxonomy";
+import { BIRKIN_COPY, conditionCopy } from "@/lib/catalog/listing-copy";
 import {
   getCategories,
   getContactChannels,
@@ -24,6 +25,7 @@ import {
   subcategoryFilter,
   type ProductFilter,
   getListingCover,
+  getBrandConditions,
 } from "@/lib/data/catalog";
 import { fmt, getDictionary, localePath, type Locale } from "@/lib/i18n";
 import { categoryImage } from "@/lib/images";
@@ -54,13 +56,21 @@ async function categoryCopy(slug: string, locale: Locale): Promise<Copy | null> 
 async function resolveListing(locale: Locale, category: string, sub?: string) {
   const parent = await categoryCopy(category, locale);
   if (!parent) return null;
-  if (!sub) return { parent, copy: parent, filter: { category } as ProductFilter, base: `/shop/${category}` };
+  if (!sub) return { parent, copy: parent, filter: { category } as ProductFilter, base: `/shop/${category}`, indexable: true };
 
   const found = await subcategoryFilter(category, sub);
   if (!found) return null;
   const t = getDictionary(locale).listing;
+  const [brandSlug] = sub.split("/");
   let copy: Copy;
-  if (BRAND_SUBCATEGORIES.has(category)) {
+  // Brand pages: keep the parent brand link in the breadcrumbs of its condition pages.
+  let brandCrumb: { name: string; path: string } | undefined;
+  if (found.condition) {
+    copy = conditionCopy(found.condition, found.name, locale);
+    brandCrumb = { name: found.name, path: `/shop/${category}/${brandSlug}` };
+  } else if (found.birkin) {
+    copy = BIRKIN_COPY[found.birkin][locale];
+  } else if (BRAND_SUBCATEGORIES.has(category)) {
     const title = fmt(t.watchBrandTitle, { brand: found.name });
     copy = {
       name: found.name,
@@ -80,7 +90,10 @@ async function resolveListing(locale: Locale, category: string, sub?: string) {
       intro: t.jewelryTypeIntro,
     };
   }
-  return { parent, copy, filter: found.filter, base: `/shop/${category}/${sub}` };
+  // Brand pages stay indexed whatever their size (they already rank); the new
+  // Birkin and condition pages join Google once they have enough pieces.
+  const indexable = !(found.condition || found.birkin) || found.count >= INDEX_MIN_PIECES;
+  return { parent, copy, filter: found.filter, base: `/shop/${category}/${sub}`, indexable, brandCrumb, condition: found.condition, brandSlug };
 }
 
 /** Filtered views (?model=…&sort=…) are noindex,follow and canonical to the plain listing. */
@@ -93,7 +106,7 @@ export async function categoryMetadata(locale: Locale, category: string, page: n
     path: filtered ? listing.base : pagePath(listing.base, page),
     title: listing.copy.metaTitle + suffix,
     description: listing.copy.metaDescription,
-    noindex: filtered,
+    noindex: filtered || !listing.indexable,
   });
 }
 
@@ -127,11 +140,11 @@ export async function CategoryListing({
 }) {
   const resolved = await resolveListing(locale, category, sub);
   if (!resolved) notFound();
-  const { parent, copy, filter, base } = resolved;
+  const { parent, copy, filter, base, brandCrumb } = resolved;
 
   const t = getDictionary(locale);
   const filtered = hasQuery(query);
-  const [listing, channels, subcategories, liveModels, options, cover] = await Promise.all([
+  const [listing, channels, subcategories, liveModels, options, cover, conditions] = await Promise.all([
     getProductPage({ ...filter, listing: query }, page, locale),
     getContactChannels(),
     sub ? Promise.resolve([]) : getSubcategories(category),
@@ -139,6 +152,8 @@ export async function CategoryListing({
     getFilterOptions(filter),
     // Brand and jewelry-type pages show one of their own pieces, not the category photo.
     sub ? getListingCover(filter) : Promise.resolve(null),
+    // A watch brand page links to its New and Pre-Owned pages.
+    BRAND_SUBCATEGORIES.has(category) && sub && !resolved.condition ? getBrandConditions(sub) : Promise.resolve([]),
   ]);
   if (!listing) notFound();
   const models = liveModels.filter((m) => m.category === category && (!filter.brand || m.brandSlug === filter.brand));
@@ -148,6 +163,7 @@ export async function CategoryListing({
   const crumbs = [
     { name: t.nav.home, path: "/" },
     { name: parent.name, path: `/shop/${category}` },
+    ...(brandCrumb ? [brandCrumb] : []),
     ...(sub ? [{ name: copy.name, path: base }] : []),
     ...(page > 1 ? [{ name: fmt(t.listing.page, { n: page }), path: pagePath(base, page) }] : []),
   ];
@@ -174,7 +190,11 @@ export async function CategoryListing({
             basePath={localePath(locale, base)}
             options={options}
             query={query}
-            hidden={[...(filter.brand ? (["brand"] as const) : []), ...(filter.piece ? (["type"] as const) : [])]}
+            hidden={[
+              ...(filter.brand ? (["brand"] as const) : []),
+              ...(filter.piece ? (["type"] as const) : []),
+              ...(filter.condition ? (["condition"] as const) : []),
+            ]}
             labels={filterLabels(locale)}
           />
           <h2 className="mb-6 text-xs tracking-[0.1em] text-muted-foreground uppercase">
@@ -190,8 +210,21 @@ export async function CategoryListing({
 
         {/* Brand / type / model links sit below the products: filters do the
             browsing up top, these keep crawlable links to every landing page. */}
-        {page === 1 && !filtered && (subcategories.length > 0 || models.length > 0) && (
+        {page === 1 && !filtered && (subcategories.length > 0 || models.length > 0 || conditions.length > 0) && (
           <div className="mt-20 space-y-8 border-t border-border pt-10">
+            {conditions.length > 0 && (
+              <nav aria-label={copy.name}>
+                <ul className="flex flex-wrap gap-2">
+                  {conditions.map((c) => (
+                    <li key={c.slug}>
+                      <Link href={localePath(locale, `${base}/${c.slug}`)} className={chip}>
+                        {conditionCopy(c.condition, copy.name, locale).title} <span className="text-muted-foreground">({c.count})</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            )}
             {subcategories.length > 0 && (
               <nav aria-label={byBrand ? t.listing.byBrand : t.listing.byType}>
                 <h2 className="mb-3 text-xs tracking-[0.1em] text-muted-foreground uppercase">{byBrand ? t.listing.byBrand : t.listing.byType}</h2>
@@ -199,7 +232,7 @@ export async function CategoryListing({
                   {subcategories.map((s) => (
                     <li key={s.slug}>
                       <Link href={localePath(locale, `/shop/${category}/${s.slug}`)} className={chip}>
-                        {byBrand ? s.name : (t.jewelryTypes[s.slug] ?? s.name)} <span className="text-muted-foreground">({s.count})</span>
+                        {byBrand ? s.name : (BIRKIN_COPY[s.slug]?.[locale].name ?? t.jewelryTypes[s.slug] ?? s.name)} <span className="text-muted-foreground">({s.count})</span>
                       </Link>
                     </li>
                   ))}

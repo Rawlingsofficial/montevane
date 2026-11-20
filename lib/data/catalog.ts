@@ -6,7 +6,7 @@ import { db, schema } from "@/lib/db";
 import type { ProductLocaleFields, RegionalPrices, SpecRow } from "@/lib/db/schema";
 import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
 import { FILTER_KEYS, PRICE_BANDS, parseBand, type FilterKey, type ListingQuery } from "@/lib/catalog/filters";
-import { BRAND_SUBCATEGORIES, JEWELRY_TYPES, WATCH_BRAND_ORDER } from "@/lib/catalog/taxonomy";
+import { BIRKIN_SUBS, BRAND_SUBCATEGORIES, CONDITION_SUBS, JEWELRY_TYPES, WATCH_BRAND_ORDER } from "@/lib/catalog/taxonomy";
 import { MODELS, type ModelPage } from "@/lib/seo/models";
 
 // Storefront reads. Only published, released products are ever returned.
@@ -127,6 +127,8 @@ export type ProductFilter = {
   /** Visitor-chosen filters and sort (filtered listing pages). */
   listing?: ListingQuery;
   excludeSlug?: string;
+  /** "new" = unworn; "pre_owned" = every other condition. */
+  condition?: "new" | "pre_owned";
   /** USD price bounds (min inclusive, max exclusive). */
   minPrice?: number;
   maxPrice?: number;
@@ -144,6 +146,7 @@ function filterWhere(filter: ProductFilter) {
       ? or(eq(p.collectionSlug, filter.collection), arrayContains(p.collectionSlugs, [filter.collection]))
       : undefined,
     filter.category ? eq(p.categorySlug, filter.category) : undefined,
+    filter.condition === "new" ? eq(p.condition, "new") : filter.condition === "pre_owned" ? ne(p.condition, "new") : undefined,
     filter.piece ? sql`${p.facets}->>'piece_type' = ${filter.piece}` : undefined,
     ...searchTerms(filter.query).map((term) => {
       const like = `%${term}%`;
@@ -372,6 +375,10 @@ export async function getSubcategories(category: string): Promise<Subcategory[]>
     };
     return rows.sort((a, b) => rank(a.slug) - rank(b.slug) || a.name.localeCompare(b.name));
   }
+  if (category === "birkin-bags") {
+    const counts = await Promise.all(BIRKIN_SUBS.map((b) => countProducts(birkinFilter(b))));
+    return BIRKIN_SUBS.map((b, i) => ({ slug: b.slug, name: b.slug, count: counts[i] })).filter((b) => b.count > 0);
+  }
   if (category === "jewelry") {
     const rows = await db
       .select({ piece: sql<string>`${p.facets}->>'piece_type'`, count: sql<number>`count(*)::int` })
@@ -389,11 +396,40 @@ export async function getSubcategories(category: string): Promise<Subcategory[]>
 }
 
 /** The product filter for /shop/[category]/[sub]; null when `sub` isn't a live subcategory. */
-export async function subcategoryFilter(category: string, sub: string): Promise<{ filter: ProductFilter; name: string } | null> {
-  const found = (await getSubcategories(category)).find((s) => s.slug === sub);
+/**
+ * Resolves /shop/<category>/<sub>: a watch brand, a jewelry type, a Birkin page
+ * (pre-owned, exotic…), or a brand's condition page ("rolex/pre-owned").
+ * `count` decides whether the page is indexed (see INDEX_MIN_PIECES).
+ */
+export async function subcategoryFilter(
+  category: string,
+  sub: string
+): Promise<{ filter: ProductFilter; name: string; count: number; condition?: "new" | "pre_owned"; birkin?: string } | null> {
+  const [head, tail, ...rest] = sub.split("/");
+  if (rest.length) return null;
+  const found = (await getSubcategories(category)).find((s) => s.slug === head);
   if (!found) return null;
-  if (BRAND_SUBCATEGORIES.has(category)) return { filter: { category, brand: sub }, name: found.name };
-  return { filter: { category, piece: found.name }, name: found.name };
+  if (tail !== undefined) {
+    const cond = BRAND_SUBCATEGORIES.has(category) ? CONDITION_SUBS.find((c) => c.slug === tail) : undefined;
+    if (!cond) return null;
+    const filter: ProductFilter = { category, brand: head, condition: cond.condition };
+    const count = await countProducts(filter);
+    return count ? { filter, name: found.name, count, condition: cond.condition } : null;
+  }
+  if (BRAND_SUBCATEGORIES.has(category)) return { filter: { category, brand: sub }, name: found.name, count: found.count };
+  const birkin = category === "birkin-bags" ? BIRKIN_SUBS.find((b) => b.slug === sub) : undefined;
+  if (birkin) return { filter: birkinFilter(birkin), name: found.name, count: found.count, birkin: birkin.slug };
+  return { filter: { category, piece: found.name }, name: found.name, count: found.count };
+}
+
+function birkinFilter(b: (typeof BIRKIN_SUBS)[number]): ProductFilter {
+  return "condition" in b ? { category: "birkin-bags", condition: b.condition } : { category: "birkin-bags", collection: b.collection };
+}
+
+/** Condition pages of one watch brand that have pieces: [{ slug: "new", count }, …]. */
+export async function getBrandConditions(brand: string): Promise<{ slug: string; condition: "new" | "pre_owned"; count: number }[]> {
+  const counts = await Promise.all(CONDITION_SUBS.map((c) => countProducts({ category: "watches", brand, condition: c.condition })));
+  return CONDITION_SUBS.map((c, i) => ({ slug: c.slug, condition: c.condition, count: counts[i] })).filter((c) => c.count > 0);
 }
 
 export async function getCollections(): Promise<{ slug: string; name: string; description: string | null }[]> {

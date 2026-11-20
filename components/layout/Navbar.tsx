@@ -1,4 +1,5 @@
 import { NavbarClient, type MenuGroup } from "@/components/layout/NavbarClient";
+import { BIRKIN_COPY } from "@/lib/catalog/listing-copy";
 import { HERMES_CATEGORIES } from "@/lib/catalog/taxonomy";
 import { getCategories, getContactChannels, getSubcategories } from "@/lib/data/catalog";
 import { LOCALE_LABEL, LOCALES, getDictionary, localePath, type Locale } from "@/lib/i18n";
@@ -13,9 +14,10 @@ export async function Navbar({ locale }: { locale: Locale }) {
   const link = (label: string, path: string) => ({ label, href: localePath(locale, path) });
   const [categories, channels] = await Promise.all([getCategories(), getContactChannels()]);
   const live = new Set(categories.map((c) => c.slug));
-  const [watchBrands, jewelryTypes] = await Promise.all([
+  const [watchBrands, jewelryTypes, birkinPages] = await Promise.all([
     live.has("watches") ? getSubcategories("watches") : [],
     live.has("jewelry") ? getSubcategories("jewelry") : [],
+    live.has("birkin-bags") ? getSubcategories("birkin-bags") : [],
   ]);
 
   const groups: MenuGroup[] = [];
@@ -24,7 +26,11 @@ export async function Navbar({ locale }: { locale: Locale }) {
     groups.push({
       id: "hermes",
       label: t.hermes,
-      items: hermes.map((slug) => link(d.categories[slug]?.name ?? slug, `/shop/${slug}`)),
+      // Birkin Bags, then its landing pages (pre-owned, exotic, HSS…), then the other categories.
+      items: hermes.flatMap((slug) => [
+        link(d.categories[slug]?.name ?? slug, `/shop/${slug}`),
+        ...(slug === "birkin-bags" ? birkinPages.map((b) => link(BIRKIN_COPY[b.slug]?.[locale].name ?? b.slug, `/shop/birkin-bags/${b.slug}`)) : []),
+      ]),
       viewAll: link(t.viewAllHermes, "/brands/hermes"),
       image: asset(categoryImage("birkin-bags")),
     });
