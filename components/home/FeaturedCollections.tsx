@@ -29,7 +29,7 @@ export async function FeaturedCollections({ locale }: { locale: Locale }) {
             <Link key={collection.slug} href={localePath(locale, `/collections/${collection.slug}`)} className="group block bg-[var(--ivory)]">
               <div className="relative aspect-[4/5] overflow-hidden">
                 {still ? (
-                  <Image src={still.src} alt={still.alt} fill sizes="(max-width: 1024px) 50vw, 25vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]" />
+                  <Image src={still.src} alt={still.alt} fill unoptimized sizes="(max-width: 1024px) 50vw, 25vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]" />
                 ) : (
                   (() => {
                     const scene = gallery(collectionImage(collection.slug));

@@ -19,7 +19,7 @@ import type { Block } from "@/lib/journal/types";
 import { absoluteUrl, pageMetadata } from "@/lib/seo/metadata";
 
 // Rebuilt hourly so scheduled posts go live on their date without a deploy.
-export const revalidate = 3600;
+export const revalidate = 21600;
 
 export function generateStaticParams() {
   return publishedPosts().map((post) => ({ slug: post.slug }));

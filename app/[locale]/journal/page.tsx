@@ -11,7 +11,7 @@ import { postCovers } from "@/lib/journal/media";
 import { absoluteUrl, pageMetadata } from "@/lib/seo/metadata";
 
 // Hourly, so scheduled posts appear on their date.
-export const revalidate = 3600;
+export const revalidate = 21600;
 
 
 

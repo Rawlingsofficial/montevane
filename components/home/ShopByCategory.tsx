@@ -31,6 +31,7 @@ export async function ShopByCategory({ locale }: { locale: Locale }) {
                     src={still.src}
                     alt={still.alt}
                     fill
+                    unoptimized
                     sizes="(max-width: 1024px) 50vw, 25vw"
                     priority={i < 2}
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"

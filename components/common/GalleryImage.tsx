@@ -1,4 +1,4 @@
-import Image, { getImageProps } from "next/image";
+import Image from "next/image";
 
 import { cn } from "@/lib/utils";
 import type { GalleryScene } from "@/lib/catalog/gallery";
@@ -28,20 +28,21 @@ export function GalleryImage({
   imgClassName?: string;
 }) {
   const s = SIZE[kind];
-  const common = { alt: scene.alt, sizes: "100vw", priority };
-  const {
-    props: { srcSet: desktop },
-  } = getImageProps({ ...common, src: scene.src, width: s.desktop[0], height: s.desktop[1] });
-  const {
-    props: { srcSet: mobile, ...rest },
-  } = getImageProps({ ...common, src: scene.mobile, width: s.mobile[0], height: s.mobile[1] });
-
+  // Scenes are pre-built, compressed WebP (≤150 KB) served straight from the
+  // CDN — no Vercel image transformations.
   return (
     <picture className={cn("block", className)}>
-      <source media="(min-width: 1024px)" srcSet={desktop} />
-      <source srcSet={mobile} />
-      {/* eslint-disable-next-line jsx-a11y/alt-text -- alt comes from getImageProps */}
-      <img {...rest} className={cn("size-full object-cover", imgClassName)} />
+      <source media="(min-width: 1024px)" srcSet={scene.src} />
+      <img
+        src={scene.mobile}
+        alt={scene.alt}
+        width={s.mobile[0]}
+        height={s.mobile[1]}
+        loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : "auto"}
+        decoding="async"
+        className={cn("size-full object-cover", imgClassName)}
+      />
     </picture>
   );
 }
@@ -59,5 +60,5 @@ export function SceneFill({
   sizes?: string;
   className?: string;
 }) {
-  return <Image src={scene.mobile} alt={scene.alt} fill sizes={sizes} className={cn("object-cover object-bottom", className)} />;
+  return <Image src={scene.mobile} alt={scene.alt} fill unoptimized sizes={sizes} className={cn("object-cover object-bottom", className)} />;
 }

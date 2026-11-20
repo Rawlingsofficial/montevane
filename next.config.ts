@@ -34,6 +34,13 @@ const nextConfig: NextConfig = {
   images: {
     // Uploaded product photos are served by the app itself from /media/*.
     localPatterns: [{ pathname: "/media/**" }, { pathname: "/images/**" }],
+    // Every resize is billed, so keep the menu of widths short: no 4K/2K
+    // variants (product photos aren't that large) and no tiny icon sizes.
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [48, 96, 256, 384],
+    // Product photo keys never change (a new upload gets a new key), and the
+    // logos only change with a redeploy: keep resized copies for a month.
+    minimumCacheTTL: 2678400,
   },
   async redirects() {
     return [

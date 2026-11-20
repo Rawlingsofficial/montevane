@@ -34,8 +34,9 @@ import { productLd } from "@/lib/seo/structured-data";
 // static until an admin save revalidates them.
 export const dynamic = "force-static";
 export const dynamicParams = true;
-// Hourly refresh so promo dates and the "Ships by" date stay current without a save.
-export const revalidate = 3600;
+// Refreshed every 6 hours so promo end dates and the "Ships by" date stay
+// current without a save (hourly cost 6× the rebuilds for no visible gain).
+export const revalidate = 21600;
 
 // Only the newest pieces are pre-rendered at build (hundreds of product pages ×
 // three languages would exhaust the database pool); the rest render on first
@@ -55,9 +56,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return pageMetadata({ locale, path: `/products/${slug}`, title, description, image: product.images[0].url });
 }
 
-/** "28 November 2026": to-order pieces ship within 14 days (the page refreshes hourly). */
+/**
+ * "28 November 2026": to-order pieces ship within 14 days. The page is cached
+ * for up to 6 hours, so count from the end of that window — the date shown is
+ * never earlier than 14 days from the visit.
+ */
 function shipsByDate(locale: string): string {
-  return new Intl.DateTimeFormat(locale, { day: "numeric", month: "long", year: "numeric" }).format(new Date(Date.now() + 14 * 86_400_000));
+  return new Intl.DateTimeFormat(locale, { day: "numeric", month: "long", year: "numeric" }).format(
+    new Date(Date.now() + revalidate * 1000 + 14 * 86_400_000)
+  );
 }
 
 export default async function ProductPage({ params }: Props) {

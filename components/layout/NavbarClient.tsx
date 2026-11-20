@@ -436,7 +436,7 @@ function MegaPanel({ group }: { group: MenuGroup }) {
         </div>
         {group.image && group.viewAll && (
           <Link href={group.viewAll.href} tabIndex={-1} aria-hidden="true" className="group relative block aspect-[4/3] overflow-hidden bg-[var(--ivory)]">
-            <Image src={group.image} alt="" fill sizes="320px" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+            <Image src={group.image} alt="" fill unoptimized sizes="320px" className="object-cover transition-transform duration-500 group-hover:scale-105" />
           </Link>
         )}
       </div>
