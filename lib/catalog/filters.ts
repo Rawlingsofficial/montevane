@@ -11,7 +11,7 @@ export type ListingQuery = { filters: Partial<Record<FilterKey, string[]>>; sort
 export const EMPTY_QUERY: ListingQuery = { filters: {}, sort: "newest" };
 
 /** USD price bands, as "min-max" ("250000-" = and above). */
-export const PRICE_BANDS = ["0-10000", "10000-25000", "25000-50000", "50000-100000", "100000-250000", "250000-"] as const;
+export const PRICE_BANDS = ["0-5000", "5000-10000", "10000-25000", "25000-50000", "50000-100000", "100000-250000", "250000-"] as const;
 
 export function parseBand(band: string): [number, number | null] | null {
   const m = /^(\d+)-(\d*)$/.exec(band);
