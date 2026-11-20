@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-03-05",
   keyword: "hermes scarf sizes",
   keywords: ["hermes carre 90", "hermes twilly vs scarf", "hermes shawl 140", "hermes carre 70", "how to wear hermes scarf"],
-  image: "feature_card_1",
+  image: "gallery/col-hss-special-order",
   cover: "hermes-lazy-leopardesses-silk-scarf-90-rose-vif-anthracite-and-miel",
   picks: { category: "scarves-shawls", sort: "newest", limit: 8 },
   intro: [

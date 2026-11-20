@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-06-02",
   keyword: "summer watch",
   keywords: ["aquanaut tropical strap", "offshore rubber", "oysterflex summer", "titanium watch", "colourful dial"],
-  image: "lifestyle_1",
+  image: "gallery/cat-scarves-shawls",
   cover: "audemars-piguet-royal-oak-offshore-26622ce-tourbillon-black-ceramic-skeleton-dial-43-mm-2",
   picks: { brand: "audemars-piguet", query: "offshore", sort: "price_desc", limit: 8 },
   intro: [

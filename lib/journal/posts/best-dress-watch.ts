@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-06-11",
   keyword: "best dress watch",
   keywords: ["tank louis cartier", "calatrava 5196", "dress watch for suit", "thin dress watch", "classic dress watch"],
-  image: "watches_showcase",
+  image: "gallery/cat-watches",
   cover: "cartier-tank-louis-wgta0011-18k-rose-gold-silver-roman-dial-38-mm",
   picks: { brand: "cartier", query: "tank", sort: "price_asc", limit: 8 },
   intro: [

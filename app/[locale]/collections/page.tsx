@@ -1,7 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 
-import { AssetImage } from "@/components/common/AssetImage";
+import { SceneFill } from "@/components/common/GalleryImage";
+import { gallery } from "@/lib/catalog/gallery";
 import { PageHero } from "@/components/common/PageHero";
 import { getCollections } from "@/lib/data/catalog";
 import { getDictionary, localePath } from "@/lib/i18n";
@@ -24,22 +25,25 @@ export default async function CollectionsPage({ params }: PageProps<"/[locale]/c
 
   return (
     <>
-      <PageHero eyebrow={t.home.collectionsEyebrow} title={t.listing.collectionsHeading} description={t.listing.collectionsBody} image="collection_curated" priority />
+      <PageHero eyebrow={t.home.collectionsEyebrow} title={t.listing.collectionsHeading} description={t.listing.collectionsBody} image="col-best-sellers" priority />
 
       <section className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-6 py-16 sm:grid-cols-2 lg:px-10">
         {collections.map((collection) => {
           const copy = t.collections[collection.slug] ?? collection;
           return (
-            <Link key={collection.slug} href={localePath(locale, `/collections/${collection.slug}`)} className="group relative block overflow-hidden">
-              <AssetImage
-                base={collectionImage(collection.slug)}
-                alt=""
-                sizes="(max-width: 640px) 100vw, 50vw"
-                className="aspect-[4/5] transition-transform duration-500 ease-out group-hover:scale-105"
-              />
-              <div className="absolute inset-0 flex flex-col items-start justify-end bg-gradient-to-t from-black/60 via-transparent to-transparent p-8">
-                <h2 className="font-heading text-2xl font-light text-white">{copy.name}</h2>
-                <p className="mt-1 text-sm text-white/80">{copy.description}</p>
+            <Link key={collection.slug} href={localePath(locale, `/collections/${collection.slug}`)} className="group block bg-[#f5f0e9]">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                {(() => {
+                  const scene = gallery(collectionImage(collection.slug));
+                  return scene && <SceneFill scene={scene} className="transition-transform duration-700 ease-out group-hover:scale-[1.03]" />;
+                })()}
+              </div>
+              <div className="flex items-end justify-between gap-6 px-6 pt-2 pb-7 sm:px-8">
+                <div>
+                  <h2 className="font-heading text-2xl font-light">{copy.name}</h2>
+                  <p className="mt-1 text-sm text-muted-foreground">{copy.description}</p>
+                </div>
+                <span aria-hidden="true" className="shrink-0 text-xl transition-transform group-hover:translate-x-1">→</span>
               </div>
             </Link>
           );

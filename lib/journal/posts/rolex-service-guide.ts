@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-02-01",
   keyword: "rolex service",
   keywords: ["how often to service a rolex", "rolex service interval", "rolex polishing", "rolex service center", "rolex service history"],
-  image: "watches_showcase",
+  image: "gallery/cat-watches",
   cover: "rolex-datejust-31-278274-stainless-steel-dark-grey-dial-jubilee-bracelet-31-mm",
   picks: { brand: "rolex", sort: "newest", limit: 4 },
   intro: [

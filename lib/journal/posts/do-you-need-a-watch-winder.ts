@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-02-15",
   keyword: "do i need a watch winder",
   keywords: ["watch winder", "how to store watches", "automatic watch stopped", "turns per day", "watch storage box"],
-  image: "watches_showcase",
+  image: "gallery/cat-watches",
   cover: "audemars-piguet-royal-oak-26574st-perpetual-calendar-stainless-steel-grande-tapisserie",
   picks: { category: "watches", query: "perpetual calendar", sort: "price_asc", limit: 4 },
   intro: [

@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-11-23",
   keyword: "how to tie a twilly",
   keywords: ["twilly on birkin handle", "hermes twilly", "how to wear a twilly", "twilly bow", "twilly hair"],
-  image: "feature_card_1",
+  image: "gallery/col-hss-special-order",
   cover: "hermes-twilly-les-mains-rouge-and-blue-set-of-two",
   picks: { category: "twilly-scarves", sort: "newest", limit: 8 },
   intro: [

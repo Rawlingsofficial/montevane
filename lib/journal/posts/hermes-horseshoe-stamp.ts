@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-03-29",
   keyword: "hermes horseshoe stamp",
   keywords: ["hss birkin", "hermes special order", "birkin special order", "horseshoe stamp meaning", "two tone birkin"],
-  image: "product_interior",
+  image: "gallery/cat-bag-organizers",
   cover: "pre-owned-hermes-birkin-30-gold-epsom-gold-hardware",
   picks: { category: "birkin-bags", sort: "newest", limit: 4 },
   intro: [

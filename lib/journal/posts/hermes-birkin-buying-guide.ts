@@ -11,7 +11,7 @@ export const post: Post = {
   date: "2026-11-14",
   keyword: "hermes birkin buying guide",
   keywords: ["birkin sizes", "birkin leathers", "birkin price", "pre-owned birkin"],
-  image: "hero_2",
+  image: "gallery/hermes",
   cover: "pre-owned-hermes-birkin-30-etoupe-togo-gold-hardware",
   picks: { category: "birkin-bags", sort: "newest" },
   intro: [

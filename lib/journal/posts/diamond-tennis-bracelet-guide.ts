@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-03-15",
   keyword: "tennis bracelet buying guide",
   keywords: ["diamond tennis bracelet", "tennis bracelet carat weight", "tennis bracelet clasp", "fancy yellow tennis bracelet", "tennis necklace"],
-  image: "jewelry_1",
+  image: "gallery/cat-jewelry",
   cover: "round-cut-graduated-diamond-tennis-necklace-platinum-round-cut-graduated-diamond-tennis",
   picks: { category: "jewelry", query: "tennis", sort: "price_asc", limit: 8 },
   intro: [

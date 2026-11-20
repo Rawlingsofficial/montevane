@@ -11,7 +11,7 @@ export const post: Post = {
   date: "2026-11-08",
   keyword: "diamond buying guide",
   keywords: ["4cs of diamonds", "diamond cut", "diamond clarity", "gia certified"],
-  image: "jewelry_1",
+  image: "gallery/cat-jewelry",
   cover: "two-pear-shaped-diamond-halo-toi-et-moi-ring-platinum-two-pear-shaped-halo-diamond-toi-et",
   picks: { category: "jewelry", sort: "price_asc" },
   intro: [

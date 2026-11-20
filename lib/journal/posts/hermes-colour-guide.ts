@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-02-22",
   keyword: "hermes colors",
   keywords: ["best birkin color", "hermes gold vs etoupe", "hermes craie", "hermes etain", "birkin colors list"],
-  image: "product_front",
+  image: "gallery/cat-birkin-bags",
   cover: "pre-owned-hermes-birkin-25-etoupe-togo-palladium-hardware",
   picks: { category: "birkin-bags", query: "etoupe", sort: "newest", limit: 8 },
   intro: [

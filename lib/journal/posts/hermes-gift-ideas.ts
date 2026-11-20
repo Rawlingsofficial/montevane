@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-11-15",
   keyword: "hermes gift ideas",
   keywords: ["hermes gifts under 1000", "hermes rodeo charm gift", "hermes scarf gift", "cheapest hermes item", "hermes twilly"],
-  image: "feature_card_1",
+  image: "gallery/col-hss-special-order",
   cover: "hermes-twilly-bolduc-au-carre-plumetis-corail-jaune-and-rose-fluo-set-of-2",
   picks: { category: "twilly-scarves", sort: "newest", limit: 8 },
   intro: [

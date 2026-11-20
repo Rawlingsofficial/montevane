@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-11-16",
   keyword: "engagement ring buying guide",
   keywords: ["how to choose an engagement ring", "engagement ring settings", "platinum vs white gold", "toi et moi engagement ring", "engagement ring size"],
-  image: "jewelry_1",
+  image: "gallery/cat-jewelry",
   cover: "radiant-and-pear-shaped-diamond-toi-et-moi-engagement-ring-18k-white-gold-radiant-and",
   picks: { category: "jewelry", piece: "Ring", query: "engagement", sort: "price_asc", limit: 8 },
   intro: [

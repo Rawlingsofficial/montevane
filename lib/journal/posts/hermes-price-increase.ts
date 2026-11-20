@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-12-16",
   keyword: "hermes price increase",
   keywords: ["hermes price increase 2027", "birkin price increase", "kelly price increase", "birkin retail price", "hermes january price"],
-  image: "hero_3",
+  image: "gallery/col-exotic-hermes",
   cover: "hermes-birkin-sellier-30-black-madame-palladium-hardware",
   picks: { category: "birkin-bags", sort: "newest", limit: 8 },
   intro: [

@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-05-10",
   keyword: "hermes stamp",
   keywords: ["hermes paris made in france stamp", "artisan mark", "hermes stamp fake", "hermes blind stamp", "hermes date stamp"],
-  image: "product_interior",
+  image: "gallery/cat-bag-organizers",
   cover: "hermes-pre-owned-2012-togo-birkin-retourne-35-handbag",
   picks: { category: "birkin-bags", sort: "price_asc", limit: 8 },
   intro: [

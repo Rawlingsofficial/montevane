@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-02-24",
   keyword: "import duty on watches",
   keywords: ["import duty handbag", "customs on rolex", "uk import vat watch", "eu customs luxury goods", "do i pay duty on a watch from abroad"],
-  image: "editorial_setup",
+  image: "gallery/journal",
   cover: "patek-philippe-nautilus-7118-1450r-001-18k-rose-gold-pave-dial-35-mm",
   intro: [
     "Buying from another country can open up a much wider choice of pieces – and an extra line on the bill. Import duties and taxes depend on where the piece is going, where it was made, what it is and its value.",

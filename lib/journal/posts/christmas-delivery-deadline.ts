@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-11-15",
   keyword: "luxury gifts delivered before christmas",
   keywords: ["christmas delivery deadline", "last order date for christmas", "insured delivery luxury watch", "send a birkin as a gift"],
-  image: "editorial_setup",
+  image: "gallery/journal",
   cover: "hermes-rodeo-robeo-coeur-charm-pm-jaune-milton-bleu-nuit-and-bleu-tie-milo-lambskin",
   picks: { category: "bag-charms", sort: "newest", limit: 4 },
   intro: [

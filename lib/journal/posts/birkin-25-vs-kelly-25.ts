@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-04-16",
   keyword: "birkin 25 vs kelly 25",
   keywords: ["small hermes bag", "kelly 25 strap", "birkin 25 size", "mini hermes bag", "birkin or kelly"],
-  image: "product_45deg",
+  image: "gallery/col-custom-rare",
   cover: "hermes-birkin-25-bubblegum-ostrich-boreal-palladium-hardware",
   picks: { category: "birkin-bags", query: "25", sort: "price_asc", limit: 8 },
   intro: [

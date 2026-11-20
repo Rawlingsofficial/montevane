@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-06-21",
   keyword: "platinum vs white gold",
   keywords: ["platinum ring", "rhodium plating", "white gold yellowing", "platinum engagement ring", "white gold ring"],
-  image: "jewelry_1",
+  image: "gallery/cat-jewelry",
   cover: "fancy-pink-cushion-and-round-cut-diamond-engagement-ring-platinum-and-18k-rose-gold",
   picks: { category: "jewelry", query: "platinum", sort: "price_asc", limit: 8 },
   intro: [

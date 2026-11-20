@@ -21,7 +21,7 @@ export default async function PaymentShippingPage({ params }: PageProps<"/[local
 
   return (
     <>
-      <PageHero eyebrow={t.payment.eyebrow} title={t.payment.title} description={t.payment.note} image="feature_card_2" priority />
+      <PageHero eyebrow={t.payment.eyebrow} title={t.payment.title} description={t.payment.note} image="service" priority />
 
       <div className="mx-auto max-w-3xl px-6 py-20">
         <div className="space-y-12">

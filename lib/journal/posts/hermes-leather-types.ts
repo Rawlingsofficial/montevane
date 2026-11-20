@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-04-19",
   keyword: "hermes leather types",
   keywords: ["togo clemence swift", "barenia", "box calf", "epsom leather", "hermes chevre"],
-  image: "product_interior",
+  image: "gallery/cat-bag-organizers",
   cover: "hermes-etain-togo-birkin-30-palladium-hardware-2017",
   picks: { category: "birkin-bags", sort: "newest", limit: 8 },
   intro: [

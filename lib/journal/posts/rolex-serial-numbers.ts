@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-05-24",
   keyword: "rolex serial number lookup",
   keywords: ["rolex year by serial", "random serial rolex", "where is rolex serial", "rolex rehaut", "rolex model number"],
-  image: "watches_showcase",
+  image: "gallery/cat-watches",
   cover: "rolex-datejust-36-16200-stainless-steel-silver-roman-dial-36-mm",
   picks: { brand: "rolex", sort: "price_asc", limit: 8 },
   intro: [

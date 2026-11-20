@@ -40,7 +40,7 @@ export default async function JournalTopicPage({ params }: Props) {
 
   return (
     <>
-      <PageHero eyebrow={t.nav.journal} title={topic.title} description={topic.description} image="editorial_setup" />
+      <PageHero eyebrow={t.nav.journal} title={topic.title} description={topic.description} image="journal" />
       <div className="mx-auto max-w-7xl px-6 py-10 lg:px-10 lg:py-14">
         <Breadcrumbs
           locale={locale}

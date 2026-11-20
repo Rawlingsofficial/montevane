@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-02-12",
   keyword: "cartier santos vs tank",
   keywords: ["cartier santos", "cartier tank", "cartier tank louis", "santos de cartier medium vs large", "cartier baignoire"],
-  image: "watches_showcase",
+  image: "gallery/cat-watches",
   cover: "cartier-santos-de-cartier-wssa0029-stainless-steel-white-dial-35-mm",
   picks: { brand: "cartier", sort: "price_asc", limit: 8 },
   intro: [

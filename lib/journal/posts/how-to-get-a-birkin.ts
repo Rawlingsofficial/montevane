@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-11-15",
   keyword: "how to get a birkin",
   keywords: ["birkin waitlist", "hermes purchase history", "how to buy a birkin", "birkin quota", "buy birkin without waitlist"],
-  image: "hero_1",
+  image: "gallery/home-hero",
   cover: "hermes-birkin-30-black-togo-gold-hardware",
   picks: { category: "birkin-bags", sort: "newest", limit: 8 },
   intro: [

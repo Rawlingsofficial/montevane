@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-06-28",
   keyword: "guilloche dial",
   keywords: ["tapisserie dial", "clous de paris", "hand guilloche", "engine turned dial", "guilloche watch"],
-  image: "watches_showcase",
+  image: "gallery/cat-watches",
   cover: "patek-philippe-calatrava-5115g-001-18k-white-gold-white-dial-35-mm",
   picks: { brand: "patek-philippe", query: "calatrava", sort: "price_asc", limit: 8 },
   intro: [

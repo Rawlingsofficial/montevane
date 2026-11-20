@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-12-02",
   keyword: "hermes rodeo charm",
   keywords: ["rodeo charm sizes", "rodeo pm vs mm", "rodeo pegase", "hermes bag charm", "rodeo charm price"],
-  image: "feature_card_1",
+  image: "gallery/col-hss-special-order",
   cover: "hermes-rodeo-robeo-24-charm-pm-vert-mangrove-craie-black-milo-lambskin",
   picks: { category: "bag-charms", query: "rodeo", sort: "newest", limit: 8 },
   intro: [

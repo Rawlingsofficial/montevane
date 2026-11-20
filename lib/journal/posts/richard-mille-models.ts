@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-04-07",
   keyword: "richard mille models",
   keywords: ["rm 011", "rm 035", "rm 67", "rm 72", "richard mille reference guide"],
-  image: "watches_showcase",
+  image: "gallery/cat-watches",
   cover: "richard-mille-rm-titanium-ultra-thin-limited-edition-americas-skeleton-dial-watch-38-mm",
   picks: { brand: "richard-mille", sort: "price_asc", limit: 8 },
   intro: [

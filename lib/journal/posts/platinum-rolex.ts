@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-06-18",
   keyword: "platinum rolex",
   keywords: ["ice blue dial", "950 platinum", "yellow gold rolex", "everose gold", "platinum daytona"],
-  image: "watches_showcase",
+  image: "gallery/cat-watches",
   cover: "rolex-daytona-116576tbr-platinum-ice-blue-arabic-language-dial-oyster-bracelet-40-mm",
   picks: { brand: "rolex", query: "platinum", sort: "price_desc", limit: 8 },
   intro: [

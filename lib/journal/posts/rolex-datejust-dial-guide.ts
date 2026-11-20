@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-03-17",
   keyword: "rolex datejust dials",
   keywords: ["wimbledon datejust", "datejust palm dial", "datejust mint green", "datejust fluted motif dial", "best datejust dial"],
-  image: "watches_showcase",
+  image: "gallery/cat-watches",
   cover: "rolex-datejust-28-279173-stainless-steel-and-18k-yellow-gold-white-roman-dial-28-mm-2026",
   picks: { brand: "rolex", query: "datejust", sort: "newest", limit: 8 },
   intro: [

@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-12-23",
   keyword: "himalaya birkin",
   keywords: ["himalaya birkin price", "hermes himalaya", "niloticus crocodile birkin"],
-  image: "hero_2",
+  image: "gallery/hermes",
   cover: "matte-niloticus-crocodile-himalaya-birkin-30-blanc",
   picks: { query: "himalaya", sort: "price_asc" },
   intro: [

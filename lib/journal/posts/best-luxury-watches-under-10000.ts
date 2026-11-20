@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-03-24",
   keyword: "best luxury watches under 10000",
   keywords: ["best watch under 10k", "first luxury watch", "entry level rolex", "tudor vs omega", "grand seiko"],
-  image: "watches_showcase",
+  image: "gallery/cat-watches",
   cover: "rolex-oyster-perpetual-28-276200-stainless-steel-mediterranean-blue-index-dial-oyster",
   picks: { category: "watches", min: 2500, max: 10000, sort: "price_desc", limit: 8 },
   intro: [

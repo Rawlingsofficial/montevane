@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-01-25",
   keyword: "birkin full set",
   keywords: ["what comes with a birkin", "birkin box", "birkin clochette lock keys", "birkin rain cover", "birkin receipt"],
-  image: "product_45deg",
+  image: "gallery/col-custom-rare",
   cover: "hermes-birkin-30-etoupe-togo-gold-hardware",
   picks: { category: "birkin-bags", sort: "newest", limit: 8 },
   intro: [

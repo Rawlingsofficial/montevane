@@ -37,7 +37,7 @@ export default async function JournalPage({ params }: PageProps<"/[locale]/journ
 
   return (
     <>
-      <PageHero eyebrow={journal.eyebrow} title={journal.title} description={journal.description} image="editorial_setup" priority />
+      <PageHero eyebrow={journal.eyebrow} title={journal.title} description={journal.description} image="journal" priority />
 
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-10 lg:py-16">
         {journal.englishOnly && <p className="mb-10 text-sm text-muted-foreground">{journal.englishOnly}</p>}

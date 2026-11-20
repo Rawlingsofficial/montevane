@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-03-01",
   keyword: "automatic vs manual vs quartz",
   keywords: ["watch movements explained", "automatic watch", "manual wind watch", "quartz luxury watch", "mechanical vs quartz"],
-  image: "watches_showcase",
+  image: "gallery/cat-watches",
   cover: "patek-philippe-calatrava-6119g-001-18k-white-gold-grey-dial-39-mm",
   picks: { brand: "patek-philippe", query: "calatrava", sort: "price_asc", limit: 4 },
   intro: [

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { DEFAULT_LOCALE, HREFLANG, LOCALES, OG_LOCALE, localePath, siteUrl, type Locale } from "@/lib/i18n/config";
 
 export const SITE_NAME = "Montévane";
-export const DEFAULT_OG_IMAGE = "/images/web_optimized/hero_1.webp";
+export const DEFAULT_OG_IMAGE = "/images/gallery/share.webp";
 
 /** Absolute URL of `path` in `locale`. */
 export const absoluteUrl = (locale: Locale, path: string) => `${siteUrl()}${localePath(locale, path)}`;

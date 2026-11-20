@@ -3,7 +3,7 @@ import { BAG_COPY, allWatchesCopy } from "@/lib/catalog/listing-copy";
 import { CONDITION_SUBS, HERMES_CATEGORIES } from "@/lib/catalog/taxonomy";
 import { getCategories, getContactChannels, getSubcategories } from "@/lib/data/catalog";
 import { LOCALE_LABEL, LOCALES, getDictionary, localePath, type Locale } from "@/lib/i18n";
-import { asset, categoryImage } from "@/lib/images";
+import { showcase } from "@/lib/catalog/showcase";
 
 // Mega-menu: Hermès › categories, Watches › brands, Jewelry › types, Services.
 // Built from live stock only, so a category or brand with nothing in it never shows.
@@ -51,7 +51,7 @@ export async function Navbar({ locale }: { locale: Locale }) {
         ...(accessories.length ? [{ title: c.accessories, items: accessories.map((slug) => link(d.categories[slug]?.name ?? slug, `/shop/${slug}`)) }] : []),
       ],
       viewAll: link(t.viewAllHermes, "/brands/hermes"),
-      image: asset(categoryImage("birkin-bags")),
+      image: showcase("category-birkin-bags")?.src,
     });
   }
   if (live.has("watches")) {
@@ -72,7 +72,7 @@ export async function Navbar({ locale }: { locale: Locale }) {
         { title: c.houses, wide: true, items: watchBrands.map((b) => link(b.name, `/shop/watches/${b.slug}`)) },
       ],
       viewAll: link(t.viewAllWatches, "/shop/watches"),
-      image: asset(categoryImage("watches")),
+      image: showcase("category-watches")?.src,
       wide: true,
     });
   }
@@ -82,7 +82,7 @@ export async function Navbar({ locale }: { locale: Locale }) {
       label: t.jewelry,
       items: jewelryTypes.map((j) => link(d.jewelryTypes[j.slug] ?? j.name, `/shop/jewelry/${j.slug}`)),
       viewAll: link(t.viewAllJewelry, "/shop/jewelry"),
-      image: asset(categoryImage("jewelry")),
+      image: showcase("category-jewelry")?.src,
     });
   }
   groups.push({

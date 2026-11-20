@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-01-27",
   keyword: "luxury valentines day gifts",
   keywords: ["valentines gift for her luxury", "valentines jewelry", "hermes valentines gift", "diamond valentines gift", "romantic luxury gift"],
-  image: "jewelry_1",
+  image: "gallery/cat-jewelry",
   cover: "emerald-cut-diamond-drop-earrings-platinum-emerald-cut-diamond-drop-earrings-10-51-ct",
   picks: { category: "jewelry", sort: "price_asc", limit: 8 },
   intro: [

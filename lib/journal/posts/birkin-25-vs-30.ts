@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-11-20",
   keyword: "birkin 25 vs 30",
   keywords: ["birkin 25 size", "birkin 30 size", "which birkin size"],
-  image: "product_front",
+  image: "gallery/cat-birkin-bags",
   cover: "hermes-birkin-25-black-togo-palladium-hardware",
   picks: { query: "birkin 25", category: "birkin-bags", sort: "newest" },
   intro: [

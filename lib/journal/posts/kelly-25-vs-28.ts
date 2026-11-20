@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-04-09",
   keyword: "kelly 25 vs 28",
   keywords: ["kelly 25 size", "kelly 28 size", "which kelly size", "kelly shoulder strap", "kelly sellier"],
-  image: "product_front",
+  image: "gallery/cat-birkin-bags",
   cover: "hermes-kelly-28-sellier-ostrich-noir-ghw",
   picks: { category: "kelly-bags", sort: "price_asc", limit: 8 },
   intro: [

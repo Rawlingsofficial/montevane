@@ -162,11 +162,24 @@
     transform: scale(1.12);
   }
 }
+.gallery-drift {
+  transform-origin: 70% 75%;
+  animation: gallery-drift 28s ease-in-out infinite alternate;
+}
+@keyframes gallery-drift {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.045);
+  }
+}
 .ken-burns {
   animation: ken-burns 20s ease-in-out infinite alternate;
 }
 @media (prefers-reduced-motion: reduce) {
-  .fade-up {
+  .fade-up,
+  .gallery-drift {
     animation: none;
   }
 }

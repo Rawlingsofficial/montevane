@@ -1,34 +1,30 @@
-# The Velvet Vault - Web Asset Guide
+# Montévane image guide
 
-This package contains high-end luxury fashion photography assets optimized for web development.
+Every image on the storefront shows a real piece we list. No generated or
+stock imagery: it misrepresents the stock and puts Merchant Center at risk.
 
-## Folder Structure
-- `web_optimized/`: Contains WebP images in two sizes:
-  - `[name].webp`: Desktop-optimized (max 1920px width, 80% quality).
-  - `[name]_mobile.webp`: Mobile-optimized (max 768px width, 75% quality).
-- `raw/`: Original high-resolution PNG generation results.
+## Where images come from
 
-## Asset Catalog
+| Folder | What | Built by |
+| --- | --- | --- |
+| `public/images/gallery/` | Page banners: real products cut from their photos, on stone plinths in a quiet gallery. `<id>.webp` (desktop, pieces right) and `<id>_m.webp` (phone, pieces low). `loupe-*` are close-ups cut from product photos. | `node --env-file=.env.local scripts/compose-gallery.mjs` |
+| `public/images/showcase/` | Portrait still lifes for the home tiles and mega menu. | `node --env-file=.env.local scripts/compose-showcase.mjs` |
+| `public/images/web_optimized/` | Logos only. | — |
+| Product photos | Uploaded with each product (R2). | admin |
 
-### 1. Homepage & Layout
-- `hero_1` to `hero_4`: Homepage hero banners (16:9).
-- `about_boutique`: About Us page header.
-- `newsletter_bg`: Email/Newsletter background with copy space.
-- `footer_bg`: Dark textured marble for footer background.
+Re-run the two scripts when stock changes; `ONLY=home-hero,cat-watches` limits
+a run. Which products each scene shows is in `lib/catalog/gallery.json` and
+`lib/catalog/showcase.json` (used for alt text and the hero's "On view" placard).
 
-### 2. Brand Banners (16:9)
-- `banner_hermes`, `banner_chanel`, `banner_lv`, `banner_loewe`, `banner_gucci`, `banner_prada`, `banner_ysl`, `banner_dior`, `banner_celine`, `banner_burberry`, `banner_givenchy`, `banner_chloe`.
+## Choosing pieces
 
-### 3. Product & Collection
-- `product_front`, `product_45deg`, `product_side`, `product_interior`: Standard product detail angles.
-- `collection_curated`, `collection_monochrome`: Featured collection banners (1:1).
-- `feature_card_1`, `feature_card_2`: Individual product feature cards (1:1).
+- Scenes, layouts and piece pools are at the top of `scripts/compose-gallery.mjs`.
+- `pins` fixes a scene's pieces by slug (the home hero's three icons).
+- The picker prefers pieces not yet used in other scenes, so banners don't repeat.
+- All-white pieces are skipped (they vanish on ivory), except the Himalaya.
 
-### 4. Lifestyle & Editorial
-- `lifestyle_1` to `lifestyle_3`: Square lifestyle shots for blog/social.
-- `editorial_setup`: Landscape editorial workspace shot.
+## Own photography (to come)
 
-## Implementation Tips
-- Use `<picture>` tags to serve responsive WebP images.
-- Set `loading="lazy"` for all images except the primary Hero.
-- All images follow a consistent "Hasselblad 100MP" luxury aesthetic for brand coherence.
+Photos we take ourselves — the Miami space, packaging, a piece being inspected —
+are welcome. Keep them natural, on light backgrounds, and never with a
+lookalike or unlisted piece.

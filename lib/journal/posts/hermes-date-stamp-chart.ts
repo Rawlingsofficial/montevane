@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-11-18",
   keyword: "hermes date stamp",
   keywords: ["hermes year stamp", "hermes blind stamp chart", "what year is my hermes bag"],
-  image: "product_interior",
+  image: "gallery/cat-bag-organizers",
   cover: "pre-owned-hermes-birkin-35-black-togo-gold-hardware",
   picks: { category: "birkin-bags", sort: "newest" },
   intro: [

@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-04-12",
   keyword: "what is a chronometer",
   keywords: ["cosc certified", "superlative chronometer", "master chronometer", "chronometer vs chronograph", "watch accuracy"],
-  image: "watches_showcase",
+  image: "gallery/cat-watches",
   cover: "rolex-datejust-36-126233-stainless-steel-and-18k-yellow-gold-olive-green-roman-dial",
   picks: { brand: "rolex", sort: "newest", limit: 4 },
   intro: [

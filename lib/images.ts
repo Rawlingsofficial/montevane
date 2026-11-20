@@ -5,7 +5,8 @@
 const DIR = "/images/web_optimized";
 
 export function asset(base: string): string {
-  return `${DIR}/${base}.webp`;
+  // "gallery/<id>" names a gallery scene; plain names live in web_optimized.
+  return base.startsWith("gallery/") ? `/images/${base}.webp` : `${DIR}/${base}.webp`;
 }
 
 export const LOGO = {
@@ -14,62 +15,30 @@ export const LOGO = {
   full: asset("logo_montevane_full"),
 } as const;
 
-export const HERO_IMAGES = ["hero_1", "hero_2", "hero_3", "hero_4"] as const;
+// Banners are gallery scenes built from real products (scripts/compose-gallery.mjs,
+// public/images/gallery). Every page names its scene here.
 
-// Brand slug → banner asset base. watch_* / jewelry_* are the watch and
-// jewelry shots; the rest of the library is Hermès-style bag photography.
-export const BRAND_BANNER: Record<string, string> = {
-  hermes: "banner_hermes",
-  "bag-bestie": "product_interior",
-  baginizer: "product_interior",
-  rolex: "watches_showcase",
-  "patek-philippe": "watches_showcase",
-  "audemars-piguet": "watches_showcase",
-  cartier: "watches_showcase",
-  "van-cleef-arpels": "jewelry_1",
-  "van-cleef-and-arpels": "jewelry_1",
-  tiffany: "jewelry_1",
-  "tiffany-co": "jewelry_1",
-  bvlgari: "jewelry_1",
-};
-
-// Category slug → hero asset base (shop pages and the home category tiles).
-export const CATEGORY_IMAGE: Record<string, string> = {
-  "birkin-bags": "hero_2",
-  "kelly-bags": "hero_4",
-  watches: "watches_showcase",
-  jewelry: "jewelry_1",
-  "bag-charms": "product_45deg",
-  "twilly-scarves": "lifestyle_3",
-  "scarves-shawls": "lifestyle_1",
-  "bag-organizers": "product_interior",
-};
-
+/** Category page and mega-menu scene. */
 export function categoryImage(slug: string): string {
-  return CATEGORY_IMAGE[slug] ?? "hero_2";
+  return `cat-${slug}`;
 }
 
-// Collection slug → cover asset base. Only two dedicated collection banners
-// exist, so the other two reuse the feature-card shots.
-export const COLLECTION_IMAGE: Record<string, string> = {
-  "new-arrivals": "collection_curated",
-  "best-sellers": "collection_monochrome",
-  "limited-edition": "feature_card_1",
-  "classic-heritage": "feature_card_2",
-  "exotic-hermes": "hero_3",
-  "hss-special-order": "feature_card_1",
-  "pre-owned-hermes": "lifestyle_1",
-  "custom-rare": "product_45deg",
-  "rare-watches": "watches_showcase",
-  "fine-jewelry": "jewelry_1",
-};
-
-// Journal post slug → editorial asset base.
-export function brandBanner(slug: string): string {
-  return BRAND_BANNER[slug] ?? "hero_2";
-}
-
+/** Collection page scene. */
 export function collectionImage(slug: string): string {
-  return COLLECTION_IMAGE[slug] ?? "collection_curated";
+  return `col-${slug}`;
 }
 
+/** Brand page scene: Hermès has its own; other brands show one of their pieces (PageHero cover). */
+export function brandBanner(slug: string): string {
+  return slug === "hermes" ? "hermes" : "all-pieces";
+}
+
+/** Birkin / Kelly landing page (lib/catalog/taxonomy BAG_SUBS) → scene. */
+export const BAG_SUB_SCENE: Record<string, string> = {
+  "pre-owned": "col-pre-owned-hermes",
+  "new-unused": "new-bags",
+  "exotic-leather": "col-exotic-hermes",
+  hss: "col-hss-special-order",
+  "custom-special-order": "col-custom-rare",
+  "limited-edition": "col-limited-edition",
+};

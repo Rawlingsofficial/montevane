@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-01-13",
   keyword: "how to insure a rolex",
   keywords: ["insure birkin bag", "luxury watch insurance", "jewelry insurance", "agreed value insurance", "watch appraisal for insurance"],
-  image: "editorial_setup",
+  image: "gallery/journal",
   cover: "hermes-birkin-25-etoupe-togo-gold-hardware",
   intro: [
     "Many owners discover too late that their home insurance covers a Rolex or a Birkin only up to a small single-item limit – or not at all outside the house.",

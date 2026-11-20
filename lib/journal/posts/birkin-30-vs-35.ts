@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-02-05",
   keyword: "birkin 30 vs 35",
   keywords: ["birkin 35 size", "birkin 30 dimensions", "what fits in a birkin 35", "birkin 35 for work", "birkin size guide"],
-  image: "product_front",
+  image: "gallery/cat-birkin-bags",
   cover: "hermes-birkin-30-gold-togo-palladium-hardware",
   picks: { category: "birkin-bags", query: "35", sort: "newest", limit: 4 },
   intro: [

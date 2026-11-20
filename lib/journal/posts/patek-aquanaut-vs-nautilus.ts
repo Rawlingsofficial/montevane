@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-01-29",
   keyword: "aquanaut vs nautilus",
   keywords: ["patek aquanaut 5167a", "patek nautilus 5711", "aquanaut tropical strap", "patek philippe sports watch", "aquanaut price"],
-  image: "watches_showcase",
+  image: "gallery/cat-watches",
   cover: "patek-philippe-aquanaut-5067a-001-luce-stainless-steel-diamond-bezel-black-arabic-dial-36",
   picks: { brand: "patek-philippe", query: "aquanaut", sort: "price_asc", limit: 8 },
   intro: [

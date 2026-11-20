@@ -11,7 +11,7 @@ export const post: Post = {
   date: "2026-11-12",
   keyword: "how to authenticate a hermes bag",
   keywords: ["fake birkin", "hermes blind stamp", "real vs fake hermes"],
-  image: "product_interior",
+  image: "gallery/cat-bag-organizers",
   cover: "hermes-birkin-25-craie-togo-gold-hardware",
   picks: { category: "birkin-bags", sort: "newest" },
   intro: [

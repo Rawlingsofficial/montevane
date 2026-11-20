@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-05-17",
   keyword: "what is a tourbillon",
   keywords: ["tourbillon watch", "flying tourbillon", "breguet tourbillon", "tourbillon price", "tourbillon accuracy"],
-  image: "watches_showcase",
+  image: "gallery/cat-watches",
   cover: "zenith-tourbillon-18-1260-4005-18k-rose-gold-silver-dial-45-mm",
   picks: { category: "watches", query: "tourbillon", sort: "price_asc", limit: 8 },
   intro: [

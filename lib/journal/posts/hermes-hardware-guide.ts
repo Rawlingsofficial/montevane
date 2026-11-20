@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-02-08",
   keyword: "hermes hardware",
   keywords: ["ghw vs phw", "palladium hardware birkin", "gold hardware birkin", "permabrass hermes", "rose gold hardware"],
-  image: "product_45deg",
+  image: "gallery/col-custom-rare",
   cover: "pre-owned-hermes-birkin-30-gold-togo-gold-hardware",
   picks: { category: "birkin-bags", query: "gold hardware", sort: "newest", limit: 8 },
   intro: [

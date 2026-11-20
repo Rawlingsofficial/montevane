@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { AssetImage } from "@/components/common/AssetImage";
+import { SceneFill } from "@/components/common/GalleryImage";
+import { gallery } from "@/lib/catalog/gallery";
 import { showcase } from "@/lib/catalog/showcase";
 import { getCategories } from "@/lib/data/catalog";
 import { getDictionary, localePath, type Locale } from "@/lib/i18n";
@@ -35,7 +36,10 @@ export async function ShopByCategory({ locale }: { locale: Locale }) {
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                   />
                 ) : (
-                  <AssetImage base={categoryImage(c.slug)} alt="" sizes="(max-width: 1024px) 50vw, 25vw" className="absolute inset-0" />
+                  (() => {
+                    const scene = gallery(categoryImage(c.slug));
+                    return scene && <SceneFill scene={scene} sizes="(max-width: 1024px) 50vw, 25vw" />;
+                  })()
                 )}
               </div>
               <h3 className="px-4 pb-5 font-heading text-lg leading-snug font-light sm:px-6 sm:pb-6 sm:text-2xl">{copy.title}</h3>

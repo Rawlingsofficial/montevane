@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-05-03",
   keyword: "diamond fluorescence",
   keywords: ["strong blue fluorescence", "does fluorescence affect price", "gia fluorescence", "medium blue fluorescence", "fluorescence none"],
-  image: "jewelry_1",
+  image: "gallery/cat-jewelry",
   cover: "fancy-yellow-cushion-cut-diamond-sol-necklace-platinum-and-18k-yellow-gold-cushion-cut",
   picks: { category: "jewelry", sort: "price_desc", limit: 8 },
   intro: [

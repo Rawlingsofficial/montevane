@@ -2,7 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 
-import { AssetImage } from "@/components/common/AssetImage";
+import { SceneFill } from "@/components/common/GalleryImage";
+import { gallery } from "@/lib/catalog/gallery";
 import { PageHero } from "@/components/common/PageHero";
 import { brandPath, brandRank } from "@/lib/catalog/taxonomy";
 import { getBrandCovers, getBrands } from "@/lib/data/catalog";
@@ -39,7 +40,7 @@ export default async function BrandsPage({
         eyebrow={t.listing.brandsEyebrow}
         title={t.listing.brandsHeading}
         description={t.listing.brandsBody}
-        image="hero_2"
+        image="houses"
         priority
       />
 
@@ -71,12 +72,20 @@ export default async function BrandsPage({
                     />
                   </div>
                 ) : (
-                  <AssetImage
-                    base={brandBanner(brand.slug)}
-                    alt=""
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="aspect-[4/3] transition-transform duration-500 ease-out group-hover:scale-105"
-                  />
+                  <div className="relative aspect-[4/3] overflow-hidden bg-[#f5f0e9]">
+                    {(() => {
+                      const scene = gallery(brandBanner(brand.slug));
+                      return (
+                        scene && (
+                          <SceneFill
+                            scene={scene}
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                            className="transition-transform duration-500 ease-out group-hover:scale-105"
+                          />
+                        )
+                      );
+                    })()}
+                  </div>
                 )}
                 <div className="p-6">
                   <h2 className="font-heading text-xl font-light">

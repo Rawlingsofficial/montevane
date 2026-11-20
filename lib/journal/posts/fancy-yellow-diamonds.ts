@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-12-07",
   keyword: "fancy yellow diamonds",
   keywords: ["canary diamond", "yellow diamond ring", "fancy intense yellow"],
-  image: "jewelry_1",
+  image: "gallery/cat-jewelry",
   cover: "fancy-yellow-radiant-cut-diamond-halo-ring-platinum-and-18k-yellow-gold-rectangular-and",
   picks: { category: "jewelry", piece: "Ring", sort: "price_desc" },
   intro: [

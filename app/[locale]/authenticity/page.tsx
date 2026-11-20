@@ -24,7 +24,7 @@ export default async function AuthenticityPage({ params }: PageProps<"/[locale]/
 
   return (
     <>
-      <PageHero eyebrow={a.eyebrow} title={a.title} description={a.intro} image="product_interior" priority />
+      <PageHero eyebrow={a.eyebrow} title={a.title} description={a.intro} image="col-exotic-hermes" priority />
 
       <div className="mx-auto max-w-3xl px-6 py-12 lg:py-16">
         <Breadcrumbs

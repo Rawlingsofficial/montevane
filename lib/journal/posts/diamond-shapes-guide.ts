@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-11-30",
   keyword: "diamond shapes",
   keywords: ["diamond cuts", "oval vs round diamond", "emerald cut diamond", "pear shaped diamond", "which diamond shape looks biggest"],
-  image: "jewelry_1",
+  image: "gallery/cat-jewelry",
   cover: "oval-cut-diamond-toi-et-moi-ring-platinum-oval-cut-diamond-toi-et-moi-ring-c-7-09-ct-s-1",
   picks: { category: "jewelry", piece: "Ring", sort: "price_asc", limit: 8 },
   intro: [

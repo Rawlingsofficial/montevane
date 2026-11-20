@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-02-26",
   keyword: "sky-dweller vs gmt-master ii",
   keywords: ["rolex sky-dweller", "rolex gmt-master ii", "best rolex for travel", "sky-dweller annual calendar", "rolex ring command bezel"],
-  image: "watches_showcase",
+  image: "gallery/cat-watches",
   cover: "rolex-sky-dweller-326934-stainless-steel-white-dial-42-mm",
   picks: { brand: "rolex", query: "sky-dweller", sort: "price_asc", limit: 8 },
   intro: [

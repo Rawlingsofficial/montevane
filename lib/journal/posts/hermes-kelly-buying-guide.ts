@@ -11,7 +11,7 @@ export const post: Post = {
   date: "2026-11-13",
   keyword: "hermes kelly buying guide",
   keywords: ["kelly sellier vs retourne", "kelly sizes", "kelly bag price"],
-  image: "hero_4",
+  image: "gallery/cat-kelly-bags",
   cover: "hermes-kelly-mini-ii-cloute-sellier-box-calf-cream-phw",
   picks: { category: "kelly-bags", sort: "newest" },
   intro: [

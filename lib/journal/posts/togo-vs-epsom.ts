@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-12-11",
   keyword: "togo vs epsom",
   keywords: ["togo leather", "epsom leather", "best leather for birkin"],
-  image: "product_side",
+  image: "gallery/cat-kelly-bags",
   cover: "hermes-birkin-25-gris-meyer-togo-permabrass-hardware",
   picks: { query: "togo", category: "birkin-bags", sort: "newest" },
   intro: [

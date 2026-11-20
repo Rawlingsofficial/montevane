@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-06-25",
   keyword: "constance vs kelly",
   keywords: ["hermes evening bag", "crossbody hermes", "constance 18", "kelly 25", "hermes shoulder bag"],
-  image: "product_side",
+  image: "gallery/cat-kelly-bags",
   cover: "hermes-kelly-25-colormatic-retourne-swift-noir-phw",
   picks: { category: "kelly-bags", sort: "price_asc", limit: 8 },
   intro: [

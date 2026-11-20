@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-12-25",
   keyword: "lab grown vs natural diamonds",
   keywords: ["are lab grown diamonds real", "lab diamond resale value", "natural diamond value", "can you tell a lab grown diamond", "lab grown engagement ring"],
-  image: "jewelry_1",
+  image: "gallery/cat-jewelry",
   cover: "round-cut-diamond-engagement-ring-18k-white-gold-round-cut-diamond-engagement-ring-3-71-ct",
   picks: { category: "jewelry", sort: "price_asc", limit: 8 },
   intro: [

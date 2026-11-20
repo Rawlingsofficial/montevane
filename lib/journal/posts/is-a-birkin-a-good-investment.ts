@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-12-30",
   keyword: "is a birkin a good investment",
   keywords: ["birkin resale value", "birkin price increase", "does a birkin hold its value"],
-  image: "lifestyle_2",
+  image: "gallery/col-pre-owned-hermes",
   cover: "hermes-birkin-35-etoupe-togo-palladium-hardware",
   picks: { category: "birkin-bags", sort: "newest" },
   intro: [

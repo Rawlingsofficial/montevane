@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-06-07",
   keyword: "how to store a birkin",
   keywords: ["birkin storage", "handbag storage", "dust bag", "store hermes bag", "birkin shape"],
-  image: "product_front",
+  image: "gallery/cat-birkin-bags",
   cover: "bag-bestie-birkin-grey-organizer",
   picks: { category: "bag-organizers", sort: "price_asc", limit: 8 },
   intro: [

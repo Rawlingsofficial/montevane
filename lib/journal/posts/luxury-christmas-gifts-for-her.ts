@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-11-15",
   keyword: "luxury christmas gifts for her",
   keywords: ["hermes gift for her", "designer christmas gifts", "luxury gift ideas for wife", "birkin as a gift", "rolex gift for her"],
-  image: "lifestyle_1",
+  image: "gallery/cat-scarves-shawls",
   cover: "hermes-ardoise-epsom-constance-elan-permabrass-hardware-2025-and-rodeo-robeo-rock-charm",
   picks: { category: "bag-charms", sort: "price_desc", limit: 8 },
   intro: [

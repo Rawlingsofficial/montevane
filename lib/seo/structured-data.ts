@@ -48,7 +48,7 @@ export function organizationLd(channels: ContactChannels) {
     name: SITE_NAME,
     url: siteUrl(),
     logo: `${siteUrl()}/images/web_optimized/logo_montevane_full.webp`,
-    image: `${siteUrl()}/images/web_optimized/about_boutique.webp`,
+    image: `${siteUrl()}/images/gallery/share.webp`,
     description: "Hermès & rare watches specialist in Monaco and Miami: authentic Birkin, Kelly and Hermès accessories, rare watches and jewelry.",
     address: {
       "@type": "PostalAddress",

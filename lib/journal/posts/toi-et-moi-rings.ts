@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-02-03",
   keyword: "toi et moi ring",
   keywords: ["toi et moi engagement ring", "two stone ring", "pear and oval toi et moi", "toi et moi meaning", "double stone engagement ring"],
-  image: "jewelry_1",
+  image: "gallery/cat-jewelry",
   cover: "pear-shaped-diamond-halo-toi-et-moi-ring-18k-white-gold-2-pear-shaped-halo-diamond-toi-et",
   picks: { category: "jewelry", query: "toi moi", sort: "price_asc", limit: 8 },
   intro: [

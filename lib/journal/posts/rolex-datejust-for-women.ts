@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-03-03",
   keyword: "rolex datejust women",
   keywords: ["lady datejust 28", "datejust 31", "rolex for women", "datejust 31 vs 36", "rolex diamond bezel women"],
-  image: "watches_showcase",
+  image: "gallery/cat-watches",
   cover: "rolex-datejust-31-278381rbr-steel-and-18k-rose-gold-diamond-bezel-aubergine-roman-dial-31",
   picks: { brand: "rolex", query: "datejust 31", sort: "newest", limit: 8 },
   intro: [

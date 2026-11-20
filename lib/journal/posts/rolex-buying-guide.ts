@@ -11,7 +11,7 @@ export const post: Post = {
   date: "2026-11-11",
   keyword: "rolex buying guide",
   keywords: ["pre-owned rolex", "rolex reference numbers", "rolex box and papers"],
-  image: "watches_showcase",
+  image: "gallery/cat-watches",
   cover: "rolex-submariner-116610-stainless-steel-black-index-dial-oyster-bracelet-40-mm",
   picks: { brand: "rolex", sort: "newest" },
   intro: [

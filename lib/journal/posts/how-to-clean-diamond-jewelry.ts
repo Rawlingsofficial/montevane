@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-03-22",
   keyword: "how to clean a diamond ring",
   keywords: ["clean diamond jewelry", "ultrasonic cleaner diamond", "diamond ring cloudy", "jewelry care", "check prongs"],
-  image: "jewelry_1",
+  image: "gallery/cat-jewelry",
   cover: "emerald-cut-diamond-engagement-ring-platinum-emerald-cut-solitaire-diamond-engagement",
   picks: { category: "jewelry", piece: "Ring", sort: "price_asc", limit: 4 },
   intro: [

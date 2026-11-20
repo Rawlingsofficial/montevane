@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-12-21",
   keyword: "how to care for a hermes bag",
   keywords: ["birkin storage", "hermes spa", "clean hermes leather"],
-  image: "product_front",
+  image: "gallery/cat-birkin-bags",
   cover: "hermes-birkin-30-black-togo-and-matte-alligator-touch-gold-hardware",
   picks: { category: "bag-organizers", sort: "newest" },
   intro: [

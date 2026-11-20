@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-03-31",
   keyword: "watches that hold their value",
   keywords: ["rolex resale value", "best watch investment", "do watches hold value", "patek resale value", "royal oak resale"],
-  image: "watches_showcase",
+  image: "gallery/cat-watches",
   cover: "rolex-submariner-116613ln-stainless-steel-and-18k-yellow-gold-black-index-dial-oyster",
   picks: { brand: "rolex", query: "submariner", sort: "price_asc", limit: 8 },
   intro: [

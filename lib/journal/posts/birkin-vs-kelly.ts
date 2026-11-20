@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-01-01",
   keyword: "birkin vs kelly",
   keywords: ["difference between birkin and kelly", "kelly or birkin first", "kelly bag vs birkin bag", "hermes kelly", "hermes birkin"],
-  image: "hero_2",
+  image: "gallery/hermes",
   cover: "hermes-kelly-25-sellier-box-calf-noir-ghw",
   picks: { category: "kelly-bags", sort: "newest", limit: 4 },
   intro: [

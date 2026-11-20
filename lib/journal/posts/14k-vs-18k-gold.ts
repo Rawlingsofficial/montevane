@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-05-31",
   keyword: "14k vs 18k gold",
   keywords: ["gold purity", "rose gold vs yellow gold", "750 gold", "585 gold", "18k white gold"],
-  image: "jewelry_1",
+  image: "gallery/cat-jewelry",
   cover: "baguette-and-round-cut-diamond-pectoral-necklace-18k-white-gold-baguette-and-round-cut",
   picks: { category: "jewelry", sort: "price_asc", limit: 8 },
   intro: [

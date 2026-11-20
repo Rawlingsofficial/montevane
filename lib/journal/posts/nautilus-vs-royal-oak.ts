@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-12-04",
   keyword: "nautilus vs royal oak",
   keywords: ["patek nautilus 5711", "royal oak 15510", "gerald genta"],
-  image: "watches_showcase",
+  image: "gallery/cat-watches",
   cover: "patek-philippe-nautilus-5980-1ar-001-stainless-steel-and-18k-rose-gold-blue-dial-40-mm",
   picks: { query: "nautilus", brand: "patek-philippe", sort: "newest" },
   intro: [

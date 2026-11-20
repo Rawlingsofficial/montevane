@@ -13,7 +13,7 @@ import { Expandable } from "@/components/shop/Expandable";
 import { ListingFaq } from "@/components/shop/ListingFaq";
 import { ListingFilters, type FilterLabels } from "@/components/shop/ListingFilters";
 import { EMPTY_QUERY, hasQuery, queryString, type ListingQuery } from "@/lib/catalog/filters";
-import { BRAND_SUBCATEGORIES, JEWELRY_TYPES } from "@/lib/catalog/taxonomy";
+import { BAG_SUB_CATEGORIES, BRAND_SUBCATEGORIES, JEWELRY_TYPES } from "@/lib/catalog/taxonomy";
 import { BAG_COPY, allWatchesCopy, conditionCopy } from "@/lib/catalog/listing-copy";
 import {
   getCategories,
@@ -29,7 +29,7 @@ import {
   landingIndexable,
 } from "@/lib/data/catalog";
 import { fmt, getDictionary, localePath, type Locale } from "@/lib/i18n";
-import { categoryImage } from "@/lib/images";
+import { BAG_SUB_SCENE, categoryImage } from "@/lib/images";
 import { guideFor } from "@/lib/journal";
 import { pageMetadata } from "@/lib/seo/metadata";
 
@@ -37,7 +37,6 @@ import { pageMetadata } from "@/lib/seo/metadata";
 // Subcategories are brands under Watches (/shop/watches/rolex) and piece
 // types under Jewelry (/shop/jewelry/rings).
 
-const VIDEO: Record<string, string> = { watches: "/videos/hero.mp4", jewelry: "/videos/jewelry.mp4" };
 
 type Copy = { name: string; title: string; metaTitle: string; metaDescription: string; intro: string };
 
@@ -144,6 +143,8 @@ export async function CategoryListing({
   const resolved = await resolveListing(locale, category, sub);
   if (!resolved) notFound();
   const { parent, copy, filter, base, brandCrumb } = resolved;
+  // Birkin / Kelly landing pages have their own gallery scene; other sub pages show one of their pieces.
+  const bagScene = sub && BAG_SUB_CATEGORIES.has(category) ? BAG_SUB_SCENE[sub] : undefined;
 
   const t = getDictionary(locale);
   const filtered = hasQuery(query);
@@ -154,7 +155,7 @@ export async function CategoryListing({
     getLiveModels(),
     getFilterOptions(filter),
     // Brand and jewelry-type pages show one of their own pieces, not the category photo.
-    sub ? getListingCover(filter) : Promise.resolve(null),
+    sub && !bagScene ? getListingCover(filter) : Promise.resolve(null),
     // A watch brand page links to its New and Pre-Owned pages.
     BRAND_SUBCATEGORIES.has(category) && sub && !resolved.condition ? getBrandConditions(sub) : Promise.resolve([]),
   ]);
@@ -173,7 +174,7 @@ export async function CategoryListing({
 
   return (
     <>
-      <PageHero eyebrow={sub ? parent.name : t.listing.eyebrow} title={copy.title} image={categoryImage(category)} cover={cover} video={VIDEO[category]} priority />
+      <PageHero eyebrow={sub ? parent.name : t.listing.eyebrow} title={copy.title} image={bagScene || categoryImage(category)} cover={cover} priority />
 
       <div className="mx-auto max-w-7xl px-6 py-6 lg:px-10 lg:py-12">
         <Breadcrumbs locale={locale} items={crumbs} />

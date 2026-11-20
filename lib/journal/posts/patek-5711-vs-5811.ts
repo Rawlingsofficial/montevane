@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-03-19",
   keyword: "5711 vs 5811",
   keywords: ["patek 5711", "patek 5811", "nautilus white gold", "5711 discontinued", "nautilus 5811 price"],
-  image: "watches_showcase",
+  image: "gallery/cat-watches",
   cover: "patek-philippe-nautilus-7008-1a-001-stainless-steel-diamond-bezel-blue-mother-of-pearl",
   picks: { brand: "patek-philippe", query: "nautilus", sort: "price_asc", limit: 8 },
   intro: [

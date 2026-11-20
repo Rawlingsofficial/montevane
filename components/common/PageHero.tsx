@@ -1,32 +1,37 @@
 import Image from "next/image";
 
-import { AssetImage } from "@/components/common/AssetImage";
-import { asset } from "@/lib/images";
+import { GalleryImage } from "@/components/common/GalleryImage";
+import { gallery } from "@/lib/catalog/gallery";
 
 type PageHeroProps = {
   eyebrow: string;
   title: string;
   description?: string;
-  /** Asset base name in public/images/web_optimized (without extension). */
+  /** Gallery scene id (public/images/gallery, built by scripts/compose-gallery.mjs). */
   image: string;
   /**
    * A real product photo for this page (brand, model, jewelry type). When set,
-   * the header becomes a light still life — text left, the piece right — like
-   * the journal's product covers, and `image`/`video` are not used.
+   * the header shows that one piece — text left, the piece right — and
+   * `image` is not used.
    */
   cover?: { url: string; alt: string } | null;
-  /** Optional looping clip in public/videos, played over the image. */
-  video?: string;
   priority?: boolean;
 };
 
-export function PageHero({ eyebrow, title, description, image, cover, video, priority = false }: PageHeroProps) {
+const eyebrowClass = "text-xs font-medium tracking-[0.25em] text-[var(--gold)] uppercase";
+
+/**
+ * Light page header in the gallery style: real pieces on stone plinths with
+ * the title on the empty wall (left on desktop; above the scene on phones).
+ * Without a built scene it falls back to a plain ivory title block.
+ */
+export function PageHero({ eyebrow, title, description, image, cover, priority = false }: PageHeroProps) {
   if (cover) {
     return (
       <header className="bg-[var(--ivory)] pt-24 lg:pt-32">
         <div className="mx-auto grid max-w-6xl grid-cols-[1fr_7.5rem] items-center gap-5 px-6 pb-8 sm:grid-cols-[3fr_2fr] sm:gap-12 lg:px-10 lg:pb-12">
           <div>
-            <p className="text-xs font-medium tracking-[0.2em] text-[var(--gold)] uppercase">{eyebrow}</p>
+            <p className={eyebrowClass}>{eyebrow}</p>
             <h1 className="mt-3 font-heading text-3xl font-extralight sm:text-5xl">{title}</h1>
             {description && <p className="mt-4 max-w-md text-sm font-light text-muted-foreground">{description}</p>}
           </div>
@@ -46,29 +51,39 @@ export function PageHero({ eyebrow, title, description, image, cover, video, pri
     );
   }
 
+  const scene = gallery(image);
+  const text = (
+    <>
+      <p className={eyebrowClass}>{eyebrow}</p>
+      <h1 className="mt-3 font-heading text-3xl font-extralight sm:text-5xl">{title}</h1>
+      {description && <p className="mt-4 max-w-md text-sm font-light text-muted-foreground">{description}</p>}
+    </>
+  );
+
+  if (!scene) {
+    return (
+      <header className="bg-[var(--ivory)] pt-28 pb-12 lg:pt-40 lg:pb-16">
+        <div className="mx-auto max-w-6xl px-6 lg:px-10">{text}</div>
+      </header>
+    );
+  }
+
   return (
-    <section data-page-hero className="relative flex h-[30vh] min-h-[220px] w-full sm:h-[50vh] sm:min-h-[380px] items-center justify-center overflow-hidden">
-      <AssetImage base={image} alt="" priority={priority} sizes="100vw" className="absolute inset-0" />
-      {video && (
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster={asset(image)}
-          aria-hidden="true"
-          className="absolute inset-0 size-full object-cover"
-        >
-          <source src={video} type="video/mp4" />
-        </video>
-      )}
-      <div className="absolute inset-0 bg-black/40" />
-      <div className="relative flex flex-col items-center px-6 pt-14 text-center sm:pt-0">
-        <p className="text-xs font-medium tracking-[0.3em] text-white/80 uppercase">{eyebrow}</p>
-        <h1 className="mt-3 max-w-2xl font-heading text-3xl sm:mt-4 sm:text-4xl font-extralight text-white sm:text-5xl">{title}</h1>
-        {description && <p className="mt-4 max-w-md text-sm font-light text-white/70">{description}</p>}
+    <header className="relative mt-16 bg-[#f5f0e9] lg:mt-[100px]">
+      {/* Phones: title on the wall colour, then the scene. */}
+      <div className="px-6 pt-8 lg:hidden">{text}</div>
+      <GalleryImage
+        scene={scene}
+        priority={priority}
+        className="aspect-[4/3] w-full lg:aspect-[5/2] lg:max-h-[62vh]"
+        imgClassName="object-bottom lg:object-[100%_75%]"
+      />
+      {/* Desktop: title on the empty wall to the left of the pieces. */}
+      <div className="absolute inset-0 hidden items-center lg:flex">
+        <div className="mx-auto w-full max-w-7xl px-10">
+          <div className="max-w-[40%]">{text}</div>
+        </div>
       </div>
-    </section>
+    </header>
   );
 }

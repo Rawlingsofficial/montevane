@@ -23,7 +23,7 @@ export default async function SellPage({ params }: PageProps<"/[locale]/sell">) 
 
   return (
     <>
-      <PageHero eyebrow={s.eyebrow} title={s.title} description={s.intro} image="product_interior" priority />
+      <PageHero eyebrow={s.eyebrow} title={s.title} description={s.intro} image="service" priority />
 
       <div className="mx-auto max-w-3xl px-6 py-12 lg:py-16">
         <Breadcrumbs

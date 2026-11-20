@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-01-11",
   keyword: "hermes exotic leather",
   keywords: ["crocodile vs alligator birkin", "ostrich birkin", "porosus vs niloticus", "matte alligator", "birkin cites"],
-  image: "hero_2",
+  image: "gallery/hermes",
   cover: "hermes-birkin-25-touch-togo-matte-alligator-noir-ghw",
   picks: { category: "birkin-bags", query: "alligator", sort: "price_asc", limit: 8 },
   intro: [

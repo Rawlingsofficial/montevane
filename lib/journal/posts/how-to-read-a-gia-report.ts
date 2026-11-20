@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-12-14",
   keyword: "how to read a gia report",
   keywords: ["gia certificate", "gia report check", "diamond grading report"],
-  image: "jewelry_1",
+  image: "gallery/cat-jewelry",
   cover: "radiant-and-trapezoid-cut-diamond-engagement-ring-14k-white-gold-radiant-and-trapezoid",
   picks: { category: "jewelry", piece: "Ring", sort: "price_asc" },
   intro: [

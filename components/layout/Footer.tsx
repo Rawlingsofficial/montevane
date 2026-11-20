@@ -2,7 +2,6 @@ import { SELL } from "@/lib/i18n/dictionaries/sell";
 import Image from "next/image";
 import Link from "next/link";
 
-import { AssetImage } from "@/components/common/AssetImage";
 import { PaymentMethods } from "@/components/common/PaymentMethods";
 import { SubscribeForm } from "@/components/common/SubscribeForm";
 import { SITE_NAME, STORE_LOCATIONS, cityLine } from "@/lib/constants";
@@ -76,8 +75,6 @@ export async function Footer({ locale, channels }: { locale: Locale; channels: C
 
   return (
     <footer className="relative overflow-hidden bg-[#0d0d0d] text-white/70">
-      <AssetImage base="footer_bg" alt="" className="absolute inset-0 opacity-30" sizes="100vw" />
-      <div className="absolute inset-0 bg-[#0d0d0d]/70" />
       <div className="relative mx-auto max-w-7xl px-6 py-20 lg:px-10">
         <div id="newsletter" className="mb-16 grid scroll-mt-24 gap-10 border-b border-white/10 pb-16 lg:grid-cols-2 lg:items-center">
           <div>

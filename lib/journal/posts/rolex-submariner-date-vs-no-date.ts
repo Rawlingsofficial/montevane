@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-12-18",
   keyword: "submariner date vs no date",
   keywords: ["rolex 124060", "rolex 126610ln", "rolex kermit", "rolex hulk"],
-  image: "watches_showcase",
+  image: "gallery/cat-watches",
   cover: "rolex-submariner-116618ln-18k-yellow-gold-black-index-dial-oyster-bracelet-40mm",
   picks: { query: "submariner", brand: "rolex", sort: "newest" },
   intro: [

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-import { AssetImage } from "@/components/common/AssetImage";
+import { SceneFill } from "@/components/common/GalleryImage";
+import { gallery } from "@/lib/catalog/gallery";
 import { PageHero } from "@/components/common/PageHero";
 import { VisitBoutique } from "@/components/common/VisitBoutique";
 import { WhyShopWithUs } from "@/components/home/WhyShopWithUs";
@@ -27,7 +28,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
 
   return (
     <>
-      <PageHero eyebrow={about.eyebrow} title={about.title} description={about.description} image="about_boutique" priority />
+      <PageHero eyebrow={about.eyebrow} title={about.title} description={about.description} image="about" priority />
 
       <section className="grid lg:grid-cols-2">
         <div className="flex flex-col items-start justify-center px-8 py-20 sm:px-16 lg:py-28">
@@ -35,11 +36,11 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
           <h2 className="mt-4 max-w-md text-3xl font-light sm:text-4xl">{house.title}</h2>
           <p className="mt-5 max-w-md text-sm text-foreground/80">{house.body}</p>
         </div>
-        <AssetImage base="lifestyle_1" alt="" sizes="(max-width: 1024px) 100vw, 50vw" className="aspect-[4/3] lg:aspect-auto lg:h-full" />
+        <Loupe id="loupe-hardware" />
       </section>
 
       <section className="grid lg:grid-cols-2">
-        <AssetImage base="lifestyle_2" alt="" sizes="(max-width: 1024px) 100vw, 50vw" className="order-2 aspect-[4/3] lg:order-1 lg:aspect-auto lg:h-full" />
+        <Loupe id="loupe-dial" className="order-2 lg:order-1" />
         <div className="order-1 flex flex-col items-start justify-center bg-[#111111] px-8 py-20 text-white sm:px-16 lg:order-2 lg:py-28">
           <p className="text-xs font-medium tracking-[0.25em] text-[var(--gold)] uppercase">{craft.eyebrow}</p>
           <h2 className="mt-4 max-w-md text-3xl font-light sm:text-4xl">{craft.title}</h2>
@@ -72,5 +73,16 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
 
       <WhyShopWithUs locale={locale} />
     </>
+  );
+}
+
+/** A close-up cut from a real product photo (scripts/compose-gallery.mjs). */
+function Loupe({ id, className = "" }: { id: string; className?: string }) {
+  const scene = gallery(id);
+  if (!scene) return null;
+  return (
+    <div className={`relative aspect-square bg-white lg:aspect-auto lg:min-h-[560px] ${className}`}>
+      <SceneFill scene={scene} sizes="(max-width: 1024px) 100vw, 50vw" className="object-center" />
+    </div>
   );
 }

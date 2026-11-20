@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-03-26",
   keyword: "birkin sellier",
   keywords: ["birkin sellier vs retourne", "sellier meaning hermes", "kelly sellier", "birkin sellier price", "hermes stitching"],
-  image: "product_side",
+  image: "gallery/cat-kelly-bags",
   cover: "hermes-birkin-30-sellier-epsom-etoupe-phw",
   picks: { category: "birkin-bags", query: "sellier", sort: "newest", limit: 8 },
   intro: [

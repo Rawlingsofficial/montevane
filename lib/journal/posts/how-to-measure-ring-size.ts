@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-04-05",
   keyword: "how to measure ring size",
   keywords: ["ring size chart", "find ring size secretly", "resize a ring", "ring size in mm", "engagement ring size"],
-  image: "jewelry_1",
+  image: "gallery/cat-jewelry",
   cover: "round-cut-diamond-engagement-ring-14k-white-gold-round-cut-diamond-engagement-ring-c-8-14",
   picks: { category: "jewelry", piece: "Ring", sort: "price_asc", limit: 8 },
   intro: [

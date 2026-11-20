@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2026-11-15",
   keyword: "how to buy a luxury watch online safely",
   keywords: ["is it safe to buy a rolex online", "buy birkin online", "trusted luxury reseller", "pay for a watch by wire", "luxury resale scams"],
-  image: "feature_card_2",
+  image: "gallery/service",
   cover: "rolex-submariner-5508-small-crown-james-bond-stainless-steel-black-dial-oyster-bracelet",
   intro: [
     "Most luxury watches and Hermès bags now change hands online. Done right, it is safe and often the only way to find a specific piece. Done wrong, it is how people lose a car's worth of money.",

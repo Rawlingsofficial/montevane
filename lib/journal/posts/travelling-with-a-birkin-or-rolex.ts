@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-03-08",
   keyword: "travelling with a rolex",
   keywords: ["travel with birkin customs", "cbp form 4457", "crocodile bag travel", "declare watch customs", "luxury watch travel safety"],
-  image: "lifestyle_3",
+  image: "gallery/cat-twilly-scarves",
   cover: "rolex-gmt-master-ii-116759sa-18k-white-gold-sapphire-and-diamond-bezel-pave-diamond-dial",
   intro: [
     "The best part of owning a fine watch or a Birkin is wearing it – including on holiday. But crossing borders with valuable pieces raises questions at customs, and exotic leathers have rules of their own.",

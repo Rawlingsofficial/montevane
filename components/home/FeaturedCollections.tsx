@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { AssetImage } from "@/components/common/AssetImage";
+import { SceneFill } from "@/components/common/GalleryImage";
+import { gallery } from "@/lib/catalog/gallery";
 import { showcase } from "@/lib/catalog/showcase";
 import { getCollections } from "@/lib/data/catalog";
 import { getDictionary, localePath, type Locale } from "@/lib/i18n";
@@ -30,7 +31,10 @@ export async function FeaturedCollections({ locale }: { locale: Locale }) {
                 {still ? (
                   <Image src={still.src} alt={still.alt} fill sizes="(max-width: 640px) 100vw, 50vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]" />
                 ) : (
-                  <AssetImage base={collectionImage(collection.slug)} alt="" sizes="(max-width: 640px) 100vw, 50vw" className="absolute inset-0" />
+                  (() => {
+                    const scene = gallery(collectionImage(collection.slug));
+                    return scene && <SceneFill scene={scene} />;
+                  })()
                 )}
               </div>
               <div className="flex items-end justify-between gap-6 px-6 pb-7 sm:px-8 sm:pb-8">

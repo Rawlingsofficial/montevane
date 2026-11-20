@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-05-14",
   keyword: "togo vs clemence",
   keywords: ["clemence slouch", "togo structure", "birkin leather", "taurillon clemence", "togo leather"],
-  image: "product_side",
+  image: "gallery/cat-kelly-bags",
   cover: "hermes-hac-a-dos-pm-togo-bai-brun-phw",
   picks: { category: "birkin-bags", query: "togo", sort: "price_asc", limit: 8 },
   intro: [

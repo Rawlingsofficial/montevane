@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-05-12",
   keyword: "monaco luxury",
   keywords: ["monaco grand prix watch", "monaco yacht show", "monaco boutique", "monte carlo shopping", "monaco watches"],
-  image: "lifestyle_2",
+  image: "gallery/col-pre-owned-hermes",
   cover: "richard-mille-transparent-dial-rm12-01-sapphire-blue-tourbillion-transparent-dial-50-mm",
   picks: { category: "watches", min: 50000, sort: "price_desc", limit: 8 },
   intro: [

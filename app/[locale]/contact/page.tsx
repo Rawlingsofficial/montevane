@@ -25,7 +25,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
 
   return (
     <>
-      <PageHero eyebrow={t.contact.eyebrow} title={t.contact.title} description={t.contact.body} image="hero_3" priority />
+      <PageHero eyebrow={t.contact.eyebrow} title={t.contact.title} description={t.contact.body} image="contact" priority />
 
       <section className="mx-auto grid max-w-6xl gap-16 px-6 py-20 lg:grid-cols-[1fr_1.3fr] lg:px-10">
         <div>

@@ -10,7 +10,7 @@ export const post: Post = {
   date: "2027-06-09",
   keyword: "hermes constance buying guide",
   keywords: ["constance price", "constance 18", "constance to go", "constance 24", "hermes h clasp bag"],
-  image: "product_45deg",
+  image: "gallery/col-custom-rare",
   cover: "hermes-kelly-pochette-swift-rose-sakura-phw",
   picks: { category: "kelly-bags", sort: "price_asc", limit: 8 },
   intro: [
