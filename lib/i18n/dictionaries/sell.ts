@@ -39,7 +39,7 @@ export const SELL: Record<Locale, Sell> = {
     steps: [
       { title: "Tell us about it", body: "Send the model, size or reference, year, condition and what's included, using the form below. Photos help: reply to our confirmation email with them, or send them on WhatsApp." },
       { title: "Receive an offer", body: "A specialist reviews the details and replies with an offer and the next steps." },
-      { title: "Authentication", body: "Every piece is authenticated before we complete a purchase. You're welcome to bring it to our boutique in Monaco or Miami." },
+      { title: "Authentication", body: "Every piece is authenticated before we complete a purchase. You're welcome to bring it to our Miami boutique." },
     ],
     helpTitle: "What helps us make the best offer",
     help: [
@@ -69,7 +69,7 @@ export const SELL: Record<Locale, Sell> = {
     steps: [
       { title: "Beschreiben Sie Ihr Stück", body: "Nennen Sie Modell, Größe oder Referenz, Jahr, Zustand und Lieferumfang über das Formular unten. Fotos helfen: Antworten Sie damit auf unsere Bestätigungs-E-Mail oder senden Sie sie per WhatsApp." },
       { title: "Angebot erhalten", body: "Ein Spezialist prüft die Angaben und antwortet mit einem Angebot und den nächsten Schritten." },
-      { title: "Echtheitsprüfung", body: "Jedes Stück wird vor dem Abschluss des Kaufs auf Echtheit geprüft. Gerne können Sie es in unsere Boutique in Monaco oder Miami bringen." },
+      { title: "Echtheitsprüfung", body: "Jedes Stück wird vor dem Abschluss des Kaufs auf Echtheit geprüft. Gerne können Sie es in unsere Boutique in Miami bringen." },
     ],
     helpTitle: "Was uns hilft, das beste Angebot zu machen",
     help: [
@@ -99,7 +99,7 @@ export const SELL: Record<Locale, Sell> = {
     steps: [
       { title: "Buyum haqida yozing", body: "Quyidagi shakl orqali model, o'lcham yoki referens, yil, holat va to'plamni yozing. Suratlar foydali: ularni tasdiqlash emailimizga javob sifatida yoki WhatsApp orqali yuboring." },
       { title: "Taklif oling", body: "Mutaxassis ma'lumotlarni ko'rib chiqadi va taklif hamda keyingi qadamlar bilan javob beradi." },
-      { title: "Haqiqiylik tekshiruvi", body: "Har bir buyum xarid yakunlanishidan oldin haqiqiyligi tekshiriladi. Uni Monako yoki Mayamidagi butigimizga olib kelishingiz mumkin." },
+      { title: "Haqiqiylik tekshiruvi", body: "Har bir buyum xarid yakunlanishidan oldin haqiqiyligi tekshiriladi. Uni Mayamidagi butigimizga olib kelishingiz mumkin." },
     ],
     helpTitle: "Eng yaxshi taklif uchun nima yordam beradi",
     help: [

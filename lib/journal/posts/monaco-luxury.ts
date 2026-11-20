@@ -4,12 +4,12 @@ export const post: Post = {
   slug: "monaco-luxury",
   title: "Monaco's Season of Watches, Yachts and Racing",
   metaTitle: "Monaco Luxury Season: Grand Prix, Yachts & Watches",
-  description: "Monaco's luxury calendar – Monte-Carlo tennis, the Grand Prix and the Yacht Show – what watch collectors wear, and visiting our Monaco boutique.",
+  description: "Monaco's luxury calendar – Monte-Carlo tennis, the Grand Prix and the Yacht Show – what watch collectors wear, and seeing a piece with us in Monaco.",
   category: "Buying Guides",
   cluster: "buying",
   date: "2027-05-12",
   keyword: "monaco luxury",
-  keywords: ["monaco grand prix watch", "monaco yacht show", "monaco boutique", "monte carlo shopping", "monaco watches"],
+  keywords: ["monaco grand prix watch", "monaco yacht show", "monte carlo shopping", "monaco watches"],
   image: "gallery/col-pre-owned-hermes",
   cover: "richard-mille-transparent-dial-rm12-01-sapphire-blue-tourbillion-transparent-dial-50-mm",
   picks: { category: "watches", min: 50000, sort: "price_desc", limit: 8 },
@@ -43,22 +43,22 @@ export const post: Post = {
     },
     {
       id: "visit",
-      heading: "Visiting our Monaco boutique",
+      heading: "Seeing a piece with us in Monaco",
       blocks: [
-        "We're in Monaco. If there's a particular watch or Hermès bag you'd like to see, contact us before your visit so we can have it ready. Travelling with a new piece? Read [travelling with a Birkin or Rolex](/journal/travelling-with-a-birkin-or-rolex).",
+        "Our specialists work in Monaco. If there's a particular watch or Hermès bag you'd like to see while you're there, contact us first and we'll arrange a private viewing. Travelling with a new piece? Read [travelling with a Birkin or Rolex](/journal/travelling-with-a-birkin-or-rolex).",
       ],
     },
   ],
   faq: [
     { q: "When is the Monaco Grand Prix?", a: "Traditionally in late May or early June; check the official Formula 1 calendar for the exact dates." },
     { q: "When is the Monaco Yacht Show?", a: "Usually in late September at Port Hercule." },
-    { q: "Where is Montévane in Monaco?", a: "In Monte-Carlo. Contact us before your visit. We also have a boutique in Miami." },
+    { q: "Can I see a piece in Monaco?", a: "Yes, by appointment with our specialists in Monaco. Contact us first. Our boutique is in Miami." },
   ],
   sources: [
     { label: "Visit Monaco – official tourism site", url: "https://www.visitmonaco.com/en" },
   ],
   shop: [
-    { label: "Contact our boutiques", path: "/contact" },
+    { label: "Contact us", path: "/contact" },
     { label: "Shop watches", path: "/shop/watches" },
   ],
 };

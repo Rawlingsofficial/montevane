@@ -5,20 +5,20 @@ const en = {
   meta: {
     homeTitle: "Hermès & Rare Watches Specialist, Monaco & Miami | Montévane",
     homeDescription:
-      "Authentic Hermès Birkin, Kelly, bag charms and Twillies, plus rare watches and jewelry. Boutiques in Monaco and Miami. Authenticity guarantee, 14-day returns.",
+      "Authentic Hermès Birkin, Kelly, bag charms and Twillies, plus rare watches and jewelry. Boutique in Miami, specialists in Monaco. Authenticity guarantee, 14-day returns.",
     productsTitle: "Shop Authentic Hermès, Rare Watches & Jewelry",
     productsDescription:
       "Every piece in stock: Hermès Birkin and Kelly bags, exotic and HSS special orders, bag charms, Twillies and scarves, plus rare watches and jewelry. Shipped worldwide.",
     brandsTitle: "Brands — Hermès Specialist, Rare Watches & Jewelry",
     brandsDescription: "Hermès first: Birkin, Kelly and accessories. Plus rare watches from Rolex, Patek Philippe, Audemars Piguet and Cartier, and fine jewelry.",
     brandTitle: "Authentic {brand} for Sale — New & Pre-Owned",
-    brandDescription: "Shop authentic {brand} from our Monaco and Miami boutiques — new and pre-owned, independently authenticated. Full refund if any item fails a third-party check.",
+    brandDescription: "Shop authentic {brand} from Montévane in Miami and Monaco — new and pre-owned, independently authenticated. Full refund if any item fails a third-party check.",
     collectionsTitle: "Collections — Exotic Hermès, HSS Special Orders & New Arrivals",
     collectionsDescription: "New arrivals, exotic Hermès, HSS special orders, pre-owned and rare pieces — curated edits from a Hermès specialist.",
-    contactTitle: "Contact Us — Monaco & Miami Boutiques, WhatsApp, Telegram or Call",
-    contactDescription: "Visit us in Monaco or Miami (4000 NE 1st Avenue), or reach Montévane on WhatsApp, Telegram, Signal, phone or email about a Hermès piece or a rare watch.",
+    contactTitle: "Contact Us — Miami Boutique & Monaco, WhatsApp, Telegram or Call",
+    contactDescription: "Visit our Miami boutique (4000 NE 1st Avenue), or reach Montévane on WhatsApp, Telegram, Signal, phone or email about a Hermès piece or a rare watch.",
     aboutTitle: "About Montévane — Hermès & Rare Watches Specialist, Monaco & Miami",
-    aboutDescription: "Montévane has boutiques in Monaco and Miami (Design District), specialising in authentic Hermès and rare watches, with a guarantee on every piece.",
+    aboutDescription: "Montévane has a boutique in Miami (Design District) and specialists in Monaco, specialising in authentic Hermès and rare watches, with a guarantee on every piece.",
     paymentTitle: "Payment, Shipping & 14-Day Returns",
     paymentDescription:
       "Pay by bank wire, crypto (Bitcoin, USDT) or card. Fully insured, tracked worldwide shipping, and a 14-day return window on every piece.",
@@ -466,7 +466,7 @@ const en = {
       },
       {
         title: "Questions",
-        body: "Ask us for an item's certificate or extra photos before you buy — on WhatsApp, Telegram, Signal, by phone or email, or in person at our boutiques in Monaco and Miami.",
+        body: "Ask us for an item's certificate or extra photos before you buy — on WhatsApp, Telegram, Signal, by phone or email, or in person at our Miami boutique.",
       },
     ],
   },
