@@ -1,16 +1,25 @@
-import { SITE_NAME, STORE_LOCATIONS, cityLine } from "@/lib/constants";
+import { SHOWN_LOCATIONS, SITE_NAME, STORE_LOCATIONS, cityLine } from "@/lib/constants";
 import type { StoreProfile } from "@/lib/data/catalog";
 import { getDictionary, type Locale } from "@/lib/i18n";
 
 /** Boutique addresses with directions, plus a Google review link once one is set in admin Settings. */
-export function VisitBoutique({ locale, profile }: { locale: Locale; profile: StoreProfile }) {
+export function VisitBoutique({
+  locale,
+  profile,
+  withMonaco = false,
+}: {
+  locale: Locale;
+  profile: StoreProfile;
+  /** Also list Monaco (contact page only). */
+  withMonaco?: boolean;
+}) {
   const t = getDictionary(locale).contact;
 
   return (
     <div>
       <h2 className="text-2xl">{t.visit}</h2>
       <div className="mt-4 grid gap-6 sm:grid-cols-2">
-        {STORE_LOCATIONS.map((l) => (
+        {(withMonaco ? SHOWN_LOCATIONS : STORE_LOCATIONS).map((l) => (
           <div key={l.city}>
             <address className="text-base leading-relaxed text-foreground/80 not-italic">
               <span className="text-foreground">

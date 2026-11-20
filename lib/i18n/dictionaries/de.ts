@@ -412,7 +412,6 @@ const de: Dictionary = {
     care: "Kundenservice",
     rights: "Alle Rechte vorbehalten.",
     locations: "Boutiques",
-    monaco: "Unsere Spezialisten · private Besichtigung nach Vereinbarung",
     directions: "Route planen",
   },
   waitlist: {

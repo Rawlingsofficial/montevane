@@ -421,7 +421,6 @@ const en = {
     care: "Customer Care",
     rights: "All rights reserved.",
     locations: "Boutiques",
-    monaco: "Our specialists · private viewings by appointment",
     directions: "Get directions",
   },
   waitlist: {

@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { PaymentMethods } from "@/components/common/PaymentMethods";
 import { SubscribeForm } from "@/components/common/SubscribeForm";
-import { SITE_NAME, STORE_LOCATIONS, cityLine } from "@/lib/constants";
+import { SHOWN_LOCATIONS, SITE_NAME, cityLine } from "@/lib/constants";
 import { getCategories, type ContactChannels } from "@/lib/data/catalog";
 import { getDictionary, localePath, type Locale } from "@/lib/i18n";
 import { LOGO } from "@/lib/images";
@@ -133,7 +133,7 @@ export async function Footer({ locale, channels }: { locale: Locale; channels: C
           <div>
             <p className="text-xs tracking-[0.15em] text-white/60 uppercase">{t.footer.locations}</p>
             <div className="mt-4 space-y-5">
-              {STORE_LOCATIONS.map((l) => (
+              {SHOWN_LOCATIONS.map((l) => (
                 <div key={l.city}>
                   <address className="font-heading text-lg leading-snug font-light text-white/80 not-italic">
                     {SITE_NAME} {l.city}
@@ -152,12 +152,6 @@ export async function Footer({ locale, channels }: { locale: Locale; channels: C
                   </a>
                 </div>
               ))}
-              {/* Monaco: our specialists, no street address (Merchant Center lists Miami only). */}
-              <address className="font-heading text-lg leading-snug font-light text-white/80 not-italic">
-                {SITE_NAME} Monaco
-                <br />
-                <span className="text-sm text-white/60">{t.footer.monaco}</span>
-              </address>
             </div>
           </div>
         </div>

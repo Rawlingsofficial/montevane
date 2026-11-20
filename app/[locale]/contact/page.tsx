@@ -4,7 +4,7 @@ import { PageHero } from "@/components/common/PageHero";
 import { ContactButtons } from "@/components/contact/ContactButtons";
 import { InquiryForm } from "@/components/contact/InquiryForm";
 import { VisitBoutique } from "@/components/common/VisitBoutique";
-import { SITE_NAME, STORE_LOCATIONS, cityLine } from "@/lib/constants";
+import { SHOWN_LOCATIONS, SITE_NAME, cityLine } from "@/lib/constants";
 import { getContactChannels, getStoreProfile } from "@/lib/data/catalog";
 import { getDictionary, localePath } from "@/lib/i18n";
 import { resolveLocale } from "@/lib/i18n/server";
@@ -35,7 +35,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
           </div>
           <p className="mt-8 text-sm leading-relaxed text-muted-foreground">{t.payment.note}</p>
           <div className="mt-12 border-t border-border pt-10">
-            <VisitBoutique locale={locale} profile={profile} />
+            <VisitBoutique locale={locale} profile={profile} withMonaco />
           </div>
         </div>
 
@@ -47,7 +47,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
 
       <section aria-label={t.contact.visit} className="mx-auto max-w-6xl px-6 pb-24 lg:px-10">
         <div className="grid gap-6 lg:grid-cols-2">
-          {STORE_LOCATIONS.map((l) => (
+          {SHOWN_LOCATIONS.map((l) => (
             <div key={l.city} className="relative aspect-[4/3] w-full overflow-hidden border border-border bg-[var(--ivory)]">
               <iframe
                 src={l.embedUrl}

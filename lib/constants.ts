@@ -37,6 +37,25 @@ export const STORE_LOCATIONS: StoreLocation[] = [
   },
 ];
 
+/**
+ * Monaco, where our specialists work. Shown only in the footer and on the
+ * contact page; structured data and Google listings use Miami (STORE_LOCATIONS).
+ */
+export const MONACO_LOCATION: StoreLocation = {
+  city: "Monaco",
+  street: "1 Place du Casino",
+  postalCode: "98000",
+  locality: "Monaco",
+  country: "MC",
+  countryName: "Monaco",
+  lat: 43.7396,
+  lng: 7.4276,
+  ...maps("1 Place du Casino, 98000 Monaco"),
+};
+
+/** Miami and Monaco, for the footer and the contact page. */
+export const SHOWN_LOCATIONS: StoreLocation[] = [...STORE_LOCATIONS, MONACO_LOCATION];
+
 export const STORE_ADDRESS = STORE_LOCATIONS[0];
 export const MAP_EMBED_URL = STORE_ADDRESS.embedUrl;
 export const MAPS_URL = STORE_ADDRESS.mapsUrl;
