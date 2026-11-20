@@ -331,6 +331,20 @@ export async function getBrandCovers(): Promise<Record<string, { url: string; al
   return Object.fromEntries(rows.map((r) => [r.brand, { url: r.url, alt: r.name, slug: r.slug }]));
 }
 
+/**
+ * Header photo for a listing (brand, jewelry type, model): its most expensive
+ * piece with a photo, preferring pieces in stock — so a Rolex page shows a Rolex.
+ */
+export async function getListingCover(filter: ProductFilter): Promise<{ url: string; alt: string } | null> {
+  const [row] = await db
+    .select({ url: p.mainImageUrl, alt: p.mainImageAlt, name: p.name })
+    .from(p)
+    .where(and(isLive, filterWhere({ ...filter, listing: undefined }), ne(p.mainImageUrl, "")))
+    .orderBy(desc(sql`${p.availabilityStatus} = 'in_stock'`), desc(p.price))
+    .limit(1);
+  return row ? { url: row.url, alt: row.alt || row.name } : null;
+}
+
 /** Main photo of each product (any live product, sold or not), keyed by slug. */
 export async function getProductPhotos(slugs: string[]): Promise<Record<string, { url: string; alt: string }>> {
   if (!slugs.length) return {};

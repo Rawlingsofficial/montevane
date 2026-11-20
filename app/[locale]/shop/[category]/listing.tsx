@@ -23,6 +23,7 @@ import {
   getSubcategories,
   subcategoryFilter,
   type ProductFilter,
+  getListingCover,
 } from "@/lib/data/catalog";
 import { fmt, getDictionary, localePath, type Locale } from "@/lib/i18n";
 import { categoryImage } from "@/lib/images";
@@ -130,12 +131,14 @@ export async function CategoryListing({
 
   const t = getDictionary(locale);
   const filtered = hasQuery(query);
-  const [listing, channels, subcategories, liveModels, options] = await Promise.all([
+  const [listing, channels, subcategories, liveModels, options, cover] = await Promise.all([
     getProductPage({ ...filter, listing: query }, page, locale),
     getContactChannels(),
     sub ? Promise.resolve([]) : getSubcategories(category),
     getLiveModels(),
     getFilterOptions(filter),
+    // Brand and jewelry-type pages show one of their own pieces, not the category photo.
+    sub ? getListingCover(filter) : Promise.resolve(null),
   ]);
   if (!listing) notFound();
   const models = liveModels.filter((m) => m.category === category && (!filter.brand || m.brandSlug === filter.brand));
@@ -151,7 +154,7 @@ export async function CategoryListing({
 
   return (
     <>
-      <PageHero eyebrow={sub ? parent.name : t.listing.eyebrow} title={copy.title} image={categoryImage(category)} video={VIDEO[category]} priority />
+      <PageHero eyebrow={sub ? parent.name : t.listing.eyebrow} title={copy.title} image={categoryImage(category)} cover={cover} video={VIDEO[category]} priority />
 
       <div className="mx-auto max-w-7xl px-6 py-6 lg:px-10 lg:py-12">
         <Breadcrumbs locale={locale} items={crumbs} />

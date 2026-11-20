@@ -50,7 +50,7 @@ type Suggestion = { title: string; href: string; image: string | null; price: Pr
 
 // Pages that open on a dark hero get a transparent header until scrolled;
 // everywhere else it is solid, so the links never fade into a light page.
-const NO_HERO = /^\/(products\/(?!page\/)[^/]+|journal\/(?!topic\/)[^/]+|privacy|search|wishlist)(\/|$)/;
+const NO_HERO = /^\/(shop\/(watches|jewelry)\/(?!page\/)[^/]+|models\/[^/]+|brands\/(?!hermes(\/|$))[^/]+|products\/(?!page\/)[^/]+|journal\/(?!topic\/)[^/]+|privacy|search|wishlist)(\/|$)/;
 
 export function NavbarClient({
   locale,

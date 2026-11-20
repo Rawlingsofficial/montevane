@@ -8,7 +8,7 @@ import { Pagination, pagePath } from "@/components/common/Pagination";
 import { SourcingCta } from "@/components/common/SourcingCta";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { brandPath } from "@/lib/catalog/taxonomy";
-import { getBrands, getContactChannels, getLiveModels, getProductPage } from "@/lib/data/catalog";
+import { getBrands, getContactChannels, getListingCover, getLiveModels, getProductPage } from "@/lib/data/catalog";
 import { fmt, getDictionary, localePath, type Locale } from "@/lib/i18n";
 import { brandBanner } from "@/lib/images";
 import { pageMetadata } from "@/lib/seo/metadata";
@@ -40,7 +40,12 @@ export async function BrandListing({ locale, slug, page }: { locale: Locale; slu
   if (home !== `/brands/${brand.slug}`) permanentRedirect(localePath(locale, pagePath(home, page)));
 
   const t = getDictionary(locale);
-  const [listing, channels] = await Promise.all([getProductPage({ brand: brand.slug }, page, locale), getContactChannels()]);
+  const [listing, channels, cover] = await Promise.all([
+    getProductPage({ brand: brand.slug }, page, locale),
+    getContactChannels(),
+    // Hermès keeps its editorial banner; every other house shows one of its own pieces.
+    brand.slug === "hermes" ? Promise.resolve(null) : getListingCover({ brand: brand.slug }),
+  ]);
   if (!listing) notFound();
   const models = (await getLiveModels()).filter((m) => m.brandSlug === brand.slug);
   const base = `/brands/${brand.slug}`;
@@ -52,6 +57,7 @@ export async function BrandListing({ locale, slug, page }: { locale: Locale; slu
         title={brand.name}
         description={brand.description ?? undefined}
         image={brandBanner(brand.slug)}
+        cover={cover}
         priority
       />
 

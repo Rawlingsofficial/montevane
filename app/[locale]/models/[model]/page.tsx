@@ -7,7 +7,7 @@ import { PageHero } from "@/components/common/PageHero";
 import { Waitlist } from "@/components/shop/Waitlist";
 import { InquiryForm } from "@/components/contact/InquiryForm";
 import { ProductGrid } from "@/components/products/ProductGrid";
-import { getContactChannels, getLiveModels, getProducts } from "@/lib/data/catalog";
+import { getContactChannels, getListingCover, getLiveModels, getProducts } from "@/lib/data/catalog";
 import { fmt, getDictionary, localePath } from "@/lib/i18n";
 import { resolveLocale } from "@/lib/i18n/server";
 import { categoryImage } from "@/lib/images";
@@ -44,9 +44,11 @@ export default async function ModelPage({ params }: Props) {
 
   const t = getDictionary(locale);
   const copy = model.copy[locale];
-  const [products, channels] = await Promise.all([
-    getProducts({ brand: model.brandSlug, category: model.category, nameMatches: model.match }, locale),
+  const modelFilter = { brand: model.brandSlug, category: model.category, nameMatches: model.match };
+  const [products, channels, cover] = await Promise.all([
+    getProducts(modelFilter, locale),
     getContactChannels(),
+    getListingCover(modelFilter),
   ]);
   const siblings = (await getLiveModels()).filter((m) => m.category === model.category && m.slug !== model.slug);
   const category = t.categories[model.category];
@@ -54,7 +56,7 @@ export default async function ModelPage({ params }: Props) {
 
   return (
     <>
-      <PageHero eyebrow={model.brand} title={copy.title} image={categoryImage(model.category)} priority />
+      <PageHero eyebrow={model.brand} title={copy.title} image={categoryImage(model.category)} cover={cover} priority />
 
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-10">
         <Breadcrumbs
