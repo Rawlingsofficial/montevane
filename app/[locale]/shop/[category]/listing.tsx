@@ -13,8 +13,8 @@ import { Expandable } from "@/components/shop/Expandable";
 import { ListingFaq } from "@/components/shop/ListingFaq";
 import { ListingFilters, type FilterLabels } from "@/components/shop/ListingFilters";
 import { EMPTY_QUERY, hasQuery, queryString, type ListingQuery } from "@/lib/catalog/filters";
-import { BRAND_SUBCATEGORIES, INDEX_MIN_PIECES, JEWELRY_TYPES } from "@/lib/catalog/taxonomy";
-import { BIRKIN_COPY, conditionCopy } from "@/lib/catalog/listing-copy";
+import { BRAND_SUBCATEGORIES, JEWELRY_TYPES } from "@/lib/catalog/taxonomy";
+import { BAG_COPY, conditionCopy } from "@/lib/catalog/listing-copy";
 import {
   getCategories,
   getContactChannels,
@@ -26,6 +26,7 @@ import {
   type ProductFilter,
   getListingCover,
   getBrandConditions,
+  landingIndexable,
 } from "@/lib/data/catalog";
 import { fmt, getDictionary, localePath, type Locale } from "@/lib/i18n";
 import { categoryImage } from "@/lib/images";
@@ -68,8 +69,8 @@ async function resolveListing(locale: Locale, category: string, sub?: string) {
   if (found.condition) {
     copy = conditionCopy(found.condition, found.name, locale);
     brandCrumb = { name: found.name, path: `/shop/${category}/${brandSlug}` };
-  } else if (found.birkin) {
-    copy = BIRKIN_COPY[found.birkin][locale];
+  } else if (found.bag) {
+    copy = BAG_COPY[category][found.bag][locale];
   } else if (BRAND_SUBCATEGORIES.has(category)) {
     const title = fmt(t.watchBrandTitle, { brand: found.name });
     copy = {
@@ -90,9 +91,9 @@ async function resolveListing(locale: Locale, category: string, sub?: string) {
       intro: t.jewelryTypeIntro,
     };
   }
-  // Brand pages stay indexed whatever their size (they already rank); the new
-  // Birkin and condition pages join Google once they have enough pieces.
-  const indexable = !(found.condition || found.birkin) || found.count >= INDEX_MIN_PIECES;
+  // Brand pages stay indexed whatever their size (they already rank); the bag
+  // and condition landing pages join Google once they are big enough and differ from their parent.
+  const indexable = !(found.condition || found.bag) || landingIndexable(found.count, found.parentCount);
   return { parent, copy, filter: found.filter, base: `/shop/${category}/${sub}`, indexable, brandCrumb, condition: found.condition, brandSlug };
 }
 
@@ -232,7 +233,7 @@ export async function CategoryListing({
                   {subcategories.map((s) => (
                     <li key={s.slug}>
                       <Link href={localePath(locale, `/shop/${category}/${s.slug}`)} className={chip}>
-                        {byBrand ? s.name : (BIRKIN_COPY[s.slug]?.[locale].name ?? t.jewelryTypes[s.slug] ?? s.name)} <span className="text-muted-foreground">({s.count})</span>
+                        {byBrand ? s.name : (BAG_COPY[category]?.[s.slug]?.[locale].name ?? t.jewelryTypes[s.slug] ?? s.name)} <span className="text-muted-foreground">({s.count})</span>
                       </Link>
                     </li>
                   ))}

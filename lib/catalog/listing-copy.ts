@@ -6,7 +6,7 @@ import type { Locale } from "@/lib/i18n/config";
 
 export type ListingCopy = { name: string; title: string; metaTitle: string; metaDescription: string; intro: string };
 
-export const BIRKIN_COPY: Record<string, Record<Locale, ListingCopy>> = {
+const BIRKIN_COPY: Record<string, Record<Locale, ListingCopy>> = {
   "pre-owned": {
     en: {
       name: "Pre-Owned Birkin Bags",
@@ -226,3 +226,168 @@ export function conditionCopy(condition: "new" | "pre_owned", brand: string, loc
   const fill = (s: string) => s.replaceAll("{brand}", brand);
   return { name: t.name, title: fill(t.title), metaTitle: fill(t.metaTitle), metaDescription: fill(t.metaDescription), intro: fill(t.intro) };
 }
+
+const KELLY_COPY: Record<string, Record<Locale, ListingCopy>> = {
+  "pre-owned": {
+    en: {
+      name: "Pre-Owned Kelly Bags",
+      title: "Pre-Owned Hermès Kelly Bags",
+      metaTitle: "Pre-Owned Hermès Kelly Bags for Sale | Montévane",
+      metaDescription: "Shop pre-owned Hermès Kelly bags in Sellier and Retourne, each checked by our specialists with its condition described honestly. Insured worldwide shipping.",
+      intro:
+        "A pre-owned Kelly opens up sizes, leathers and colours Hermès no longer makes – from vintage Box calf to discontinued shades.\n\nThe Kelly's flap, straps and handle show wear differently from a Birkin, so we photograph and describe each of them. If a bag ever fails an independent authentication, you get a full refund.",
+    },
+    de: {
+      name: "Kelly Bags aus zweiter Hand",
+      title: "Hermès Kelly aus zweiter Hand",
+      metaTitle: "Hermès Kelly gebraucht kaufen | Montévane",
+      metaDescription: "Gebrauchte Hermès Kelly Bags in Sellier und Retourne, jede von unseren Spezialisten geprüft und ehrlich beschrieben. Versicherter Versand weltweit.",
+      intro:
+        "Mit einer gebrauchten Kelly finden Sie Größen, Leder und Farben, die Hermès nicht mehr herstellt – von Vintage-Box-Leder bis zu eingestellten Farbtönen.\n\nKlappe, Riemen und Henkel einer Kelly nutzen sich anders ab als bei einer Birkin. Deshalb fotografieren und beschreiben wir jedes Detail. Besteht eine Tasche eine unabhängige Echtheitsprüfung nicht, bekommen Sie Ihr Geld vollständig zurück.",
+    },
+    uz: {
+      name: "Ishlatilgan Kelly sumkalar",
+      title: "Ishlatilgan Hermès Kelly sumkalar",
+      metaTitle: "Ishlatilgan Hermès Kelly sumkalarni sotib olish | Montévane",
+      metaDescription: "Sellier va Retourne uslubidagi ishlatilgan Hermès Kelly sumkalar – har biri mutaxassislarimiz tomonidan tekshirilgan. Sug'urtalangan yetkazib berish.",
+      intro:
+        "Ishlatilgan Kelly Hermès endi chiqarmaydigan o'lcham, charm va ranglarni topish imkonini beradi – vintaj Box charmdan to'xtatilgan ranglargacha.\n\nKellyning qopqog'i, tasmalari va tutqichi Birkindan boshqacha eskiradi, shuning uchun har birini suratga olib, tasvirlaymiz. Sumka mustaqil tekshiruvdan o'tmasa, pulingiz to'liq qaytariladi.",
+    },
+  },
+  "new-unused": {
+    en: {
+      name: "New & Unused Kelly Bags",
+      title: "New & Unused Hermès Kelly Bags",
+      metaTitle: "New & Unused Hermès Kelly Bags for Sale | Montévane",
+      metaDescription: "Shop new and unused Hermès Kelly bags – never carried, with the accessories listed on each piece. Checked by our specialists, shipped insured worldwide.",
+      intro:
+        "These Kellys have never been carried and come with the accessories listed on each piece – usually the shoulder strap, dust bag, rain cover, clochette, lock and keys.\n\nSellier Kellys keep their sharp, structured outline; Retourne Kellys are softer and more relaxed. Each listing tells you which one it is, along with the size, leather and hardware.",
+    },
+    de: {
+      name: "Neue Kelly Bags",
+      title: "Neue & ungetragene Hermès Kelly",
+      metaTitle: "Neue Hermès Kelly kaufen – ungetragen | Montévane",
+      metaDescription: "Neue, ungetragene Hermès Kelly Bags – mit dem Zubehör, das bei jedem Stück angegeben ist. Von Spezialisten geprüft, versicherter Versand weltweit.",
+      intro:
+        "Diese Kellys wurden noch nie getragen und kommen mit dem Zubehör, das bei jedem Stück steht – meist Schulterriemen, Staubbeutel, Regenschutz, Clochette, Schloss und Schlüssel.\n\nEine Sellier-Kelly behält ihre klare, feste Form, eine Retourne-Kelly ist weicher und lässiger. Bei jedem Stück steht, welche Machart es ist, dazu Größe, Leder und Beschläge.",
+    },
+    uz: {
+      name: "Yangi Kelly sumkalar",
+      title: "Yangi va ishlatilmagan Hermès Kelly sumkalar",
+      metaTitle: "Yangi Hermès Kelly sumkalarni sotib olish | Montévane",
+      metaDescription: "Yangi, hech ishlatilmagan Hermès Kelly sumkalar – har bir buyumda ko'rsatilgan aksessuarlar bilan. Mutaxassislar tekshiruvi, sug'urtalangan yetkazib berish.",
+      intro:
+        "Bu Kellylar hech qachon ishlatilmagan va har bir buyumda ko'rsatilgan aksessuarlar bilan keladi – odatda yelka tasmasi, chang xaltasi, yomg'ir g'ilofi, klochet, qulf va kalitlar.\n\nSellier Kelly qat'iy, aniq shaklini saqlaydi, Retourne Kelly esa yumshoqroq. Har bir buyumda qaysi turdagi ekani, o'lchami, charmi va furniturasi yozilgan.",
+    },
+  },
+  "exotic-leather": {
+    en: {
+      name: "Exotic Leather Kelly Bags",
+      title: "Exotic Leather Hermès Kelly Bags",
+      metaTitle: "Exotic Hermès Kelly Bags – Crocodile & Lizard | Montévane",
+      metaDescription: "Shop exotic Hermès Kelly bags in crocodile, alligator and lizard – from the Mini Kelly to the Kelly 28. Each one checked by our specialists before it is listed.",
+      intro:
+        "In crocodile or lizard, the Kelly's clean lines become an evening piece – especially in the smaller sizes, from the Mini Kelly to the Kelly 25.\n\nShiny and matte skins look and age differently, and every skin has its own pattern. Exotic leathers need CITES papers to cross many borders, so ask us before you buy and we will tell you whether your country allows the import.",
+    },
+    de: {
+      name: "Kelly aus exotischem Leder",
+      title: "Hermès Kelly aus exotischem Leder",
+      metaTitle: "Exotische Hermès Kelly – Krokodil & Eidechse | Montévane",
+      metaDescription: "Hermès Kelly aus Krokodil, Alligator und Eidechse – von der Mini Kelly bis zur Kelly 28. Jede Tasche vor dem Einstellen von Spezialisten geprüft.",
+      intro:
+        "In Krokodil oder Eidechse wird die klare Kelly zur Abendtasche – vor allem in den kleinen Größen, von der Mini Kelly bis zur Kelly 25.\n\nGlänzendes und mattes Leder sieht anders aus und altert anders, und jede Haut hat ihr eigenes Muster. Für viele Länder braucht exotisches Leder CITES-Papiere. Fragen Sie uns vor dem Kauf – wir sagen Ihnen, ob die Einfuhr in Ihr Land erlaubt ist.",
+    },
+    uz: {
+      name: "Ekzotik charmdan Kelly",
+      title: "Ekzotik charmdan Hermès Kelly sumkalar",
+      metaTitle: "Ekzotik Hermès Kelly – timsoh va kaltakesak | Montévane",
+      metaDescription: "Timsoh, alligator va kaltakesak charmidan Hermès Kelly – Mini Kellydan Kelly 28 gacha. Har biri sotuvga qo'yilishidan oldin mutaxassislar tomonidan tekshiriladi.",
+      intro:
+        "Timsoh yoki kaltakesak charmida Kellyning toza chiziqlari kechki sumkaga aylanadi – ayniqsa Mini Kellydan Kelly 25 gacha bo'lgan kichik o'lchamlarda.\n\nYaltiroq va mat charm turlicha ko'rinadi va eskiradi, har bir terining o'z naqshi bor. Ko'p mamlakatlarga ekzotik charm uchun CITES hujjatlari kerak, shuning uchun xariddan oldin so'rang.",
+    },
+  },
+  hss: {
+    en: {
+      name: "Hermès HSS Kelly Bags",
+      title: "Hermès HSS Special Order Kellys",
+      metaTitle: "Hermès HSS Kelly – Special Order Bags for Sale | Montévane",
+      metaDescription: "Shop Hermès HSS special order Kellys – client-chosen colours, contrast stitching and hardware, marked with the horseshoe stamp. Checked by our specialists.",
+      intro:
+        "An HSS Kelly was ordered by a client who chose its colours, lining, stitching and hardware. Hermès marks it with a small horseshoe next to the date stamp.\n\nOn a Kelly, two-tone combinations show most on the flap, straps and handle, which is why special order Kellys look so different from boutique stock. Each one is effectively one of a kind.",
+    },
+    de: {
+      name: "Hermès HSS Kelly",
+      title: "Hermès HSS Kelly – Sonderanfertigungen",
+      metaTitle: "Hermès HSS Kelly – Sonderanfertigung kaufen | Montévane",
+      metaDescription: "Hermès HSS Kelly als Sonderanfertigung – Farben, Nähte und Beschläge nach Kundenwunsch, mit Hufeisen-Stempel. Von Spezialisten geprüft.",
+      intro:
+        "Eine HSS Kelly hat ein Kunde selbst bestellt und dabei Farben, Futter, Nähte und Beschläge ausgewählt. Hermès setzt dafür ein kleines Hufeisen neben den Datumsstempel.\n\nBei der Kelly sieht man zweifarbige Kombinationen vor allem an Klappe, Riemen und Henkel – deshalb wirken Sonderanfertigungen so anders als Boutique-Ware. Jede ist praktisch ein Einzelstück.",
+    },
+    uz: {
+      name: "Hermès HSS Kelly",
+      title: "Hermès HSS – maxsus buyurtma Kellylar",
+      metaTitle: "Hermès HSS Kelly – maxsus buyurtma sumkalar | Montévane",
+      metaDescription: "Hermès HSS maxsus buyurtma Kellylar – mijoz tanlagan ranglar, kontrast chok va furnitura, taqa muhri bilan. Mutaxassislar tekshiruvi.",
+      intro:
+        "HSS Kellyni mijozning o'zi buyurtma qilgan: ranglar, astar, chok va furniturani o'zi tanlagan. Hermès sana muhri yoniga kichik taqa belgisini qo'yadi.\n\nKellyda ikki rangli birikmalar qopqoq, tasmalar va tutqichda yaqqol ko'rinadi, shuning uchun maxsus buyurtma Kellylar butik assortimentidan juda farq qiladi. Har biri deyarli yagona nusxa.",
+    },
+  },
+  "custom-special-order": {
+    en: {
+      name: "Custom Kelly Bags",
+      title: "Custom & Rare Hermès Kellys",
+      metaTitle: "Custom Hermès Kelly Bags – Painted & One-of-a-Kind | Montévane",
+      metaDescription: "Shop custom Hermès Kellys – hand-painted and embellished one-of-a-kind pieces on authentic Hermès bags. Each listing states exactly what was customised.",
+      intro:
+        "These Kellys began as authentic Hermès bags and were then personalised by independent artists – hand-painted or embellished into a one-off piece.\n\nThe work is done after the bag leaves Hermès, so it is not a Hermès special order. Each listing says exactly what was changed, so you know what you are buying.",
+    },
+    de: {
+      name: "Individuelle Kellys",
+      title: "Individuelle & seltene Hermès Kellys",
+      metaTitle: "Individuelle Hermès Kelly – bemalt & einzigartig | Montévane",
+      metaDescription: "Individuell gestaltete Hermès Kellys – handbemalt oder verziert, Einzelstücke auf echten Hermès-Taschen. Bei jedem Stück steht genau, was verändert wurde.",
+      intro:
+        "Diese Kellys waren zuerst echte Hermès-Taschen und wurden dann von unabhängigen Künstlern gestaltet – von Hand bemalt oder zu einem Einzelstück verziert.\n\nDie Gestaltung passiert, nachdem die Tasche Hermès verlassen hat. Es ist also keine Sonderanfertigung von Hermès. Bei jedem Stück steht genau, was verändert wurde.",
+    },
+    uz: {
+      name: "Maxsus bezatilgan Kellylar",
+      title: "Maxsus va noyob Hermès Kellylar",
+      metaTitle: "Maxsus bezatilgan Hermès Kelly – yagona nusxalar | Montévane",
+      metaDescription: "Original Hermès sumkalari asosida qo'lda bo'yalgan va bezatilgan yagona Kellylar. Har bir buyumda nima o'zgartirilgani aniq yozilgan.",
+      intro:
+        "Bu Kellylar dastlab original Hermès sumkalari bo'lgan, keyin mustaqil rassomlar tomonidan qo'lda bo'yalgan yoki bezatilgan.\n\nBezash sumka Hermèsdan chiqqandan keyin qilinadi, shuning uchun bu Hermès maxsus buyurtmasi emas. Har bir buyumda nima o'zgartirilgani aniq yozilgan.",
+    },
+  },
+  "limited-edition": {
+    en: {
+      name: "Limited Edition Kellys",
+      title: "Limited Edition Hermès Kellys",
+      metaTitle: "Limited Edition Hermès Kelly Bags for Sale | Montévane",
+      metaDescription: "Shop limited edition Hermès Kellys – seasonal designs and small runs such as the Kelly Pochette and special constructions. Checked by our specialists.",
+      intro:
+        "Hermès regularly reinterprets the Kelly in small, seasonal runs – new shapes, unusual leathers and pieces like the Kelly Pochette and Kelly Danse.\n\nOnce a season ends, these designs are only found on the resale market. Each piece here is checked by our specialists and listed with its edition details where Hermès published them.",
+    },
+    de: {
+      name: "Limitierte Kellys",
+      title: "Limitierte Hermès Kellys",
+      metaTitle: "Limitierte Hermès Kelly kaufen | Montévane",
+      metaDescription: "Limitierte Hermès Kellys – Saisonmodelle und kleine Serien wie die Kelly Pochette und besondere Macharten. Von unseren Spezialisten geprüft.",
+      intro:
+        "Hermès interpretiert die Kelly immer wieder in kleinen Saison-Serien neu – mit neuen Formen, besonderem Leder und Modellen wie der Kelly Pochette oder der Kelly Danse.\n\nIst die Saison vorbei, findet man diese Modelle nur noch auf dem Wiederverkaufsmarkt. Jedes Stück hier wird von unseren Spezialisten geprüft und, wo Hermès es veröffentlicht hat, mit den Angaben zur Edition beschrieben.",
+    },
+    uz: {
+      name: "Cheklangan nashr Kellylar",
+      title: "Cheklangan nashr Hermès Kellylar",
+      metaTitle: "Cheklangan nashr Hermès Kelly sumkalar | Montévane",
+      metaDescription: "Cheklangan nashr Hermès Kellylar – mavsumiy dizaynlar va Kelly Pochette kabi kichik seriyalar. Mutaxassislar tekshiruvi.",
+      intro:
+        "Hermès Kellyni muntazam ravishda kichik mavsumiy seriyalarda qayta talqin qiladi – yangi shakllar, noodatiy charmlar va Kelly Pochette, Kelly Danse kabi modellar.\n\nMavsum tugagach, bu dizaynlarni faqat qayta sotuv bozorida topish mumkin. Har bir buyum mutaxassislarimiz tomonidan tekshirilgan.",
+    },
+  },
+};
+
+/** Landing-page copy per bag category and page slug. */
+export const BAG_COPY: Record<string, Record<string, Record<Locale, ListingCopy>>> = {
+  "birkin-bags": BIRKIN_COPY,
+  "kelly-bags": KELLY_COPY,
+};

@@ -6,7 +6,7 @@ import { db, schema } from "@/lib/db";
 import type { ProductLocaleFields, RegionalPrices, SpecRow } from "@/lib/db/schema";
 import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
 import { FILTER_KEYS, PRICE_BANDS, parseBand, type FilterKey, type ListingQuery } from "@/lib/catalog/filters";
-import { BIRKIN_SUBS, BRAND_SUBCATEGORIES, CONDITION_SUBS, JEWELRY_TYPES, WATCH_BRAND_ORDER } from "@/lib/catalog/taxonomy";
+import { BAG_SUBS, BAG_SUB_CATEGORIES, BRAND_SUBCATEGORIES, CONDITION_SUBS, INDEX_MIN_PIECES, JEWELRY_TYPES, WATCH_BRAND_ORDER } from "@/lib/catalog/taxonomy";
 import { MODELS, type ModelPage } from "@/lib/seo/models";
 
 // Storefront reads. Only published, released products are ever returned.
@@ -375,9 +375,9 @@ export async function getSubcategories(category: string): Promise<Subcategory[]>
     };
     return rows.sort((a, b) => rank(a.slug) - rank(b.slug) || a.name.localeCompare(b.name));
   }
-  if (category === "birkin-bags") {
-    const counts = await Promise.all(BIRKIN_SUBS.map((b) => countProducts(birkinFilter(b))));
-    return BIRKIN_SUBS.map((b, i) => ({ slug: b.slug, name: b.slug, count: counts[i] })).filter((b) => b.count > 0);
+  if (BAG_SUB_CATEGORIES.has(category)) {
+    const counts = await Promise.all(BAG_SUBS.map((b) => countProducts(bagFilter(b, category))));
+    return BAG_SUBS.map((b, i) => ({ slug: b.slug, name: b.slug, count: counts[i] })).filter((b) => b.count > 0);
   }
   if (category === "jewelry") {
     const rows = await db
@@ -404,7 +404,7 @@ export async function getSubcategories(category: string): Promise<Subcategory[]>
 export async function subcategoryFilter(
   category: string,
   sub: string
-): Promise<{ filter: ProductFilter; name: string; count: number; condition?: "new" | "pre_owned"; birkin?: string } | null> {
+): Promise<{ filter: ProductFilter; name: string; count: number; parentCount: number; condition?: "new" | "pre_owned"; bag?: string } | null> {
   const [head, tail, ...rest] = sub.split("/");
   if (rest.length) return null;
   const found = (await getSubcategories(category)).find((s) => s.slug === head);
@@ -414,16 +414,25 @@ export async function subcategoryFilter(
     if (!cond) return null;
     const filter: ProductFilter = { category, brand: head, condition: cond.condition };
     const count = await countProducts(filter);
-    return count ? { filter, name: found.name, count, condition: cond.condition } : null;
+    return count ? { filter, name: found.name, count, parentCount: found.count, condition: cond.condition } : null;
   }
-  if (BRAND_SUBCATEGORIES.has(category)) return { filter: { category, brand: sub }, name: found.name, count: found.count };
-  const birkin = category === "birkin-bags" ? BIRKIN_SUBS.find((b) => b.slug === sub) : undefined;
-  if (birkin) return { filter: birkinFilter(birkin), name: found.name, count: found.count, birkin: birkin.slug };
-  return { filter: { category, piece: found.name }, name: found.name, count: found.count };
+  if (BRAND_SUBCATEGORIES.has(category)) return { filter: { category, brand: sub }, name: found.name, count: found.count, parentCount: 0 };
+  const bag = BAG_SUB_CATEGORIES.has(category) ? BAG_SUBS.find((b) => b.slug === sub) : undefined;
+  if (bag) return { filter: bagFilter(bag, category), name: found.name, count: found.count, parentCount: await countProducts({ category }), bag: bag.slug };
+  return { filter: { category, piece: found.name }, name: found.name, count: found.count, parentCount: 0 };
 }
 
-function birkinFilter(b: (typeof BIRKIN_SUBS)[number]): ProductFilter {
-  return "condition" in b ? { category: "birkin-bags", condition: b.condition } : { category: "birkin-bags", collection: b.collection };
+function bagFilter(b: (typeof BAG_SUBS)[number], category: string): ProductFilter {
+  return "condition" in b ? { category, condition: b.condition } : { category, collection: b.collection };
+}
+
+/**
+ * Whether a landing page earns its place in Google: enough pieces, and not
+ * simply the same pieces as the page above it (e.g. a brand whose stock is all
+ * pre-owned). Such pages stay live for visitors and join Google once they differ.
+ */
+export function landingIndexable(count: number, parentCount: number): boolean {
+  return count >= INDEX_MIN_PIECES && count < parentCount;
 }
 
 /** Condition pages of one watch brand that have pieces: [{ slug: "new", count }, …]. */

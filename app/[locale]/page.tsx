@@ -5,6 +5,7 @@ import { BrandShowcase } from "@/components/home/BrandShowcase";
 import { Editorial } from "@/components/home/Editorial";
 import { FeaturedCollections } from "@/components/home/FeaturedCollections";
 import { Hero } from "@/components/home/Hero";
+import { HomeLandings } from "@/components/home/HomeLandings";
 import { Newsletter } from "@/components/home/Newsletter";
 import { ShopByCategory } from "@/components/home/ShopByCategory";
 import { WhyShopWithUs } from "@/components/home/WhyShopWithUs";
@@ -26,6 +27,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
   return (
     <>
       <Hero locale={locale} />
+      <HomeLandings locale={locale} />
       <ShopByCategory locale={locale} />
       <BestSellers locale={locale} />
       <BrandShowcase locale={locale} />

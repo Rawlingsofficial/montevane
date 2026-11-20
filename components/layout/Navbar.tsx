@@ -1,5 +1,5 @@
 import { NavbarClient, type MenuGroup } from "@/components/layout/NavbarClient";
-import { BIRKIN_COPY } from "@/lib/catalog/listing-copy";
+import { BAG_COPY } from "@/lib/catalog/listing-copy";
 import { HERMES_CATEGORIES } from "@/lib/catalog/taxonomy";
 import { getCategories, getContactChannels, getSubcategories } from "@/lib/data/catalog";
 import { LOCALE_LABEL, LOCALES, getDictionary, localePath, type Locale } from "@/lib/i18n";
@@ -29,7 +29,7 @@ export async function Navbar({ locale }: { locale: Locale }) {
       // Birkin Bags, then its landing pages (pre-owned, exotic, HSS…), then the other categories.
       items: hermes.flatMap((slug) => [
         link(d.categories[slug]?.name ?? slug, `/shop/${slug}`),
-        ...(slug === "birkin-bags" ? birkinPages.map((b) => link(BIRKIN_COPY[b.slug]?.[locale].name ?? b.slug, `/shop/birkin-bags/${b.slug}`)) : []),
+        ...(slug === "birkin-bags" ? birkinPages.map((b) => link(BAG_COPY["birkin-bags"][b.slug]?.[locale].name ?? b.slug, `/shop/birkin-bags/${b.slug}`)) : []),
       ]),
       viewAll: link(t.viewAllHermes, "/brands/hermes"),
       image: asset(categoryImage("birkin-bags")),

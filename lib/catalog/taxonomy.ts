@@ -48,8 +48,11 @@ export function brandRank(slug: string): number {
 /** A sub-page with fewer pieces than this stays out of Google (noindex, not in the sitemap) until it grows. */
 export const INDEX_MIN_PIECES = 8;
 
-/** Birkin landing pages under /shop/birkin-bags/<slug>, each a distinct set of bags. */
-export const BIRKIN_SUBS = [
+/** Bag categories with landing pages (pre-owned, exotic, HSS…) under /shop/<category>/<slug>. */
+export const BAG_SUB_CATEGORIES = new Set(["birkin-bags", "kelly-bags"]);
+
+/** Landing pages of each bag category, each a distinct set of bags. */
+export const BAG_SUBS = [
   { slug: "pre-owned", condition: "pre_owned" },
   { slug: "new-unused", condition: "new" },
   { slug: "exotic-leather", collection: "exotic-hermes" },
