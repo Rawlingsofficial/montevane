@@ -49,7 +49,7 @@ export const PAGES: Record<Locale, PageCopy> = {
       updated: "Last updated: November 2026",
       sections: [
         { title: "Who we are", body: "Montévane is an independent luxury boutique. This policy explains what personal data we collect through this website and how we use it." },
-        { title: "What we collect", body: "When you send an inquiry we collect your name, the contact details you give us (email, phone, messaging handle), your country, the channels you want us to use, your preferred payment method and your message. When you subscribe to our newsletter we collect your email address." },
+        { title: "What we collect", body: "When you send an inquiry we collect your name, the contact details you give us (email, phone, messaging handle), your country, the channels you want us to use and your message. For a purchase request we also collect your delivery address, so we can quote shipping and send the piece. When you subscribe to our newsletter we collect your email address." },
         { title: "Why we use it", body: "We use your details only to answer your inquiry, arrange a purchase, ship your order and — if you subscribed — send you news about new pieces. The legal basis is your request (steps before a contract) and, for the newsletter, your consent." },
         { title: "Who we share it with", body: "We share data only with the services needed to run the shop — our hosting and database provider, the messaging app you choose, payment providers and shipping carriers. We never sell your data." },
         { title: "How long we keep it", body: "Inquiries are kept for up to 24 months, or longer where tax law requires for completed sales. You can unsubscribe from the newsletter at any time." },
@@ -96,7 +96,7 @@ export const PAGES: Record<Locale, PageCopy> = {
       updated: "Stand: November 2026",
       sections: [
         { title: "Wer wir sind", body: "Montévane ist eine unabhängige Luxus-Boutique. Diese Erklärung beschreibt, welche personenbezogenen Daten wir über diese Website erheben und wie wir sie verwenden." },
-        { title: "Welche Daten wir erheben", body: "Bei einer Anfrage erheben wir Ihren Namen, Ihre Kontaktdaten (E-Mail, Telefon, Messenger), Ihr Land, die gewünschten Kontaktkanäle, Ihre bevorzugte Zahlungsart und Ihre Nachricht. Bei der Newsletter-Anmeldung erheben wir Ihre E-Mail-Adresse." },
+        { title: "Welche Daten wir erheben", body: "Bei einer Anfrage erheben wir Ihren Namen, Ihre Kontaktdaten (E-Mail, Telefon, Messenger), Ihr Land, die gewünschten Kontaktkanäle und Ihre Nachricht. Bei einer Kaufanfrage erheben wir außerdem Ihre Lieferadresse, damit wir den Versand berechnen und das Stück schicken können. Bei der Newsletter-Anmeldung erheben wir Ihre E-Mail-Adresse." },
         { title: "Zweck und Rechtsgrundlage", body: "Wir nutzen Ihre Daten ausschließlich zur Beantwortung Ihrer Anfrage, zur Abwicklung eines Kaufs und des Versands sowie – bei Anmeldung – für den Newsletter. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen) bzw. lit. a (Einwilligung)." },
         { title: "Empfänger", body: "Wir geben Daten nur an Dienste weiter, die für den Betrieb nötig sind – Hosting- und Datenbankanbieter, den von Ihnen gewählten Messenger, Zahlungsdienstleister und Versanddienstleister. Wir verkaufen keine Daten." },
         { title: "Speicherdauer", body: "Anfragen speichern wir bis zu 24 Monate bzw. so lange, wie steuerrechtliche Aufbewahrungspflichten es verlangen. Den Newsletter können Sie jederzeit abbestellen." },
@@ -143,7 +143,7 @@ export const PAGES: Record<Locale, PageCopy> = {
       updated: "Yangilangan: 2026-yil noyabr",
       sections: [
         { title: "Biz kimmiz", body: "Montévane – mustaqil lyuks butik. Ushbu siyosat sayt orqali qanday shaxsiy ma'lumotlarni yig'ishimiz va ulardan qanday foydalanishimizni tushuntiradi." },
-        { title: "Qanday ma'lumot yig'amiz", body: "So'rov yuborganingizda ismingiz, aloqa ma'lumotlaringiz (email, telefon, messenjer), mamlakatingiz, tanlagan aloqa kanallaringiz, afzal to'lov usulingiz va xabaringizni yig'amiz. Obuna bo'lganingizda email manzilingizni saqlaymiz." },
+        { title: "Qanday ma'lumot yig'amiz", body: "So'rov yuborganingizda ismingiz, aloqa ma'lumotlaringiz (email, telefon, messenjer), mamlakatingiz, tanlagan aloqa kanallaringiz va xabaringizni yig'amiz. Xarid so'rovida yetkazib berish narxini hisoblash va buyumni jo'natish uchun manzilingizni ham yig'amiz. Obuna bo'lganingizda email manzilingizni saqlaymiz." },
         { title: "Nima uchun foydalanamiz", body: "Ma'lumotlaringizdan faqat so'rovingizga javob berish, xaridni rasmiylashtirish, buyurtmani yetkazish va – obuna bo'lsangiz – yangiliklar yuborish uchun foydalanamiz." },
         { title: "Kimga beramiz", body: "Ma'lumotlarni faqat do'kon ishlashi uchun zarur xizmatlarga beramiz – xosting va ma'lumotlar bazasi, siz tanlagan messenjer, to'lov va yetkazib berish xizmatlari. Ma'lumotlaringizni sotmaymiz." },
         { title: "Qancha saqlaymiz", body: "So'rovlar 24 oygacha yoki soliq qonunchiligi talab qilgan muddat davomida saqlanadi. Obunadan istalgan vaqtda chiqishingiz mumkin." },

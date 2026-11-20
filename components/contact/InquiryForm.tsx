@@ -126,6 +126,11 @@ export function InquiryForm({
     const form = new FormData(e.currentTarget);
     const get = (k: string) => String(form.get(k) ?? "").trim();
     const name = get("name");
+    // Purchase requests carry the delivery address in the message (no schema change).
+    const address = purchase
+      ? [get("street"), [get("postal"), get("city")].filter(Boolean).join(" "), get("region"), get("delivery_country")].filter(Boolean).join("\n")
+      : "";
+    const note = get("message");
     const countryIso = dialIso === OTHER ? (guess && DIAL_CODES[guess] === code ? guess : "") : dialIso;
 
     setPending(true);
@@ -134,8 +139,8 @@ export function InquiryForm({
       name: title ? `${title} ${name}` : name,
       email: get("email"),
       phone: fullPhone(),
-      country: countryIso ? countryName(countryIso) : "",
-      message: get("message"),
+      country: (purchase && get("delivery_country")) || (countryIso ? countryName(countryIso) : ""),
+      message: address ? `${t.delivery.title}:\n${address}${note ? `\n\n${note}` : ""}` : note,
       contact_methods: [reach, "email"],
       product_id: product?.id ?? "",
       product_name: product?.name ?? "",
@@ -274,6 +279,34 @@ export function InquiryForm({
           />
         </div>
       </div>
+
+      {purchase && (
+        <fieldset className="space-y-5">
+          <legend className={labelClass}>{t.delivery.title}</legend>
+          <label className="block">
+            <span className={labelClass}>{t.delivery.street}</span>
+            <input name="street" required autoComplete="street-address" className={fieldClass} suppressHydrationWarning />
+          </label>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <label className="block">
+              <span className={labelClass}>{t.delivery.city}</span>
+              <input name="city" required autoComplete="address-level2" className={fieldClass} suppressHydrationWarning />
+            </label>
+            <label className="block">
+              <span className={labelClass}>{t.delivery.region}</span>
+              <input name="region" autoComplete="address-level1" className={fieldClass} suppressHydrationWarning />
+            </label>
+            <label className="block">
+              <span className={labelClass}>{t.delivery.postal}</span>
+              <input name="postal" autoComplete="postal-code" className={fieldClass} suppressHydrationWarning />
+            </label>
+            <label className="block">
+              <span className={labelClass}>{t.delivery.country}</span>
+              <input name="delivery_country" required autoComplete="country-name" className={fieldClass} suppressHydrationWarning />
+            </label>
+          </div>
+        </fieldset>
+      )}
 
       {showNote ? (
         <label className="block">

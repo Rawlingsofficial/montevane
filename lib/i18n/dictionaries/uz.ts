@@ -377,6 +377,7 @@ const uz: Dictionary = {
     textOnlyNorthAmerica: "SMS faqat AQSh va Kanada raqamlari uchun.",
     viaLabels: { whatsapp: "WhatsApp orqali", sms: "SMS orqali", imessage: "iMessage orqali", telegram: "Telegram orqali" },
     noPayment: "Hozir to'lov yo'q. Tafsilotlarni siz bilan tasdiqlaguncha buyumni band qilib turamiz.",
+    delivery: { title: "Yetkazib berish manzili", street: "Ko'cha va uy", city: "Shahar", region: "Viloyat / hudud", postal: "Pochta indeksi", country: "Mamlakat" },
     keepBrowsing: "Ko'rishda davom etish",
     otherCountry: "Mamlakatim ro'yxatda yo'q",
     addNote: "+ Izoh qo'shish",

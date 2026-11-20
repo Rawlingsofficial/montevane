@@ -385,6 +385,7 @@ const en = {
     textOnlyNorthAmerica: "Text is for US and Canadian numbers.",
     viaLabels: { whatsapp: "on WhatsApp", sms: "by text message", imessage: "on iMessage", telegram: "on Telegram" } as Record<string, string>,
     noPayment: "No payment now. We hold the piece while we confirm the details with you.",
+    delivery: { title: "Delivery address", street: "Street address", city: "City", region: "State / region", postal: "Postal code", country: "Country" },
     keepBrowsing: "Keep browsing",
     otherCountry: "My country isn't listed",
     addNote: "+ Add a note",

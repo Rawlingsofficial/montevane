@@ -376,6 +376,7 @@ const de: Dictionary = {
     textOnlyNorthAmerica: "SMS ist für Nummern aus den USA und Kanada.",
     viaLabels: { whatsapp: "über WhatsApp", sms: "per SMS", imessage: "über iMessage", telegram: "über Telegram" },
     noPayment: "Jetzt keine Zahlung. Wir reservieren das Stück, während wir die Details mit Ihnen bestätigen.",
+    delivery: { title: "Lieferadresse", street: "Straße und Hausnummer", city: "Stadt", region: "Bundesland / Region", postal: "Postleitzahl", country: "Land" },
     keepBrowsing: "Weiter stöbern",
     otherCountry: "Mein Land ist nicht aufgeführt",
     addNote: "+ Notiz hinzufügen",
