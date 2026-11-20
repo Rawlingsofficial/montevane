@@ -104,7 +104,7 @@ const LAYOUTS = {
 // The home hero's three icons, picked by hand (the most recognisable pieces in stock).
 const HERO = {
   birkin: "hermes-birkin-35-diamond-blanc-himalaya-matte-crocodile-limited-edition-bag",
-  kelly: "hermes-kelly-25-matte-alligator-gold-ghw",
+  kelly: "hermes-kelly-mini-ii-sellier-box-calf-rouge-piment-ghw",
   watch: "patek-philippe-nautilus-5976-1g-001-40th-anniversary-18k-white-gold-blue-baguette-diamond",
 };
 
@@ -276,13 +276,67 @@ async function dropFloorShadow(png) {
   return sharp(data, { raw: { width: w, height: h, channels: 4 } }).trim({ threshold: 0 }).png().toBuffer();
 }
 
+/**
+ * Background seen through a handle sits in the handle's shadow, so it is
+ * greyer than the backdrop and the cutout keeps it. Such a patch is neutral,
+ * flat (studio sweep, no texture) and in the top part of the piece; leather —
+ * even white croc — has grain, so it varies too much to match.
+ */
+async function clearHandleGaps(png) {
+  const { data, info } = await sharp(png).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const { width: w, height: h } = info;
+  const lum = (p) => data[p * 4] + data[p * 4 + 1] + data[p * 4 + 2];
+  const flatNeutral = (p) => {
+    const i = p * 4, r = data[i], g = data[i + 1], b = data[i + 2];
+    return data[i + 3] > 200 && Math.max(r, g, b) - Math.min(r, g, b) < 16 && r + g + b > 3 * 120;
+  };
+  // Light pieces (white croc, Himalaya) are left alone: their own smooth
+  // patches look like a sweep, and a grey gap barely shows against them.
+  const lums = [];
+  for (let p = 0; p < w * h; p += 7) if (data[p * 4 + 3] > 200) lums.push(lum(p) / 3);
+  lums.sort((x, y) => x - y);
+  if (lums[lums.length >> 1] > 140) return png;
+
+  const top = Math.floor(h * 0.5);
+  const seen = new Uint8Array(w * h);
+  for (let start = 0; start < w * top; start++) {
+    if (seen[start] || !flatNeutral(start)) continue;
+    const region = [start];
+    seen[start] = 1;
+    for (let k = 0; k < region.length; k++) {
+      const p = region[k], x = p % w, y = (p / w) | 0;
+      for (const [nx, ny] of [[x + 1, y], [x - 1, y], [x, y + 1], [x, y - 1]]) {
+        if (nx < 0 || ny < 0 || nx >= w || ny >= top) continue;
+        const q = ny * w + nx;
+        // Neighbouring pixels of a sweep differ by a step at most; grain jumps.
+        if (!seen[q] && flatNeutral(q) && Math.abs(lum(q) - lum(p)) < 9) {
+          seen[q] = 1;
+          region.push(q);
+        }
+      }
+    }
+    if (region.length < w * h * 0.002 || region.length > w * h * 0.08) continue;
+    // Flat: low spread of brightness over the whole patch.
+    let sum = 0, sq = 0;
+    for (const p of region) {
+      const l = lum(p) / 3;
+      sum += l;
+      sq += l * l;
+    }
+    const mean = sum / region.length;
+    if (Math.sqrt(sq / region.length - mean * mean) > 7) continue;
+    for (const p of region) data[p * 4 + 3] = 0;
+  }
+  return sharp(data, { raw: { width: w, height: h, channels: 4 } }).png().toBuffer();
+}
+
 const cache = new Map();
 // How often each piece already appears in other scenes: the picker prefers
 // fresh pieces so banners across the site don't repeat the same few bags.
 const seen = new Map();
 
 async function usable(r) {
-  if (!cache.has(r.slug)) cache.set(r.slug, await cutout(r.url, BASE, 1100).then((p) => p && dropFloorShadow(p)).catch(() => null));
+  if (!cache.has(r.slug)) cache.set(r.slug, await cutout(r.url, BASE, 1100).then((p) => p && dropFloorShadow(p)).then((p) => p && clearHandleGaps(p)).catch(() => null));
   return cache.get(r.slug);
 }
 
