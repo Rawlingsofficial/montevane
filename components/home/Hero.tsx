@@ -49,7 +49,9 @@ export function Hero({ locale }: { locale: Locale }) {
       </div>
 
       {scene && (
-        <aside className="absolute right-6 bottom-6 hidden max-w-xs border-l border-[var(--gold)] pl-4 lg:right-10 lg:bottom-8 lg:block">
+        <aside className="absolute inset-x-0 bottom-8 hidden lg:block">
+          <div className="mx-auto max-w-7xl px-10">
+          <div className="max-w-md border-l border-[var(--gold)] pl-4">
           <p className="text-[10px] font-medium tracking-[0.3em] text-[var(--gold)] uppercase">{ON_VIEW[locale]}</p>
           <ul className="mt-2 space-y-1">
             {scene.pieces.map((p) => (
@@ -60,6 +62,8 @@ export function Hero({ locale }: { locale: Locale }) {
               </li>
             ))}
           </ul>
+          </div>
+          </div>
         </aside>
       )}
     </section>

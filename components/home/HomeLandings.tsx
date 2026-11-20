@@ -44,23 +44,18 @@ export async function HomeLandings({ locale }: { locale: Locale }) {
 
   const [birkinPages, watchBrands] = await Promise.all([getSubcategories("birkin-bags"), getSubcategories("watches")]);
 
-  const birkinTiles: LandingTile[] = await Promise.all(
-    BIRKIN_EDIT.flatMap((slug) => {
-      const page = birkinPages.find((p) => p.slug === slug);
-      if (!page) return [];
-      return [
-        (async () => {
-          const found = await subcategoryFilter("birkin-bags", slug);
-          return {
-            href: `/shop/birkin-bags/${slug}`,
-            title: BAG_COPY["birkin-bags"][slug][locale].name,
-            count: page.count,
-            cover: found ? await getListingCover(found.filter) : null,
-          };
-        })(),
-      ];
-    })
-  );
+  // One after another, so each tile shows a bag the previous tiles don't
+  // (a new HSS Birkin is also new & unused, an exotic one can be pre-owned).
+  const birkinTiles: LandingTile[] = [];
+  const shown: string[] = [];
+  for (const slug of BIRKIN_EDIT) {
+    const page = birkinPages.find((p) => p.slug === slug);
+    if (!page) continue;
+    const found = await subcategoryFilter("birkin-bags", slug);
+    const cover = found ? await getListingCover(found.filter, shown) : null;
+    if (cover) shown.push(cover.url);
+    birkinTiles.push({ href: `/shop/birkin-bags/${slug}`, title: BAG_COPY["birkin-bags"][slug][locale].name, count: page.count, cover });
+  }
 
   const houseTiles: LandingTile[] = await Promise.all(
     HOUSES.flatMap((slug) => {

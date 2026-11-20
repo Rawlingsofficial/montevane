@@ -6,7 +6,6 @@ import { Editorial } from "@/components/home/Editorial";
 import { FeaturedCollections } from "@/components/home/FeaturedCollections";
 import { Hero } from "@/components/home/Hero";
 import { HomeLandings } from "@/components/home/HomeLandings";
-import { Newsletter } from "@/components/home/Newsletter";
 import { ShopByCategory } from "@/components/home/ShopByCategory";
 import { WhyShopWithUs } from "@/components/home/WhyShopWithUs";
 import { getDictionary } from "@/lib/i18n";
@@ -34,7 +33,6 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
       <FeaturedCollections locale={locale} />
       <Editorial locale={locale} />
       <WhyShopWithUs locale={locale} />
-      <Newsletter locale={locale} />
     </>
   );
 }

@@ -8,7 +8,7 @@ export function WhyShopWithUs({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
+    <section className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
       <div className="mb-14 text-center">
         <p className="text-xs font-medium tracking-[0.25em] text-[var(--gold)] uppercase">{t.home.whyEyebrow}</p>
         <h2 className="mt-3 text-4xl">{t.home.whyTitle}</h2>

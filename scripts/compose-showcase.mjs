@@ -12,9 +12,9 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import pg from "pg";
 import sharp from "sharp";
 
-import { cutout as cutoutFrom } from "./lib/cutout.mjs";
+import { cleanCutout, cutout as cutoutFrom } from "./lib/cutout.mjs";
 
-const cutout = (url) => cutoutFrom(url, BASE);
+const cutout = (url) => cutoutFrom(url, BASE).then((p) => p && cleanCutout(p));
 
 const BASE = process.argv[2] ?? "https://www.montevane.com";
 const OUT = "public/images/showcase";
@@ -22,7 +22,7 @@ const W = 1200;
 const H = 1500;
 const IVORY = { r: 250, g: 248, b: 245 };
 
-const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, connectionTimeoutMillis: 60000, max: 2 });
 const LIVE = `status = 'published' and (published_at is null or published_at <= now()) and main_image_url <> ''`;
 const RARE = `(availability_status = 'in_stock') desc, price desc`;
 // All-white pieces vanish on the ivory tile (the Himalaya is fine: grey gradient).

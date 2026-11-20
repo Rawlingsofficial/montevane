@@ -15,7 +15,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import pg from "pg";
 import sharp from "sharp";
 
-import { cutout } from "./lib/cutout.mjs";
+import { cleanCutout, cutout } from "./lib/cutout.mjs";
 
 const BASE = process.argv[2] ?? "https://www.montevane.com";
 const OUT = "public/images/gallery";
@@ -245,90 +245,7 @@ try {
 } catch {}
 
 
-/**
- * Studio photos often keep a soft grey floor shadow under the piece; the
- * cutout counts it as product, so the piece would hover above its plinth.
- * Clears light, neutral pixels in the bottom fifth, then trims again.
- */
-async function dropFloorShadow(png) {
-  const { data, info } = await sharp(png).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-  const { width: w, height: h } = info;
-  const shadow = (p) => {
-    const i = p * 4, r = data[i], g = data[i + 1], b = data[i + 2];
-    return data[i + 3] > 0 && Math.max(r, g, b) - Math.min(r, g, b) < 14 && r + g + b > 600;
-  };
-  // Only shadow that reaches the bottom edge: white leather inside the piece stays.
-  const floor = Math.floor(h * 0.8);
-  const queue = [];
-  for (let x = 0; x < w; x++) if (shadow((h - 1) * w + x)) queue.push((h - 1) * w + x);
-  for (const p of queue) data[p * 4 + 3] = 0;
-  while (queue.length) {
-    const p = queue.pop(), x = p % w, y = (p / w) | 0;
-    for (const [nx, ny] of [[x + 1, y], [x - 1, y], [x, y - 1], [x, y + 1]]) {
-      if (nx < 0 || nx >= w || ny < floor || ny >= h) continue;
-      const q = ny * w + nx;
-      if (shadow(q)) {
-        data[q * 4 + 3] = 0;
-        queue.push(q);
-      }
-    }
-  }
-  return sharp(data, { raw: { width: w, height: h, channels: 4 } }).trim({ threshold: 0 }).png().toBuffer();
-}
 
-/**
- * Background seen through a handle sits in the handle's shadow, so it is
- * greyer than the backdrop and the cutout keeps it. Such a patch is neutral,
- * flat (studio sweep, no texture) and in the top part of the piece; leather —
- * even white croc — has grain, so it varies too much to match.
- */
-async function clearHandleGaps(png) {
-  const { data, info } = await sharp(png).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-  const { width: w, height: h } = info;
-  const lum = (p) => data[p * 4] + data[p * 4 + 1] + data[p * 4 + 2];
-  const flatNeutral = (p) => {
-    const i = p * 4, r = data[i], g = data[i + 1], b = data[i + 2];
-    return data[i + 3] > 200 && Math.max(r, g, b) - Math.min(r, g, b) < 16 && r + g + b > 3 * 120;
-  };
-  // Light pieces (white croc, Himalaya) are left alone: their own smooth
-  // patches look like a sweep, and a grey gap barely shows against them.
-  const lums = [];
-  for (let p = 0; p < w * h; p += 7) if (data[p * 4 + 3] > 200) lums.push(lum(p) / 3);
-  lums.sort((x, y) => x - y);
-  if (lums[lums.length >> 1] > 140) return png;
-
-  const top = Math.floor(h * 0.5);
-  const seen = new Uint8Array(w * h);
-  for (let start = 0; start < w * top; start++) {
-    if (seen[start] || !flatNeutral(start)) continue;
-    const region = [start];
-    seen[start] = 1;
-    for (let k = 0; k < region.length; k++) {
-      const p = region[k], x = p % w, y = (p / w) | 0;
-      for (const [nx, ny] of [[x + 1, y], [x - 1, y], [x, y + 1], [x, y - 1]]) {
-        if (nx < 0 || ny < 0 || nx >= w || ny >= top) continue;
-        const q = ny * w + nx;
-        // Neighbouring pixels of a sweep differ by a step at most; grain jumps.
-        if (!seen[q] && flatNeutral(q) && Math.abs(lum(q) - lum(p)) < 9) {
-          seen[q] = 1;
-          region.push(q);
-        }
-      }
-    }
-    if (region.length < w * h * 0.002 || region.length > w * h * 0.08) continue;
-    // Flat: low spread of brightness over the whole patch.
-    let sum = 0, sq = 0;
-    for (const p of region) {
-      const l = lum(p) / 3;
-      sum += l;
-      sq += l * l;
-    }
-    const mean = sum / region.length;
-    if (Math.sqrt(sq / region.length - mean * mean) > 7) continue;
-    for (const p of region) data[p * 4 + 3] = 0;
-  }
-  return sharp(data, { raw: { width: w, height: h, channels: 4 } }).png().toBuffer();
-}
 
 const cache = new Map();
 // How often each piece already appears in other scenes: the picker prefers
@@ -336,7 +253,7 @@ const cache = new Map();
 const seen = new Map();
 
 async function usable(r) {
-  if (!cache.has(r.slug)) cache.set(r.slug, await cutout(r.url, BASE, 1100).then((p) => p && dropFloorShadow(p)).then((p) => p && clearHandleGaps(p)).catch(() => null));
+  if (!cache.has(r.slug)) cache.set(r.slug, await cutout(r.url, BASE, 1100).then((p) => p && cleanCutout(p)).catch(() => null));
   return cache.get(r.slug);
 }
 

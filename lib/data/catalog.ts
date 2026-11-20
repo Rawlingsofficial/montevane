@@ -1,6 +1,6 @@
 import "server-only";
 
-import { and, arrayContains, asc, desc, eq, getTableColumns, ilike, inArray, isNull, lte, ne, or, sql, type SQL } from "drizzle-orm";
+import { and, arrayContains, asc, desc, eq, getTableColumns, ilike, inArray, isNull, lte, ne, or, sql, type SQL, notInArray } from "drizzle-orm";
 
 import { db, schema } from "@/lib/db";
 import type { ProductLocaleFields, RegionalPrices, SpecRow } from "@/lib/db/schema";
@@ -338,11 +338,12 @@ export async function getBrandCovers(): Promise<Record<string, { url: string; al
  * Header photo for a listing (brand, jewelry type, model): its most expensive
  * piece with a photo, preferring pieces in stock — so a Rolex page shows a Rolex.
  */
-export async function getListingCover(filter: ProductFilter): Promise<{ url: string; alt: string } | null> {
+/** `exclude`: photo URLs already shown nearby (a row of tiles), so pieces don't repeat. */
+export async function getListingCover(filter: ProductFilter, exclude: string[] = []): Promise<{ url: string; alt: string } | null> {
   const [row] = await db
     .select({ url: p.mainImageUrl, alt: p.mainImageAlt, name: p.name })
     .from(p)
-    .where(and(isLive, filterWhere({ ...filter, listing: undefined }), ne(p.mainImageUrl, "")))
+    .where(and(isLive, filterWhere({ ...filter, listing: undefined }), ne(p.mainImageUrl, ""), exclude.length ? notInArray(p.mainImageUrl, exclude) : undefined))
     .orderBy(desc(sql`${p.availabilityStatus} = 'in_stock'`), desc(p.price))
     .limit(1);
   return row ? { url: row.url, alt: row.alt || row.name } : null;

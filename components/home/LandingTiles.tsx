@@ -40,7 +40,7 @@ export function LandingTiles({
   const grid = columns === "six" ? "sm:grid-cols-3 lg:grid-cols-6" : "sm:grid-cols-2 lg:grid-cols-4";
   return (
     <section className={className}>
-      <div className="mx-auto max-w-7xl px-6 py-14 lg:px-10 lg:py-24">
+      <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
         <div className="mb-8 flex items-end justify-between gap-6 lg:mb-12">
           <div>
             <p className="text-xs font-medium tracking-[0.25em] text-[var(--gold)] uppercase">{eyebrow}</p>

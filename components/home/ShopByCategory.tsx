@@ -14,7 +14,7 @@ export async function ShopByCategory({ locale }: { locale: Locale }) {
   const categories = (await getCategories()).filter((c) => t.categories[c.slug]);
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-32">
+    <section className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
       <div className="mb-10 text-center lg:mb-14">
         <p className="text-xs font-medium tracking-[0.25em] text-[var(--gold)] uppercase">{t.home.categoriesEyebrow}</p>
         <h2 className="mt-3 text-3xl lg:text-4xl">{t.home.categoriesTitle}</h2>
