@@ -108,7 +108,11 @@ const HERO = {
   watch: "patek-philippe-nautilus-5976-1g-001-40th-anniversary-18k-white-gold-blue-baguette-diamond",
 };
 
-/** Every banner on the site. `pieces` name POOLS, in slot order (back first). */
+/**
+ * Every banner on the site. `pieces` name POOLS, in slot order (back first).
+ * `sizes` scales a slot: watch photos are cropped tight, so beside bags they
+ * would look oversized.
+ */
 const SCENES = [
   { id: "home-hero", layout: "trio", pieces: ["watch", "birkin", "kelly"], pins: [HERO.watch, HERO.birkin, HERO.kelly] },
   { id: "share", layout: "share", pieces: ["watch", "birkin", "kelly"], pins: [HERO.watch, HERO.birkin, HERO.kelly] },
@@ -131,12 +135,14 @@ const SCENES = [
   { id: "col-rare-watches", layout: "row", pieces: ["rarewatch", "rarewatch", "rarewatch"] },
   { id: "col-fine-jewelry", layout: "row", pieces: ["earrings", "necklace", "bracelet"] },
   { id: "hermes", layout: "row", pieces: ["kelly", "birkin", "charm"] },
+  // Collections index: a piece from three different collections (its cards show each collection's own scene).
+  { id: "collections", layout: "row", pieces: ["exotic", "rarewatch", "classic"], pins: ["hermes-birkin-20-sellier-ombre-varanus-salvator-lizard-palladium-hardware", "rolex-daytona-126595rbow-sapphire-rainbow-bezel-18k-rose-gold-black-sapphire-baguette", "hermes-kelly-25-matte-alligator-gold-ghw"], sizes: [1, 0.6, 1] },
   { id: "new-bags", layout: "pair", pieces: ["newbag", "newbag"] },
-  { id: "all-pieces", layout: "row", pieces: ["watch", "birkin", "necklace"] },
-  { id: "houses", layout: "row", pieces: ["kelly", "watch", "bracelet"] },
-  { id: "journal", layout: "row", pieces: ["twilly", "birkin", "watch"] },
+  { id: "all-pieces", layout: "row", pieces: ["watch", "birkin", "necklace"], sizes: [0.75, 1, 1] },
+  { id: "houses", layout: "row", pieces: ["kelly", "watch", "bracelet"], sizes: [1, 0.65, 1], pins: ["hermes-kelly-25-colormatic-retourne-swift-noir-phw"] },
+  { id: "journal", layout: "row", pieces: ["twilly", "birkin", "watch"], sizes: [1, 1, 0.75] },
   { id: "service", layout: "single", pieces: ["birkin"] },
-  { id: "contact", layout: "pair", pieces: ["kelly", "watch"] },
+  { id: "contact", layout: "pair", pieces: ["kelly", "watch"], sizes: [1, 0.7], pins: ["hermes-kelly-28-sellier-ostrich-noir-ghw"] },
   { id: "about", layout: "trio", pieces: ["ring", "birkin", "kelly"] },
 ];
 
@@ -182,7 +188,7 @@ function plinth(s, w, h, i) {
 
 const blurred = (svg, sigma) => sharp(Buffer.from(svg)).blur(sigma).png().toBuffer();
 
-async function render(layout, pngs) {
+async function render(layout, pngs, sizes = []) {
   const { w, h, horizon, slots } = layout;
   const layers = [{ input: Buffer.from(room(w, h, horizon, slots)), left: 0, top: 0 }];
   for (const [i, s] of slots.entries()) {
@@ -198,7 +204,8 @@ async function render(layout, pngs) {
     layers.push({ input: Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><defs></defs>${plinth(s, w, h, i)}</svg>`), left: 0, top: 0 });
 
     // The piece, standing on the plinth's top face, with a soft contact shadow.
-    const buf = await sharp(png).resize(Math.round(s.mw * w), Math.round(s.mh * h), { fit: "inside" }).toBuffer();
+    const k = sizes[i] ?? 1;
+    const buf = await sharp(png).resize(Math.round(s.mw * w * k), Math.round(s.mh * h * k), { fit: "inside" }).toBuffer();
     const { width, height } = await sharp(buf).metadata();
     const stand = s.top * h + Math.max(10, h * 0.022) * 0.55;
     layers.push({
@@ -293,8 +300,8 @@ for (const scene of SCENES.filter((s) => !only || only.includes(s.id)).sort((a, 
   }
   const layout = LAYOUTS[scene.layout];
   const pngs = picked.map((p) => p?.png);
-  writeFileSync(`${OUT}/${scene.id}.webp`, await render(layout.desktop, pngs));
-  if (layout.mobile) writeFileSync(`${OUT}/${scene.id}_m.webp`, await render(layout.mobile, pngs));
+  writeFileSync(`${OUT}/${scene.id}.webp`, await render(layout.desktop, pngs, scene.sizes));
+  if (layout.mobile) writeFileSync(`${OUT}/${scene.id}_m.webp`, await render(layout.mobile, pngs, scene.sizes));
   manifest[scene.id] = picked.filter(Boolean).map((p) => ({ slug: p.slug, name: p.name }));
   console.log(scene.id.padEnd(24), picked.map((p) => p?.slug ?? "—").join(" | "));
 }

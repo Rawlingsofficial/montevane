@@ -36,7 +36,9 @@ export async function postCovers(posts: Post[], locale: Locale): Promise<Record<
       if (pin) return [post.slug, { ...pin, product: true }];
       const first = post.picks ? (await loadPicks(post.picks, locale, 1))[0] : undefined;
       if (first) return [post.slug, { url: first.images[0].url, alt: first.images[0].alt, product: true }];
-      return [post.slug, { url: asset(post.image), alt: "", product: false }];
+      // Gallery scenes: the 4:3 phone file, whose pieces span the width (a crop of the wide one cuts them).
+      const url = post.image.startsWith("gallery/") ? `/images/${post.image}_m.webp` : asset(post.image);
+      return [post.slug, { url, alt: "", product: false }];
     })
   );
   return Object.fromEntries(entries);

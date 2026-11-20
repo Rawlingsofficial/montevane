@@ -58,9 +58,9 @@ type Labels = {
 };
 type Suggestion = { title: string; href: string; image: string | null; price: PriceAmounts };
 
-// Pages that open on a dark hero get a transparent header until scrolled;
-// everywhere else it is solid, so the links never fade into a light page.
-const NO_HERO = /^\/(shop\/(watches|jewelry)\/(?!page\/)[^/]+|models\/[^/]+|brands\/(?!hermes(\/|$))[^/]+|products\/(?!page\/)[^/]+|journal\/(?!topic\/)[^/]+|privacy|search|wishlist)(\/|$)/;
+// Every page now opens on a light header, so the bar is solid from the first
+// paint. A page can still opt into the transparent bar with data-page-hero
+// (a dark full-bleed photo); it switches once hydrated.
 
 export function NavbarClient({
   locale,
@@ -90,7 +90,7 @@ export function NavbarClient({
   const pathname = usePathname();
   const basePath = stripLocale(pathname);
   const [scrolled, setScrolled] = useState(false);
-  const [hero, setHero] = useState(!NO_HERO.test(basePath));
+  const [hero, setHero] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
   const [mobileGroup, setMobileGroup] = useState<string | null>(null);

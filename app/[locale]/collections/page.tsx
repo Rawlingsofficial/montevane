@@ -25,7 +25,7 @@ export default async function CollectionsPage({ params }: PageProps<"/[locale]/c
 
   return (
     <>
-      <PageHero eyebrow={t.home.collectionsEyebrow} title={t.listing.collectionsHeading} description={t.listing.collectionsBody} image="col-best-sellers" priority />
+      <PageHero eyebrow={t.home.collectionsEyebrow} title={t.listing.collectionsHeading} description={t.listing.collectionsBody} image="collections" priority />
 
       <section className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-6 py-16 sm:grid-cols-2 lg:px-10">
         {collections.map((collection) => {

@@ -145,32 +145,24 @@ export default async function JournalPostPage({ params }: Props) {
 
   return (
     <article lang="en">
-      {cover.product ? (
-        <header className="bg-[var(--ivory)] pt-28 lg:pt-32">
-          <div className="mx-auto grid max-w-6xl items-center gap-8 px-6 pb-10 lg:grid-cols-[3fr_2fr] lg:gap-16 lg:px-10 lg:pb-14">
-            <div>
-              <p className="text-xs font-medium tracking-[0.2em] text-[var(--gold)] uppercase">{post.category}</p>
-              <h1 className="mt-3 font-heading text-3xl font-extralight sm:text-5xl">{post.title}</h1>
-              <p className="mt-4 text-xs tracking-[0.1em] text-muted-foreground uppercase">
-                <time dateTime={post.date}>{dateFormatter.format(new Date(post.date))}</time> · {readingMinutes(post)} min read
-              </p>
-            </div>
-            <CoverImage cover={cover} priority sizes="(max-width: 1024px) 100vw, 40vw" className="aspect-square max-h-[55vh] w-full lg:max-h-none" />
-          </div>
-        </header>
-      ) : (
-        <header data-page-hero className="relative flex h-[42vh] min-h-[320px] w-full items-end overflow-hidden">
-          <CoverImage cover={cover} priority sizes="100vw" className="absolute inset-0" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/35 to-black/20" />
-          <div className="relative mx-auto w-full max-w-3xl px-6 pb-10">
+      {/* Light header: title left, the post's piece (or its gallery scene) right. */}
+      <header className="bg-[var(--ivory)] pt-28 lg:pt-32">
+        <div className="mx-auto grid max-w-6xl items-center gap-8 px-6 pb-10 lg:grid-cols-[3fr_2fr] lg:gap-16 lg:px-10 lg:pb-14">
+          <div>
             <p className="text-xs font-medium tracking-[0.2em] text-[var(--gold)] uppercase">{post.category}</p>
-            <h1 className="mt-3 font-heading text-3xl font-extralight text-white sm:text-5xl">{post.title}</h1>
-            <p className="mt-4 text-xs tracking-[0.1em] text-white/80 uppercase">
+            <h1 className="mt-3 font-heading text-3xl font-extralight sm:text-5xl">{post.title}</h1>
+            <p className="mt-4 text-xs tracking-[0.1em] text-muted-foreground uppercase">
               <time dateTime={post.date}>{dateFormatter.format(new Date(post.date))}</time> · {readingMinutes(post)} min read
             </p>
           </div>
-        </header>
-      )}
+          <CoverImage
+            cover={cover}
+            priority
+            sizes="(max-width: 1024px) 100vw, 40vw"
+            className={cover.product ? "aspect-square max-h-[55vh] w-full lg:max-h-none" : "aspect-[4/3] w-full"}
+          />
+        </div>
+      </header>
 
       <div className="mx-auto max-w-3xl px-6 py-8 lg:py-12">
         <Breadcrumbs locale={locale} items={crumbs} />
