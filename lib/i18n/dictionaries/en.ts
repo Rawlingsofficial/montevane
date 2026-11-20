@@ -58,7 +58,6 @@ const en = {
     language: "Language",
   },
   hero: {
-    eyebrow: "Monaco · Miami",
     title: "Hermès & Rare Watches.",
     titleLine2: "Authenticated. Delivered Worldwide.",
     body: "Every piece verified before it ships.",

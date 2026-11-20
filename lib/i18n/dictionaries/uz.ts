@@ -55,7 +55,6 @@ const uz: Dictionary = {
     language: "Til",
   },
   hero: {
-    eyebrow: "Monako · Mayami",
     title: "Hermès va noyob soatlar.",
     titleLine2: "Tekshirilgan. Butun dunyoga yetkaziladi.",
     body: "Har bir buyum jo'natishdan oldin tekshiriladi.",

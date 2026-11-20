@@ -30,9 +30,8 @@ export function Hero({ locale }: { locale: Locale }) {
 
       <div className="relative mx-auto flex h-full max-w-7xl flex-col px-6 pt-10 lg:justify-center lg:px-10 lg:pt-0">
         <div className="max-w-xl text-center lg:text-left">
-          <p className="fade-up text-xs font-medium tracking-[0.3em] text-[var(--gold)] uppercase">{t.eyebrow}</p>
           {/* No entrance animation on the h1: it is the largest paint, and fading it in delays LCP. */}
-          <h1 className="mt-4 font-heading text-4xl leading-[1.05] font-extralight sm:text-6xl lg:text-7xl">
+          <h1 className="font-heading text-4xl leading-[1.05] font-extralight sm:text-6xl lg:text-7xl">
             {t.title}
             <span className="mt-3 block text-2xl text-foreground/75 sm:text-3xl lg:text-4xl">{t.titleLine2}</span>
           </h1>

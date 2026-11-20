@@ -54,7 +54,6 @@ const de: Dictionary = {
     language: "Sprache",
   },
   hero: {
-    eyebrow: "Monaco · Miami",
     title: "Hermès & seltene Uhren.",
     titleLine2: "Geprüft. Weltweit geliefert.",
     body: "Jedes Stück wird vor dem Versand geprüft.",
