@@ -14,8 +14,8 @@ export const PAGES: Record<Locale, PageCopy> = {
   en: {
     about: {
       eyebrow: "Our Story",
-      title: "Hermès & Rare Watches Specialist in Monaco",
-      description: "Hermès and rare watches, from our boutiques in Monaco and Miami.",
+      title: "Hermès & Rare Watches Specialist, Miami & Monaco",
+      description: "Hermès and rare watches — a boutique in Miami, specialists in Monaco.",
       blocks: [
         {
           eyebrow: "The House",
@@ -29,8 +29,8 @@ export const PAGES: Record<Locale, PageCopy> = {
         },
         {
           eyebrow: "The Experience",
-          title: "Personal service, in Monaco or anywhere",
-          body: "See a piece in person at our boutique in Monaco, or talk to us on WhatsApp, Telegram, Signal or by phone. Pay securely by payment link, card or bank wire, receive it fully insured anywhere in the world, and return it within 14 days if it isn't right.",
+          title: "Personal service, in Miami or anywhere",
+          body: "See a piece in person at our Miami boutique, or talk to us on WhatsApp, Telegram, Signal or by phone. Pay securely by payment link, card or bank wire, receive it fully insured anywhere in the world, and return it within 14 days if it isn't right.",
         },
       ],
       founderEyebrow: "Who You'll Deal With",
@@ -61,8 +61,8 @@ export const PAGES: Record<Locale, PageCopy> = {
   de: {
     about: {
       eyebrow: "Unsere Geschichte",
-      title: "Spezialist für Hermès & seltene Uhren in Monaco",
-      description: "Hermès und seltene Uhren aus unseren Boutiquen in Monaco und Miami.",
+      title: "Spezialist für Hermès & seltene Uhren – Miami & Monaco",
+      description: "Hermès und seltene Uhren – Boutique in Miami, Spezialisten in Monaco.",
       blocks: [
         {
           eyebrow: "Das Haus",
@@ -76,8 +76,8 @@ export const PAGES: Record<Locale, PageCopy> = {
         },
         {
           eyebrow: "Der Service",
-          title: "Persönlich – in Monaco oder überall",
-          body: "Sehen Sie Stücke in unserer Boutique in Monaco oder schreiben Sie uns per WhatsApp, Telegram, Signal oder rufen Sie an. Sichere Zahlung per Zahlungslink, Karte oder Überweisung, voll versicherter Versand weltweit und 14 Tage Rückgabe.",
+          title: "Persönlich – in Miami oder überall",
+          body: "Sehen Sie Stücke in unserer Boutique in Miami oder schreiben Sie uns per WhatsApp, Telegram, Signal oder rufen Sie an. Sichere Zahlung per Zahlungslink, Karte oder Überweisung, voll versicherter Versand weltweit und 14 Tage Rückgabe.",
         },
       ],
       founderEyebrow: "Ihr Ansprechpartner",
@@ -108,8 +108,8 @@ export const PAGES: Record<Locale, PageCopy> = {
   uz: {
     about: {
       eyebrow: "Bizning tariximiz",
-      title: "Monakodagi Hermès va noyob soatlar mutaxassisi",
-      description: "Monako va Mayamidagi butiklarimizdan Hermès va noyob soatlar.",
+      title: "Hermès va noyob soatlar mutaxassisi – Mayami va Monako",
+      description: "Hermès va noyob soatlar – Mayamida butik, Monakoda mutaxassislar.",
       blocks: [
         {
           eyebrow: "Butik",
@@ -123,8 +123,8 @@ export const PAGES: Record<Locale, PageCopy> = {
         },
         {
           eyebrow: "Xizmat",
-          title: "Monakoda yoki istalgan joyda shaxsiy xizmat",
-          body: "Monakodagi butikimizda ko'ring yoki WhatsApp, Telegram, Signal orqali yozing. To'lov havolasi, karta yoki bank o'tkazmasi bilan xavfsiz to'lov, butun dunyoga sug'urtalangan yetkazib berish va 14 kun ichida qaytarish.",
+          title: "Mayamida yoki istalgan joyda shaxsiy xizmat",
+          body: "Mayamidagi butikimizda ko'ring yoki WhatsApp, Telegram, Signal orqali yozing. To'lov havolasi, karta yoki bank o'tkazmasi bilan xavfsiz to'lov, butun dunyoga sug'urtalangan yetkazib berish va 14 kun ichida qaytarish.",
         },
       ],
       founderEyebrow: "Siz bilan kim ishlaydi",
