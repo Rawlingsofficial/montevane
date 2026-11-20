@@ -86,7 +86,7 @@ const en = {
   why: [
     { title: "Authenticity Guarantee", description: "Every piece is verified by our specialists before it is listed. Full refund if any item fails a third-party check." },
     { title: "14-Day Returns", description: "Changed your mind? Return any piece within 14 days of delivery, unworn and complete, for a refund." },
-    { title: "Monaco & Miami", description: "Visit us in Monaco, or at 4000 NE 1st Avenue, Miami — or buy remotely with fully insured, tracked worldwide shipping." },
+    { title: "Miami · Monaco · Worldwide", description: "Visit our Miami boutique at 4000 NE 1st Avenue, or buy from anywhere — Monaco included — with fully insured, tracked delivery." },
     { title: "Personal Concierge", description: "Ask us for any Birkin, Kelly or rare watch — we source special orders and exotics on request." },
   ],
   categories: {

@@ -83,7 +83,7 @@ const uz: Dictionary = {
   why: [
     { title: "Haqiqiylik kafolati", description: "Har bir buyum sotuvdan oldin mutaxassislarimiz tomonidan tekshiriladi. Uchinchi tomon tekshiruvidan o'tmasa – to'liq pul qaytariladi." },
     { title: "14 kun ichida qaytarish", description: "Har qanday buyumni yetkazilgandan keyin 14 kun ichida, taqilmagan va to'liq holda qaytarishingiz mumkin." },
-    { title: "Monako va Mayami", description: "Monako yoki Mayamidagi (4000 NE 1st Avenue) butiklarimizga keling yoki sug'urtalangan yetkazib berish bilan masofadan xarid qiling." },
+    { title: "Mayami · Monako · Butun dunyo", description: "Mayamidagi butikimizga (4000 NE 1st Avenue) keling yoki istalgan joydan — Monakodan ham — to'liq sug'urtalangan, kuzatiladigan yetkazib berish bilan xarid qiling." },
     { title: "Shaxsiy konsyerj", description: "Istalgan Birkin, Kelly yoki noyob soatni so'rang – maxsus buyurtma va ekzotiklarni topib beramiz." },
   ],
   categories: {

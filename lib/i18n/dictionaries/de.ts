@@ -82,7 +82,7 @@ const de: Dictionary = {
   why: [
     { title: "Echtheitsgarantie", description: "Jedes Stück wird vor dem Angebot von unseren Experten geprüft. Volle Rückerstattung, falls ein Stück eine Drittprüfung nicht besteht." },
     { title: "14 Tage Rückgabe", description: "Jedes Stück innerhalb von 14 Tagen nach Lieferung zurückgeben – ungetragen und vollständig." },
-    { title: "Monaco & Miami", description: "Besuchen Sie uns in Monaco oder in der 4000 NE 1st Avenue, Miami – oder kaufen Sie aus der Ferne mit voll versichertem Versand." },
+    { title: "Miami · Monaco · Weltweit", description: "Besuchen Sie unsere Boutique in Miami (4000 NE 1st Avenue) oder kaufen Sie von überall – auch in Monaco – mit voll versichertem, verfolgbarem Versand." },
     { title: "Persönlicher Concierge", description: "Fragen Sie nach jeder Birkin, Kelly oder seltenen Uhr – wir finden Sonderanfertigungen und Exoten." },
   ],
   categories: {
