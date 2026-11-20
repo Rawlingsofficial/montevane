@@ -152,6 +152,12 @@ export async function Footer({ locale, channels }: { locale: Locale; channels: C
                   </a>
                 </div>
               ))}
+              {/* Monaco: our specialists, no street address (Merchant Center lists Miami only). */}
+              <address className="font-heading text-lg leading-snug font-light text-white/80 not-italic">
+                {SITE_NAME} Monaco
+                <br />
+                <span className="text-sm text-white/60">{t.footer.monaco}</span>
+              </address>
             </div>
           </div>
         </div>

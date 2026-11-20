@@ -420,7 +420,8 @@ const en = {
     navigate: "Navigate",
     care: "Customer Care",
     rights: "All rights reserved.",
-    locations: "Boutique",
+    locations: "Boutiques",
+    monaco: "Our specialists · private viewings by appointment",
     directions: "Get directions",
   },
   waitlist: {

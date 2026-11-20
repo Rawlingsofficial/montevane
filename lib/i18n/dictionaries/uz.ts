@@ -412,7 +412,8 @@ const uz: Dictionary = {
     navigate: "Bo'limlar",
     care: "Mijozlarga xizmat",
     rights: "Barcha huquqlar himoyalangan.",
-    locations: "Butik",
+    locations: "Butiklar",
+    monaco: "Mutaxassislarimiz · shaxsiy ko‘rik oldindan kelishuv bo‘yicha",
     directions: "Yo'nalish",
   },
   waitlist: {

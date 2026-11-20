@@ -411,7 +411,8 @@ const de: Dictionary = {
     navigate: "Navigation",
     care: "Kundenservice",
     rights: "Alle Rechte vorbehalten.",
-    locations: "Boutique",
+    locations: "Boutiques",
+    monaco: "Unsere Spezialisten · private Besichtigung nach Vereinbarung",
     directions: "Route planen",
   },
   waitlist: {
