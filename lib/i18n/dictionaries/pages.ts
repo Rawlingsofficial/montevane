@@ -46,7 +46,7 @@ export const PAGES: Record<Locale, PageCopy> = {
     },
     privacy: {
       title: "Privacy Policy",
-      updated: "Last updated: October 2026",
+      updated: "Last updated: November 2026",
       sections: [
         { title: "Who we are", body: "Montévane is an independent luxury boutique. This policy explains what personal data we collect through this website and how we use it." },
         { title: "What we collect", body: "When you send an inquiry we collect your name, the contact details you give us (email, phone, messaging handle), your country, the channels you want us to use, your preferred payment method and your message. When you subscribe to our newsletter we collect your email address." },
@@ -54,7 +54,7 @@ export const PAGES: Record<Locale, PageCopy> = {
         { title: "Who we share it with", body: "We share data only with the services needed to run the shop — our hosting and database provider, the messaging app you choose, payment providers and shipping carriers. We never sell your data." },
         { title: "How long we keep it", body: "Inquiries are kept for up to 24 months, or longer where tax law requires for completed sales. You can unsubscribe from the newsletter at any time." },
         { title: "Your rights", body: "You may ask to access, correct, delete or export your data, object to its use, or withdraw consent at any time. Contact us using the details on our contact page. You may also complain to your local data protection authority." },
-        { title: "Cookies", body: "This website uses only cookies that are strictly necessary for it to work. We do not use advertising or tracking cookies." },
+        { title: "Cookies", body: "This website uses cookies that are needed for it to work, and Google Analytics cookies to count visits and see which pages are used, so we can improve the site. We do not use advertising cookies. You can block or delete cookies in your browser settings." },
       ],
     },
   },
@@ -93,7 +93,7 @@ export const PAGES: Record<Locale, PageCopy> = {
     },
     privacy: {
       title: "Datenschutzerklärung",
-      updated: "Stand: Oktober 2026",
+      updated: "Stand: November 2026",
       sections: [
         { title: "Wer wir sind", body: "Montévane ist eine unabhängige Luxus-Boutique. Diese Erklärung beschreibt, welche personenbezogenen Daten wir über diese Website erheben und wie wir sie verwenden." },
         { title: "Welche Daten wir erheben", body: "Bei einer Anfrage erheben wir Ihren Namen, Ihre Kontaktdaten (E-Mail, Telefon, Messenger), Ihr Land, die gewünschten Kontaktkanäle, Ihre bevorzugte Zahlungsart und Ihre Nachricht. Bei der Newsletter-Anmeldung erheben wir Ihre E-Mail-Adresse." },
@@ -101,7 +101,7 @@ export const PAGES: Record<Locale, PageCopy> = {
         { title: "Empfänger", body: "Wir geben Daten nur an Dienste weiter, die für den Betrieb nötig sind – Hosting- und Datenbankanbieter, den von Ihnen gewählten Messenger, Zahlungsdienstleister und Versanddienstleister. Wir verkaufen keine Daten." },
         { title: "Speicherdauer", body: "Anfragen speichern wir bis zu 24 Monate bzw. so lange, wie steuerrechtliche Aufbewahrungspflichten es verlangen. Den Newsletter können Sie jederzeit abbestellen." },
         { title: "Ihre Rechte", body: "Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit und Widerspruch sowie auf Widerruf Ihrer Einwilligung. Sie können sich zudem bei einer Datenschutz-Aufsichtsbehörde beschweren." },
-        { title: "Cookies", body: "Diese Website verwendet nur technisch notwendige Cookies. Werbe- oder Tracking-Cookies setzen wir nicht ein." },
+        { title: "Cookies", body: "Diese Website nutzt Cookies, die für den Betrieb nötig sind, und Cookies von Google Analytics. Damit zählen wir Besuche und sehen, welche Seiten genutzt werden, um die Website zu verbessern. Werbe-Cookies setzen wir nicht ein. Sie können Cookies jederzeit in Ihrem Browser blockieren oder löschen." },
       ],
     },
   },
@@ -140,7 +140,7 @@ export const PAGES: Record<Locale, PageCopy> = {
     },
     privacy: {
       title: "Maxfiylik siyosati",
-      updated: "Yangilangan: 2026-yil oktabr",
+      updated: "Yangilangan: 2026-yil noyabr",
       sections: [
         { title: "Biz kimmiz", body: "Montévane – mustaqil lyuks butik. Ushbu siyosat sayt orqali qanday shaxsiy ma'lumotlarni yig'ishimiz va ulardan qanday foydalanishimizni tushuntiradi." },
         { title: "Qanday ma'lumot yig'amiz", body: "So'rov yuborganingizda ismingiz, aloqa ma'lumotlaringiz (email, telefon, messenjer), mamlakatingiz, tanlagan aloqa kanallaringiz, afzal to'lov usulingiz va xabaringizni yig'amiz. Obuna bo'lganingizda email manzilingizni saqlaymiz." },
@@ -148,7 +148,7 @@ export const PAGES: Record<Locale, PageCopy> = {
         { title: "Kimga beramiz", body: "Ma'lumotlarni faqat do'kon ishlashi uchun zarur xizmatlarga beramiz – xosting va ma'lumotlar bazasi, siz tanlagan messenjer, to'lov va yetkazib berish xizmatlari. Ma'lumotlaringizni sotmaymiz." },
         { title: "Qancha saqlaymiz", body: "So'rovlar 24 oygacha yoki soliq qonunchiligi talab qilgan muddat davomida saqlanadi. Obunadan istalgan vaqtda chiqishingiz mumkin." },
         { title: "Huquqlaringiz", body: "Ma'lumotlaringizni ko'rish, tuzatish, o'chirish yoki rozilikni qaytarib olishni so'rashingiz mumkin. Buning uchun aloqa sahifasidagi kanallar orqali bog'laning." },
-        { title: "Cookie fayllar", body: "Sayt faqat ishlashi uchun zarur cookie fayllardan foydalanadi. Reklama yoki kuzatuv cookie fayllari ishlatilmaydi." },
+        { title: "Cookie fayllar", body: "Sayt ishlashi uchun zarur cookie fayllardan hamda tashriflarni hisoblash va saytni yaxshilash uchun Google Analytics cookie fayllaridan foydalanadi. Reklama cookie fayllari ishlatilmaydi. Cookie fayllarni brauzeringiz sozlamalarida bloklashingiz yoki o'chirishingiz mumkin." },
       ],
     },
   },

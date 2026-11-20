@@ -223,7 +223,7 @@ const en = {
     authenticityLink: "Read our authenticity guarantee",
     specLabels: { color: "Color", materials: "Materials", dimensions: "Dimensions", weight: "Weight" },
     inquireTitle: "Buy this piece",
-    purchaseBody: "Leave your details and we will confirm with you directly.",
+    purchaseBody: "Send your request and a Montévane specialist will contact you personally to confirm availability, answer your questions and arrange secure payment and insured delivery. Nothing is charged online.",
     purchaseSubmit: "Send request",
     purchaseMessage: "I'd like to buy the {item}.",
     checkoutEmpty: "These pieces are no longer available. Browse the collection or ask our concierge to source one for you.",
@@ -353,6 +353,10 @@ const en = {
       {
         title: "1. Choose Buy now",
         body: "Press Buy now on the piece and leave your details – or message us on WhatsApp, Telegram, Signal, text, phone or email. We confirm availability, condition and the final price.",
+      },
+      {
+        title: "No automatic checkout",
+        body: "We do not take payment automatically online. Every piece is confirmed personally first – availability, condition, authenticity and final price – before any payment is taken or any delivery is arranged. Sending a Buy now request does not charge you anything.",
       },
       {
         title: "2. Pay securely",

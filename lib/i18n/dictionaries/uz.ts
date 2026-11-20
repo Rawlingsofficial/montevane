@@ -215,7 +215,7 @@ const uz: Dictionary = {
     authenticityLink: "Haqiqiylik kafolatimiz",
     specLabels: { color: "Rang", materials: "Material", dimensions: "O'lcham", weight: "Og'irlik" },
     inquireTitle: "Ushbu buyumni sotib olish",
-    purchaseBody: "Ma'lumotlaringizni qoldiring – biz siz bilan bevosita tasdiqlaymiz.",
+    purchaseBody: "So'rovingizni yuboring – Montévane mutaxassisi siz bilan shaxsan bog'lanib, buyum mavjudligini tasdiqlaydi, savollaringizga javob beradi hamda xavfsiz to'lov va sug'urtalangan yetkazib berishni tashkil qiladi. Onlayn hech qanday to'lov olinmaydi.",
     purchaseSubmit: "So'rov yuborish",
     purchaseMessage: "Men {item} sotib olmoqchiman.",
     checkoutEmpty: "Bu buyumlar endi mavjud emas. Kolleksiyani ko'ring yoki konsyerjimizdan siz uchun topib berishni so'rang.",
@@ -345,6 +345,10 @@ const uz: Dictionary = {
       {
         title: "1. „Hozir sotib olish“ni tanlang",
         body: "Buyumda „Hozir sotib olish“ni bosing va ma'lumotlaringizni qoldiring – yoki WhatsApp, Telegram, Signal, SMS, telefon yoki email orqali yozing. Mavjudligi, holati va yakuniy narxini tasdiqlaymiz.",
+      },
+      {
+        title: "Avtomatik to'lov yo'q",
+        body: "Biz onlayn avtomatik to'lov olmaymiz. Har bir buyum avval shaxsan tasdiqlanadi – mavjudligi, holati, haqiqiyligi va yakuniy narxi – shundan keyingina to'lov olinadi yoki yetkazib berish tashkil qilinadi. „Hozir sotib olish“ so'rovini yuborish sizdan hech narsa undirmaydi.",
       },
       {
         title: "2. Xavfsiz to'lang",

@@ -214,7 +214,7 @@ const de: Dictionary = {
     authenticityLink: "Zu unserer Echtheitsgarantie",
     specLabels: { color: "Farbe", materials: "Material", dimensions: "Maße", weight: "Gewicht" },
     inquireTitle: "Dieses Stück kaufen",
-    purchaseBody: "Hinterlassen Sie Ihre Daten – wir bestätigen alles direkt mit Ihnen.",
+    purchaseBody: "Schicken Sie uns Ihre Anfrage. Ein Montévane-Spezialist meldet sich persönlich bei Ihnen, bestätigt die Verfügbarkeit, beantwortet Ihre Fragen und kümmert sich um sichere Zahlung und versicherten Versand. Online wird nichts abgebucht.",
     purchaseSubmit: "Anfrage senden",
     purchaseMessage: "Ich möchte {item} kaufen.",
     checkoutEmpty: "Diese Stücke sind nicht mehr verfügbar. Entdecken Sie die Kollektion oder bitten Sie unseren Concierge, eines für Sie zu beschaffen.",
@@ -344,6 +344,10 @@ const de: Dictionary = {
       {
         title: "1. „Jetzt kaufen“ wählen",
         body: "Klicken Sie beim Stück auf „Jetzt kaufen“ und hinterlassen Sie Ihre Daten – oder schreiben Sie uns per WhatsApp, Telegram, Signal, SMS, Telefon oder E-Mail. Wir bestätigen Verfügbarkeit, Zustand und Endpreis.",
+      },
+      {
+        title: "Kein automatischer Checkout",
+        body: "Wir buchen online nichts automatisch ab. Jedes Stück bestätigen wir zuerst persönlich – Verfügbarkeit, Zustand, Echtheit und Endpreis –, bevor eine Zahlung stattfindet oder der Versand organisiert wird. Eine Anfrage über „Jetzt kaufen“ kostet Sie nichts.",
       },
       {
         title: "2. Sicher bezahlen",
