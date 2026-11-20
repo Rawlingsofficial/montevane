@@ -16,10 +16,20 @@ import { localePath, stripLocale, type Locale } from "@/lib/i18n/config";
 import { cn } from "@/lib/utils";
 
 export type NavLink = { label: string; href: string };
+export type MenuColumn = {
+  title: string;
+  items: NavLink[];
+  /** Many links (watch houses): flows into several columns. */
+  wide?: boolean;
+  /** The first link is the column's main page (Birkin Bags) and is set in bold. */
+  lead?: boolean;
+};
 export type MenuGroup = {
   id: string;
   label: string;
   items: NavLink[];
+  /** Labelled columns (Birkin · Kelly · Accessories; Shop by · Houses), shown instead of `items`. */
+  columns?: MenuColumn[];
   viewAll?: NavLink;
   /** Featured tile in the desktop panel. */
   image?: string;
@@ -304,11 +314,18 @@ export function NavbarClient({
                   </button>
                   {open && (
                     <ul id={`mobile-${g.id}`} className="pb-3">
-                      {g.items.map((item) => (
-                        <li key={item.href}>
-                          <Link href={item.href} className="flex min-h-11 items-center pl-4 text-base text-foreground/80">
-                            {item.label}
-                          </Link>
+                      {(g.columns ?? [{ title: "", items: g.items }]).map((col) => (
+                        <li key={col.title || "items"}>
+                          {col.title && <p className="pt-3 pb-1 pl-4 text-[11px] font-medium tracking-[0.2em] text-[var(--gold)] uppercase">{col.title}</p>}
+                          <ul>
+                            {col.items.map((item) => (
+                              <li key={item.href}>
+                                <Link href={item.href} className="flex min-h-11 items-center pl-4 text-base text-foreground/80">
+                                  {item.label}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
                         </li>
                       ))}
                       {g.viewAll && (
@@ -371,16 +388,43 @@ function MegaPanel({ group }: { group: MenuGroup }) {
     <div id={`menu-${group.id}`} className="absolute inset-x-0 top-full border-t border-border bg-white shadow-[0_12px_24px_-16px_rgba(0,0,0,0.25)]">
       <div className={cn("mx-auto grid max-w-7xl gap-12 px-10 py-10", group.image && "grid-cols-[1fr_320px]")}>
         <div>
-          <p className="mb-4 text-[11px] font-medium tracking-[0.2em] text-[var(--gold)] uppercase">{group.label}</p>
-          <ul className={cn("grid gap-x-8", group.wide ? "grid-cols-[repeat(4,minmax(0,190px))]" : "grid-cols-[repeat(2,minmax(0,220px))]")}>
-            {group.items.map((item) => (
-              <li key={item.href}>
-                <Link href={item.href} className="block py-1.5 text-sm text-foreground/80 transition-colors hover:text-foreground">
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {group.columns ? (
+            <div className="flex gap-14">
+              {group.columns.map((col) => (
+                <div key={col.title} className="min-w-[180px]">
+                  <p className="mb-4 text-[11px] font-medium tracking-[0.2em] text-[var(--gold)] uppercase">{col.title}</p>
+                  <ul className={cn(col.wide && "grid grid-cols-[repeat(3,minmax(0,170px))] gap-x-8")}>
+                    {col.items.map((item, i) => (
+                      <li key={item.href}>
+                        <Link
+                          href={item.href}
+                          className={cn(
+                            "block py-1.5 text-sm transition-colors hover:text-foreground",
+                            i === 0 && col.lead ? "font-medium text-foreground" : "text-foreground/80"
+                          )}
+                        >
+                          {item.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <>
+              <p className="mb-4 text-[11px] font-medium tracking-[0.2em] text-[var(--gold)] uppercase">{group.label}</p>
+              <ul className={cn("grid gap-x-8", group.wide ? "grid-cols-[repeat(4,minmax(0,190px))]" : "grid-cols-[repeat(2,minmax(0,220px))]")}>
+                {group.items.map((item) => (
+                  <li key={item.href}>
+                    <Link href={item.href} className="block py-1.5 text-sm text-foreground/80 transition-colors hover:text-foreground">
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
           {group.viewAll && (
             <Link
               href={group.viewAll.href}

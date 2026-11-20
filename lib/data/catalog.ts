@@ -404,9 +404,16 @@ export async function getSubcategories(category: string): Promise<Subcategory[]>
 export async function subcategoryFilter(
   category: string,
   sub: string
-): Promise<{ filter: ProductFilter; name: string; count: number; parentCount: number; condition?: "new" | "pre_owned"; bag?: string } | null> {
+): Promise<{ filter: ProductFilter; name: string; count: number; parentCount: number; condition?: "new" | "pre_owned"; bag?: string; allBrands?: boolean } | null> {
   const [head, tail, ...rest] = sub.split("/");
   if (rest.length) return null;
+  // All-brands condition pages: /shop/watches/new, /shop/watches/pre-owned.
+  const allCond = BRAND_SUBCATEGORIES.has(category) && tail === undefined ? CONDITION_SUBS.find((c) => c.slug === head) : undefined;
+  if (allCond) {
+    const filter: ProductFilter = { category, condition: allCond.condition };
+    const [count, parentCount] = await Promise.all([countProducts(filter), countProducts({ category })]);
+    return count ? { filter, name: "", count, parentCount, condition: allCond.condition, allBrands: true } : null;
+  }
   const found = (await getSubcategories(category)).find((s) => s.slug === head);
   if (!found) return null;
   if (tail !== undefined) {

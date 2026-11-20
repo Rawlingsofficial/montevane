@@ -391,3 +391,63 @@ export const BAG_COPY: Record<string, Record<string, Record<Locale, ListingCopy>
   "birkin-bags": BIRKIN_COPY,
   "kelly-bags": KELLY_COPY,
 };
+
+const ALL_WATCHES: Record<"new" | "pre_owned", Record<Locale, ListingCopy>> = {
+  new: {
+    en: {
+      name: "New Watches",
+      title: "New Luxury Watches",
+      metaTitle: "New Luxury Watches for Sale – Rolex, Patek, AP | Montévane",
+      metaDescription: "Shop new, unworn luxury watches from Rolex, Patek Philippe, Audemars Piguet and more. Checked by our specialists, insured worldwide shipping, 14-day returns.",
+      intro:
+        "Every watch on this page is new and unworn, across all the houses we carry – from current Rolex sports models to Patek Philippe and Audemars Piguet references that are hard to get at a boutique.\n\nWe list what comes with each watch – box, papers and warranty card where present – and confirm availability personally before any payment. Use the filters to narrow by house, size, material or price.",
+    },
+    de: {
+      name: "Neue Uhren",
+      title: "Neue Luxusuhren",
+      metaTitle: "Neue Luxusuhren kaufen – Rolex, Patek, AP | Montévane",
+      metaDescription: "Neue, ungetragene Luxusuhren von Rolex, Patek Philippe, Audemars Piguet und mehr. Von Spezialisten geprüft, versicherter Versand weltweit, 14 Tage Rückgabe.",
+      intro:
+        "Jede Uhr auf dieser Seite ist neu und ungetragen – über alle Marken, die wir führen. Von aktuellen Rolex-Sportmodellen bis zu Referenzen von Patek Philippe und Audemars Piguet, die beim Konzessionär kaum zu bekommen sind.\n\nBei jeder Uhr steht, was dabei ist – Box, Papiere und Garantiekarte, falls vorhanden. Die Verfügbarkeit bestätigen wir persönlich, bevor Sie bezahlen. Mit den Filtern finden Sie schnell die passende Marke, Größe, das Material oder den Preis.",
+    },
+    uz: {
+      name: "Yangi soatlar",
+      title: "Yangi hashamatli soatlar",
+      metaTitle: "Yangi hashamatli soatlar – Rolex, Patek, AP | Montévane",
+      metaDescription: "Rolex, Patek Philippe, Audemars Piguet va boshqa brendlarning yangi, taqilmagan soatlari. Mutaxassislar tekshiruvi, sug'urtalangan yetkazib berish, 14 kun ichida qaytarish.",
+      intro:
+        "Bu sahifadagi har bir soat yangi va taqilmagan – biz sotadigan barcha brendlardan: Rolex sport modellaridan butikda topish qiyin bo'lgan Patek Philippe va Audemars Piguet modellarigacha.\n\nHar bir soat bilan nima kelishini ko'rsatamiz – quti, hujjatlar va kafolat kartasi, agar bo'lsa. To'lovdan oldin mavjudligini shaxsan tasdiqlaymiz. Brend, o'lcham, material yoki narx bo'yicha filtrlardan foydalaning.",
+    },
+  },
+  pre_owned: {
+    en: {
+      name: "Pre-Owned Watches",
+      title: "Pre-Owned Luxury Watches",
+      metaTitle: "Pre-Owned Luxury Watches for Sale – Rolex, Patek, AP | Montévane",
+      metaDescription: "Shop pre-owned luxury watches from Rolex, Patek Philippe, Audemars Piguet, Richard Mille, F.P. Journe and more – each checked and honestly described.",
+      intro:
+        "Pre-owned is where most of the world's great watches are found: discontinued references, earlier dial variants and independent makers like F.P. Journe whose pieces are rarely available new.\n\nEvery watch here has been worn before. We check each one and describe its condition plainly – case, bracelet, crystal and service history – and list the box and papers that come with it. If a watch ever fails an independent authentication, you get a full refund.",
+    },
+    de: {
+      name: "Gebrauchte Uhren",
+      title: "Luxusuhren aus zweiter Hand",
+      metaTitle: "Gebrauchte Luxusuhren kaufen – Rolex, Patek, AP | Montévane",
+      metaDescription: "Gebrauchte Luxusuhren von Rolex, Patek Philippe, Audemars Piguet, Richard Mille, F.P. Journe und mehr – jede geprüft und ehrlich beschrieben.",
+      intro:
+        "Die meisten großen Uhren der Welt findet man aus zweiter Hand: eingestellte Referenzen, ältere Zifferblattvarianten und unabhängige Uhrmacher wie F.P. Journe, deren Uhren neu kaum zu haben sind.\n\nJede Uhr hier wurde schon getragen. Wir prüfen jede einzelne und beschreiben den Zustand klar – Gehäuse, Armband, Glas und Revisionen – und nennen Box und Papiere, die dabei sind. Besteht eine Uhr eine unabhängige Echtheitsprüfung nicht, bekommen Sie Ihr Geld vollständig zurück.",
+    },
+    uz: {
+      name: "Ishlatilgan soatlar",
+      title: "Ishlatilgan hashamatli soatlar",
+      metaTitle: "Ishlatilgan hashamatli soatlar – Rolex, Patek, AP | Montévane",
+      metaDescription: "Rolex, Patek Philippe, Audemars Piguet, Richard Mille, F.P. Journe va boshqa brendlarning ishlatilgan soatlari – har biri tekshirilgan va halol tasvirlangan.",
+      intro:
+        "Dunyoning eng yaxshi soatlarining aksariyati ishlatilgan holda topiladi: ishlab chiqarilmay qo'ygan modellar, eski siferblat variantlari va F.P. Journe kabi mustaqil ustalarning soatlari.\n\nBu yerdagi har bir soat avval taqilgan. Har birini tekshiramiz va holatini ochiq tasvirlaymiz – korpus, bilaguzuk, oyna va texnik xizmat tarixi – hamda quti va hujjatlarni ko'rsatamiz. Soat mustaqil tekshiruvdan o'tmasa, pulingiz to'liq qaytariladi.",
+    },
+  },
+};
+
+/** Copy for the all-brands New / Pre-Owned watch pages. */
+export function allWatchesCopy(condition: "new" | "pre_owned", locale: Locale): ListingCopy {
+  return ALL_WATCHES[condition][locale];
+}

@@ -14,7 +14,7 @@ import { ListingFaq } from "@/components/shop/ListingFaq";
 import { ListingFilters, type FilterLabels } from "@/components/shop/ListingFilters";
 import { EMPTY_QUERY, hasQuery, queryString, type ListingQuery } from "@/lib/catalog/filters";
 import { BRAND_SUBCATEGORIES, JEWELRY_TYPES } from "@/lib/catalog/taxonomy";
-import { BAG_COPY, conditionCopy } from "@/lib/catalog/listing-copy";
+import { BAG_COPY, allWatchesCopy, conditionCopy } from "@/lib/catalog/listing-copy";
 import {
   getCategories,
   getContactChannels,
@@ -66,7 +66,9 @@ async function resolveListing(locale: Locale, category: string, sub?: string) {
   let copy: Copy;
   // Brand pages: keep the parent brand link in the breadcrumbs of its condition pages.
   let brandCrumb: { name: string; path: string } | undefined;
-  if (found.condition) {
+  if (found.allBrands && found.condition) {
+    copy = allWatchesCopy(found.condition, locale);
+  } else if (found.condition) {
     copy = conditionCopy(found.condition, found.name, locale);
     brandCrumb = { name: found.name, path: `/shop/${category}/${brandSlug}` };
   } else if (found.bag) {

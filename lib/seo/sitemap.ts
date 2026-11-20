@@ -1,4 +1,4 @@
-import { BAG_SUB_CATEGORIES, BRAND_SUBCATEGORIES, brandPath } from "@/lib/catalog/taxonomy";
+import { BAG_SUB_CATEGORIES, BRAND_SUBCATEGORIES, CONDITION_SUBS, brandPath } from "@/lib/catalog/taxonomy";
 import { countProducts, getBrandConditions, getBrands, getCategories, getCollections, getLiveModels, getProductIndex, getSubcategories, landingIndexable } from "@/lib/data/catalog";
 import { publishedPosts, TOPICS } from "@/lib/journal";
 import { DEFAULT_LOCALE, LOCALES, siteUrl, type Locale } from "@/lib/i18n/config";
@@ -35,7 +35,12 @@ async function entries(): Promise<Entry[]> {
       const conditions = await Promise.all(
         subs.map(async (s) => (await getBrandConditions(s.slug)).filter((x) => landingIndexable(x.count, s.count)).map((x) => `/shop/${c.slug}/${s.slug}/${x.slug}`))
       );
-      return [...paths, ...conditions.flat()];
+      // All-brands New / Pre-Owned pages.
+      const watchTotal = await countProducts({ category: c.slug });
+      const all = await Promise.all(
+        CONDITION_SUBS.map(async (x) => (landingIndexable(await countProducts({ category: c.slug, condition: x.condition }), watchTotal) ? [`/shop/${c.slug}/${x.slug}`] : []))
+      );
+      return [...all.flat(), ...paths, ...conditions.flat()];
     })
   );
 
