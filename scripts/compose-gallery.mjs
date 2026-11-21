@@ -188,7 +188,7 @@ function plinth(s, w, h, i) {
 
 const blurred = (svg, sigma) => sharp(Buffer.from(svg)).blur(sigma).png().toBuffer();
 
-async function render(layout, pngs, sizes = []) {
+async function render(layout, pngs, sizes = [], seats = []) {
   const { w, h, horizon, slots } = layout;
   const layers = [{ input: Buffer.from(room(w, h, horizon, slots)), left: 0, top: 0 }];
   for (const [i, s] of slots.entries()) {
@@ -213,7 +213,8 @@ async function render(layout, pngs, sizes = []) {
       left: 0,
       top: 0,
     });
-    layers.push({ input: buf, left: Math.round(fx - width / 2), top: Math.round(stand - height) });
+    // Bags sit on their body; a strap in front hangs over the plinth edge.
+    layers.push({ input: buf, left: Math.round(fx - width / 2), top: Math.round(stand - height + height * (seats[i] ?? 0)) });
   }
   return sharp({ create: { width: w, height: h, channels: 3, background: C.wallTop } }).composite(layers).webp({ quality: 84 }).toBuffer();
 }
@@ -259,16 +260,102 @@ const cache = new Map();
 // fresh pieces so banners across the site don't repeat the same few bags.
 const seen = new Map();
 
-async function usable(r) {
+// Jewelry, scarves and charms hang or drape: a narrow bottom is their shape.
+const FREE_FORM = new Set(["necklace", "bracelet", "ring", "earrings", "twilly", "scarf", "charm"]);
+
+/**
+ * How far the cutout reaches below the piece's solid base, as a share of its
+ * height. A bag photographed with its strap or card lying against it reaches
+ * well below, and would look like it hovers over the plinth.
+ */
+async function overhang(png) {
+  const { data, info } = await sharp(png).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const { width: w, height: h } = info;
+  const widths = [];
+  for (let y = 0; y < h; y++) {
+    let c = 0;
+    for (let x = 0; x < w; x++) if (data[(y * w + x) * 4 + 3] > 200) c++;
+    widths.push(c);
+  }
+  const max = Math.max(...widths);
+  let base = h - 1;
+  while (base > 0 && widths[base] < max * 0.25) base--;
+  return (h - 1 - base) / h;
+}
+
+/** Hermès bags (not charms, twillies or scarves), wherever they turn up. */
+const isBag = (name, slug) =>
+  !FREE_FORM.has(name) && /^hermes|birkin|kelly/.test(slug) && !/charm|twilly|scarf|shawl|carre/.test(slug);
+
+/** Solid width (alpha > 200) of every row of a cutout. */
+async function rowWidths(png) {
+  const { data, info } = await sharp(png).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const { width: w, height: h } = info;
+  const widths = [];
+  for (let y = 0; y < h; y++) {
+    let c = 0;
+    for (let x = 0; x < w; x++) if (data[(y * w + x) * 4 + 3] > 200) c++;
+    widths.push(c);
+  }
+  return { data, w, h, widths };
+}
+
+/**
+ * Where a bag's body ends, as a share of the cutout's height measured from the
+ * bottom. Below it there may be a shoulder strap lying in front; the body is
+ * set on the plinth and the strap drapes over the plinth's edge, as in a shop
+ * window — instead of the bag resting on its own strap.
+ */
+async function seatOf(png) {
+  const { h, widths } = await rowWidths(png);
+  const max = Math.max(...widths);
+  let y = widths.indexOf(max);
+  while (y + 1 < h && widths[y + 1] >= max * 0.6) y++;
+  return Math.min(0.12, (h - 1 - y) / h);
+}
+
+/** A white card or paper lying in front of a darker bag (authenticity card, receipt). */
+async function hasPaper(png) {
+  const { data, w, h } = await rowWidths(png);
+  const white = (p) => {
+    const r = data[p * 4], g = data[p * 4 + 1], b = data[p * 4 + 2];
+    return data[p * 4 + 3] > 200 && Math.min(r, g, b) > 205 && Math.max(r, g, b) - Math.min(r, g, b) < 20;
+  };
+  let all = 0, allWhite = 0, low = 0, lowWhite = 0;
+  for (let p = 0; p < w * h; p++) {
+    if (data[p * 4 + 3] <= 200) continue;
+    const isWhite = white(p);
+    all++;
+    allWhite += isWhite;
+    if (p / w >= h * 0.88) {
+      low++;
+      lowWhite += isWhite;
+    }
+  }
+  return low > 0 && lowWhite / low > 0.25 && allWhite / all < 0.12;
+}
+
+async function usable(r, name) {
   if (!cache.has(r.slug)) cache.set(r.slug, await cutout(r.url, BASE, 1100).then((p) => p && cleanCutout(p)).catch(() => null));
-  return cache.get(r.slug);
+  const png = cache.get(r.slug);
+  // Bags and watches must stand on their own base (mixed pools: Hermès pieces only).
+  const check = !FREE_FORM.has(name) && (!["arrival", "bestseller"].includes(name) || r.slug.startsWith("hermes-"));
+  if (png && check && (await overhang(png)) > 0.045) {
+    console.log("  skipped, does not sit flat:", r.slug);
+    return null;
+  }
+  if (png && isBag(name, r.slug) && (await hasPaper(png))) {
+    console.log("  skipped, card in front:", r.slug);
+    return null;
+  }
+  return png;
 }
 
 async function pieceFrom(name, used, pin) {
   const spec = POOLS[name];
   if (pin) {
     const { rows } = await pool.query(`select slug, name, main_image_url as url from products where ${LIVE} and slug = '${pin}'`);
-    const png = rows[0] && (await usable(rows[0]));
+    const png = rows[0] && (await usable(rows[0], name));
     if (png) return take(rows[0], png, name, used, rows[0].slug);
     console.log("  pin not usable:", pin);
   }
@@ -277,17 +364,17 @@ async function pieceFrom(name, used, pin) {
     for (const strict of [true, false])
       for (const r of rows) {
         if (used.slugs.has(r.slug) || (seen.get(r.slug) ?? 0) > maxSeen || (strict && used.vary.has(`${name}:${r.v}`))) continue;
-        const png = await usable(r);
+        const png = await usable(r, name);
         if (png) return take(r, png, name, used, r.v);
       }
   return null;
 }
 
-function take(r, png, name, used, v) {
+async function take(r, png, name, used, v) {
   used.slugs.add(r.slug);
   used.vary.add(`${name}:${v}`);
   seen.set(r.slug, (seen.get(r.slug) ?? 0) + 1);
-  return { slug: r.slug, name: r.name, png };
+  return { slug: r.slug, name: r.name, png, seat: isBag(name, r.slug) ? await seatOf(png) : 0 };
 }
 
 for (const scene of SCENES.filter((s) => !only || only.includes(s.id)).sort((a, b) => !!b.pins - !!a.pins)) {
@@ -300,8 +387,9 @@ for (const scene of SCENES.filter((s) => !only || only.includes(s.id)).sort((a, 
   }
   const layout = LAYOUTS[scene.layout];
   const pngs = picked.map((p) => p?.png);
-  writeFileSync(`${OUT}/${scene.id}.webp`, await render(layout.desktop, pngs, scene.sizes));
-  if (layout.mobile) writeFileSync(`${OUT}/${scene.id}_m.webp`, await render(layout.mobile, pngs, scene.sizes));
+  const seats = picked.map((p) => p?.seat ?? 0);
+  writeFileSync(`${OUT}/${scene.id}.webp`, await render(layout.desktop, pngs, scene.sizes, seats));
+  if (layout.mobile) writeFileSync(`${OUT}/${scene.id}_m.webp`, await render(layout.mobile, pngs, scene.sizes, seats));
   manifest[scene.id] = picked.filter(Boolean).map((p) => ({ slug: p.slug, name: p.name }));
   console.log(scene.id.padEnd(24), picked.map((p) => p?.slug ?? "—").join(" | "));
 }

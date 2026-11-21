@@ -186,7 +186,57 @@ async function clearHandleGaps(png) {
   return sharp(data, { raw: { width: w, height: h, channels: 4 } }).png().toBuffer();
 }
 
-/** Both clean-ups, for pieces placed on a set (gallery scenes, home still lifes). */
+/**
+ * Two things make a piece hover above its plinth even after the floor shadow
+ * is gone: faint leftovers of the photo's backdrop (nearly transparent, so
+ * invisible, but they still count when the piece is trimmed), and loose items
+ * lying in front of the bag in the photo (shoulder strap, authenticity card).
+ * Clears the faint pixels, drops separate pieces that lie below the main body,
+ * then trims to what is actually visible.
+ */
+async function dropLooseBits(png) {
+  const { data, info } = await sharp(png).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const { width: w, height: h } = info;
+  for (let p = 0; p < w * h; p++) if (data[p * 4 + 3] < 60) data[p * 4 + 3] = 0;
+
+  // Connected parts (8-neighbour), with their size, lowest row and centre.
+  const label = new Int32Array(w * h).fill(-1);
+  const parts = [];
+  for (let start = 0; start < w * h; start++) {
+    if (label[start] !== -1 || data[start * 4 + 3] === 0) continue;
+    const id = parts.length, stack = [start], part = { id, area: 0, maxY: 0, sumY: 0 };
+    label[start] = id;
+    while (stack.length) {
+      const p = stack.pop(), x = p % w, y = (p / w) | 0;
+      part.area++;
+      part.sumY += y;
+      if (y > part.maxY) part.maxY = y;
+      for (let dy = -1; dy <= 1; dy++)
+        for (let dx = -1; dx <= 1; dx++) {
+          const nx = x + dx, ny = y + dy;
+          if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
+          const q = ny * w + nx;
+          if (label[q] === -1 && data[q * 4 + 3] > 0) {
+            label[q] = id;
+            stack.push(q);
+          }
+        }
+    }
+    parts.push(part);
+  }
+  if (!parts.length) return png;
+  const main = parts.reduce((a, b) => (b.area > a.area ? b : a));
+  // A part whose centre sits below the main body's lowest row is lying in
+  // front of it (strap, card); specks are dropped anywhere. Earrings, charms
+  // and chains sit level with the main part, so they stay.
+  const drop = new Set(
+    parts.filter((pt) => pt !== main && (pt.area < w * h * 0.0004 || pt.sumY / pt.area > main.maxY - h * 0.02)).map((pt) => pt.id)
+  );
+  for (let p = 0; p < w * h; p++) if (drop.has(label[p])) data[p * 4 + 3] = 0;
+  return sharp(data, { raw: { width: w, height: h, channels: 4 } }).trim({ threshold: 0 }).png().toBuffer();
+}
+
+/** All clean-ups, for pieces placed on a set (gallery scenes, home still lifes). */
 export async function cleanCutout(png) {
-  return clearHandleGaps(await dropFloorShadow(png));
+  return dropLooseBits(await clearHandleGaps(await dropFloorShadow(png)));
 }
