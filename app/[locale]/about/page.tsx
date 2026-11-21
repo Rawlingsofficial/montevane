@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 
 import { SceneFill } from "@/components/common/GalleryImage";
 import { gallery } from "@/lib/catalog/gallery";
+import { OwnPhotos } from "@/components/common/OwnPhotos";
 import { PageHero } from "@/components/common/PageHero";
 import { VisitBoutique } from "@/components/common/VisitBoutique";
 import { WhyShopWithUs } from "@/components/home/WhyShopWithUs";
+import { INSPECTION } from "@/lib/catalog/ours";
 import { SITE_NAME } from "@/lib/constants";
 import { getStoreProfile } from "@/lib/data/catalog";
 import { getDictionary } from "@/lib/i18n";
@@ -23,6 +25,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/about">)
 export default async function AboutPage({ params }: PageProps<"/[locale]/about">) {
   const locale = await resolveLocale(params);
   const { about } = PAGES[locale];
+  const ours = getDictionary(locale).ours;
   const profile = await getStoreProfile();
   const [house, craft, experience] = about.blocks;
 
@@ -47,6 +50,8 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
           <p className="mt-5 max-w-md text-sm text-white/75">{craft.body}</p>
         </div>
       </section>
+
+      <OwnPhotos eyebrow={ours.inspectEyebrow} title={ours.inspectTitle} body={ours.inspectBody} photos={INSPECTION} captions={ours.captions} />
 
       <section className="flex flex-col items-start justify-center px-8 py-20 sm:px-16 lg:items-center lg:py-28 lg:text-center">
         <p className="text-xs font-medium tracking-[0.25em] text-[var(--gold)] uppercase">{experience.eyebrow}</p>

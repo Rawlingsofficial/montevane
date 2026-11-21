@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 
+import { OwnPhotos } from "@/components/common/OwnPhotos";
 import { PageHero } from "@/components/common/PageHero";
+import { DELIVERY } from "@/lib/catalog/ours";
 import { PaymentMethods } from "@/components/common/PaymentMethods";
 import { SourcingCta } from "@/components/common/SourcingCta";
 import { getDictionary } from "@/lib/i18n";
@@ -35,6 +37,13 @@ export default async function PaymentShippingPage({ params }: PageProps<"/[local
         <PaymentMethods label={t.ui.weAccept} crypto className="mt-12" />
         <SourcingCta locale={locale} />
       </div>
+      <OwnPhotos
+        eyebrow={t.ours.deliveryEyebrow}
+        title={t.ours.deliveryTitle}
+        body={t.ours.deliveryBody}
+        photos={DELIVERY}
+        className="border-t border-border"
+      />
     </>
   );
 }

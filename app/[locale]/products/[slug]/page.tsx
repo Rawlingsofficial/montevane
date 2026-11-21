@@ -29,6 +29,7 @@ import { absoluteUrl, pageMetadata } from "@/lib/seo/metadata";
 import { MODELS } from "@/lib/seo/models";
 import { productSeo } from "@/lib/seo/product";
 import { productLd } from "@/lib/seo/structured-data";
+import { INSPECTION } from "@/lib/catalog/ours";
 
 // Pre-rendered at build; new products render on first visit, then stay
 // static until an admin save revalidates them.
@@ -194,6 +195,18 @@ export default async function ProductPage({ params }: Props) {
             </div>
             <PaymentMethods label={ui.weAccept} className="pt-5" />
           </div>
+
+          <Link
+            href={localePath(locale, "/authenticity")}
+            className="group mt-8 flex max-w-lg items-center gap-4 border border-border p-3 transition-colors hover:border-foreground"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element -- our own photo, pre-compressed */}
+            <img src={INSPECTION[2].src} alt="" width={64} height={80} loading="lazy" decoding="async" className="h-20 w-16 shrink-0 object-cover" />
+            <span>
+              <span className="block text-xs font-medium tracking-[0.15em] uppercase">{t.ours.productTitle}</span>
+              <span className="mt-1 block text-sm text-muted-foreground">{t.ours.productBody}</span>
+            </span>
+          </Link>
 
           <div className="mt-10">
             <ProductAccordion

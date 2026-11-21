@@ -49,3 +49,6 @@ next-env.d.ts
 /public/brkin bags/
 /public/watches and jewelry/
 /scripts/_tmp/
+
+# Owner photo drops (originals; only the chosen ones are copied to public/images/ours)
+/public/our newphotos/

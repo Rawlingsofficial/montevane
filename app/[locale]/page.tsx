@@ -6,6 +6,7 @@ import { Editorial } from "@/components/home/Editorial";
 import { FeaturedCollections } from "@/components/home/FeaturedCollections";
 import { Hero } from "@/components/home/Hero";
 import { HomeLandings } from "@/components/home/HomeLandings";
+import { InOurHands } from "@/components/home/InOurHands";
 import { ShopByCategory } from "@/components/home/ShopByCategory";
 import { WhyShopWithUs } from "@/components/home/WhyShopWithUs";
 import { getDictionary } from "@/lib/i18n";
@@ -29,6 +30,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
       <HomeLandings locale={locale} />
       <ShopByCategory locale={locale} />
       <BestSellers locale={locale} />
+      <InOurHands locale={locale} />
       <BrandShowcase locale={locale} />
       <FeaturedCollections locale={locale} />
       <Editorial locale={locale} />
