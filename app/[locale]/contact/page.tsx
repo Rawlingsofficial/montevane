@@ -3,7 +3,9 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/common/PageHero";
 import { ContactButtons } from "@/components/contact/ContactButtons";
 import { InquiryForm } from "@/components/contact/InquiryForm";
+import { OwnPhotos } from "@/components/common/OwnPhotos";
 import { VisitBoutique } from "@/components/common/VisitBoutique";
+import { GIFTING } from "@/lib/catalog/ours";
 import { SHOWN_LOCATIONS, SITE_NAME, cityLine } from "@/lib/constants";
 import { getContactChannels, getStoreProfile } from "@/lib/data/catalog";
 import { getDictionary, localePath } from "@/lib/i18n";
@@ -44,6 +46,8 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
           <InquiryForm locale={locale} labels={t.form} privacyHref={localePath(locale, "/privacy")} continueHref={localePath(locale, "/")} />
         </div>
       </section>
+
+      <OwnPhotos eyebrow={t.ours.giftEyebrow} title={t.ours.giftTitle} body={t.ours.giftBody} photos={GIFTING} className="pt-0" />
 
       <section aria-label={t.contact.visit} className="mx-auto max-w-6xl px-6 pb-24 lg:px-10">
         <div className="grid gap-6 lg:grid-cols-2">

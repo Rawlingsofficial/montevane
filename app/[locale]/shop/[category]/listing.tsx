@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { Breadcrumbs } from "@/components/common/Breadcrumbs";
+import { OwnPhotos } from "@/components/common/OwnPhotos";
 import { PageHero } from "@/components/common/PageHero";
 import { Pagination, pagePath } from "@/components/common/Pagination";
 import { SourcingCta } from "@/components/common/SourcingCta";
@@ -30,6 +31,7 @@ import {
 } from "@/lib/data/catalog";
 import { fmt, getDictionary, localePath, type Locale } from "@/lib/i18n";
 import { BAG_SUB_SCENE, categoryImage } from "@/lib/images";
+import { BIRKIN_WORN, KELLY_WORN, type OwnPhoto, WATCHES_WORN } from "@/lib/catalog/ours";
 import { guideFor } from "@/lib/journal";
 import { pageMetadata } from "@/lib/seo/metadata";
 
@@ -126,6 +128,13 @@ export function filterLabels(locale: Locale): FilterLabels {
   for (const { slug, piece } of JEWELRY_TYPES) values[`type.${piece}`] = t.jewelryTypes[slug] ?? piece;
   return { ...t.ui.filters, close: t.nav.closeMenu, values };
 }
+
+// Our own photos of pieces carried and worn, on the main category pages.
+const WORN: Record<string, { title: "birkinTitle" | "kellyTitle" | "watchesTitle"; photos: OwnPhoto[] }> = {
+  "birkin-bags": { title: "birkinTitle", photos: BIRKIN_WORN },
+  "kelly-bags": { title: "kellyTitle", photos: KELLY_WORN },
+  watches: { title: "watchesTitle", photos: WATCHES_WORN },
+};
 
 export async function CategoryListing({
   locale,
@@ -257,6 +266,16 @@ export async function CategoryListing({
               </nav>
             )}
           </div>
+        )}
+
+        {page === 1 && !filtered && !sub && WORN[category] && (
+          <OwnPhotos
+            eyebrow={t.ours.wornEyebrow}
+            title={t.ours[WORN[category].title]}
+            body={t.ours.wornBody}
+            photos={WORN[category].photos}
+            className="px-0 py-12 lg:px-0 lg:py-16"
+          />
         )}
 
         {page === 1 && !filtered && guide && (

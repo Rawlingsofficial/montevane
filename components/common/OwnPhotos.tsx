@@ -1,6 +1,9 @@
 import type { OwnPhoto } from "@/lib/catalog/ours";
 import { cn } from "@/lib/utils";
 
+// Whole rows at every width: 5 and 6 in one line on desktop, 8 as two rows of 4.
+const COLS: Record<number, string> = { 4: "sm:grid-cols-4", 5: "sm:grid-cols-5", 6: "sm:grid-cols-3 lg:grid-cols-6", 8: "sm:grid-cols-4" };
+
 /**
  * A titled row of our own photos (inspection in Miami, pieces in their boxes).
  * Swipes on phones, a grid from `sm` up.
@@ -28,7 +31,7 @@ export function OwnPhotos({
       <ul
         className={cn(
           "-mx-6 mt-10 flex snap-x snap-mandatory gap-3 overflow-x-auto px-6 sm:mx-0 sm:grid sm:overflow-visible sm:px-0",
-          photos.length === 5 ? "sm:grid-cols-5" : "sm:grid-cols-4"
+          COLS[photos.length] ?? "sm:grid-cols-4"
         )}
       >
         {photos.map((p) => {

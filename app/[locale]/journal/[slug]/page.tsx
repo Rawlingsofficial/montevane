@@ -83,6 +83,22 @@ function BlockView({ block, locale, products }: { block: Block; locale: Loc; pro
         ))}
       </ul>
     );
+  if ("image" in block)
+    return (
+      <figure className="not-prose">
+        {/* eslint-disable-next-line @next/next/no-img-element -- our own photo, pre-compressed */}
+        <img
+          src={block.image.src}
+          alt={block.image.alt}
+          width={block.image.width}
+          height={block.image.height}
+          loading="lazy"
+          decoding="async"
+          className="mx-auto h-auto w-full max-w-md"
+        />
+        {block.image.caption && <figcaption className="mt-2 text-center text-xs text-muted-foreground">{block.image.caption}</figcaption>}
+      </figure>
+    );
   if ("table" in block)
     return (
       <div className="-mx-6 overflow-x-auto px-6">

@@ -25,7 +25,9 @@ export type Block =
   | { table: { head: string[]; rows: string[][] } }
   | { note: string }
   /** A row of product cards inside the article, linking to the product pages. */
-  | { products: Picks; title?: string };
+  | { products: Picks; title?: string }
+  /** One of our own photos (public/images/ours), with an optional caption. */
+  | { image: { src: string; alt: string; width: number; height: number; caption?: string } };
 
 export type Section = { id: string; heading: string; blocks: Block[] };
 

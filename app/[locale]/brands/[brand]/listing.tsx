@@ -5,7 +5,9 @@ import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/common/Breadcrumbs";
 import { PageHero } from "@/components/common/PageHero";
 import { Pagination, pagePath } from "@/components/common/Pagination";
+import { OwnPhotos } from "@/components/common/OwnPhotos";
 import { SourcingCta } from "@/components/common/SourcingCta";
+import { HERMES_WORN } from "@/lib/catalog/ours";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { brandPath } from "@/lib/catalog/taxonomy";
 import { getBrands, getContactChannels, getListingCover, getLiveModels, getProductPage } from "@/lib/data/catalog";
@@ -100,6 +102,16 @@ export async function BrandListing({ locale, slug, page }: { locale: Locale; slu
           )}
           <Pagination locale={locale} base={base} page={listing.page} pages={listing.pages} />
         </section>
+
+        {brand.slug === "hermes" && listing.page === 1 && (
+          <OwnPhotos
+            eyebrow={t.ours.wornEyebrow}
+            title={t.ours.hermesTitle}
+            body={t.ours.wornBody}
+            photos={HERMES_WORN}
+            className="px-0 py-12 lg:px-0 lg:py-16"
+          />
+        )}
 
         <SourcingCta locale={locale} />
       </div>
